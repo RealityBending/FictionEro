@@ -3045,32 +3045,32 @@ vertical-align: -.125em;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> napsero <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Faces&quot;</span>, <span class="st">&quot;People&quot;</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Condition =</span> <span class="fu">ifelse</span>(Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), <span class="st">&quot;Erotic&quot;</span>, <span class="st">&quot;Non-erotic&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="fu">ifelse</span>(Category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), <span class="st">&quot;Erotic&quot;</span>, <span class="st">&quot;Non-erotic&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="select-based-on-norms" class="level3">
 <h3 class="anchored" data-anchor-id="select-based-on-norms">Select based on norms</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>men <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Condition <span class="sc">==</span> <span class="st">&quot;Erotic&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Type <span class="sc">==</span> <span class="st">&quot;Erotic&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Category) <span class="sc">|&gt;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(Men_Arousal, <span class="at">n=</span><span class="dv">8</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(ID)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>women <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Condition <span class="sc">==</span> <span class="st">&quot;Erotic&quot;</span>, <span class="sc">!</span>ID <span class="sc">%in%</span> men) <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Type <span class="sc">==</span> <span class="st">&quot;Erotic&quot;</span>, <span class="sc">!</span>ID <span class="sc">%in%</span> men) <span class="sc">|&gt;</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Category) <span class="sc">|&gt;</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(Women_Arousal, <span class="at">n=</span><span class="dv">8</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(ID)</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>neutral <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Condition <span class="sc">==</span> <span class="st">&quot;Non-erotic&quot;</span>, <span class="sc">!</span>ID <span class="sc">%in%</span> <span class="fu">c</span>(men, women)) <span class="sc">|&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Type <span class="sc">==</span> <span class="st">&quot;Non-erotic&quot;</span>, <span class="sc">!</span>ID <span class="sc">%in%</span> <span class="fu">c</span>(men, women)) <span class="sc">|&gt;</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Arousal =</span> (Men_Arousal <span class="sc">+</span> Women_Arousal) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(Arousal, <span class="at">n=</span><span class="dv">16</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(ID)</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>pos_arousing <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Condition <span class="sc">==</span> <span class="st">&quot;Non-erotic&quot;</span>, <span class="sc">!</span>ID <span class="sc">%in%</span> <span class="fu">c</span>(men, women, neutral)) <span class="sc">|&gt;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Type <span class="sc">==</span> <span class="st">&quot;Non-erotic&quot;</span>, <span class="sc">!</span>ID <span class="sc">%in%</span> <span class="fu">c</span>(men, women, neutral)) <span class="sc">|&gt;</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Arousal =</span> (Men_Arousal <span class="sc">+</span> Women_Arousal) <span class="sc">/</span> <span class="dv">2</span>,</span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">Valence =</span> (Men_Valence <span class="sc">+</span> Women_Valence) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Valence <span class="sc">&gt;</span> <span class="dv">5</span>) <span class="sc">|&gt;</span></span>
@@ -3149,9 +3149,11 @@ Total = 64</code></pre>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ID <span class="sc">%in%</span> selected) <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(df, <span class="st">&quot;stimuli.csv&quot;</span>, <span class="at">row.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ID <span class="sc">%in%</span> selected) <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -3196,7 +3198,7 @@ Total = 64</code></pre>
 <th style="text-align: right;">LABB</th>
 <th style="text-align: right;">Entropy</th>
 <th style="text-align: left;">Description</th>
-<th style="text-align: left;">Condition</th>
+<th style="text-align: left;">Type</th>
 </tr>
 </thead>
 <tbody>

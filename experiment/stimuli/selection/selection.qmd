@@ -16,7 +16,7 @@ library(tidyverse)
 library(easystats)
 
 
-naps <- readxl::read_excel("13428_2013_379_MOESM1_ESM.xls",  skip = 3,
+naps <- readxl::read_excel("norms_naps.xls",  skip = 3,
                            col_names = c("ID", "Category", "Nr", "VerticalHorizontal", "Description",
                                          "Women_Valence", "Women_Valence_SD", "Women_AvAp",
                                          "Women_AvAp_SD", "Women_Arousal", "Women_Arousal_SD",
@@ -30,8 +30,8 @@ naps <- readxl::read_excel("13428_2013_379_MOESM1_ESM.xls",  skip = 3,
   select(-X, -X2, -Acronym, -ends_with("_SD")) |>
   mutate(ID = paste0(ID, ".jpg"))
 
-napsero <- readxl::read_excel("Data Sheet 1.XLSX", sheet = "Ratings") |>
-  full_join(readxl::read_excel("Data Sheet 1.XLSX", sheet = "Image parameters"), by = join_by("ID", "Category")) |>
+napsero <- readxl::read_excel("norms_napsero.XLSX", sheet = "Ratings") |>
+  full_join(readxl::read_excel("norms_napsero.XLSX", sheet = "Image parameters"), by = join_by("ID", "Category")) |>
   select(-contains("_SD"), -contains("HoF"), -contains("HoM")) |>
   rename(VerticalHorizontal = `V/H`,
          Men_Valence = val_M_HeM,
@@ -63,31 +63,31 @@ for(c in c("Category", "Height", "Width", "Luminance", "Contrast",
 ```{r}
 df <- napsero |>
   filter(Category %in% c("Male", "Female", "Faces", "People")) |>
-  mutate(Condition = ifelse(Category %in% c("Female", "Male"), "Erotic", "Non-erotic"))
+  mutate(Type = ifelse(Category %in% c("Female", "Male"), "Erotic", "Non-erotic"))
 ```
 
 ### Select based on norms
 ```{r}
 men <- df |>
-  filter(Condition == "Erotic") |>
+  filter(Type == "Erotic") |>
   group_by(Category) |>
   slice_max(Men_Arousal, n=8, with_ties = FALSE) |>
   pull(ID)
 
 women <- df |>
-  filter(Condition == "Erotic", !ID %in% men) |>
+  filter(Type == "Erotic", !ID %in% men) |>
   group_by(Category) |>
   slice_max(Women_Arousal, n=8, with_ties = FALSE) |>
   pull(ID)
 
 neutral <- df |>
-  filter(Condition == "Non-erotic", !ID %in% c(men, women)) |>
+  filter(Type == "Non-erotic", !ID %in% c(men, women)) |>
   mutate(Arousal = (Men_Arousal + Women_Arousal) / 2) |>
   slice_min(Arousal, n=16, with_ties = FALSE) |>
   pull(ID)
 
 pos_arousing <- df |>
-  filter(Condition == "Non-erotic", !ID %in% c(men, women, neutral)) |>
+  filter(Type == "Non-erotic", !ID %in% c(men, women, neutral)) |>
   mutate(Arousal = (Men_Arousal + Women_Arousal) / 2,
          Valence = (Men_Valence + Women_Valence) / 2) |>
   filter(Valence > 5) |>
@@ -142,6 +142,8 @@ df |>
 
 ```{r}
 #| code-fold: true
+write.csv(df, "stimuli.csv", row.names=FALSE)
+
 df |> 
   filter(ID %in% selected) |> 
   knitr::kable()
