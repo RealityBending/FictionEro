@@ -166,9 +166,9 @@ var fiction_trials = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross((isi = 100)),
+        fiction_fixationcross((isi = 1000)),
         fiction_prime,
-        fiction_fixationcross((isi = 50)),
+        fiction_fixationcross((isi = 500)),
         fiction_showimage,
         fiction_ratings,
     ],
