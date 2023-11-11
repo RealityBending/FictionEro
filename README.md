@@ -6,5 +6,5 @@ This international and interdisciplinary project brings together neuroscientists
 
 ## Materials
 
-- [**Stimuli Selection**](https://realitybending.github.io/FictionEro/experiment/stimuli/stimuli_selection/selection.html)
+- [**Stimuli Selection**](https://realitybending.github.io/FictionEro/experiment/stimuli_selection/selection.html)
 - [**Try the experiment**](https://realitybending.github.io/FictionEro/experiment/index.html)
