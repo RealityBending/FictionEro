@@ -14,10 +14,11 @@ editor_options:
 #| code-fold: true
 library(tidyverse)
 library(easystats)
+library(ggrepel)
 
 
 naps <- readxl::read_excel("norms_naps.xls",  skip = 3,
-                           col_names = c("ID", "Category", "Nr", "VerticalHorizontal", "Description",
+                           col_names = c("ID", "Category", "Nr", "Orientation", "Description",
                                          "Women_Valence", "Women_Valence_SD", "Women_AvAp",
                                          "Women_AvAp_SD", "Women_Arousal", "Women_Arousal_SD",
                                          "Men_Valence", "Men_Valence_SD", "Men_AvAp", "Men_AvAp_SD",
@@ -33,7 +34,7 @@ naps <- readxl::read_excel("norms_naps.xls",  skip = 3,
 napsero <- readxl::read_excel("norms_napsero.XLSX", sheet = "Ratings") |>
   full_join(readxl::read_excel("norms_napsero.XLSX", sheet = "Image parameters"), by = join_by("ID", "Category")) |>
   select(-contains("_SD"), -contains("HoF"), -contains("HoM")) |>
-  rename(VerticalHorizontal = `V/H`,
+  rename(Orientation = `V/H`,
          Men_Valence = val_M_HeM,
          Women_Valence = val_M_HeF,
          Men_Arousal = aro_M_HeM,
@@ -44,7 +45,7 @@ napsero <- readxl::read_excel("norms_napsero.XLSX", sheet = "Ratings") |>
 
 # Join
 naps <- filter(naps, ID %in% filter(napsero, Category == "Non-erotic")$ID)
-naps[c("Men_Arousal", "Men_Valence", "Women_Valence", "Women_Arousal", "Nr", "VerticalHorizontal")] <- NA
+naps[c("Men_Arousal", "Men_Valence", "Women_Valence", "Women_Arousal", "Nr", "Orientation")] <- NA
 napsero[napsero$Category== "Non-erotic", "Category"] <- NA
 
 ids <- napsero[is.na(napsero$Category), ]$ID
@@ -72,13 +73,26 @@ men <- df |>
   filter(Type == "Erotic") |>
   group_by(Category) |>
   slice_max(Men_Arousal, n=8, with_ties = FALSE) |>
-  pull(ID)
+  pull(ID) |> 
+  c(
+    df |>
+      filter(Type == "Erotic") |>
+      group_by(Category) |>
+      slice_min(Men_Arousal, n=4, with_ties = FALSE) |>
+      pull(ID))
 
 women <- df |>
   filter(Type == "Erotic", !ID %in% men) |>
   group_by(Category) |>
   slice_max(Women_Arousal, n=8, with_ties = FALSE) |>
-  pull(ID)
+  pull(ID) |> 
+  c(
+    df |>
+      filter(Type == "Erotic", !ID %in% men) |>
+      group_by(Category) |>
+      slice_min(Women_Arousal, n=4, with_ties = FALSE) |>
+      pull(ID)
+  )
 
 neutral <- df |>
   filter(Type == "Non-erotic", !ID %in% c(men, women)) |>
@@ -114,21 +128,23 @@ selected
 #| out.width: 1\\textwidth
 #| fig.width: 8
 #| fig.height: 6
-df |>
-  mutate(Selected = ifelse(ID %in% selected, TRUE, FALSE)) |>
+napsero |>
+  mutate(Selected = ifelse(ID %in% selected, TRUE, FALSE),
+         label = ifelse(Selected, str_remove(ID, ".jpg"), NA),
+         Type = ifelse(Category %in% c("Female", "Male"), "Erotic", "Non-erotic")) |>
   pivot_longer(cols = c("Men_Valence", "Men_Arousal", "Women_Valence", "Women_Arousal")) |>
   separate(name, into=c("Target", "Variable")) |>
   pivot_wider(names_from=Variable, values_from=value) |>
   ggplot(aes(x=Valence, y=Arousal, color=Category)) +
   geom_point(aes(shape=Selected), size=6, alpha=0.8) +
+  # ggrepel::geom_label_repel(aes(label = label)) +
   scale_shape_manual(values=c("TRUE"=20, "FALSE"=4)) +
   guides(shape = guide_legend(override.aes = list(color="white"))) +
-  facet_wrap(~Target) +
+  facet_grid(~Target) +
   theme_abyss()
 ```
 
 ### Final Selection
-
 
 -   ID: picture category and number
 -   V/H: vertical / horizontal
@@ -142,9 +158,36 @@ df |>
 
 ```{r}
 #| code-fold: true
-write.csv(df, "stimuli.csv", row.names=FALSE)
+selection <- df |> 
+  filter(ID %in% selected) 
 
-df |> 
-  filter(ID %in% selected) |> 
-  knitr::kable()
+write.csv(selection, "stimuli_data.csv", row.names=FALSE)
+knitr::kable(selection)
+```
+
+```{r}
+#| code-fold: true
+json <- selection |> 
+  select(stimulus=ID, Category, Orientation) |> 
+  jsonlite::toJSON()
+  
+write(paste("var stimuli_list = ", json), "stimuli_list.js")
+```
+
+```{r}
+#| code-fold: true
+path_ero <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS_ERO/"
+path_naps <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS/"
+
+# Remove all current files
+unlink("../stimuli/*")
+
+# Copy each file
+for(file in selected) {
+  if(str_detect(file, "Male|Female")) {
+    file.copy(paste0(path_ero, file), "../stimuli/")
+  } else {
+    file.copy(paste0(path_naps, file), "../stimuli/")
+  }
+}
 ```
