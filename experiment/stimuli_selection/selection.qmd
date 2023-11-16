@@ -72,32 +72,32 @@ df <- napsero |>
 men <- df |>
   filter(Type == "Erotic") |>
   group_by(Category) |>
-  slice_max(Men_Arousal, n=8, with_ties = FALSE) |>
+  slice_max(Men_Arousal, n=6, with_ties = FALSE) |>
   pull(ID) |> 
   c(
     df |>
       filter(Type == "Erotic") |>
       group_by(Category) |>
-      slice_min(Men_Arousal, n=4, with_ties = FALSE) |>
+      slice_min(Men_Arousal, n=2, with_ties = FALSE) |>
       pull(ID))
 
 women <- df |>
   filter(Type == "Erotic", !ID %in% men) |>
   group_by(Category) |>
-  slice_max(Women_Arousal, n=8, with_ties = FALSE) |>
+  slice_max(Women_Arousal, n=6, with_ties = FALSE) |>
   pull(ID) |> 
   c(
     df |>
       filter(Type == "Erotic", !ID %in% men) |>
       group_by(Category) |>
-      slice_min(Women_Arousal, n=4, with_ties = FALSE) |>
+      slice_min(Women_Arousal, n=2, with_ties = FALSE) |>
       pull(ID)
   )
 
 neutral <- df |>
   filter(Type == "Non-erotic", !ID %in% c(men, women)) |>
   mutate(Arousal = (Men_Arousal + Women_Arousal) / 2) |>
-  slice_min(Arousal, n=16, with_ties = FALSE) |>
+  slice_min(Arousal, n=12, with_ties = FALSE) |>
   pull(ID)
 
 pos_arousing <- df |>
@@ -105,7 +105,7 @@ pos_arousing <- df |>
   mutate(Arousal = (Men_Arousal + Women_Arousal) / 2,
          Valence = (Men_Valence + Women_Valence) / 2) |>
   filter(Valence > 5) |>
-  slice_max(Arousal, n=16, with_ties = FALSE) |>
+  slice_max(Arousal, n=12, with_ties = FALSE) |>
   pull(ID)
 
 selected <- unique(c(men, women, neutral, pos_arousing))

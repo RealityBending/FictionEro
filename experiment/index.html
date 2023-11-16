@@ -21,6 +21,7 @@
         <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response"></script>
         <script src="https://realitybending.github.io/JSmisc/jspsych_extensions/plugin-multiple-slider.js"></script>
         <script src="stimuli_selection/stimuli_list.js"></script>
+        <script src="instructions.js"></script>
         <script src="fiction.js"></script>
 
         <link
@@ -66,13 +67,13 @@
         })
 
         // Demographics ========================================================
-        timeline.push(demographics_consent)
-        timeline.push(demographics_browser_info)
-        timeline.push(demographics_info)
+        // timeline.push(demographics_consent)
+        // timeline.push(demographics_browser_info)
+        // timeline.push(demographics_info)
 
         // Fiction =============================================================
         timeline.push(fiction_preloadstims)
-        timeline.push(fiction_instructions)
+        timeline.push(fiction_instructions1)
         timeline.push(fiction_trials)
 
         // End =================================================================
