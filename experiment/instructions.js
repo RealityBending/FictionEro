@@ -12,6 +12,11 @@ var text_instructions1_en =
     // "<li><b>Convincing</b>: In case you spot any artifacts or problems with the image that made it look fake (mostly applies to the artificial images)</li>" +
     "</ul>"
 
+var text_instructions2_en =
+    "<h1>Done!</h1>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Thanks a lot. In the next phase, we aim at testing if you found our <b>image generation algorithm convincing</b> and artifacts-free.</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>We will briefly present you all the images one last time (our generated ones as well as the photos), and you will have to rate them on how <b>real</b> they are.</p>"
+
 //-------------------------
 var text_instructionsbutton_en = "Let's start!"
 
@@ -24,3 +29,4 @@ var text_ticks_en = ["Not at all", "Very much"]
 var text_rating_sexy_en =
     "How much would you consider this image to be <b>sexy</b> on average?" // Sexual appeal
 var text_rating_arousal_en = "How much did you feel <b>sexually aroused</b>?"
+var text_rating_realness_en = "How <b>realistic</b> is this image?"

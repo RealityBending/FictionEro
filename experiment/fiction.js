@@ -6,7 +6,14 @@ var fiction_instructions1 = {
     type: jsPsychHtmlButtonResponse,
     choices: [text_instructionsbutton_en],
     stimulus: text_instructions1_en,
-    data: { screen: "fiction_instructions" },
+    data: { screen: "fiction_instructions1" },
+}
+
+var fiction_instructions2 = {
+    type: jsPsychHtmlButtonResponse,
+    choices: [text_instructionsbutton_en],
+    stimulus: text_instructions2_en,
+    data: { screen: "fiction_instructions2" },
 }
 
 // Condition assignment ============================================
@@ -56,7 +63,7 @@ function fiction_fixationcross(isi = 500) {
         },
         stimulus:
             "<div  style='font-size:500%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%'>+</div>",
-        choices: "NO_KEYS",
+        choices: ["s"],
         trial_duration: isi,
         save_trial_parameters: { trial_duration: true },
         data: { screen: "fiction_fixationcross" },
@@ -74,42 +81,44 @@ function fiction_prime(text_cue) {
                 "</b></div>"
             )
         },
-        choices: "NO_KEYS",
+        choices: ["s"],
         trial_duration: 1000,
         data: { screen: "fiction_prime" },
     }
 }
 
-var fiction_showimage = {
-    type: jsPsychImageKeyboardResponse,
-    stimulus: function () {
-        return "stimuli/" + jsPsych.timelineVariable("stimulus")
-    },
-    stimulus_height: function () {
-        if (jsPsych.timelineVariable("Orientation") == "h") {
-            return null
-        } else {
-            return Math.round(
-                jsPsych.data.get().last().values()[0]["screen_height"] * 0.9
-            )
-        }
-    },
-    stimulus_width: function () {
-        if (jsPsych.timelineVariable("Orientation") == "v") {
-            return null
-        } else {
-            return Math.round(
-                jsPsych.data.get().last().values()[0]["screen_height"] * 0.9
-            )
-        }
-    },
-    choices: ["s"],
-    trial_duration: 3000,
-    on_finish: function (data) {
-        data.trial_number = fiction_trialnumber
-        fiction_trialnumber += 1
-        data.screen = "fiction_image"
-    },
+function fiction_showimage(duration = 2500) {
+    return {
+        type: jsPsychImageKeyboardResponse,
+        stimulus: function () {
+            return "stimuli/" + jsPsych.timelineVariable("stimulus")
+        },
+        stimulus_height: function () {
+            if (jsPsych.timelineVariable("Orientation") == "h") {
+                return null
+            } else {
+                return Math.round(
+                    jsPsych.data.get().last().values()[0]["screen_height"] * 0.9
+                )
+            }
+        },
+        stimulus_width: function () {
+            if (jsPsych.timelineVariable("Orientation") == "v") {
+                return null
+            } else {
+                return Math.round(
+                    jsPsych.data.get().last().values()[0]["screen_height"] * 0.9
+                )
+            }
+        },
+        choices: ["s"],
+        trial_duration: duration,
+        on_finish: function (data) {
+            data.trial_number = fiction_trialnumber
+            fiction_trialnumber += 1
+            data.screen = "fiction_image"
+        },
+    }
 }
 
 var fiction_ratings = {
@@ -144,7 +153,7 @@ var fiction_ratings = {
     slider_width: 600,
     data: function () {
         return {
-            screen: "fiction_ratings",
+            screen: "fiction_ratings1",
             stimulus: jsPsych.timelineVariable("stimulus"),
             condition: jsPsych.timelineVariable("Condition"),
         }
@@ -152,25 +161,82 @@ var fiction_ratings = {
 }
 
 var fiction_trials = {
-    timeline_variables: stimuli_list.slice(0, 3),
+    timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
         fiction_fixationcross((isi = 1000)),
         fiction_prime(text_cue_en),
         fiction_fixationcross((isi = 500)),
-        fiction_showimage,
+        fiction_showimage((duration = 2500)),
         fiction_ratings,
     ],
 }
 
-// var fiction_trials_realness = {
-//     timeline_variables: stimuli_list.slice(0, 3),
-//     randomize_order: true,
-//     timeline: [
-//         fiction_fixationcross((isi = 1000)),
-//         fiction_prime(text_cue_en),
-//         fiction_fixationcross((isi = 500)),
-//         fiction_showimage,
-//         fiction_ratings,
-//     ],
-// }
+// Part 2 ==========================================================
+var fiction_ratings2 = {
+    type: jsPsychMultipleSlider,
+    on_start: function () {
+        document.body.style.cursor = "auto"
+    },
+    questions: [
+        {
+            prompt: text_rating_realness_en,
+            name: "Realness",
+            ticks: text_ticks_en,
+            required: false,
+            min: 0,
+            max: 1,
+            step: 0.01,
+            slider_start: 0.5,
+        },
+    ],
+    randomize_question_order: false,
+    require_movement: true,
+    slider_width: 600,
+    data: function () {
+        return {
+            screen: "fiction_ratings2",
+            stimulus: jsPsych.timelineVariable("stimulus"),
+            condition: jsPsych.timelineVariable("Condition"),
+        }
+    },
+}
+
+var fiction_trials_realness = {
+    timeline_variables: stimuli_list,
+    randomize_order: true,
+    timeline: [
+        fiction_fixationcross((isi = 500)),
+        fiction_showimage((duration = 1000)),
+        fiction_ratings2,
+    ],
+}
+
+// Debriefing
+var fiction_debriefing = {
+    type: jsPsychSurveyMultiSelect,
+    preamble:
+        "<h1>Thank you!</h1>" +
+        "<p>Before we end, we wanted to know some of your thoughts on the experiment. Please tick all that apply:</p>",
+    questions: [
+        {
+            prompt: " ",
+            options: [
+                "I had fun",
+                "It was boring",
+                "I could tell which images were photos and which were AI-generated",
+                "I didn't see any difference between photos and AI-generated images",
+                "I felt like the AI-generated images were more arousing than the photos",
+                "I felt like the AI-generated images were less arousing than the photos",
+                "I felt like the labels ('Photo' and 'AI-generated') were not always correct",
+                "I felt like the labels were reversed (e.g., 'Photo' for AI-generated images and vice versa)",
+                "Some pictures were really arousing",
+                "I didn't really feel anything",
+            ],
+            name: "debriefing",
+        },
+    ],
+    data: {
+        screen: "fiction_debriefing",
+    },
+}
