@@ -72,7 +72,7 @@ df <- napsero |>
 men <- df |>
   filter(Type == "Erotic") |>
   group_by(Category) |>
-  slice_max(Men_Arousal, n=6, with_ties = FALSE) |>
+  slice_max(Men_Arousal, n=8, with_ties = FALSE) |>
   pull(ID) |> 
   c(
     df |>
@@ -84,7 +84,7 @@ men <- df |>
 women <- df |>
   filter(Type == "Erotic", !ID %in% men) |>
   group_by(Category) |>
-  slice_max(Women_Arousal, n=6, with_ties = FALSE) |>
+  slice_max(Women_Arousal, n=8, with_ties = FALSE) |>
   pull(ID) |> 
   c(
     df |>
@@ -97,7 +97,7 @@ women <- df |>
 neutral <- df |>
   filter(Type == "Non-erotic", !ID %in% c(men, women)) |>
   mutate(Arousal = (Men_Arousal + Women_Arousal) / 2) |>
-  slice_min(Arousal, n=12, with_ties = FALSE) |>
+  slice_min(Arousal, n=10, with_ties = FALSE) |>
   pull(ID)
 
 pos_arousing <- df |>
@@ -105,7 +105,7 @@ pos_arousing <- df |>
   mutate(Arousal = (Men_Arousal + Women_Arousal) / 2,
          Valence = (Men_Valence + Women_Valence) / 2) |>
   filter(Valence > 5) |>
-  slice_max(Arousal, n=12, with_ties = FALSE) |>
+  slice_max(Arousal, n=10, with_ties = FALSE) |>
   pull(ID)
 
 selected <- unique(c(men, women, neutral, pos_arousing))
@@ -126,25 +126,39 @@ selected
 
 ```{r}
 #| out.width: 1\\textwidth
-#| fig.width: 8
-#| fig.height: 6
-napsero |>
+#| fig.width: 10
+#| fig.height: 8
+#| dpi: 300
+#| message: false
+
+dat <- napsero |>
   mutate(Selected = ifelse(ID %in% selected, TRUE, FALSE),
          label = ifelse(Selected, str_remove(ID, ".jpg"), NA),
          Type = ifelse(Category %in% c("Female", "Male"), "Erotic", "Non-erotic")) |>
   pivot_longer(cols = c("Men_Valence", "Men_Arousal", "Women_Valence", "Women_Arousal")) |>
   separate(name, into=c("Target", "Variable")) |>
-  pivot_wider(names_from=Variable, values_from=value) |>
-  ggplot(aes(x=Valence, y=Arousal, color=Category)) +
-  geom_point(aes(shape=Selected), size=6, alpha=0.8) +
+  pivot_wider(names_from=Variable, values_from=value)
+
+dat |>
+  ggplot(aes(x=Valence, y=Arousal)) +
+  geom_point(aes(shape=Selected, color=Category), size=6, alpha=0.8) +
+  ggside::geom_ysidedensity(data=filter(dat, Selected), aes(color=Category), key_glyph = draw_key_blank) +
+  ggside::geom_xsidedensity(data=filter(dat, Selected), aes(color=Category), key_glyph = draw_key_blank) +
   # ggrepel::geom_label_repel(aes(label = label)) +
   scale_shape_manual(values=c("TRUE"=20, "FALSE"=4)) +
+  scale_color_manual(values = c(
+    "Faces" = "#9E9E9E", "People" = "#795548",
+    "Opposite-sex Couple"="#673AB7", "Male Couple"= "#3F51B5", "Female Couple" = "#9C27B0",
+    "Female" = "#E91E63", "Male"= "#2196F3")) +
   guides(shape = guide_legend(override.aes = list(color="white"))) +
   facet_grid(~Target) +
-  theme_abyss()
+  theme_abyss() +
+  theme(ggside.panel.grid.major = element_blank(), 
+        ggside.axis.text = element_blank(),
+        ggside.axis.line = element_blank())
 ```
 
-### Final Selection
+## Final Selection
 
 -   ID: picture category and number
 -   V/H: vertical / horizontal
@@ -158,8 +172,9 @@ napsero |>
 
 ```{r}
 #| code-fold: true
+
 selection <- df |> 
-  filter(ID %in% selected) 
+  filter(ID %in% selected)
 
 write.csv(selection, "stimuli_data.csv", row.names=FALSE)
 knitr::kable(selection)
