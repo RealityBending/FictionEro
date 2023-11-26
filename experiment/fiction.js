@@ -17,13 +17,6 @@ var fiction_instructions2 = {
 }
 
 // Condition assignment ============================================
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[array[i], array[j]] = [array[j], array[i]]
-    }
-    return array
-}
 
 function assignCondition(stimuli_list) {
     new_stimuli_list = []
@@ -33,7 +26,7 @@ function assignCondition(stimuli_list) {
         var cat_stimuli = stimuli_list.filter((a) => a.Category == cat)
 
         // Shuffle cat_stimuli
-        cat_stimuli = shuffleArray(cat_stimuli)
+        cat_stimuli = shuffleArray(cat_stimuli) // Defined in instructions.js
 
         // Assign half to "Reality" condition and half to "Fiction" condition
         for (let i = 0; i < cat_stimuli.length; i++) {
@@ -70,20 +63,29 @@ function fiction_fixationcross(isi = 500) {
     }
 }
 
-function fiction_prime(text_cue) {
+function fiction_cue(text_cue, duration = 1000) {
     return {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: function () {
             var cond = jsPsych.timelineVariable("Condition")
             return (
-                "<div style='font-size:400%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%'><b>" +
+                "<div style='font-size:400%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%; color: " +
+                color_cues[cond] +
+                "'><b>" +
                 text_cue[cond] +
                 "</b></div>"
             )
         },
+        data: function () {
+            var cond = jsPsych.timelineVariable("Condition")
+            return {
+                screen: "fiction_cue",
+                color: color_cues[cond],
+                text: cond,
+            }
+        },
         choices: ["s"],
-        trial_duration: 1000,
-        data: { screen: "fiction_prime" },
+        trial_duration: duration,
     }
 }
 
@@ -161,11 +163,11 @@ var fiction_ratings = {
 }
 
 var fiction_trials = {
-    timeline_variables: stimuli_list,
+    timeline_variables: stimuli_list, // .slice(0, 1),
     randomize_order: true,
     timeline: [
         fiction_fixationcross((isi = 1000)),
-        fiction_prime(text_cue_en),
+        fiction_cue(text_cue_en, (duration = 1500)),
         fiction_fixationcross((isi = 500)),
         fiction_showimage((duration = 2500)),
         fiction_ratings,
@@ -203,7 +205,7 @@ var fiction_ratings2 = {
 }
 
 var fiction_trials_realness = {
-    timeline_variables: stimuli_list,
+    timeline_variables: stimuli_list, // .slice(0, 1),
     randomize_order: true,
     timeline: [
         fiction_fixationcross((isi = 500)),
