@@ -57,6 +57,10 @@ correlation::correlation(data) |>
 ```{r}
 data_gaais <- select(data, starts_with("GAAIS"))
 
+plot(bayestestR::estimate_density(data_gaais, method="KernSmooth")) + 
+  theme_abyss() + 
+  labs(y = "", x = "Score")
+
 plot(parameters::n_factors(data_gaais))
 
 parameters::factor_analysis(data_gaais, n = 2, rotation = "varimax", sort=TRUE)
@@ -69,6 +73,10 @@ parameters::factor_analysis(data_gaais, n = 2, rotation = "varimax", sort=TRUE)
 
 ```{r}
 data_bait <- select(data, starts_with("BAIT"))
+
+plot(bayestestR::estimate_density(data_bait, method="KernSmooth")) + 
+  theme_abyss() + 
+  labs(y = "", x = "Score")
 
 plot(parameters::n_factors(data_bait))
 
