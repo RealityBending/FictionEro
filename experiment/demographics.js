@@ -143,8 +143,10 @@ var demographics_hormones = {
             prompt: "If you are a female, are you currently using birth control treatment?",
             options: [
                 "No",
-                "Yes - contraceptive pills",
-                "Yes - intrauterine device (IUD)",
+                "Yes - contraceptive pills (combined pills)",
+                "Yes - contraceptive pills (progestogen-only pills)",
+                "Yes - intrauterine device (copper coil, IUD)",
+                "Yes - intrauterine system (IUS)",
                 "Yes - female condoms",
                 "Yes - condoms for partner",
                 "Yes - other",
