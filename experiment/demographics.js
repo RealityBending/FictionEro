@@ -73,6 +73,34 @@ var demographics_consent = {
     data: { screen: "consent" },
 }
 
+// Thank you ========================================================================
+var demographics_waitdatasaving = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus:
+        "<p>Done! now click on 'Continue' and <b>wait until your responses have been successfully saved</b> before closing the tab.</p> ",
+    choices: ["Continue"],
+    data: { screen: "waitdatasaving" },
+}
+
+var demographics_endscreen = function (
+    link = "https://realitybending.github.io/FictionEro/experiment/english1.html"
+) {
+    return {
+        type: jsPsychHtmlButtonResponse,
+        stimulus:
+            "<h1>Thank you for participating</h1>" +
+            "<p>It means a lot to us. Don't hesitate to share the study by sending this link:</p>" +
+            // Blue URL
+            "<p><a href='" +
+            link +
+            "'>" +
+            link +
+            "<a/></p>" +
+            "<p><b>You can safely close the tab now.</b></p>",
+        choices: ["End"],
+        data: { screen: "endscreen" },
+    }
+}
 // Demographic info ========================================================================
 var demographics_multichoice = {
     type: jsPsychSurveyMultiChoice,

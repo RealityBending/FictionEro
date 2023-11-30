@@ -13,6 +13,9 @@
         <script src="https://unpkg.com/@jspsych/plugin-html-button-response"></script>
         <script src="https://unpkg.com/@jspsych/plugin-fullscreen"></script>
 
+        <!-- To save data via DataPipe (for online experiments) -->
+        <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.3"></script>
+
         <!-- Load scripts -->
         <script src="https://realitybending.github.io/JSmisc/jspsych_extensions/plugin-multiple-slider.js"></script>
         <script src="demographics.js"></script>
@@ -48,8 +51,11 @@
 
         var jsPsych = initJsPsych({
             on_finish: function () {
+                jsPsych.data.addProperties({
+                    experimenter: "Experimenter1_English",
+                })
                 // Display data in browser (useful for debugging)
-                jsPsych.data.displayData("json")
+                // jsPsych.data.displayData("json")
             },
         })
 
@@ -79,16 +85,8 @@
         timeline.push(fiction_debriefing)
 
         // End =================================================================
-        // Exit fullscreen mode
-        timeline.push({
-            type: jsPsychFullscreen,
-            fullscreen_mode: false,
-        })
 
-        /* ----------------- Run the timeline ----------------- */
-        jsPsych.run(timeline)
-        // jsPsych.simulate(timeline, "visual")
-        // jsPsych.simulate(timeline, "data-only")
+        timeline.push(demographics_waitdatasaving)
 
         // Save data via DataPipe
         timeline.push({
@@ -98,5 +96,22 @@
             filename: `${jsPsych.randomization.randomID(10)}.csv`,
             data_string: () => jsPsych.data.get().csv(),
         })
+
+        // Exit fullscreen mode
+        timeline.push({
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+        })
+
+        timeline.push(
+            demographics_endscreen(
+                "https://realitybending.github.io/FictionEro/experiment/english1.html"
+            )
+        )
+
+        /* ----------------- Run the timeline ----------------- */
+        jsPsych.run(timeline)
+        // jsPsych.simulate(timeline, "visual")
+        // jsPsych.simulate(timeline, "data-only")
     </script>
 </html>
