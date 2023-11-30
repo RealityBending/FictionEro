@@ -189,7 +189,15 @@ var demographics_hormones = {
 
 var demographics_sex = {
     type: jsPsychSurveyText,
+    preamble:
+        "<b>The following questions are potentially important to understand your relationship with sexual content.</b><br>Please answer honestly.",
     questions: [
+        {
+            prompt: "On average, at what frequency do you watch pornographic content?",
+            placeholder:
+                "e.g., 'everyday', '4 times/week', 'once per month', 'never'",
+            name: "pornfrequency",
+        },
         {
             prompt: "When is the last time you engaged in sexual activity (intercourse or masturbation)?",
             placeholder: "e.g., '2 days ago', '3 years ago'",
