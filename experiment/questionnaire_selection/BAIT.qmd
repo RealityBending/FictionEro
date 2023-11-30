@@ -1,0 +1,77 @@
+---
+title: "Questionnaire Selection"
+format:
+  html:
+    embed-resources: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+#| include: false
+#| code-fold: true
+library(tidyverse)
+library(easystats)
+library(ggrepel)
+
+df <- read.csv("https://raw.githubusercontent.com/RealityBending/FakeFace/main/data/data.csv")
+```
+
+This document contains an analysis of the factor structure of the BAIT 1.0 questionnaire (GAAIS + questions about CGI) used in Makowski (Fake Face, 2023).
+
+## Item correlation
+
+```{r}
+#| code-fold: true
+#| fig.width: 10
+#| fig.height: 10
+
+data <- df |> 
+  select(starts_with("AI_")) |> 
+  rename(
+         GAAIS_Neg3_Unethical = AI_2_Unethical,
+         GAAIS_Neg10_Dangerous = AI_6_Dangerous,
+         GAAIS_Pos7_DailyLife = AI_4_DailyLife,
+         GAAIS_Pos12_Exciting = AI_8_Exciting,
+         GAAIS_Pos14_Applications = AI_9_Applications,
+         # BAIT
+         BAIT_1_RealisticImages = AI_1_RealisticImages,
+         BAIT_2_VideosReal = AI_3_VideosReal,
+         BAIT_3_ImitatingReality = AI_5_ImitatingReality,
+         BAIT_4_RealisticVideos = AI_7_RealisticVideos,
+         BAIT_5_FaceErrors = AI_10_FaceErrors)
+
+correlation::correlation(data) |> 
+  summary() |> 
+  plot() +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle=45, hjust=1)) 
+```
+
+## GAAIS
+
+- General Attitudes towards Artificial Intelligence Scale (GAAIS; Schepman et al., 2020, 2022)
+
+```{r}
+data_gaais <- select(data, starts_with("GAAIS"))
+
+plot(parameters::n_factors(data_gaais))
+
+parameters::factor_analysis(data_gaais, n = 2, rotation = "varimax", sort=TRUE)
+```
+
+
+## BAIT
+
+- Beliefs about Artificial Imaging Technology - BAIT (Makowski, *preprint*)
+
+```{r}
+data_bait <- select(data, starts_with("BAIT"))
+
+plot(parameters::n_factors(data_bait))
+
+parameters::factor_analysis(data_bait, n = 2, rotation = "varimax", sort=TRUE)
+```
+

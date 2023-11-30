@@ -79,7 +79,7 @@ var demographics_multichoice = {
     preamble: "<b>Please answer the following questions:</b>",
     questions: [
         {
-            prompt: "What is your gender?",
+            prompt: "What is your biological sex?",
             options: ["Male", "Female", "Other"],
             name: "gender",
         },
@@ -123,12 +123,75 @@ var demographics_freetext = {
             placeholder: "e.g., Caucasian",
             name: "ethnicity",
         },
+        {
+            prompt: "In which country do you currently live?",
+            placeholder: "e.g., UK, Spain",
+            name: "country",
+        },
     ],
     data: {
         screen: "demographics_2",
     },
 }
 
+var demographics_hormones = {
+    type: jsPsychSurveyMultiChoice,
+    preamble:
+        "<b>The following questions are important to understand the role of potential biological factors in our study.</b><br>Please leave blank if the questions don't apply.",
+    questions: [
+        {
+            prompt: "If you are a female, are you currently using birth control treatment?",
+            options: [
+                "No",
+                "Yes - contraceptive pills",
+                "Yes - intrauterine device (IUD)",
+                "Yes - female condoms",
+                "Yes - condoms for partner",
+                "Yes - other",
+            ],
+            name: "birthcontrol",
+        },
+    ],
+    data: {
+        screen: "demographics_hormones",
+    },
+}
+
+var demographics_sex = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: "When is the last time you engaged in sexual activity (intercourse or masturbation)?",
+            placeholder: "e.g., '2 days ago', '3 years ago'",
+            name: "lastsex",
+        },
+    ],
+    data: {
+        screen: "demographics_sexlast",
+    },
+}
+
 var demographics_info = {
-    timeline: [demographics_multichoice, demographics_freetext],
+    timeline: [
+        demographics_multichoice,
+        demographics_freetext,
+        demographics_hormones,
+        demographics_sex,
+    ],
+}
+
+var demographics_ai = {
+    type: jsPsychSurveyLikert,
+    autocomplete: true,
+    questions: [
+        {
+            prompt: "<b>How knowledgeable do you consider yourself about Artificial Intelligence (AI) technology?</b>",
+            name: "AIknowledge",
+            required: true,
+            labels: ["Not at all - 0", "1", "2", "3", "4", "5", "6 - Expert"],
+        },
+    ],
+    data: {
+        screen: "demographics_AIknowledge",
+    },
 }

@@ -9,18 +9,20 @@
         <script src="https://unpkg.com/@jspsych/plugin-browser-check"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-text"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey-likert"></script>
         <script src="https://unpkg.com/@jspsych/plugin-html-button-response"></script>
         <script src="https://unpkg.com/@jspsych/plugin-fullscreen"></script>
 
         <!-- Load scripts -->
+        <script src="https://realitybending.github.io/JSmisc/jspsych_extensions/plugin-multiple-slider.js"></script>
         <script src="demographics.js"></script>
+        <script src="questionnaires.js"></script>
 
         <!-- Load task -->
         <script src="https://unpkg.com/@jspsych/plugin-preload"></script>
         <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response"></script>
         <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select"></script>
-        <script src="https://realitybending.github.io/JSmisc/jspsych_extensions/plugin-multiple-slider.js"></script>
         <script src="stimuli_selection/stimuli_list.js"></script>
         <script src="instructions.js"></script>
         <script src="fiction.js"></script>
@@ -63,6 +65,10 @@
         timeline.push(demographics_browser_info)
         timeline.push(demographics_info)
 
+        // Questionnaire =======================================================
+        timeline.push(demographics_ai)
+        timeline.push(questionnaire_bait)
+
         // Fiction =============================================================
         timeline.push(fiction_preloadstims)
         timeline.push(fiction_instructions1)
@@ -83,5 +89,14 @@
         jsPsych.run(timeline)
         // jsPsych.simulate(timeline, "visual")
         // jsPsych.simulate(timeline, "data-only")
+
+        // Save data via DataPipe
+        timeline.push({
+            type: jsPsychPipe,
+            action: "save",
+            experiment_id: "OKYIgAxQu8cX", // This in generated in the DataPipe interface
+            filename: `${jsPsych.randomization.randomID(10)}.csv`,
+            data_string: () => jsPsych.data.get().csv(),
+        })
     </script>
 </html>
