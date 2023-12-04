@@ -90,7 +90,6 @@ var demographics_endscreen = function (
         stimulus:
             "<h1>Thank you for participating</h1>" +
             "<p>It means a lot to us. Don't hesitate to share the study by sending this link:</p>" +
-            // Blue URL
             "<p><a href='" +
             link +
             "'>" +
