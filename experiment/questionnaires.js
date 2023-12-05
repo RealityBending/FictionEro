@@ -91,3 +91,109 @@ var questionnaire_bait = {
         screen: "questionnaire_bait",
     },
 }
+
+// COPS ========================================================================
+// Consumption of Pornography Scale – General (COPS – G)
+// Hatchet al. (2023)
+var questionnaire_cops = {
+    type: jsPsychSurveyMultiChoice,
+    css_classes: ["narrow-text"],
+    preamble:
+        "<h2>About Pornography...</h2>" +
+        "<p style='text-align: left;'>Given the nature of our study, we are interested in understanding your habits in terms of exposure to pornography. Please consider answering the questions below.</p>",
+    questions: [
+        // {
+        //     prompt: "<b>1. How often have you viewed pornography in the past year?</b>",
+        //     options: [
+        //         "0. I haven't viewed pornography in the past year",
+        //         "1. I viewed pornography once in the past year",
+        //         "2. I viewed pornography about once every six months",
+        //         "3. I viewed pornography about monthly",
+        //         "4. I viewed pornography weekly",
+        //         "5. I viewed pornography multiple times a week",
+        //         "6. I viewed pornography daily",
+        //     ],
+        //     name: "COPS_Frequency_1",
+        //     required: false,
+        // },
+        {
+            prompt: "<b>How often have you viewed pornography in the past 30 days?</b>",
+            options: [
+                "0. I haven't viewed pornography in the past 30 days",
+                "1. I viewed pornography once in the past 30 days",
+                "2. I viewed pornography twice in the past 30 days",
+                "3. I viewed pornography weekly",
+                "4. I viewed pornography multiple times a week",
+                "5. I viewed pornography daily",
+                "6. I viewed pornography multiple times a day",
+            ],
+            name: "COPS_Frequency_2",
+            required: false,
+        },
+        // {
+        //     prompt: "<b>3. How often have you viewed pornography in the past 7 days?</b>",
+        //     options: [
+        //         "0. I haven't viewed pornography in the past 7 days",
+        //         "1. I viewed pornography once in the past 7 days",
+        //         "2. I viewed pornography twice in the past 7 days",
+        //         "3. I viewed pornography every day of the past 7 days",
+        //         "4. I viewed pornography multiple times a day in the past 7 days",
+        //     ],
+        //     name: "COPS_Frequency_3",
+        //     required: false,
+        // },
+        {
+            prompt: "<b>4. When I view pornography, I view it for...</b>",
+            options: [
+                "1. Less than 5 minutes",
+                "2. 6-15 minutes",
+                "3. 16-25 minutes",
+                "4. 26-35 minutes",
+                "5. 36-45 minutes",
+                "6. 46+ minutes",
+            ],
+            name: "COPS_Duration_1",
+            required: false,
+        },
+        // {
+        //     prompt: "<b>When I visit a pornographic website, I visit for...</b>",
+        //     options: [
+        //         "1. Less than 5 minutes",
+        //         "2. 6-15 minutes",
+        //         "3. 16-25 minutes",
+        //         "4. 26-35 minutes",
+        //         "5. 36-45 minutes",
+        //         "6. 46+ minutes",
+        //     ],
+        //     name: "COPS_Duration_2",
+        //     required: false,
+        // },
+        // {
+        //     prompt: "<b>6. The last time I viewed pornography, I viewed it for...</b>",
+        //     options: [
+        //         "1. Less than 5 minutes",
+        //         "2. 6-15 minutes",
+        //         "3. 16-25 minutes",
+        //         "4. 26-35 minutes",
+        //         "5. 36-45 minutes",
+        //         "6. 46+ minutes",
+        //     ],
+        //     name: "COPS_Duration_3",
+        //     required: false,
+        // },
+        // Extra question ------------------------------------------
+        {
+            prompt: "<b>When was the last time you engaged in any kind of sexual activity (intercourse or masturbation)?</b>",
+            options: [
+                "1. Less than 24h ago",
+                "2. Within the last 3 days",
+                "3. within the last week",
+                "4. Within the last month",
+                "5. Within the last year",
+                "6. More than a year ago",
+            ],
+            name: "COPS_Horniness_1",
+            required: false,
+        },
+    ],
+}

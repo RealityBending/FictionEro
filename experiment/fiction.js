@@ -69,7 +69,7 @@ function fiction_cue(text_cue, duration = 1000) {
         stimulus: function () {
             var cond = jsPsych.timelineVariable("Condition")
             return (
-                "<div style='font-size:400%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%; color: " +
+                "<div style='font-size:450%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%; color: " +
                 color_cues[cond] +
                 "'><b>" +
                 text_cue[cond] +
@@ -130,20 +130,20 @@ var fiction_ratings = {
     },
     questions: [
         {
-            prompt: text_rating_sexy_en,
-            name: "Sexiness",
+            prompt: text_rating_arousal_en,
+            name: "Arousal",
             ticks: text_ticks_en,
-            required: false,
+            required: true,
             min: 0,
             max: 1,
             step: 0.01,
             slider_start: 0.5,
         },
         {
-            prompt: text_rating_arousal_en,
-            name: "Arousal",
+            prompt: text_rating_sexy_en,
+            name: "Appeal",
             ticks: text_ticks_en,
-            required: false,
+            required: true,
             min: 0,
             max: 1,
             step: 0.01,
@@ -163,11 +163,12 @@ var fiction_ratings = {
 }
 
 var fiction_trials = {
-    timeline_variables: stimuli_list, // .slice(0, 1),
+    // timeline_variables: stimuli_list.slice(0, 2),
+    timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross((isi = 1000)),
-        fiction_cue(text_cue_en, (duration = 1500)),
+        fiction_fixationcross((isi = 750)),
+        fiction_cue(text_cue_en, (duration = 1250)),
         fiction_fixationcross((isi = 500)),
         fiction_showimage((duration = 2500)),
         fiction_ratings,
@@ -175,6 +176,13 @@ var fiction_trials = {
 }
 
 // Part 2 ==========================================================
+var instructions_questionnaires = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: text_instructions_questionnaires_en,
+    choices: ["Continue"],
+    data: { screen: "instructions_questionnaires" },
+}
+
 var fiction_ratings2 = {
     type: jsPsychMultipleSlider,
     on_start: function () {
@@ -205,7 +213,8 @@ var fiction_ratings2 = {
 }
 
 var fiction_trials_realness = {
-    timeline_variables: stimuli_list, // .slice(0, 1),
+    // timeline_variables: stimuli_list.slice(0, 2),
+    timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
         fiction_fixationcross((isi = 500)),
