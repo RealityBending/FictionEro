@@ -26,13 +26,13 @@ var text_instructions1_en =
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>After each image, you will have to rate the images on the following scales:</p>" +
     "<ul style='text-align: left; margin-left: 30%; margin-right: 30%;'>" +
     // Arousal: embodied
-    "<li><b>Arousal</b>: How much do you find the image sexually arousing. This question is about your own personal reaction felt in your body when seeing the image.</li>" +
-    // "in itself" to suggest "regardless of the condition"
-    "<li><b>Sexiness</b>: How sexy would you rate this image in general to be. This question is about how sexually appealing you believe this image is in itself. Think of how much, in general, people similar to you in terms of gender and sexual orientation would like it.</li></ul>" +
+    "<li><b>Arousing</b>: How much do you find the image sexually arousing. This question is about your own <i>personal reaction</i> felt in your body when seeing the image.</li>" +
+    // Appeal: "objective"
+    "<li><b>Enticing</b>: How <i>in general</i> enticing and sexy would you rate this image to be. Think of how much, in general, people similar to you in terms of gender and sexual orientation would like it.</li></ul>" +
     // Emotional Valence
     // "<li><b>Emotional</b>: How much did the image evoke a positive and pleasurable (not necessarily sexual) feeling and emotion in you?</li></ul>" +
     // Contrasting explanation
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>While the answer to these two scales can be very similar, in other times, we can find ourselves aroused to a picture that would probably be not considered universally as being appealing and sexy, and some other times a sexy image can, for one reason or other, not evoke any reaction in our body at a given moment.</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>While the answer to these two scales can be very similar, in other times, we can find ourselves aroused to a picture that would probably be not considered universally appealing, and some other times an enticing image can, for one reason or other, not evoke any reaction in our body at a given moment.</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'><b>Try to be attentive to what happens in your mind and body while watching the images to try to answer accurately based on your own feelings and reactions.</b></p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Also, as some images are non-erotic, it might seem odd to give think of how sexy or arousing it is. Don't worry, it's normal. <b>There is no right or wrong answer</b>, just listen to your body and try to answer as objectively as you can.</p>"
 
@@ -55,7 +55,7 @@ var text_instructions_questionnaires_en =
 
 // Ratings ----------------------------------------------------------------
 var text_ticks_en = ["Not at all", "Very much"]
-var text_rating_sexy_en =
-    "How overall <b>appealing</b> would you rate this image?" // Sexual appeal
+var text_rating_appeal_en =
+    "How <b>enticing</b> would you rate this image to be?"
 var text_rating_arousal_en = "How much did you feel <b>sexually aroused</b>?"
 var text_rating_realness_en = "How <b>realistic</b> was this image?"

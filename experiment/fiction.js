@@ -140,8 +140,8 @@ var fiction_ratings = {
             slider_start: 0.5,
         },
         {
-            prompt: text_rating_sexy_en,
-            name: "Appeal",
+            prompt: text_rating_appeal_en,
+            name: "Enticement",
             ticks: text_ticks_en,
             required: true,
             min: 0,
