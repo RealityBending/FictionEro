@@ -22,7 +22,7 @@ var text_instructions1_en =
     color_cues["Fiction"] +
     "'>AI-generated</b>'), intermixed with real photos (preceded by the word '<b style='color:" +
     color_cues["Reality"] +
-    "'>Picture</b>') taken from publicly available picture databases, adjusted to be of similar dimension and aspect as the artificially-generated images.</p > " +
+    "'>Photograph</b>') taken from publicly available picture databases, adjusted to be of similar dimension and aspect as the artificially-generated images.</p > " +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>After each image, you will have to rate the images on the following scales:</p>" +
     "<ul style='text-align: left; margin-left: 30%; margin-right: 30%;'>" +
     // Arousal: embodied
@@ -47,7 +47,7 @@ var text_instructionsbutton_en = "Let's start!"
 
 // -------------------------
 
-var text_cue_en = { Reality: "Picture", Fiction: "AI-generated" }
+var text_cue_en = { Reality: "Photograph", Fiction: "AI-generated" }
 
 // -------------------------
 var text_instructions_questionnaires_en =
