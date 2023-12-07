@@ -181,7 +181,7 @@ var questionnaire_cops = {
         //     name: "COPS_Duration_3",
         //     required: false,
         // },
-        // Extra question ------------------------------------------
+        // Extra questions ------------------------------------------
         {
             prompt: "<b>When was the last time you engaged in any kind of sexual activity (intercourse or masturbation)?</b>",
             options: [
@@ -193,6 +193,12 @@ var questionnaire_cops = {
                 "6. More than a year ago",
             ],
             name: "COPS_Horniness_1",
+            required: false,
+        },
+        {
+            prompt: "<b>How would you describe your sexual orientation?</b>",
+            options: ["Heterosexual", "Bisexual", "Homosexual", "Other"],
+            name: "SexualOrientation",
             required: false,
         },
     ],

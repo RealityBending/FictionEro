@@ -209,7 +209,7 @@ var demographics_freetext = {
     },
 }
 
-var demographics_ai = {
+var demographics_other = {
     type: jsPsychSurveyLikert,
     autocomplete: true,
     questions: [
@@ -227,7 +227,7 @@ var demographics_ai = {
         },
     ],
     data: {
-        screen: "demographics_AIknowledge",
+        screen: "demographics_other",
     },
 }
 
