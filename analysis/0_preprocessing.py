@@ -18,7 +18,8 @@ for i, file in enumerate(storage.files):
     data = pd.read_csv(response.raw)
 
     # Collection date
-    if data["date"].dropna().unique()[0] < "17/11/2023":
+    date = pd.to_datetime(data["date"].dropna().unique()[0], format="%d/%m/%Y")
+    if date < pd.to_datetime("06/12/2023", format="%d/%m/%Y"):
         continue
 
     # Participant ========================================================
@@ -42,6 +43,44 @@ for i, file in enumerate(storage.files):
         },
         index=[0],
     )
+
+    # Debriefing ---------------------------------------------------------
+    debriefing = data[data["screen"] == "fiction_debriefing"].iloc[0]
+    debriefing = json.loads(debriefing["response"])["debriefing"]
+
+    # If 'boring' is is one of the debriefing sentences, True if not False
+    df["Debriefing_Boring"] = (
+        True if True in [True for s in debriefing if "boring" in s] else False
+    )
+    df["Debriefing_Fun"] = (
+        True if True in [True for s in debriefing if "fun" in s] else False
+    )
+    df["Debriefing_CouldDiscriminate"] = (
+        True if True in [True for s in debriefing if "could tell" in s] else False
+    )
+    df["Debriefing_CouldNotDiscriminate"] = (
+        True if True in [True for s in debriefing if "didn't see" in s] else False
+    )
+    df["Debriefing_AIMoreArousing"] = (
+        True if True in [True for s in debriefing if "more arousing" in s] else False
+    )
+    df["Debriefing_AILessArousing"] = (
+        True if True in [True for s in debriefing if "less arousing" in s] else False
+    )
+    df["Debriefing_LabelsIncorrect"] = (
+        True if True in [True for s in debriefing if "not always" in s] else False
+    )
+    df["Debriefing_LabelsReversed"] = (
+        True if True in [True for s in debriefing if "reversed" in s] else False
+    )
+    df["Debriefing_Arousing"] = (
+        True if True in [True for s in debriefing if "really arousing" in s] else False
+    )
+    df["Debriefing_NoFeels"] = (
+        True if True in [True for s in debriefing if "feel anything" in s] else False
+    )
+    #
+    # df["Debriefing_Boring"] = True if "boring" == "boring" else False
 
     # # Demographics -------------------------------------------------------
     # demo1 = data[data["screen"] == "demographics_1"].iloc[0]
