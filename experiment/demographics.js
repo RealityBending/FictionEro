@@ -84,7 +84,7 @@ function demographics_consent(experimenter = "DEFAULT") {
             // Results and personal information
             "<p align='left'><b>What will happen to the results and my personal information?</b><br>" +
             "The results of this research may be written into a scientific publication. Your anonymity will be ensured in the way described in the consent information below. Please read this information carefully and then, if you wish to take part, please acknowledge that you have fully understood this sheet, and that you consent to take part in the study as it is described here.</p>" +
-            "<p align='left'><b>Consent</b><br></p>" +
+            "<p align='left'><b>Consent</b><br></p><ul>" +
             // Bullet points
             "<li align='left'>I understand that by signing below I am agreeing to take part in the University of Sussex research described here, and that I have read and understood this information sheet</li>" +
             "<li align='left'>I understand that my participation is entirely voluntary, that I can choose not to participate in part or all of the study, and that I can withdraw at any stage without having to give a reason and without being penalised in any way (e.g., if I am a student, my decision whether or not to take part will not affect my grades).</li>" +
@@ -93,11 +93,11 @@ function demographics_consent(experimenter = "DEFAULT") {
             "<li align='left'>I understand that my collected data will be stored in a de-identified way. De-identified data may be made publically available through secured scientific online data repositories.</li>" +
             // Ethical managements
             "<li align='left'>I understand that I will be shown potentially sensitive material (erotic images), and thus confirm that I am older than 18 years old.</li>" +
-            "</p>" +
+            "</ul></p>" +
             // "<p align='left'>Your participation in this research will be kept completely confidential. Your responses are entirely anonymous, and no IP address or any identifiers is collected.</p>" +
             // "<p align='left'><b>By participating, you agree to follow the instructions and provide honest answers.</b> If you do not wish to participate this survey, simply close your browser.</p>" +
             // "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).</p>"
-            "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (XX/XXXX/XX) by the ethics board. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</sup></sub></p>",
+            "<p align='left'>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (XX/XXXX/XX) by the ethics board. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</p>",
 
         choices: [
             "I am more than 18 years old, and I read, understood, and consent to the above",
@@ -234,7 +234,7 @@ var demographics_other = {
 var questionnaire_hormones = {
     type: jsPsychSurveyMultiChoice,
     preamble:
-        "<b>The following questions is important to understand the role of potential biological factors in our study.</b><br>It is however optional, and you can skip it if you want.",
+        "<b>The following question is important to understand the role of potential biological factors in our study.</b><br>It is however optional, and you can skip it if you want.",
     questions: [
         {
             prompt: "If you are a female, are you currently using birth control treatment?",
