@@ -4,15 +4,15 @@ var fiction_trialnumber = 1
 // instructions ====================================================
 var fiction_instructions1 = {
     type: jsPsychHtmlButtonResponse,
-    choices: [text_instructionsbutton_en],
-    stimulus: text_instructions1_en,
+    choices: [text_instructionsbutton],
+    stimulus: text_instructions1,
     data: { screen: "fiction_instructions1" },
 }
 
 var fiction_instructions2 = {
     type: jsPsychHtmlButtonResponse,
-    choices: [text_instructionsbutton_en],
-    stimulus: text_instructions2_en,
+    choices: [text_instructionsbutton],
+    stimulus: text_instructions2,
     data: { screen: "fiction_instructions2" },
 }
 
@@ -130,9 +130,9 @@ var fiction_ratings = {
     },
     questions: [
         {
-            prompt: text_rating_arousal_en,
+            prompt: text_rating_arousal,
             name: "Arousal",
-            ticks: text_ticks_en,
+            ticks: text_ticks,
             required: true,
             min: 0,
             max: 1,
@@ -140,9 +140,9 @@ var fiction_ratings = {
             slider_start: 0.5,
         },
         {
-            prompt: text_rating_appeal_en,
+            prompt: text_rating_appeal,
             name: "Enticement",
-            ticks: text_ticks_en,
+            ticks: text_ticks,
             required: true,
             min: 0,
             max: 1,
@@ -150,9 +150,9 @@ var fiction_ratings = {
             slider_start: 0.5,
         },
         {
-            prompt: text_rating_valence_en,
+            prompt: text_rating_valence,
             name: "Valence",
-            ticks: text_ticks_valence_en,
+            ticks: text_ticks_valence,
             required: true,
             min: -1,
             max: 1,
@@ -178,7 +178,7 @@ var fiction_trials = {
     randomize_order: true,
     timeline: [
         fiction_fixationcross((isi = 750)),
-        fiction_cue(text_cue_en, (duration = 1250)),
+        fiction_cue(text_cue, (duration = 1250)),
         fiction_fixationcross((isi = 500)),
         fiction_showimage((duration = 2500)),
         fiction_ratings,
@@ -188,7 +188,7 @@ var fiction_trials = {
 // Part 2 ==========================================================
 var instructions_questionnaires = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: text_instructions_questionnaires_en,
+    stimulus: text_instructions_questionnaires,
     choices: ["Continue"],
     data: { screen: "instructions_questionnaires" },
 }
@@ -200,9 +200,9 @@ var fiction_ratings2 = {
     },
     questions: [
         {
-            prompt: text_rating_realness_en,
+            prompt: text_rating_realness,
             name: "Realness",
-            ticks: text_ticks_en,
+            ticks: text_ticks,
             required: false,
             min: 0,
             max: 1,
