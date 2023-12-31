@@ -1,26 +1,50 @@
 import json
-import os
 
-import osfclient
 import pandas as pd
 
-token = ""  # Paste OSF token here to access private repositories
-data_subproject = "sm4jc"  # Data subproject ID
-data_all = pd.DataFrame()  # Initialize empty dataframe
 
-osf = osfclient.OSF(token=token).project(data_subproject)  # Connect to project
-storage = [s for s in osf.storages][0]  # Access storage component
-n_files = sum([1 for _ in storage.files])
-for i, file in enumerate(storage.files):
-    print(f"File N°{i+1}/{n_files}")
-    file_name = file.name.replace(".csv", "")
-    response = file._get(file._download_url, stream=True)
-    data = pd.read_csv(response.raw)
+# Get files from OSF ======================================================
+def osf_listfiles(data_subproject="", token="", after_date=None):
+    try:
+        import osfclient
+    except ImportError:
+        raise ImportError("Please install 'osfclient' (`pip install osfclient`)")
+    osf = osfclient.OSF(token=token).project(data_subproject)  # Connect to project
+    storage = [s for s in osf.storages][0]  # Access storage component
+    files = [
+        {
+            "name": file.name.replace(".csv", ""),
+            "date": pd.to_datetime(file.date_created),
+            "url": file._download_url,
+            "size": file.size,
+            "file": file,
+        }
+        for file in storage.files
+    ]
 
-    # Collection date
-    date = pd.to_datetime(data["date"].dropna().unique()[0], format="%d/%m/%Y")
-    if date < pd.to_datetime("06/12/2023", format="%d/%m/%Y"):
-        continue
+    if after_date is not None:
+        date = pd.to_datetime(after_date, format="%d/%m/%Y", utc=True)
+        files = [f for f, d in zip(files, [f["date"] > date for f in files]) if d]
+    return files
+
+
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
+files = osf_listfiles(
+    token=token,
+    data_subproject="sm4jc",  # Data subproject ID
+    after_date="27/12/2023",
+)
+
+
+# Loop through files ======================================================
+# Initialize empty dataframes
+alldata = pd.DataFrame()
+alldata_subs = pd.DataFrame()
+
+for i, file in enumerate(files):
+    print(f"File N°{i+1}/{len(files)}")
+
+    data = pd.read_csv(file["file"]._get(file["url"], stream=True).raw)
 
     # Participant ========================================================
     # data["screen"].unique()
@@ -30,8 +54,8 @@ for i, file in enumerate(storage.files):
 
     df = pd.DataFrame(
         {
-            "Participant": file_name,
-            # "Experimenter": brower["experimenter"],
+            "Participant": file["name"],
+            "Experimenter": brower["experimenter"],
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
             "Date": brower["date"],
             "Time": brower["time"],
@@ -43,6 +67,47 @@ for i, file in enumerate(storage.files):
         },
         index=[0],
     )
+
+    # FICTION ------------------------------------------------------------
+    fiction1 = data[data["screen"] == "fiction_ratings1"]
+    fiction = pd.DataFrame({"Participant": [file["name"]] * len(fiction1)})
+    assert len(fiction1) == 60
+
+    # TODO: add fixation cross
+    fiction["Item"] = fiction1["stimulus"].values
+    fiction["Order1"] = range(1, len(fiction1) + 1)
+    fiction["RT1"] = fiction1["rt"].values / 1000
+    fiction["Condition"] = fiction1["condition"].values
+
+    fiction_cue = data[data["screen"] == "fiction_cue"]
+    fiction["Cue_Color"] = fiction_cue["color"].values
+    # fiction["Cue_Duration"] = fiction_cue["trial_duration"].values
+
+    ratings1 = [json.loads(r) for r in fiction1["response"].values]
+    fiction["Arousal"] = [r["Arousal"] for r in ratings1]
+    fiction["Valence"] = [r["Valence"] for r in ratings1]
+    fiction["Enticement"] = [r["Enticement"] for r in ratings1]
+
+    # TODO: double check that this is matches the images
+    fiction2 = data[data["screen"] == "fiction_ratings2"]
+    fiction2_df = pd.DataFrame({"Item": fiction2["stimulus"].values})
+    fiction2_df["Order2"] = range(1, len(fiction2) + 1)
+    fiction["RT2"] = fiction2["rt"].values / 1000
+
+    ratings2 = [json.loads(r) for r in fiction2["response"].values]
+    fiction2_df["Realness"] = [r["Realness"] for r in ratings2]
+    assert len(fiction2_df) == len(fiction)
+
+    fiction = pd.merge(fiction, fiction2_df, on="Item")
+
+    # BAIT ---------------------------------------------------------------
+    bait = data[data["screen"] == "questionnaire_bait"].iloc[0]
+
+    df["BAIT_Duration"] = bait["rt"] / 1000 / 60
+
+    bait = json.loads(bait["response"])
+    for item in bait:
+        df[item] = bait[item]
 
     # Debriefing ---------------------------------------------------------
     debriefing = data[data["screen"] == "fiction_debriefing"].iloc[0]
@@ -79,23 +144,7 @@ for i, file in enumerate(storage.files):
     df["Debriefing_NoFeels"] = (
         True if True in [True for s in debriefing if "feel anything" in s] else False
     )
-    #
-    # df["Debriefing_Boring"] = True if "boring" == "boring" else False
 
-    # # Demographics -------------------------------------------------------
-    # demo1 = data[data["screen"] == "demographics_1"].iloc[0]
-    # demo1 = json.loads(demo1["response"])
-
-    # df["Gender"] = demo1["gender"]
-    # df["Education"] = demo1["education"]
-
-    # demo2 = data[data["screen"] == "demographics_2"].iloc[0]
-    # demo2 = json.loads(demo2["response"])
-
-    # df["Age"] = demo2["age"]
-    # df["Ethnicity"] = demo2["ethnicity"]
-
-    data_all = pd.concat([data_all, df], axis=0)
-
-data_all.to_csv("../data/data.csv", index=False)
-print("Done!")
+    # Save data ----------------------------------------------------------
+    alldata = pd.concat([alldata, fiction], axis=0, ignore_index=True)
+    alldata_subs = pd.concat([alldata_subs, df], axis=0, ignore_index=True)

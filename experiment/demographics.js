@@ -1,12 +1,16 @@
 // Full screen
 var fullscreen_on = {
     type: jsPsychFullscreen,
+    message: fullscreen_text,
+    button_label: fullscreen_button,
     fullscreen_mode: true,
     delay_after: 0,
 }
 
 var fullscreen_off = {
     type: jsPsychFullscreen,
+    message: fullscreen_text,
+    button_label: fullscreen_button,
     fullscreen_mode: false,
 }
 
@@ -71,37 +75,8 @@ function demographics_consent(experimenter = "DEFAULT") {
     return {
         type: jsPsychHtmlButtonResponse,
         css_classes: ["narrow-text"],
-        stimulus:
-            // Logo and title
-            "<img src='https://blogs.brighton.ac.uk/sussexwrites/files/2019/06/University-of-Sussex-logo-transparent.png' width='150px' align='right'/><br><br><br><br><br>" +
-            "<h1>Informed Consent</h1>" +
-            // Overview
-            "<p align='left'><b>Invitation to Take Part</b><br>" +
-            "You are being invited to take part in a research study to further our understanding of the impact of new technologies. Thank you for carefully reading this information sheet. This study is being conducted by Dr Dominique Makowski from the University of Sussex, who is happy to be contacted (D.Makowski@sussex.ac.uk) if you have any questions.</p>" +
-            // Description
-            "<p align='left'><b>Why have I been invited and what will I do?</b><br>" +
-            "We are investigating how new technology can impact the habits and behaviours related to pornography. In this study, you will be shown <b>erotic images</b>, so please make sure you find yourself in an <b>private setting</b> for the whole duration of the experiment (~20min).</p>" +
-            // Results and personal information
-            "<p align='left'><b>What will happen to the results and my personal information?</b><br>" +
-            "The results of this research may be written into a scientific publication. Your anonymity will be ensured in the way described in the consent information below. Please read this information carefully and then, if you wish to take part, please acknowledge that you have fully understood this sheet, and that you consent to take part in the study as it is described here.</p>" +
-            "<p align='left'><b>Consent</b><br></p><ul>" +
-            // Bullet points
-            "<li align='left'>I understand that by signing below I am agreeing to take part in the University of Sussex research described here, and that I have read and understood this information sheet</li>" +
-            "<li align='left'>I understand that my participation is entirely voluntary, that I can choose not to participate in part or all of the study, and that I can withdraw at any stage without having to give a reason and without being penalised in any way (e.g., if I am a student, my decision whether or not to take part will not affect my grades).</li>" +
-            "<li align='left'>I understand that since the study is anonymous, it will be impossible to withdraw my data once I have completed and submitted the test/questionnaire.</li>" +
-            "<li align='left'>I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research.</li>" +
-            "<li align='left'>I understand that my collected data will be stored in a de-identified way. De-identified data may be made publically available through secured scientific online data repositories.</li>" +
-            // Ethical managements
-            "<li align='left'>I understand that I will be shown potentially sensitive material (erotic images), and thus confirm that I am older than 18 years old.</li>" +
-            "</ul></p>" +
-            // "<p align='left'>Your participation in this research will be kept completely confidential. Your responses are entirely anonymous, and no IP address or any identifiers is collected.</p>" +
-            // "<p align='left'><b>By participating, you agree to follow the instructions and provide honest answers.</b> If you do not wish to participate this survey, simply close your browser.</p>" +
-            // "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).</p>"
-            "<p align='left'>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (XX/XXXX/XX) by the ethics board. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</p>",
-
-        choices: [
-            "I am more than 18 years old, and I read, understood, and consent to the above",
-        ],
+        stimulus: consent_text,
+        choices: [consent_button],
         data: { screen: "consent" },
         on_finish: function () {
             jsPsych.data.addProperties({

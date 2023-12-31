@@ -48,7 +48,7 @@ var fiction_preloadstims = {
     images: stimuli_list.map((a) => "stimuli/" + a.stimulus),
 }
 
-function fiction_fixationcross(isi = 500) {
+function fiction_fixationcross(isi = 500, screen = "fiction_fixationcross") {
     return {
         type: jsPsychHtmlKeyboardResponse,
         on_start: function () {
@@ -59,7 +59,7 @@ function fiction_fixationcross(isi = 500) {
         choices: ["s"],
         trial_duration: isi,
         save_trial_parameters: { trial_duration: true },
-        data: { screen: "fiction_fixationcross" },
+        data: { screen: screen },
     }
 }
 
@@ -86,10 +86,11 @@ function fiction_cue(text_cue, duration = 1000) {
         },
         choices: ["s"],
         trial_duration: duration,
+        save_trial_parameters: { trial_duration: true },
     }
 }
 
-function fiction_showimage(duration = 2500) {
+function fiction_showimage(duration = 2500, screen = "fiction_image") {
     return {
         type: jsPsychImageKeyboardResponse,
         stimulus: function () {
@@ -115,10 +116,11 @@ function fiction_showimage(duration = 2500) {
         },
         choices: ["s"],
         trial_duration: duration,
+        save_trial_parameters: { trial_duration: true },
         on_finish: function (data) {
             data.trial_number = fiction_trialnumber
             fiction_trialnumber += 1
-            data.screen = "fiction_image"
+            data.screen = screen
         },
     }
 }
@@ -177,10 +179,10 @@ var fiction_trials = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross((isi = 750)),
-        fiction_cue(text_cue, (duration = 1250)),
-        fiction_fixationcross((isi = 500)),
-        fiction_showimage((duration = 2500)),
+        fiction_fixationcross((isi = 750, screen = "fiction_fixationcross1")),
+        fiction_cue(text_cue, (duration = 1250, screen = "fiction_image1")),
+        fiction_fixationcross((isi = 500, screen = "fiction_fixationcross2")),
+        fiction_showimage((duration = 2500, screen = "fiction_image2")),
         fiction_ratings,
     ],
 }
@@ -227,8 +229,8 @@ var fiction_trials_realness = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross((isi = 500)),
-        fiction_showimage((duration = 1000)),
+        fiction_fixationcross((isi = 500, screen = "fiction_fixationcross3")),
+        fiction_showimage((duration = 1000, screen = "fiction_image3")),
         fiction_ratings2,
     ],
 }
@@ -236,28 +238,30 @@ var fiction_trials_realness = {
 // Debriefing
 var fiction_debriefing = {
     type: jsPsychSurveyMultiSelect,
-    preamble:
-        "<h1>Thank you!</h1>" +
-        "<p>Before we end, we wanted to know some of your thoughts on the experiment. Please tick all that apply:</p>",
+    preamble: text_debriefing,
     questions: [
         {
             prompt: " ",
-            options: [
-                "I had fun",
-                "It was boring",
-                "I could tell which images were photos and which were AI-generated",
-                "I didn't see any difference between photos and AI-generated images",
-                "I felt like the AI-generated images were more arousing than the photos",
-                "I felt like the AI-generated images were less arousing than the photos",
-                "I felt like the labels ('Photograph' and 'AI-generated') were not always correct",
-                "I felt like the labels were reversed (e.g., 'Photograph' for AI-generated images and vice versa)",
-                "Some pictures were really arousing",
-                "I didn't really feel anything",
-            ],
+            options: text_debriefing_items,
             name: "debriefing",
         },
     ],
     data: {
         screen: "fiction_debriefing",
+    },
+}
+
+var fiction_feedback = {
+    type: jsPsychSurveyText,
+    questions: [
+        {
+            prompt: text_feedback,
+            placeholder: text_feedback_placeholder,
+            name: "Feedback",
+            required: false,
+        },
+    ],
+    data: {
+        screen: "fiction_feedback",
     },
 }
