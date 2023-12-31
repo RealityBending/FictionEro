@@ -28,7 +28,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
     return files
 
 
-token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
+token = ""  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="sm4jc",  # Data subproject ID
