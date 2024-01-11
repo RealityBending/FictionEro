@@ -160,15 +160,16 @@ dat |>
 
 ## Final Selection
 
--   ID: picture category and number
--   V/H: vertical / horizontal
--   Av/Ap: avoidance - approach dimension
--   M: mean
--   SD: standard deviation
--   JPEG_size80:index of overall complexity
--   LABL: luminance in CIE L*a*b color space
--   LABA: the amount of red color CIE L*a*b color space
--   LABB: the amount of the green color CIE L*a*b color space
+- ID: picture category and number
+- V/H: vertical / horizontal
+- Av/Ap: avoidance - approach dimension
+- M: mean
+- SD: standard deviation
+- JPEG_size80: index of overall complexity
+- LABL: luminance in CIE L*a*b color space
+- LABA: the amount of red color CIE L*a*b color space
+- LABB: the amount of the green color CIE L*a*b color space
+- Entropy: the amount of complexity in gray scale. Images with high entropy are images that are more "noisy" and have a high degree of contrast.
 
 ```{r}
 #| code-fold: true

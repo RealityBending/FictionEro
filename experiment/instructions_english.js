@@ -4,7 +4,7 @@
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-            ;[array[i], array[j]] = [array[j], array[i]]
+        ;[array[i], array[j]] = [array[j], array[i]]
     }
     return array
 }
@@ -56,14 +56,14 @@ var text_instructions_questionnaires =
 // Ratings ----------------------------------------------------------------
 var text_ticks = ["Not at all", "Very much"]
 var text_ticks_valence = ["Unpleasant", "Pleasant"]
-var text_rating_appeal =
-    "How <b>enticing</b> would you rate this image to be?"
+var text_rating_appeal = "How <b>enticing</b> would you rate this image to be?"
 var text_rating_arousal = "How much did you feel <b>sexually aroused</b>?"
 var text_rating_valence = "The <b>feeling</b> evoked by the image was..."
 var text_rating_realness = "How <b>realistic</b> was this image?"
 
 // -------------------------
-var text_debriefing = "<h1>Thank you!</h1>" +
+var text_debriefing =
+    "<h1>Thank you!</h1>" +
     "<p>Before we end, we wanted to know some of your thoughts on the experiment. Please tick all that apply:</p>"
 var text_debriefing_items = [
     "I had fun",
@@ -81,7 +81,6 @@ var text_debriefing_items = [
 var text_feedback = "Do you have any other comments or feedback?"
 var text_feedback_placeholder = "Type here"
 
-
 // =========================================================================================
 // Questionnaires
 // =========================================================================================
@@ -90,7 +89,6 @@ var bait_instructions =
     "<h2>About AI...</h2>" +
     "<p>We are interested in your thoughts about Artificial Intelligence (AI).<br>" +
     "Please read the statements below carefully and indicate the extent to which you agree with each statement.</p>"
-
 
 // General Attitudes towards Artificial Intelligence Scale (GAAIS; Schepman et al., 2020, 2022)
 // We used the most loaded items from Schepman et al. (2023) - loadings from the 2 CFAs are in parentheses
@@ -103,7 +101,7 @@ var bait_items = [
     // Neg10 (0.850, 0.848) - Modified: removed "I think"
     "Artificial Intelligence is dangerous",
     // Neg15 (1.014, 0.884) - Not used in FakeFace. Modified: replaced "I shiver with discomfort when I think about" by "I am worried about"
-    "I am worried about future uses of Artificial Intelligence<br>",
+    "I am worried about future uses of Artificial Intelligence",
     // Pos7 (0.820, 0.878)
     "I am interested in using artificially intelligent systems in my daily life",
     // Pos12 (0.734, 0.554)
@@ -111,7 +109,7 @@ var bait_items = [
     // Pos14 (0.516, 0.346) - Low loadings
     // "There are many beneficial applications of Artificial Intelligence",
     // Pos17 (0.836, 0.656) - Not used in FakeFace
-    "Much of society will benefit from a future full of Artificial Intelligence<br>",
+    "Much of society will benefit from a future full of Artificial Intelligence",
 
     // New items (Beliefs about Artificial Images Technology - BAIT) ---------------------------
     // Revised from Makowski et al. (Fake Face study)
@@ -122,15 +120,16 @@ var bait_items = [
     "Current Artificial Intelligence algorithms can generate very realistic videos",
     "Computer-Generated Images (CGI) are capable of perfectly imitating reality",
     "Technology allows the creation of environments that seem just as real as reality", // New
+    "Artificial Intelligence assistants can write texts that are indistinguishable from those written by humans", // New
+    "Documents and paragraphs written by Artificial Intelligence usually read differently compared to Human productions", // New
 ]
 
 var bait_ticks = ["Disagree", "Agree"] // In Schepman et al. (2022) they removed 'Strongly'
 
-
 // --------------------------------------------------------------------------------
-var cops_instructions = "<h2>About Pornography...</h2>" +
+var cops_instructions =
+    "<h2>About Pornography...</h2>" +
     "<p style='text-align: left;'>Given the nature of our study, we are interested in understanding your habits in terms of exposure to pornography. Please consider answering the questions below.</p>"
-
 
 var cops_items = [
     // {
@@ -234,8 +233,6 @@ var cops_items = [
     },
 ]
 
-
-
 // =========================================================================================
 // Demographics
 // =========================================================================================
@@ -269,5 +266,6 @@ var consent_text = // Logo and title
 
 var consent_button = "I am more than 18 years old, and I read, understood, and consent to the above"
 
-var fullscreen_text = "<p>The experiment will switch to full screen mode when you press the button below</p>"
+var fullscreen_text =
+    "<p>The experiment will switch to full screen mode when you press the button below</p>"
 var fullscreen_button = "Continue"

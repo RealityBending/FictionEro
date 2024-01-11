@@ -1,6 +1,5 @@
 // Items =================================================
 
-
 var bait_dimensions = [
     "GAAIS_Negative_9",
     "GAAIS_Negative_10",
@@ -14,16 +13,13 @@ var bait_dimensions = [
     "BAIT_4_VideosIssues",
     "BAIT_5_ImitatingReality",
     "BAIT_6_EnvironmentReal",
+    "BAIT_7_TextRealistic",
+    "BAIT_8_TextIssues",
 ]
-
 
 // Questionnaires =================================================
 
-function format_questions_analog(
-    items,
-    dimensions,
-    ticks = ["Inaccurate", "Accurate"]
-) {
+function format_questions_analog(items, dimensions, ticks = ["Inaccurate", "Accurate"]) {
     var questions = []
     for (const [index, element] of items.entries()) {
         questions.push({
