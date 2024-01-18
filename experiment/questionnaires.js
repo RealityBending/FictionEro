@@ -62,4 +62,7 @@ var questionnaire_cops = {
     css_classes: ["narrow-text"],
     preamble: cops_instructions,
     questions: cops_items,
+    data: {
+        screen: "questionnaire_cops",
+    },
 }
