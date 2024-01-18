@@ -96,17 +96,17 @@ function fiction_showimage(duration = 2500, screen = "fiction_image") {
             return "stimuli/" + jsPsych.timelineVariable("stimulus")
         },
         stimulus_height: function () {
-            if (jsPsych.timelineVariable("Orientation") == "h") {
-                return null
+            if (jsPsych.timelineVariable("Orientation") == "v") {
+                return Math.round(window.innerHeight * 0.9)
             } else {
-                return Math.round(jsPsych.data.get().last().values()[0]["screen_height"] * 0.9)
+                return null
             }
         },
         stimulus_width: function () {
-            if (jsPsych.timelineVariable("Orientation") == "v") {
-                return null
+            if (jsPsych.timelineVariable("Orientation") == "h") {
+                return Math.round(window.innerHeight * 0.9)
             } else {
-                return Math.round(jsPsych.data.get().last().values()[0]["screen_height"] * 0.9)
+                return null
             }
         },
         choices: ["s"],
@@ -174,10 +174,10 @@ var fiction_trials = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross(((isi = 750), (screen = "fiction_fixationcross1"))),
-        fiction_cue(text_cue, ((duration = 1250), (screen = "fiction_image1"))),
-        fiction_fixationcross(((isi = 500), (screen = "fiction_fixationcross2"))),
-        fiction_showimage(((duration = 2500), (screen = "fiction_image2"))),
+        fiction_fixationcross((duration = 750), (screen = "fiction_fixationcross1a")),
+        fiction_cue((text_cue = text_cue), (duration = 1250)),
+        fiction_fixationcross((isi = 500), (screen = "fiction_fixationcross1b")),
+        fiction_showimage((duration = 2500), (screen = "fiction_image1")),
         fiction_ratings,
     ],
 }
@@ -224,8 +224,8 @@ var fiction_trials_realness = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross(((isi = 500), (screen = "fiction_fixationcross3"))),
-        fiction_showimage(((duration = 1000), (screen = "fiction_image3"))),
+        fiction_fixationcross((isi = 500), (screen = "fiction_fixationcross2")),
+        fiction_showimage((duration = 1000), (screen = "fiction_image2")),
         fiction_ratings2,
     ],
 }
