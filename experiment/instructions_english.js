@@ -92,7 +92,7 @@ var text_debriefing =
     "<p>To complete your participation in this study, click on 'Continue' and <b>wait until your responses have been successfully saved</b> before closing the tab.</p> "
 
 var text_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/english.html"
+    link = "https://realitybending.github.io/FictionEro/experiment/english?exp=snow&lang=en"
 ) {
     return (
         "<h1>Thank you for participating</h1>" +
