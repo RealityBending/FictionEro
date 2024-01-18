@@ -62,10 +62,10 @@ var text_rating_valence = "The <b>feeling</b> evoked by the image was..."
 var text_rating_realness = "How <b>realistic</b> was this image?"
 
 // -------------------------
-var text_debriefing =
+var text_feedback1 =
     "<h1>Thank you!</h1>" +
     "<p>Before we end, we wanted to know some of your thoughts on the experiment. Please tick all that apply:</p>"
-var text_debriefing_items = [
+var text_feedback1_items = [
     "I had fun",
     "It was boring",
     "I could tell which images were photos and which were AI-generated",
@@ -78,8 +78,33 @@ var text_debriefing_items = [
     "I didn't really feel anything when watching the images",
 ]
 
-var text_feedback = "Do you have any other comments or feedback?"
-var text_feedback_placeholder = "Type here"
+var text_feedback2 = "Do you have any other comments or feedback?"
+var text_feedback2_placeholder = "Type here"
+
+// -------------------------
+var text_debriefing =
+    "<h2>Debriefing</h2>" +
+    "<p align='left'>The purpose of this study was actually to study the effect on sexual arousal of <i>believing</i> that the content is AI-generated. " +
+    "Indeed, we want to test de hypothesis that believing that erotic images are fake would lead to a lower emotional arousal. " +
+    "As we are primarily interested in your <i>beliefs</i> about reality, all images were in fact taken from an existing database of real images used in psychology research to study emotions. " +
+    "We apologize for the necessary deception used in the instructions, and we hope that you understand its role in ensuring the validity of our experiment.</p>" +
+    "<p align='left'><b>Thank you again!</b> Your participation in this study will be kept completely confidential. If you have any questions or concerns about the project, please contact D.Makowski@sussex.ac.uk.</p>" +
+    "<p>To complete your participation in this study, click on 'Continue' and <b>wait until your responses have been successfully saved</b> before closing the tab.</p> "
+
+var text_endscreen = function (
+    link = "https://realitybending.github.io/FictionEro/experiment/english.html"
+) {
+    return (
+        "<h1>Thank you for participating</h1>" +
+        "<p>It means a lot to us. Don't hesitate to share the study by sending this link <i>(but please don't reveal the details of the experiment)</i>:</p>" +
+        "<p><a href='" +
+        link +
+        "'>" +
+        link +
+        "<a/></p>" +
+        "<p><b>You can safely close the tab now.</b></p>"
+    )
+}
 
 // =========================================================================================
 // Questionnaires
@@ -127,6 +152,7 @@ var bait_items = [
 var bait_ticks = ["Disagree", "Agree"] // In Schepman et al. (2022) they removed 'Strongly'
 
 // --------------------------------------------------------------------------------
+// Hatch, S. G., Esplin, C. R., Hatch, H. D., Halstead, A., Olsen, J., & Braithwaite, S. R. (2023). The consumption of pornography scale–general (COPS–G). Sexual and Relationship Therapy, 38(2), 194-218.
 var cops_instructions =
     "<h2>About Pornography...</h2>" +
     "<p style='text-align: left;'>Given the nature of our study, we are interested in understanding your habits in terms of exposure to pornography. Please consider answering the questions below.</p>"
@@ -222,7 +248,7 @@ var cops_items = [
             "5. Within the last year",
             "6. More than a year ago",
         ],
-        name: "COPS_Horniness_1",
+        name: "SexualActivity",
         required: false,
     },
     {
@@ -262,7 +288,7 @@ var consent_text = // Logo and title
     // "<p align='left'>Your participation in this research will be kept completely confidential. Your responses are entirely anonymous, and no IP address or any identifiers is collected.</p>" +
     // "<p align='left'><b>By participating, you agree to follow the instructions and provide honest answers.</b> If you do not wish to participate this survey, simply close your browser.</p>" +
     // "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).</p>"
-    "<p align='left'>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (XX/XXXX/XX) by the ethics board. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</p>"
+    "<p align='left'>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (ER/NR274/1) by the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</p>"
 
 var consent_button = "I am more than 18 years old, and I read, understood, and consent to the above"
 

@@ -22,28 +22,18 @@ var demographics_browser_info = {
         date: new Date().toLocaleDateString("fr-FR"),
         time: new Date().toLocaleTimeString("fr-FR"),
     },
-    on_finish: function () {
-        data = jsPsych.data.get().filter({ screen: "browser_info" }).values()[0]
-        jsPsych.data.addProperties({
-            ["screen_height"]: data["height"],
-            ["screen_width"]: data["width"],
-        })
-        for (var key in data) {
-            if (
-                [
-                    "vsync_rate",
-                    "os",
-                    "mobile",
-                    "browser",
-                    "browser_version",
-                ].includes(key)
-            ) {
-                jsPsych.data.addProperties({
-                    [key]: data[key],
-                })
-            }
-        }
-        jsPsych.data.addProperties()
+    on_finish: function (data) {
+        dat = jsPsych.data.get().filter({ screen: "browser_info" }).values()[0]
+
+        // Rename
+        data["screen_height"] = dat["height"]
+        data["screen_width"] = dat["width"]
+
+        // Add URL variables - ?sona_id=x&exp=1
+        let urlvars = jsPsych.data.urlVariables()
+        data["sona_id"] = urlvars["sona_id"]
+        data["researcher"] = urlvars["exp"]
+        data["language"] = urlvars["lang"]
     },
 }
 
@@ -63,56 +53,36 @@ var demographics_participant_id = {
     on_finish: function () {
         // Store `participant_id` so that it can be reused later
         jsPsych.data.addProperties({
-            participant_id: jsPsych.data.get().last().values()[0]["response"][
-                "Participant_ID"
-            ],
+            participant_id: jsPsych.data.get().last().values()[0]["response"]["Participant_ID"],
         })
     },
 }
 
 // Consent form ========================================================================
-function demographics_consent(experimenter = "DEFAULT") {
-    return {
-        type: jsPsychHtmlButtonResponse,
-        css_classes: ["narrow-text"],
-        stimulus: consent_text,
-        choices: [consent_button],
-        data: { screen: "consent" },
-        on_finish: function () {
-            jsPsych.data.addProperties({
-                experimenter: experimenter,
-            })
-        },
-    }
+var demographics_consent = {
+    type: jsPsychHtmlButtonResponse,
+    css_classes: ["narrow-text"],
+    stimulus: consent_text,
+    choices: [consent_button],
+    data: { screen: "consent" },
 }
 
 // Thank you ========================================================================
-var demographics_waitdatasaving = {
+var demographics_debriefing = {
     type: jsPsychHtmlButtonResponse,
-    stimulus:
-        "<p>Done! now click on 'Continue' and <b>wait until your responses have been successfully saved</b> before closing the tab.</p> ",
+    css_classes: ["narrow-text"],
+    stimulus: text_debriefing,
     choices: ["Continue"],
-    data: { screen: "waitdatasaving" },
+    data: { screen: "debriefing" },
 }
 
 var demographics_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/english1.html"
+    link = "https://realitybending.github.io/FictionEro/experiment/english.html"
 ) {
     return {
         type: jsPsychHtmlButtonResponse,
         css_classes: ["narrow-text"],
-        stimulus:
-            "<h1>Thank you for participating</h1>" +
-            "<p>It means a lot to us. Don't hesitate to share the study by sending this link:</p>" +
-            "<p><a href='" +
-            link +
-            "'>" +
-            link +
-            "<a/></p>" +
-            "<h2>Debriefing</h2>" +
-            "<p align='left'>The purpose of this study was actually to study the effect on sexual arousal of <i>believing</i> that the content is AI-generated. In fact, all images were taken from an existing database of images used in psychology. We apologize for the necessary deception used in the instructions, and we hope that you understand its role in ensuring the validity of our experiment.</p>" +
-            "<p align='left'><b>Thank you again!</b> Your participation in this study will be kept completely confidential.If you have any questions or concerns about the project, please contact D.Makowski@sussex.ac.uk.</p>" +
-            "<p><b>You can safely close the tab now.</b></p>",
+        stimulus: text_endscreen(link),
         choices: ["End"],
         data: { screen: "endscreen" },
     }
@@ -126,7 +96,7 @@ var demographics_multichoice = {
         {
             prompt: "What is your biological sex?",
             options: ["Male", "Female", "Other"],
-            name: "Gender",
+            name: "Sex",
             required: true,
         },
         // {
@@ -241,10 +211,9 @@ var demographics_hormones = {
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
-        var sex = jsPsych.data
-            .get()
-            .filter({ screen: "demographics_1" })
-            .values()[0]["response"]["Gender"]
+        var sex = jsPsych.data.get().filter({ screen: "demographics_1" }).values()[0]["response"][
+            "Sex"
+        ]
         if (sex == "Male") {
             return false
         } else {

@@ -30,8 +30,7 @@ function assignCondition(stimuli_list) {
 
         // Assign half to "Reality" condition and half to "Fiction" condition
         for (let i = 0; i < cat_stimuli.length; i++) {
-            cat_stimuli[i].Condition =
-                i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
+            cat_stimuli[i].Condition = i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
         }
 
         // Add to new_stimuli_list
@@ -100,18 +99,14 @@ function fiction_showimage(duration = 2500, screen = "fiction_image") {
             if (jsPsych.timelineVariable("Orientation") == "h") {
                 return null
             } else {
-                return Math.round(
-                    jsPsych.data.get().last().values()[0]["screen_height"] * 0.9
-                )
+                return Math.round(jsPsych.data.get().last().values()[0]["screen_height"] * 0.9)
             }
         },
         stimulus_width: function () {
             if (jsPsych.timelineVariable("Orientation") == "v") {
                 return null
             } else {
-                return Math.round(
-                    jsPsych.data.get().last().values()[0]["screen_height"] * 0.9
-                )
+                return Math.round(jsPsych.data.get().last().values()[0]["screen_height"] * 0.9)
             }
         },
         choices: ["s"],
@@ -179,10 +174,10 @@ var fiction_trials = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross((isi = 750, screen = "fiction_fixationcross1")),
-        fiction_cue(text_cue, (duration = 1250, screen = "fiction_image1")),
-        fiction_fixationcross((isi = 500, screen = "fiction_fixationcross2")),
-        fiction_showimage((duration = 2500, screen = "fiction_image2")),
+        fiction_fixationcross(((isi = 750), (screen = "fiction_fixationcross1"))),
+        fiction_cue(text_cue, ((duration = 1250), (screen = "fiction_image1"))),
+        fiction_fixationcross(((isi = 500), (screen = "fiction_fixationcross2"))),
+        fiction_showimage(((duration = 2500), (screen = "fiction_image2"))),
         fiction_ratings,
     ],
 }
@@ -229,39 +224,39 @@ var fiction_trials_realness = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross((isi = 500, screen = "fiction_fixationcross3")),
-        fiction_showimage((duration = 1000, screen = "fiction_image3")),
+        fiction_fixationcross(((isi = 500), (screen = "fiction_fixationcross3"))),
+        fiction_showimage(((duration = 1000), (screen = "fiction_image3"))),
         fiction_ratings2,
     ],
 }
 
-// Debriefing
-var fiction_debriefing = {
+// Feedback
+var fiction_feedback1 = {
     type: jsPsychSurveyMultiSelect,
-    preamble: text_debriefing,
+    preamble: text_feedback1,
     questions: [
         {
             prompt: " ",
-            options: text_debriefing_items,
-            name: "debriefing",
+            options: text_feedback1_items,
+            name: "FeedbackChoice",
         },
     ],
     data: {
-        screen: "fiction_debriefing",
+        screen: "fiction_feedback1",
     },
 }
 
-var fiction_feedback = {
+var fiction_feedback2 = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: text_feedback,
-            placeholder: text_feedback_placeholder,
-            name: "Feedback",
+            prompt: text_feedback2,
+            placeholder: text_feedback2_placeholder,
+            name: "FeedbackFree",
             required: false,
         },
     ],
     data: {
-        screen: "fiction_feedback",
+        screen: "fiction_feedback2",
     },
 }
