@@ -72,7 +72,7 @@ var demographics_debriefing = {
     type: jsPsychHtmlButtonResponse,
     css_classes: ["narrow-text"],
     stimulus: text_debriefing,
-    choices: ["Continue"],
+    choices: [button_continue],
     data: { screen: "debriefing" },
 }
 
@@ -83,7 +83,7 @@ var demographics_endscreen = function (
         type: jsPsychHtmlButtonResponse,
         css_classes: ["narrow-text"],
         stimulus: text_endscreen(link),
-        choices: ["End"],
+        choices: [button_end],
         data: { screen: "endscreen" },
     }
 }
@@ -91,11 +91,11 @@ var demographics_endscreen = function (
 // Demographic info ========================================================================
 var demographics_multichoice = {
     type: jsPsychSurveyMultiChoice,
-    preamble: "<b>Please answer the following questions:</b>",
+    preamble: demographics1_preamble,
     questions: [
         {
-            prompt: "What is your biological sex?",
-            options: ["Male", "Female", "Other"],
+            prompt: demographics_q_sex,
+            options: demographics_c_sex,
             name: "Sex",
             required: true,
         },
@@ -105,15 +105,8 @@ var demographics_multichoice = {
         //     name: "student",
         // },
         {
-            prompt: "What is your highest completed education level?",
-            options: [
-                "University (doctorate)",
-                "University (master) <sub><sup>or equivalent</sup></sub>",
-                "University (bachelor) <sub><sup>or equivalent</sup></sub>",
-                "High school <sub><sup>or equivalent</sup></sub>",
-                "Primary school",
-                "Other",
-            ],
+            prompt: demographics_q_edu,
+            options: demographics_c_edu,
             name: "Education",
             required: true,
         },
@@ -132,20 +125,20 @@ var demographics_freetext = {
     type: jsPsychSurveyText,
     questions: [
         {
-            prompt: "Please enter your age (in years)",
-            placeholder: "e.g., '31'",
+            prompt: demographics_q_age,
+            placeholder: demographics_p_age,
             name: "Age",
             required: true,
         },
         {
-            prompt: "Please enter your ethnicity",
-            placeholder: "e.g., Caucasian",
+            prompt: demographics_q_eth,
+            placeholder: demographics_p_eth,
             name: "Ethnicity",
             required: false,
         },
         {
-            prompt: "In which country do you currently live?",
-            placeholder: "e.g., UK, Spain",
+            prompt: demographics_q_cou,
+            placeholder: demographics_p_cou,
             name: "Country",
             required: false,
         },
@@ -160,16 +153,16 @@ var demographics_other = {
     autocomplete: true,
     questions: [
         {
-            prompt: "<b>How would you rate your level of English?</b>",
+            prompt: demographics_q_lang,
             name: "Language_Level",
             required: true,
-            labels: ["Beginner - 0", "1", "2", "3", "4", "5", "6 - Fluent"],
+            labels: demographics_c_lang,
         },
         {
-            prompt: "<b>How knowledgeable do you consider yourself about Artificial Intelligence (AI) technology?</b>",
+            prompt: demographics_q_ai,
             name: "AI_Knowledge",
             required: true,
-            labels: ["Not at all - 0", "1", "2", "3", "4", "5", "6 - Expert"],
+            labels: demographics_c_ai,
         },
     ],
     data: {
@@ -179,21 +172,11 @@ var demographics_other = {
 
 var questionnaire_hormones = {
     type: jsPsychSurveyMultiChoice,
-    preamble:
-        "<b>The following question is important to understand the role of potential biological factors in our study.</b><br>It is however optional, and you can skip it if you want.",
+    preamble: demographics_hormones_preamble,
     questions: [
         {
-            prompt: "If you are a female, are you currently using birth control treatment?",
-            options: [
-                "No",
-                "Yes - contraceptive pills (combined pills)",
-                "Yes - contraceptive pills (progestogen-only pills)",
-                "Yes - intrauterine device (copper coil, IUD)",
-                "Yes - intrauterine system (IUS)",
-                "Yes - female condoms",
-                "Yes - condoms for partner",
-                "Yes - other",
-            ],
+            prompt: demographics_q_hormones,
+            options: demographics_c_hormones,
             name: "BirthControl",
         },
     ],
