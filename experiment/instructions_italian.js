@@ -54,7 +54,8 @@ var text_instructions_questionnaires =
     "<p><b>Grazie</b><br>Ora per favore rispondi ad alcune domande su di te.</p>"
 
 // Ratings ----------------------------------------------------------------
-var text_ticks = ["Per niente", "Moltissimo"]
+var text_ticks = ["Per niente", "Molto"]
+var text_ticks_arousal = ["Per niente", "Molta"]
 var text_ticks_valence = ["Spiacevole", "Piacevole"]
 var text_rating_appeal = "Quanto giudichi <b>attraente</b> questa immagine?"
 var text_rating_arousal = "Quanta <b>eccitazione sessuale</b> provi?"
