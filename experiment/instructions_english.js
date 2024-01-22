@@ -295,3 +295,45 @@ var consent_button = "I am more than 18 years old, and I read, understood, and c
 var fullscreen_text =
     "<p>The experiment will switch to full screen mode when you press the button below</p>"
 var fullscreen_button = "Continue"
+
+// -------------------------
+var button_continue = "Continue"
+var button_end = "End"
+
+var demographics1_preamble = "<b>Please answer the following questions:</b>"
+var demographics_q_sex = "What is your biological sex?"
+var demographics_c_sex = ["Male", "Female", "Other"]
+var demographics_q_edu = "What is your highest completed education level?"
+var demographics_c_edu = [
+    "University (doctorate)",
+    "University (master) <sub><sup>or equivalent</sup></sub>",
+    "University (bachelor) <sub><sup>or equivalent</sup></sub>",
+    "High school <sub><sup>or equivalent</sup></sub>",
+    "Primary school",
+    "Other",
+]
+var demographics_q_age = "Please enter your age (in years)"
+var demographics_p_age = "e.g., '31'"
+var demographics_q_eth = "Please enter your ethnicity"
+var demographics_p_eth = "e.g., Caucasian"
+var demographics_q_cou = "In which country do you currently live?"
+var demographics_p_cou = "e.g., UK, Spain"
+var demographics_q_lang = "<b>How would you rate your level of English?</b>"
+var demographics_c_lang = ["Beginner - 0", "1", "2", "3", "4", "5", "6 - Native"]
+var demographics_q_ai =
+    "<b>How knowledgeable do you consider yourself about Artificial Intelligence (AI) technology?</b>"
+var demographics_c_ai = ["Not at all - 0", "1", "2", "3", "4", "5", "6 - Expert"]
+var demographics_hormones_preamble =
+    "<b>The following question is important to understand the role of potential biological factors in our study.</b><br>It is however optional, and you can skip it if you want."
+var demographics_q_hormones =
+    "If you are a female, are you currently using birth control treatment?"
+var demographics_c_hormones = [
+    "No",
+    "Yes - contraceptive pills (combined pills)",
+    "Yes - contraceptive pills (progestogen-only pills)",
+    "Yes - intrauterine device (copper coil, IUD)",
+    "Yes - intrauterine system (IUS)",
+    "Yes - female condoms",
+    "Yes - condoms for partner",
+    "Yes - other",
+]
