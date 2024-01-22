@@ -72,7 +72,7 @@ var text_feedback1_items = [
     "I didn't see any difference between photos and AI-generated images",
     "I felt like the AI-generated images were more arousing than the photos",
     "I felt like the AI-generated images were less arousing than the photos",
-    "I felt like the labels ('Photograph' and 'AI-generated') were not always correct",
+    "I felt like the labels ('Photograph' and 'AI-Generated') were not always correct",
     "I felt like the labels were reversed (e.g., 'Photograph' for AI-generated images and vice versa)",
     "Some pictures were really arousing",
     "I didn't really feel anything when watching the images",
