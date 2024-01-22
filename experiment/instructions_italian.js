@@ -26,7 +26,7 @@ var text_instructions1 =
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'> Dopo ogni immagine, ti sarà chiesto di esprimere un giudizio sulla scala seguente:</p>" +
     "<ul style='text-align: left; margin-left: 30%; margin-right: 30%;'>" +
     // Arousal: embodied
-    "<li><b>Eccitante</b>: Quanto trovi l'immagine sessualmente eccitante. Questa domanda riguarda la tua <i>reazione soggettiva</i> che percepisci nel corpo quando vedi l'immagine.</li>" +
+    "<li><b>Eccitante</b>: Quanto trovi l'immagine sessualmente eccitante. Questa domanda riguarda la <i>reazione soggettiva</i> che percepisci nel tuo corpo quando vedi l'immagine.</li>" +
     // Appeal: "objective"
     "<li><b>Attraente</b>: Quanto trovi che questa immagine sia sessualmente attraente in generale. Immagina quanto una persona con il tuo stesso genere e orientamento sessuale troverebbe attraente questa immagine. </li>" +
     // Emotional Valence
@@ -56,7 +56,7 @@ var text_instructions_questionnaires =
 // Ratings ----------------------------------------------------------------
 var text_ticks = ["Per niente", "Moltissimo"]
 var text_ticks_valence = ["Spiacevole", "Piacevole"]
-var text_rating_appeal = "Quanto giudichi <b>attraene</b> questa immagine?"
+var text_rating_appeal = "Quanto giudichi <b>attraente</b> questa immagine?"
 var text_rating_arousal = "Quanta <b>eccitazione sessuale</b> provi?"
 var text_rating_valence = "La <b>sensazione</b> suscitata dall'immagine era..."
 var text_rating_realness = "Quanto era <b>realistica</b> quest'immagine?"
@@ -270,7 +270,7 @@ var consent_text = // Logo and title
     "<p align='left'><b>Invito a Partecipare</b><br>" +
     "Ti stiamo invitando a partecipare ad una ricerca scientifica volta a comprendere l'impatto delle nuove tecnologie. Ti chiediamo cortesemente di leggere attentamente questo foglio informativo. Lo studio è condotto dal Dr. Dominique Makowski dell'Università di Sussex (D.Makowski@sussex.ac.uk) assieme al Dr. Marco Viola dell'Università di Roma Tre (marco.viola@uniroma3.it). Puoi contattarli se hai domande.</p>" +
     // Description
-    "<p align='left'><b>Perché sono stato invitato e cosa devo fare?</b><br>" +
+    "<p align='left'><b>Perché questo invito e cosa devo fare?</b><br>" +
     "Stiamo indagando come le nuove tecnologie possono influenzare le abitudini e i comportamenti legati alla pornografia. In questo studio, ti verranno mostrate <b>immagini erotiche</b>, quindi assicurati di trovarti in un ambiente <b>privato</b> per tutta la durata dell'esperimento (circa 20 minuti).</p>" +
     // Results and personal information
     "<p align='left'><b>Cosa accadrà ai risultati e alle mie informazioni personali?</b><br>" +
@@ -278,17 +278,17 @@ var consent_text = // Logo and title
     "<p align='left'><b>Consenso</b><br></p><ul>" +
     // Bullet points
     "<li align='left'>Comprendo che firmando qui sotto acconsento a partecipare alla ricerca dell'Università di Sussex descritta qui e che ho letto e compreso questo foglio informativo.</li>" +
-    "<li align='left'>Comprendo che la mia partecipazione è completamente volontaria, posso scegliere di non partecipare in a tutto o in ad una parte allo dello studio e posso ritirarmi in qualsiasi momento senza dover fornire una ragione e senza essere penalizzata/o in alcun modo (ad esempio, la mia decisione se partecipare o meno non influirà sui miei voti se sono uno studente).</li>" +
+    "<li align='left'>Comprendo che la mia partecipazione è completamente volontaria, posso scegliere di non partecipare a tutto lo studio o a parte di esso e posso ritirarmi in qualsiasi momento senza dover fornire spiegazioni né ricevere alcuno svantaggio (ad es., la mia decisione se partecipare o meno non influirà sui miei voti se sono uno studente).</li>" +
     "<li align='left'>Comprendo che poiché lo studio è anonimo, sarà impossibile ritirare i miei dati una volta completato e inviato il test/questionario.</li>" +
     "<li align='left'>Comprendo che i miei dati personali saranno utilizzati per gli scopi di questa ricerca e saranno gestiti in conformità con la legislazione sulla protezione dei dati. Comprendo che l'Informativa sulla privacy dell'Università fornisce ulteriori informazioni su come l'Università utilizza i dati personali nella ricerca.</li>" +
     "<li align='left'>Comprendo che i dati raccolti saranno conservati in modo de-identificato. I dati de-identificati potrebbero essere resi pubblicamente disponibili tramite repository di dati scientifici online sicuri.</li>" +
     // Ethical managements
     "<li align='left'>Comprendo che mi verrà mostrato materiale potenzialmente sensibile (immagini erotiche) e confermo quindi di avere più di 18 anni.</li>" +
     "</ul></p>" +
-    "<p align='left'>Per ulteriori informazioni su questa ricerca o se hai domande, contatta il Dr. Dominique Makowski (D.Makowski@sussex.ac.uk) e/o il Dr. Marco Viola dell'Università di Roma Tre (marco.viola@uniroma3.it). Questa ricerca è stata approvata (ER/NR274/1) dalla School of Psychology. L'Università di Sussex ha un'assicurazione in vigore per coprire le responsabilità legali relative a questo studio.</p>"
+    "<p align='left'>Per ulteriori informazioni su questa ricerca o se hai domande, contatta il Dr. Dominique Makowski (D.Makowski@sussex.ac.uk) e/o il Dr. Marco Viola dell'Università di Roma Tre (marco.viola@uniroma3.it). Questa ricerca è stata approvata (ER/NR274/1) dalla School of Psychology dell'Università del Sussex. L'Università di Sussex ha un'assicurazione in vigore per coprire le responsabilità legali relative a questo studio.</p>"
 
 var consent_button = "Ho più di 18 anni, ho letto, compreso e acconsento a quanto sopra"
 
 var fullscreen_text =
-    "<p>L'esperimento passerà alla modalità a schermo intero quando premi il pulsante qui sotto</p>"
+    "<p>L'esperimento passerà alla modalità a schermo intero appena premerai il pulsante qui sotto</p>"
 var fullscreen_button = "Continua"
