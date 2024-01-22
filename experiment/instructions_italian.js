@@ -70,13 +70,13 @@ var text_feedback1_items = [
     "È stato divertente ",
     "È stato noioso",
     "Ero in grado di dire quali immagini fossero fotografie e quali fossero generate dall'IA",
-    "Non ho percepito nessuna differenza tra le fotografie e le immagini generate dall'IA",
+    "Non ho percepito alcuna differenza tra le fotografie e le immagini generate dall'IA",
     "Mi è parso che le immagini generate dall'IA fossero più eccitanti delle fotografie",
-    " Mi è parso che le immagini generate dall'IA fossero meno eccitanti delle fotografie",
+    "Mi è parso che le immagini generate dall'IA fossero meno eccitanti delle fotografie",
     "Mi è parso che le etichette (‘fotografia' e ‘generata dall'IA') non fossero sempre veritiere",
-    " Mi è parso che le etichette fossero invertite (‘fotografia' per le immagini generate dall'IA e viceversa)",
+    "Mi è parso che le etichette fossero invertite (‘fotografia' per le immagini generate dall'IA e viceversa)",
     "Alcune immagini erano davvero eccitanti",
-    "Non ho provato davvero niente nel guardare le immagini",
+    "Non ho provato davvero niente guardando le immagini",
 ]
 
 var text_feedback2 = "Hai altri commenti o feedback?"
@@ -85,10 +85,10 @@ var text_feedback2_placeholder = "Scrivili qui"
 // -------------------------
 var text_debriefing =
     "<h2>Debriefing</h2>" +
-    "<p align='left'> Il vero scopo di questo studio era quello di studiare l'effetto di <i>credere</i> che un contenuto sia generato dall'IA sull'eccitazione sessuale " +
+    "<p align='left'> Il vero scopo di questo studio era quello di studiare l'effetto di <i>credere</i> che un contenuto sia generato dall'IA sull'eccitazione sessuale. " +
     "Vogliamo testare l'ipotesi che credere che certe immagini erotiche siano false diminuisca l'eccitazione sessuale. " +
-    "Dal momento che a interessarci sono soprattutto le <i>credenze</i> sulla realtà veridicità delle immagini, tutte le immagini sono state in realtà ottenute da un database di immagini impiegato in psicologia per studiare le emozioni." +
-    "Ci scusiamo per l'inevitabile inganno contenuto nelle nostre istruzioni e speriamo che tu ne comprenda il senso al fine di garantire la validità dell'esperimento.</p>" +
+    "Dal momento che a interessarci sono soprattutto le <i>credenze</i> sulla realtà/veridicità delle immagini, tutte le immagini in realtà provengono da un database di immagini impiegato in psicologia per studiare le emozioni. " +
+    "Ci scusiamo per l'inevitabile inganno contenuto nelle nostre istruzioni e speriamo che tu ne comprenda lo scopo ai fini della validità dell'esperimento.</p>" +
     "<p align='left'><b>Grazie ancora!</b> La tua partecipazione in questo studio verrà mantenuta riservata. Se hai dubbi o domande sul progetto, contatta D.Makowski@sussex.ac.uk oppure marco.viola@uniroma3.it.</p>" +
     "<p>Per completare la tua partecipazione a questo studio, clicca su 'Continua' e <b>attendi finché le tue risposte sono state salvate</b> prima di chiudere la scheda.</p> "
 
