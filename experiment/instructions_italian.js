@@ -295,43 +295,43 @@ var fullscreen_text =
 var fullscreen_button = "Continua"
 
 // -------------------------
-var button_continue = "Continue"
-var button_end = "End"
+var button_continue = "Continua"
+var button_end = "Fine"
 
-var demographics1_preamble = "<b>Please answer the following questions:</b>"
-var demographics_q_sex = "What is your biological sex?"
-var demographics_c_sex = ["Male", "Female", "Other"]
-var demographics_q_edu = "What is your highest completed education level?"
+var demographics1_preamble = "<b>Per favore, rispondi alle seguenti domande:</b>"
+var demographics_q_sex = "Qual è il tuo sesso biologico?"
+var demographics_c_sex = ["Maschio", "Femmina", "Altro"]
+var demographics_q_edu = "Qual è il titolo di studio più alto che hai conseguito?"
 var demographics_c_edu = [
-    "University (doctorate)",
-    "University (master) <sub><sup>or equivalent</sup></sub>",
-    "University (bachelor) <sub><sup>or equivalent</sup></sub>",
-    "High school <sub><sup>or equivalent</sup></sub>",
-    "Primary school",
-    "Other",
+    "Università (dottorato)",
+    "Università (laurea magistrale) o equivalente",
+    "University (laurea triennale) o equivalente",
+    "Scuola superiore o equivalente",
+    "Scuola dell'obbligo",
+    "Altro",
 ]
-var demographics_q_age = "Please enter your age (in years)"
-var demographics_p_age = "e.g., '31'"
-var demographics_q_eth = "Please enter your ethnicity"
-var demographics_p_eth = "e.g., Caucasian"
-var demographics_q_cou = "In which country do you currently live?"
-var demographics_p_cou = "e.g., UK, Spain"
-var demographics_q_lang = "<b>How would you rate your level of English?</b>"
-var demographics_c_lang = ["Beginner - 0", "1", "2", "3", "4", "5", "6 - Native"]
+var demographics_q_age = "Per favore immetti la tua età (in anni)"
+var demographics_p_age = "per es. 31"
+var demographics_q_eth = "Per favore immetti la tua entia"
+var demographics_p_eth = "per es. Caucasica"
+var demographics_q_cou = "In che paese risiedi attualmente?"
+var demographics_p_cou = "per es. Italia, UK"
+var demographics_q_lang = "<b>Come giudicheresti il tuo livello di Inglese?</b>"
+var demographics_c_lang = ["Principiante - 0", "1", "2", "3", "4", "5", "6 - Madrelingua"]
 var demographics_q_ai =
-    "<b>How knowledgeable do you consider yourself about Artificial Intelligence (AI) technology?</b>"
-var demographics_c_ai = ["Not at all - 0", "1", "2", "3", "4", "5", "6 - Expert"]
+    "<b>Quanta familiarità ritieni di avere con l'Intelligenza Artificiale? (IA)</b>"
+var demographics_c_ai = ["Nessuna - 0", "1", "2", "3", "4", "5", "6 - Molta"]
 var demographics_hormones_preamble =
-    "<b>The following question is important to understand the role of potential biological factors in our study.</b><br>It is however optional, and you can skip it if you want."
+    "<b>La prossima domanda ci interessa al fine di comprendere il ruolo potenziale di fattori biologici nel nostro studio.</b><br>Si tratta però di una domanda opzionale, se vuoi puoi saltarla."
 var demographics_q_hormones =
-    "If you are a female, are you currently using birth control treatment?"
+    "Se sei femmina, stai attualmente utilizzando dei trattamenti contraccettivi?"
 var demographics_c_hormones = [
     "No",
-    "Yes - contraceptive pills (combined pills)",
-    "Yes - contraceptive pills (progestogen-only pills)",
-    "Yes - intrauterine device (copper coil, IUD)",
-    "Yes - intrauterine system (IUS)",
-    "Yes - female condoms",
-    "Yes - condoms for partner",
-    "Yes - other",
+    "Sì - pillole contraccettivi (pillole combinate)",
+    "Sì - pillole contraccettivi (pillole a base di solo progestinico)",
+    "Sì - dispositivo intrauterino (spirale, coppetta intrauterina)",
+    "Sì - dispositivo intrauterino a base di ormoni (IUS)",
+    "Sì - condom femminili",
+    "Sì - condom per il partner",
+    "Sì - altri",
 ]
