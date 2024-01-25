@@ -1,0 +1,520 @@
+---
+title: "FictionEro - Data Cleaning"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: true
+    toc: true
+---
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+```
+
+
+```{r}
+df <- read.csv("../data/rawdata_participants.csv")
+dftask <- read.csv("../data/rawdata_task.csv")
+```
+
+The initial sample consisted of `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+
+### Recruitment History
+
+```{r}
+#| message: false
+
+# Consecutive count of participants per day (as area)
+df |>
+  mutate(Date = as.Date(Date, format = "%d/%m/%Y")) |> 
+  group_by(Date, Experimenter) |> 
+  summarize(N = n()) |> 
+  ungroup() |>
+  complete(Date, Experimenter, fill = list(N = 0)) |> 
+  group_by(Experimenter) |>
+  mutate(N = cumsum(N)) |>
+  ggplot(aes(x = Date, y = N)) +
+  geom_area(aes(fill=Experimenter)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(
+    title = "Recruitment History",
+    x = "Date",
+    y = "Total Number of Participants"
+  ) +
+  see::theme_modern()
+```
+
+
+### Compute Scores
+
+
+```{r}
+dftask <- full_join(
+  dftask, 
+  df[c("Participant", "Sex", "SexualOrientation")],
+  by = join_by(Participant)
+  )
+
+# Sexual relevance
+dftask <- dftask |> 
+  mutate(Relevance = case_when(
+    Type == "Non-erotic" ~ "Non-erotic",
+    Sex == "Male" & SexualOrientation == "Heterosexual" & Category == "Female" ~ "Relevant",
+    Sex == "Female" & SexualOrientation == "Heterosexual" & Category == "Male" ~ "Relevant",
+    Sex == "Male" & SexualOrientation == "Homosexual" & Category == "Male" ~ "Relevant",
+    Sex == "Female" & SexualOrientation == "Homosexual" & Category == "Female" ~ "Relevant",
+    # TODO: what to do with "Other"? 
+    SexualOrientation %in% c("Bisexual", "Other") & Category %in% c("Male", "Female") ~ "Relevant",
+    .default = "Irrelevant"
+  )) 
+```
+
+
+
+## Feedback
+
+### Evaluation
+
+```{r}
+df |> 
+  select(starts_with("Feedback"), -Feedback_Comments) |>
+  pivot_longer(everything(), names_to = "Question", values_to = "Answer") |>
+  group_by(Question, Answer) |> 
+  summarise(prop = n()/nrow(df), .groups = 'drop') |> 
+  complete(Question, Answer, fill = list(prop = 0)) |> 
+  filter(Answer == "True") |> 
+  mutate(Question = str_remove(Question, "Feedback_"),
+         Question = str_replace(Question, "AILessArousing", "AI = Less arousing"),
+         Question = str_replace(Question, "AIMoreArousing", "AI = More arousing"),
+         Question = str_replace(Question, "CouldNotDiscriminate", "Hard to discriminate"),
+         Question = str_replace(Question, "LabelsIncorrect", "Labels were incorrect"),
+         Question = str_replace(Question, "NoFeels", "Didn't feel anything"),
+         Question = str_replace(Question, "CouldDiscriminate", "Easy to discriminate"),
+         Question = str_replace(Question, "LabelsReversed", "Labels were reversed"),
+         Question = fct_reorder(Question, desc(prop))) |>
+  ggplot(aes(x = Question, y = prop)) +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks(), labels=scales::percent) +
+  labs(x="Feedback", y = "Participants", title = "Feedback") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1), angle = 45, hjust = 1),
+    axis.title.x = element_blank()
+  )
+```
+
+### Comments
+
+```{r}
+data.frame(Comments = trimws(df$Feedback_Comments[df$Feedback_Comments != ""])) |> 
+  filter(!Comments %in% c("No", "Nope", "nope", "None")) |> 
+  knitr::kable()
+```
+
+
+## Exclusion
+
+### Mobile
+
+```{r}
+df |>
+  ggplot(aes(x=Mobile, fill=Mobile)) +
+  geom_bar() +
+  theme_modern()
+```
+
+We removed `r sum(df$Mobile=="True")` participants that participated with a mobile device.
+
+```{r}
+df <- filter(df, Mobile == "False")
+dftask <- filter(dftask, Participant %in% df$Participant)
+```
+
+### Experiment Duration
+
+```{r}
+#| echo: true
+#| code-fold: false
+
+outliers <- c(
+  # "S077", "S094",  # Low RT per item
+  # "S107"  # Low BAIT duration
+  )
+```
+
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+df |>
+  mutate(Participant = fct_reorder(Participant, Experiment_Duration),
+         Category = ifelse(Experiment_Duration > 60, "extra", "ok"),
+         Duration = ifelse(Experiment_Duration > 60, 60, Experiment_Duration),
+         Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |>
+  ggplot(aes(y = Participant, x = Duration)) +
+  geom_point(aes(color = Group, shape = Category)) +
+  geom_vline(xintercept = median(df$Experiment_Duration), color = "red", linetype = "dashed") +
+  scale_shape_manual(values = c("extra" = 3, ok = 19)) +
+  scale_color_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  guides(color = "none", shape = "none") +
+  ggside::geom_xsidedensity(fill = "#4CAF50", color=NA) +
+  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
+  labs(
+    title = "Experiment Completion Time",
+    x = "Duration (in minutes)",
+    y = "Participant"
+  )  +
+  theme_bw() +
+  ggside::theme_ggside_void() +
+  theme(ggside.panel.scale = .3,
+        panel.border = element_blank()) 
+```
+
+
+### Task Duration
+
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+dftask |> 
+  mutate(Participant = fct_reorder(Participant, RT1)) |> 
+  filter(RT1 < 100) |> 
+  ggplot(aes(x=RT1, fill=Participant)) +
+  geom_histogram(bins=60) +
+  coord_cartesian(xlim = c(0, 15)) +
+  scale_fill_metro_d(guide="none") +
+  theme_modern() +
+  theme(axis.title.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.line.y = element_blank()) +
+  labs(title = "Distribution of Response Time for each Participant", x="Response time (for 3 scales) per item (s)") +
+  facet_wrap(~Participant, ncol=5, scales="free_y")
+```
+
+### BAIT Questionnaire Duration
+
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+df |>
+  mutate(Participant = fct_reorder(Participant, BAIT_Duration),
+         Category = ifelse(BAIT_Duration > 5, "extra", "ok"),
+         Duration = ifelse(BAIT_Duration > 5, 5, BAIT_Duration),
+         Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |>
+  ggplot(aes(y = Participant, x = Duration)) +
+  geom_point(aes(color = Group, shape = Category)) +
+  geom_vline(xintercept = median(df$BAIT_Duration), color = "red", linetype = "dashed") +
+  scale_shape_manual(values = c("extra" = 3, ok = 19)) +
+  scale_color_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  guides(color = "none", shape = "none") +
+  ggside::geom_xsidedensity(fill = "#9C27B0", color=NA) +
+  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
+  labs(
+    title = "Questionnaire Completion Time",
+    x = "Duration (in minutes)",
+    y = "Participant"
+  )  +
+  theme_bw() +
+  ggside::theme_ggside_void() +
+  theme(ggside.panel.scale = .3,
+        panel.border = element_blank()) 
+```
+
+### Response to Erotic Stimuli
+
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+dftask |> 
+  group_by(Participant, Type) |> 
+  summarise(Arousal = mean(Arousal), 
+            Valence = mean(Valence),
+            Enticement = mean(Enticement),
+            .groups = "drop") |>
+  pivot_wider(names_from = Type, values_from = all_of(c("Arousal", "Valence", "Enticement"))) |>
+  transmute(Participant = Participant,
+            d_Arousal = Arousal_Erotic - `Arousal_Non-erotic`,
+            d_Valence = Valence_Erotic - `Valence_Non-erotic`,
+            d_Enticement = Enticement_Erotic - `Enticement_Non-erotic`) |>
+  mutate(Participant = fct_reorder(Participant, d_Arousal)) |> 
+  pivot_longer(-Participant) |> 
+  mutate(Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |> 
+  ggplot(aes(x=value, y=Participant, fill=Group)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  theme_bw() +
+  labs(title = "Difference between Erotic and Neutral", x="Erotic - Neutral") +
+  facet_wrap(~name, ncol=3, scales="free_x")
+```
+
+
+
+### Sexual Profile
+
+```{r}
+df |>
+  ggplot(aes(x = Sex)) +
+  geom_bar(aes(fill = SexualOrientation)) +
+  scale_y_continuous(expand = c(0, 0), breaks = scales::pretty_breaks()) +
+  scale_fill_metro_d() +
+  labs(x = "Biological Sex", y = "Number of Participants", title = "Sex and Sexual Orientation", fill = "Sexual Orientation") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
+    axis.title.x = element_blank()
+  )
+```
+
+We removed `r sum(df$Sex=="Other" | df$SexualOrientation=="Other")` participants that were incompatible with further analysis.
+
+
+```{r}
+df <- filter(df, Sex != "Other" & SexualOrientation != "Other")
+dftask <- filter(dftask, Participant %in% df$Participant)
+```
+
+
+## Final Sample
+
+```{r}
+df <- filter(df, !Participant %in% outliers)
+dftask <- filter(dftask, Participant %in% df$Participant)
+```
+
+### Country of Origin
+
+```{r p_demographics_country}
+p_country <- dplyr::select(df, region = Country) |>
+  group_by(region) |>
+  summarize(n = n()) |>
+  right_join(map_data("world"), by = "region") |>
+  ggplot(aes(long, lat, group = group)) +
+  geom_polygon(aes(fill = n)) +
+  scale_fill_gradientn(colors = c("#FFEB3B", "red", "purple")) +
+  labs(fill = "N") +
+  theme_void() +
+  labs(title = "A Geographically Diverse Sample", subtitle = "Number of participants by country")  +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2))
+  )
+p_country
+```
+
+### Age
+
+```{r p_demographics_age}
+p_age <- estimate_density(df$Age) |>
+  normalize(select = y) |> 
+  mutate(y = y * 86) |>  # To match the binwidth
+  ggplot(aes(x = x)) +
+  geom_histogram(data=df, aes(x = Age), fill = "#616161", bins=28) +
+  # geom_line(aes(y = y), color = "orange", linewidth=2) +
+  geom_vline(xintercept = mean(df$Age), color = "red", linewidth=1.5) +
+  # geom_label(data = data.frame(x = mean(df$Age) * 1.15, y = 0.95 * 75), aes(y = y), color = "red", label = paste0("Mean = ", format_value(mean(df$Age)))) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(title = "Age", y = "Number of Participants", color = NULL, subtitle = "Distribution of participants' age") +
+  theme_modern(axis.title.space = 10) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
+    axis.title.x = element_blank()
+  )
+p_age
+```
+
+
+<!-- ## Ethnicity -->
+
+<!-- ```{r p_demographics_ethnicity} -->
+<!-- plot_waffle <- function(sub, what = "Nationality", title = what, rows = 8, size = 3) { -->
+<!--   ggwaffle::waffle_iron(sub, what, rows = rows) |> -->
+<!--     ggplot(aes(x, y)) + -->
+<!--     geom_point(aes(color = group), shape = "square", size = size) + -->
+<!--     coord_equal() + -->
+<!--     ggtitle(title) + -->
+<!--     labs(fill = "", color = "", subtitle = "N participants per self-declared group") + # (each square represents one participant)" -->
+<!--     theme_void() + -->
+<!--     theme( -->
+<!--       plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0), -->
+<!--       plot.subtitle = element_text(size = rel(1.2)), -->
+<!--       legend.key.height = unit(1, "mm"), -->
+<!--       legend.key.width = unit(1, "mm") -->
+<!--     ) -->
+<!-- } -->
+
+<!-- p_ethni <- plot_waffle(sub, "Ethnicity", rows = 20, size = 8) + -->
+<!--   scale_color_manual(values = c("Hispanic" = "#FF5722", "Caucasian" = "#2196F3", "African" = "#4CAF50", "Asian" = "#FFC107", "Other" = "#795548")) -->
+<!-- p_ethni -->
+<!-- ``` -->
+
+
+### Education
+
+```{r p_demographics_education}
+p_edu <- df |>
+  mutate(Education = fct_relevel(Education, "Other", "High School", "Bachelor", "Master", "Doctorate")) |> 
+  ggplot(aes(x = Education)) +
+  geom_bar(aes(fill = Education)) +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  scale_fill_viridis_d(guide = "none") +
+  labs(title = "Education", y = "Number of Participants", subtitle = "Participants per achieved education level") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
+    axis.title.x = element_blank()
+  )
+p_edu
+```
+
+### Sex
+
+#### Birth Control
+
+```{r p_demographics_sex}
+colors <- c(
+  "NA" = "#2196F3", "No" = "#E91E63", "Condoms (for partner)" = "#9C27B0",
+  "Combined pills" = "#FF9800", "Intrauterine Device (IUD)" = "#FF5722", 
+  "Intrauterine System (IUS)" = "#795548"
+)
+colors <- colors[names(colors) %in% c("NA", df$BirthControl)]
+
+p_sex <- df |>
+  mutate(BirthControl = ifelse(Sex == "Male", "NA", BirthControl),
+         BirthControl = fct_relevel(BirthControl, names(colors))) |>
+  ggplot(aes(x = Sex)) +
+  geom_bar(aes(fill = BirthControl)) +
+  scale_y_continuous(expand = c(0, 0), breaks = scales::pretty_breaks()) +
+  scale_fill_manual(
+    values = colors,
+    breaks = names(colors)[2:length(colors)]
+  ) +
+  labs(x = "Biological Sex", y = "Number of Participants", title = "Sex and Birth Control Method", fill = "Birth Control") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
+    axis.title.x = element_blank()
+  )
+p_sex
+```
+
+#### Sexual Orientation and Activity
+
+```{r p_demographics_sexorient}
+p_sexorient <- df |>
+  ggplot(aes(x = SexualOrientation)) +
+  geom_bar() +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  labs(x = "Sexual Orientation", y = "Number of Participants", title = "Sexual Orientation") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
+    axis.title.x = element_blank()
+  )
+p_sexorient
+```
+
+```{r p_demographics_sexactivity}
+p_sexactivity <- df |>
+  ggplot(aes(x = SexualActivity)) +
+  geom_bar() +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  labs(x = "Last Sexual Activity", y = "Number of Participants", title = "Time of Last Sexual Activity") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1), angle = 45, hjust = 1),
+    axis.title.x = element_blank()
+  )
+p_sexactivity
+```
+
+
+### English and AI-Expertise 
+
+```{r p_demographics_expertise}
+p_language <- df |>
+  ggplot(aes(x = Language_Level)) +
+  geom_bar() +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  labs(x = "Level", y = "Number of Participants", title = "Language Level") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1))
+  )
+
+p_expertise <- df |>
+  ggplot(aes(x = AI_Knowledge)) +
+  geom_bar() +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  labs(x = "Level", y = "Number of Participants", title = "AI-Expertise") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1))
+  )
+
+p_language | p_expertise
+```
+
+
+### Summary
+
+The final sample includes `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+
+```{r p_summary}
+#| fig-width: 15
+#| fig-height: 15
+
+p_country /
+  (p_age + p_edu)
+```
+
+## Save 
+
+```{r}
+#| code-fold: false
+
+write.csv(df, "../data/data_participants.csv", row.names = FALSE)
+write.csv(dftask, "../data/data.csv", row.names = FALSE)
+```

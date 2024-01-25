@@ -33,7 +33,7 @@ token = ""  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="sm4jc",  # Data subproject ID
-    after_date="17/01/2024",
+    after_date="19/01/2024",
 )
 
 
@@ -41,6 +41,16 @@ files = osf_listfiles(
 # Initialize empty dataframes
 alldata = pd.DataFrame()
 alldata_subs = pd.DataFrame()
+norm_data = pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv").rename(
+    columns={
+        "ID": "Item",
+        "JPEG_size80": "Complexity",
+        "LABA": "Red",
+        "LABB": "Green",
+        "Luminance": "Luminance2",
+        "LABL": "Luminance",
+    }
+)
 
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
@@ -53,10 +63,17 @@ for i, file in enumerate(files):
     # Browser info -------------------------------------------------------
     brower = data[data["screen"] == "browser_info"].iloc[0]
 
+    # Experimenter
+    experimenter = brower["researcher"]
+    if experimenter == "TEST":
+        continue
+    if isinstance(experimenter, float):
+        experimenter = "Experimenter" + str(int(experimenter))
+
     df = pd.DataFrame(
         {
             "Participant": file["name"],
-            "Experimenter": str(brower["researcher"]),
+            "Experimenter": experimenter,
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
             "Language": brower["language"],
             "Date": brower["date"],
@@ -89,14 +106,56 @@ for i, file in enumerate(files):
     edu = "Bachelor" if "bachelor" in edu else edu
     edu = "Master" if "master" in edu else edu
     edu = "Doctorate" if "doctorate" in edu else edu
+    edu = "High School" if "High school" in edu else edu
     df["Education"] = edu
+
+    # Country
+    country = demo2["Country"].title().rstrip()
+    country = "UK" if country in ["Uk", "England"] else country
+    country = "Pakistan" if country in ["Pk"] else country
+    country = (
+        "USA"
+        if country
+        in [
+            "USa",
+            "Usa",
+            "U.S.",
+            "United States",
+            "United States Of America",
+            "Us,Texas",
+            "Us",
+        ]
+        else country
+    )
+    country = np.nan if country in ["", "Na"] else country
+    df["Country"] = country
 
     # Ethnicity
     race = demo2["Ethnicity"].title().rstrip()
-    race = "Caucasian" if race in ["White", "British", "White British"] else race
+    race = (
+        "Caucasian"
+        if race in ["White", "Norwegian", "European", "White Australian"]
+        else race
+    )
+    race = "Asian" if race in ["Southeast Asian", "East Asian", "Chinese"] else race
+    race = "Hispanic" if race in ["Latino", "Latin"] else race
+    race = "Black" if race in ["Black African"] else race
+    race = np.nan if race in [""] else race
     df["Ethnicity"] = race
 
-    # TODO: Hormonal stuff
+    # Female questions
+    if "demographics_hormones" in data["screen"].unique():
+        demo4 = data[data["screen"] == "demographics_hormones"].iloc[0]
+        demo4 = json.loads(demo4["response"])
+        birth = demo4["BirthControl"].replace("Yes - ", "")
+        birth = "Intrauterine Device (IUD)" if "copper" in birth else birth
+        birth = "Intrauterine System (IUS)" if "IUS" in birth else birth
+        birth = "Combined pills" if "combined pills" in birth else birth
+        birth = "Condoms (for partner)" if "condoms for partner" in birth else birth
+        df["BirthControl"] = birth
+
+    else:
+        df["BirthControl"] = np.nan
 
     # FICTION ------------------------------------------------------------
     fiction1 = data[data["screen"] == "fiction_ratings1"]
@@ -153,7 +212,12 @@ for i, file in enumerate(files):
         df[item] = bait[item]
 
     # COPS ---------------------------------------------------------------
-    # TODO
+    cops = data[data["screen"] == "questionnaire_cops"].iloc[0]
+
+    df["COPS_Duration"] = cops["rt"] / 1000 / 60
+    cops = json.loads(cops["response"])
+    for item in cops:
+        df[item] = cops[item]
 
     # Feedback ---------------------------------------------------------
     feedback = data[data["screen"] == "fiction_feedback1"].iloc[0]
@@ -193,41 +257,59 @@ for i, file in enumerate(files):
     feedback = data[data["screen"] == "fiction_feedback2"].iloc[0]
     df["Feedback_Comments"] = json.loads(feedback["response"])["FeedbackFree"]
 
+    # Merge with validation data ------------------------------------------
+    if demo1["Sex"] == "Male":
+        norms = norm_data.copy().rename(
+            columns={"Men_Valence": "Norms_Valence", "Men_Arousal": "Norms_Arousal"}
+        )
+    else:
+        norms = norm_data.copy().rename(
+            columns={"Women_Valence": "Norms_Valence", "Women_Arousal": "Norms_Arousal"}
+        )
+
+    norms = norms[
+        [
+            "Item",
+            "Type",
+            "Category",
+            "Orientation",
+            "Norms_Arousal",
+            "Norms_Valence",
+            # These variables below are fairly uncorrelated (good)
+            "Luminance",
+            "Contrast",
+            "Entropy",  # Greyscale entropy
+            "Complexity",  # Overall complexity
+            "Red",
+            "Green",
+        ]
+    ]
+    fiction = pd.merge(fiction, norms, on="Item")
+
     # Save data ----------------------------------------------------------
     alldata = pd.concat([alldata, fiction], axis=0, ignore_index=True)
     alldata_subs = pd.concat([alldata_subs, df], axis=0, ignore_index=True)
 
 # ========================================================================
-# Merge with validation data
-norm_data = pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv")
-norm_data = norm_data.rename(
-    columns={
-        "ID": "Item",
-        "JPEG_size80": "Complexity",
-        "LABA": "Red",
-        "LABB": "Green",
-        "Luminance": "Luminance2",
-        "LABL": "Luminance",
-    }
+# Rename
+alldata["Condition"] = alldata["Condition"].replace(
+    {"Fiction": "AI-Generated", "Reality": "Photograph"}
 )
-norm_data = norm_data[
-    [
-        "Item",
-        "Type",
-        "Category",
-        "Orientation",
-        # These variables below are fairly uncorrelated (good)
-        "Luminance",
-        "Contrast",
-        "Entropy",  # Greyscale entropy
-        "Complexity",  # Overall complexity
-        "Red",
-        "Green",
-    ]
-]
+alldata["Item"] = alldata["Item"].str.replace(".jpg", "")
 
-alldata = pd.merge(alldata, norm_data, on="Item")
+# Inspect ================================================================
+# alldata_subs["Experimenter"].unique()
+# alldata_subs["Country"].unique()
+# alldata_subs["Ethnicity"].unique()
+# alldata_subs["BirthControl"].unique()
+
+# Reanonimize
+alldata_subs = alldata_subs.sort_values(by=["Date"]).reset_index(drop=True)
+correspondance = {j: f"S{i+1:03}" for i, j in enumerate(alldata_subs["Participant"])}
+alldata_subs["Participant"] = [correspondance[i] for i in alldata_subs["Participant"]]
+alldata["Participant"] = [correspondance[i] for i in alldata["Participant"]]
 
 # Save data ===============================================================
-alldata.to_csv("../data/rawdata.csv", index=False)
+alldata.to_csv("../data/rawdata_task.csv", index=False)
 alldata_subs.to_csv("../data/rawdata_participants.csv", index=False)
+print("Done!")
