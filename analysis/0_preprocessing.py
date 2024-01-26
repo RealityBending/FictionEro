@@ -36,7 +36,6 @@ files = osf_listfiles(
     after_date="19/01/2024",
 )
 
-
 # Loop through files ======================================================
 # Initialize empty dataframes
 alldata = pd.DataFrame()
@@ -70,6 +69,7 @@ for i, file in enumerate(files):
     if isinstance(experimenter, float):
         experimenter = "Experimenter" + str(int(experimenter))
 
+    file["date"]
     df = pd.DataFrame(
         {
             "Participant": file["name"],
@@ -78,6 +78,7 @@ for i, file in enumerate(files):
             "Language": brower["language"],
             "Date": brower["date"],
             "Time": brower["time"],
+            "Date_OSF": file["date"],
             "Browser": brower["browser"],
             "Mobile": brower["mobile"],
             "Platform": brower["os"],
@@ -134,13 +135,35 @@ for i, file in enumerate(files):
     race = demo2["Ethnicity"].title().rstrip()
     race = (
         "Caucasian"
-        if race in ["White", "Norwegian", "European", "White Australian"]
+        if race
+        in [
+            "White",
+            "Norwegian",
+            "European",
+            "White Australian",
+            "Scandinavian",
+            "Latin White",
+            "White Caucasian",
+            "Causcian",
+            "Mediterranean",
+            "Romanian",
+            "Polish",
+            "Mediterranian Caucasian",
+            "White/European Descent",
+        ]
         else race
     )
     race = "Asian" if race in ["Southeast Asian", "East Asian", "Chinese"] else race
-    race = "Hispanic" if race in ["Latino", "Latin"] else race
-    race = "Black" if race in ["Black African"] else race
-    race = np.nan if race in [""] else race
+    race = "Hispanic" if race in ["Latino", "Latin", "Mexican"] else race
+    race = "South Asian" if race in ["Indian", "Brown"] else race
+    race = "Black" if race in ["Black African", "African American"] else race
+    race = (
+        "Mixed"
+        if race in ["Latin American X Asian", "White, Hispanic", "White/Arabic"]
+        else race
+    )
+    race = "Other" if race in ["Native American"] else race
+    race = np.nan if race in ["", "Na", "Human"] else race
     df["Ethnicity"] = race
 
     # Female questions
@@ -304,10 +327,11 @@ alldata["Item"] = alldata["Item"].str.replace(".jpg", "")
 # alldata_subs["BirthControl"].unique()
 
 # Reanonimize
-alldata_subs = alldata_subs.sort_values(by=["Date"]).reset_index(drop=True)
+alldata_subs = alldata_subs.sort_values(by=["Date_OSF"]).reset_index(drop=True)
 correspondance = {j: f"S{i+1:03}" for i, j in enumerate(alldata_subs["Participant"])}
 alldata_subs["Participant"] = [correspondance[i] for i in alldata_subs["Participant"]]
 alldata["Participant"] = [correspondance[i] for i in alldata["Participant"]]
+alldata_subs = alldata_subs.drop(columns=["Date_OSF"])  # Drop OSf column
 
 # Save data ===============================================================
 alldata.to_csv("../data/rawdata_task.csv", index=False)

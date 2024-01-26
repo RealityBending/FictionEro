@@ -24,6 +24,8 @@ library(ggside)
 
 
 ```{r}
+#| code-fold: false
+
 df <- read.csv("../data/rawdata_participants.csv")
 dftask <- read.csv("../data/rawdata_task.csv")
 ```
@@ -121,12 +123,22 @@ df |>
 
 ```{r}
 data.frame(Comments = trimws(df$Feedback_Comments[df$Feedback_Comments != ""])) |> 
-  filter(!Comments %in% c("No", "Nope", "nope", "None")) |> 
+  filter(!Comments %in% c("No", "Nope", "nope", "None", "ba")) |> 
   knitr::kable()
 ```
 
 
 ## Exclusion
+
+```{r}
+#| echo: true
+#| code-fold: false
+
+outliers <- c(
+  # "S077", "S094",  # Low RT per item
+  # "S107"  # Low BAIT duration
+  )
+```
 
 ### Mobile
 
@@ -145,16 +157,6 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
 ### Experiment Duration
-
-```{r}
-#| echo: true
-#| code-fold: false
-
-outliers <- c(
-  # "S077", "S094",  # Low RT per item
-  # "S107"  # Low BAIT duration
-  )
-```
 
 ```{r}
 #| fig-width: 15
@@ -244,6 +246,7 @@ df |>
 #| fig-height: 15
 
 dftask |> 
+  filter(Relevance %in% c("Relevant", "Non-erotic")) |> 
   group_by(Participant, Type) |> 
   summarise(Arousal = mean(Arousal), 
             Valence = mean(Valence),
@@ -254,6 +257,7 @@ dftask |>
             d_Arousal = Arousal_Erotic - `Arousal_Non-erotic`,
             d_Valence = Valence_Erotic - `Valence_Non-erotic`,
             d_Enticement = Enticement_Erotic - `Enticement_Non-erotic`) |>
+  filter(!is.na(d_Arousal)) |> 
   mutate(Participant = fct_reorder(Participant, d_Arousal)) |> 
   pivot_longer(-Participant) |> 
   mutate(Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |> 
@@ -432,9 +436,10 @@ p_sex
 
 ```{r p_demographics_sexorient}
 p_sexorient <- df |>
-  ggplot(aes(x = SexualOrientation)) +
+  ggplot(aes(x = SexualOrientation, fill=Sex)) +
   geom_bar() +
   scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  scale_fill_manual(values = c("Male"= "#64B5F6", "Female"= "#F06292")) +
   labs(x = "Sexual Orientation", y = "Number of Participants", title = "Sexual Orientation") +
   theme_modern(axis.title.space = 15) +
   theme(
@@ -449,9 +454,10 @@ p_sexorient
 
 ```{r p_demographics_sexactivity}
 p_sexactivity <- df |>
-  ggplot(aes(x = SexualActivity)) +
+  ggplot(aes(x = SexualActivity, fill=Sex)) +
   geom_bar() +
   scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  scale_fill_manual(values = c("Male"= "#64B5F6", "Female"= "#F06292")) +
   labs(x = "Last Sexual Activity", y = "Number of Participants", title = "Time of Last Sexual Activity") +
   theme_modern(axis.title.space = 15) +
   theme(
