@@ -197,7 +197,7 @@ var demographics_hormones = {
         var sex = jsPsych.data.get().filter({ screen: "demographics_1" }).values()[0]["response"][
             "Sex"
         ]
-        if (sex == "Male") {
+        if (["Male", "Maschio", "Masculin"].includes(sex)) {
             return false
         } else {
             return true
