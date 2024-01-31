@@ -27,10 +27,35 @@ library(ggside)
 #| code-fold: false
 
 df <- read.csv("../data/rawdata_participants.csv")
-dftask <- read.csv("../data/rawdata_task.csv")
+dftask <- read.csv("../data/rawdata_task.csv") |> 
+  full_join(
+    df[c("Participant", "Sex", "SexualOrientation")],
+    by = join_by(Participant)
+    )
 ```
 
 The initial sample consisted of `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+
+### Compute Scores
+
+
+```{r}
+#| code-fold: false
+
+# Create Sexual "relevance" variable (Relevant, irrelevant, non-erotic)
+dftask <- dftask |> 
+  mutate(Relevance = case_when(
+    Type == "Non-erotic" ~ "Non-erotic",
+    Sex == "Male" & SexualOrientation == "Heterosexual" & Category == "Female" ~ "Relevant",
+    Sex == "Female" & SexualOrientation == "Heterosexual" & Category == "Male" ~ "Relevant",
+    Sex == "Male" & SexualOrientation == "Homosexual" & Category == "Male" ~ "Relevant",
+    Sex == "Female" & SexualOrientation == "Homosexual" & Category == "Female" ~ "Relevant",
+    # TODO: what to do with "Other"? 
+    SexualOrientation %in% c("Bisexual", "Other") & Category %in% c("Male", "Female") ~ "Relevant",
+    .default = "Irrelevant"
+  )) 
+```
+
 
 ### Recruitment History
 
@@ -43,6 +68,7 @@ df |>
   group_by(Date, Experimenter) |> 
   summarize(N = n()) |> 
   ungroup() |>
+  # https://bocoup.com/blog/padding-time-series-with-r
   complete(Date, Experimenter, fill = list(N = 0)) |> 
   group_by(Experimenter) |>
   mutate(N = cumsum(N)) |>
@@ -55,31 +81,6 @@ df |>
     y = "Total Number of Participants"
   ) +
   see::theme_modern()
-```
-
-
-### Compute Scores
-
-
-```{r}
-dftask <- full_join(
-  dftask, 
-  df[c("Participant", "Sex", "SexualOrientation")],
-  by = join_by(Participant)
-  )
-
-# Sexual relevance
-dftask <- dftask |> 
-  mutate(Relevance = case_when(
-    Type == "Non-erotic" ~ "Non-erotic",
-    Sex == "Male" & SexualOrientation == "Heterosexual" & Category == "Female" ~ "Relevant",
-    Sex == "Female" & SexualOrientation == "Heterosexual" & Category == "Male" ~ "Relevant",
-    Sex == "Male" & SexualOrientation == "Homosexual" & Category == "Male" ~ "Relevant",
-    Sex == "Female" & SexualOrientation == "Homosexual" & Category == "Female" ~ "Relevant",
-    # TODO: what to do with "Other"? 
-    SexualOrientation %in% c("Bisexual", "Other") & Category %in% c("Male", "Female") ~ "Relevant",
-    .default = "Irrelevant"
-  )) 
 ```
 
 
@@ -122,9 +123,12 @@ df |>
 ### Comments
 
 ```{r}
-data.frame(Comments = trimws(df$Feedback_Comments[df$Feedback_Comments != ""])) |> 
-  filter(!Comments %in% c("No", "Nope", "nope", "None", "ba")) |> 
-  knitr::kable()
+data.frame(Source = df$Experimenter,
+           Comments = trimws(df$Feedback_Comments)) |> 
+  filter(!Comments %in% c("", "No", "Nope", "nope", "None", "na")) |> 
+  gt::gt() |> 
+  gt::opt_stylize() |> 
+  gt::opt_interactive(use_compact_mode = TRUE) 
 ```
 
 
@@ -254,16 +258,17 @@ dftask |>
             .groups = "drop") |>
   pivot_wider(names_from = Type, values_from = all_of(c("Arousal", "Valence", "Enticement"))) |>
   transmute(Participant = Participant,
-            d_Arousal = Arousal_Erotic - `Arousal_Non-erotic`,
-            d_Valence = Valence_Erotic - `Valence_Non-erotic`,
-            d_Enticement = Enticement_Erotic - `Enticement_Non-erotic`) |>
-  filter(!is.na(d_Arousal)) |> 
-  mutate(Participant = fct_reorder(Participant, d_Arousal)) |> 
+            Arousal = Arousal_Erotic - `Arousal_Non-erotic`,
+            Valence = Valence_Erotic - `Valence_Non-erotic`,
+            Enticement = Enticement_Erotic - `Enticement_Non-erotic`) |>
+  filter(!is.na(Arousal)) |> 
+  mutate(Participant = fct_reorder(Participant, Arousal)) |> 
   pivot_longer(-Participant) |> 
   mutate(Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |> 
-  ggplot(aes(x=value, y=Participant, fill=Group)) +
+  ggplot(aes(x=value, y=Participant, fill=value)) +
   geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  scale_fill_gradient2(low = "#3F51B5", mid = "#FF9800", high = "#4CAF50", midpoint = 0) +
+  # scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
   theme_bw() +
   labs(title = "Difference between Erotic and Neutral", x="Erotic - Neutral") +
   facet_wrap(~name, ncol=3, scales="free_x")
@@ -294,6 +299,8 @@ We removed `r sum(df$Sex=="Other" | df$SexualOrientation=="Other")` participants
 
 
 ```{r}
+#| code-fold: false
+
 df <- filter(df, Sex != "Other" & SexualOrientation != "Other")
 dftask <- filter(dftask, Participant %in% df$Participant)
 ```
@@ -432,42 +439,36 @@ p_sex <- df |>
 p_sex
 ```
 
-#### Sexual Orientation and Activity
+#### Sexual Profile
 
-```{r p_demographics_sexorient}
-p_sexorient <- df |>
-  ggplot(aes(x = SexualOrientation, fill=Sex)) +
+
+```{r p_demographics_sexprofile}
+#| fig-width: 14
+#| fig-height: 14
+
+p_sexprofile <- df |>
+  select(Participant, Sex, SexualOrientation, SexualActivity, COPS_Duration_1, COPS_Frequency_2) |> 
+  pivot_longer(-all_of(c("Participant", "Sex"))) |> 
+  mutate(name = str_replace_all(name, "SexualOrientation", "Sexual Orientation"),
+         name = str_replace_all(name, "SexualActivity", "Sexual Activity"),
+         name = str_replace_all(name, "COPS_Duration_1", "Pornography Usage (Duration)"),
+         name = str_replace_all(name, "COPS_Frequency_2", "Pornography Usage (Frequency)")) |> 
+  ggplot(aes(x = value, fill=Sex)) +
   geom_bar() +
   scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
   scale_fill_manual(values = c("Male"= "#64B5F6", "Female"= "#F06292")) +
-  labs(x = "Sexual Orientation", y = "Number of Participants", title = "Sexual Orientation") +
-  theme_modern(axis.title.space = 15) +
-  theme(
-    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
-    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
-    axis.text.y = element_text(size = rel(1.1)),
-    axis.text.x = element_text(size = rel(1.1)),
-    axis.title.x = element_blank()
-  )
-p_sexorient
-```
-
-```{r p_demographics_sexactivity}
-p_sexactivity <- df |>
-  ggplot(aes(x = SexualActivity, fill=Sex)) +
-  geom_bar() +
-  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
-  scale_fill_manual(values = c("Male"= "#64B5F6", "Female"= "#F06292")) +
-  labs(x = "Last Sexual Activity", y = "Number of Participants", title = "Time of Last Sexual Activity") +
+  labs(title = "Sexual Profile of Participants") +
   theme_modern(axis.title.space = 15) +
   theme(
     plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
     plot.subtitle = element_text(size = rel(1.2), vjust = 7),
     axis.text.y = element_text(size = rel(1.1)),
     axis.text.x = element_text(size = rel(1.1), angle = 45, hjust = 1),
-    axis.title.x = element_blank()
-  )
-p_sexactivity
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  ) +
+  facet_wrap(~name, scales = "free")
+p_sexprofile
 ```
 
 
