@@ -20,7 +20,7 @@ var text_instructions1 =
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans cette étude, nous visons à valider notre <b> nouvel algorithme de génération d'images </b> (basé sur une nouvelle forme de technologie Generative Adversarial Network - GAN) entraîné pour produire du contenu érotique (mais aussi non érotique) de haute qualité.</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans la tâche suivante, on vous présentera des images érotiques et non érotiques générées par notre algorithme (précédées de l'étiquette '<b style='color:" +
     color_cues["Fiction"] +
-    "'>generée par l'IA</b>'), mélangées à des photos réelles (précédées de l'étiquette  '<b style='color:" +
+    "'>Generée par l'IA</b>'), mélangées à des photos réelles (précédées de l'étiquette  '<b style='color:" +
     color_cues["Reality"] +
     "'>Photographie</b>') tirées de bases de données d'images publiques.</p > " +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Après chaque image, vous devrez l'évaluer sur les échelles suivantes :</p>" +
@@ -32,14 +32,14 @@ var text_instructions1 =
     // Emotional Valence
     "<li><b>Agrément</b>: L'image a-t-elle suscité en vous un sentiment positif et agréable (pas nécessairement sexuel), ou pourrait-elle être qualifiée de négative et désagréable ? Pensez au plaisir que vous avez pris (ou non) à regarder l'image</li></ul>" +
     // Contrasting explanation
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Si les réponses à ces échelles peuvent parfois être très similaires, elles peuvent aussi être différentes en fonction de la personne, de l'image et du contexte. Par exemple, nous pouvons parfois nous sentir sexuellement excités par une image qui ne serait probablement pas considérée comme universellement attrayante. À l'inverse, une image séduisante et \"objectivement\" sexy peut, pour une raison ou une autre, ne susciter aucune réaction dans notre corps.</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Si les réponses à ces échelles peuvent parfois être très similaires, elles peuvent aussi être différentes en fonction de la personne, de l'image et du contexte. Par exemple, nous pouvons parfois nous sentir sexuellement excité(e)s par une image qui ne serait probablement pas considérée comme universellement attrayante. À l'inverse, une image séduisante et \"objectivement\" sexy peut, pour une raison ou une autre, ne susciter aucune réaction dans notre corps.</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'><b>Essayez d'être attentif à ce qui se passe dans votre esprit et dans votre corps lorsque vous regardez les images, afin de tenter de répondre avec précision en fonction de vos propres sentiments et réactions.</b></p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Par ailleurs, certaines images n'étant pas érotiques, il peut sembler étrange de penser à l'excitation qu'elles procurent. Ne vous inquiétez pas, c'est normal. <b>Il n'y a pas de bonne ou de mauvaise réponse</b>, il suffit d'écouter votre corps et d'essayer de répondre le mieux possible en fonction de ce que vous ressentez.</p>"
 
 var text_instructions2 =
     "<h1>Très bien !</h1>" +
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Merci beaucoup. Dans la phase suivante, nous aimerions voir si vous avez trouvé notre <b> algorithme de génération d'images convaincant </b> et sans erreur.</p>" +
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Nous vous présenterons brièvement <b> toutes les images</b>  une dernière fois (celles générées par l'IA, ainsi que les photographies), et vous devrez les évaluer en fonction de leur degré de similitude avec une <b>image réelle</b>  (réalisme,  ressemblance avec une photographie).</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Merci beaucoup. Dans la phase suivante, nous aimerions voir si vous avez trouvé notre <b> algorithme de génération d'images convaincant</b> et sans erreur.</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Nous vous présenterons brièvement <b>toutes les images</b> une dernière fois (celles générées par l'IA, ainsi que les photographies), et vous devrez les évaluer en fonction de leur degré de similitude avec une <b>image réelle</b> (réalisme, ressemblance avec une photographie).</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Ce qui nous intéresse, c'est votre impression générale et votre intuition, à savoir si vous avez le sentiment que l'image a été générée par l'IA ou non.</p>"
 
 //-------------------------
@@ -47,11 +47,11 @@ var text_instructionsbutton = "Commençons !"
 
 // -------------------------
 
-var text_cue = { Reality: "Photographie", Fiction: "générée par l'IA" }
+var text_cue = { Reality: "Photographie", Fiction: "Générée par l'IA" }
 
 // -------------------------
 var text_instructions_questionnaires =
-    "<p><b>Merci</b><br>Maintenant, répondez à quelques questions sur vous.</p>"
+    "<p><b>Merci</b><br>Maintenant, nous allons vous poser quelques questions sur vous.</p>"
 
 // Ratings ----------------------------------------------------------------
 var text_ticks = ["Pas du tout", "Beaucoup"]
@@ -75,27 +75,27 @@ var text_feedback1_items = [
     "Je n'ai pas vu de différence entre les photographies et les images générées par l'IA.",
     "J'ai eu l'impression que les images générées par l'IA étaient plus excitantes que les photographies.",
     "J'ai eu l'impression que les images générées par l'IA étaient moins excitantes que les photographies.",
-    "J'ai eu l'impression que les étiquettes (\"photographie\" et \"généré par l'IA\") n'étaient pas toujours correctes.",
+    "J'ai eu l'impression que les étiquettes (\"Photographie\" et \"Générée par l'IA\") n'étaient pas toujours correctes.",
     "J'ai eu l'impression que les étiquettes étaient inversées (par exemple, \"Photographie\" pour les images générées par l'IA et vice versa).",
     "Certaines photos étaient vraiment excitantes.",
     "Je n'ai rien ressenti en regardant les images.",
 ]
 
 var text_feedback2 = "Avez-vous d'autres commentaires ou réactions ?"
-var text_feedback2_placeholder = "Saisissez ici"
+var text_feedback2_placeholder = "Saisissez cotre réponse ici"
 
 // -------------------------
 var text_debriefing =
     "<h2>Debriefing</h2>" +
     "<p align='left'>L'objectif de cette étude était d'étudier l'effet sur l'excitation sexuelle de la <b>croyance</b> que le contenu d'une image soit généré par l'IA. " +
-    "En effet, nous voulons tester l'hypothèse selon laquelle le fait de croire que les images érotiques sont fausses entraînerait une baisse de l'excitation émotionnelle. " +
+    "En effet, nous voulons tester l'hypothèse selon laquelle le fait de croire que les images érotiques sont fausses entraînerait une baisse de l'excitation. " +
     "Comme nous nous intéressons principalement à vos <i>croyances</i> sur la réalité, toutes les images étaient en fait tirées d'une base de données d'images réelles utilisées dans la recherche en psychologie sur les émotions. " +
     "Nous nous excusons pour la tromperie inévitable contenue dans nos instructions, et nous espérons que vous comprenez son rôle pour assurer la validité de notre expérience.</p>" +
     "<p align='left'><b>Merci !</b> Votre participation à cette étude restera totalement confidentielle. Si vous avez des questions ou des doutes concernant le projet, veuillez contacter D.Makowski@sussex.ac.uk ou marco.sperduti@u-paris.fr.</p>" +
-    '<p>Pour terminer votre participation à cette étude, cliquez sur "Continuer" et <b>attendez que vos réponses aient été sauvegardées</b> avant de fermer l\'onglet.</p> '
+    '<p>Pour terminer votre participation à cette étude, cliquez sur "Continuer" et <b>attendez que vos réponses aient été sauvegardées</b> avant de fermer l'onglet.</p> '
 
 var text_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/english?exp=snow&lang=en"
+    link = "https://realitybending.github.io/FictionEro/experiment/french?exp=snow&lang=fr"
 ) {
     return (
         "<h1>Merci de votre participation</h1>" +
@@ -271,7 +271,7 @@ var consent_text = // Logo and title
     "<h1>Consentement éclairé</h1>" +
     // Overview
     "<p align='left'><b>Invitation à participer</b><br>" +
-    "Vous êtes invité(e) à participer à une étude visant à mieux comprendre l'impact des nouvelles technologies. Nous vous remercions de lire attentivement cette fiche d'information. Cette étude est menée par le Dr Dominique Makowski de l'Université du Sussex et le Dr Marco Sperduti de l'Université Paris Cité, qui se tiennent à votre disposition (D.Makowski@sussex.ac.uk ; marco.sperduti@u-paris.fr) si vous avez des questions.</p>" +
+    "Nous vous invitons à participer à une étude visant à mieux comprendre l'impact des nouvelles technologies. Nous vous remercions de lire attentivement cette fiche d'information. Cette étude est menée par le Dr Dominique Makowski de l'Université du Sussex et le Dr Marco Sperduti de l'Université Paris Cité, qui se tiennent à votre disposition (D.Makowski@sussex.ac.uk ; marco.sperduti@u-paris.fr) si vous avez des questions.</p>" +
     // Description
     "<p align='left'><b>Pourquoi ai-je été invité et que vais-je faire ?</b><br>" +
     "Nous étudions l'impact des nouvelles technologies sur les habitudes et les comportements liés à la pornographie. Dans le cadre de cette étude, des <b>images érotiques</b> vous seront montrées. Veillez donc à vous trouver dans un <b>endroit privé</b> pendant toute la durée de l'expérience (~20min).</p>" +
@@ -281,16 +281,16 @@ var consent_text = // Logo and title
     "<p align='left'><b>Consentement</b><br></p><ul>" +
     // Bullet points
     "<li align='left'>Je comprends qu'en signant ci-dessous, j'accepte de participer à la recherche de l'Université du Sussex décrite ici, et que j'ai lu et compris cette fiche d'information.</li>" +
-    "<li align='left'>Je comprends que ma participation est entièrement volontaire, que je peux choisir de ne pas participer à tout ou partie de l'étude et que je peux me retirer à tout moment sans avoir à donner de raison et sans être pénalisé(e) de quelque manière que ce soit (par exemple, si je suis étudiant(r), ma décision de participer ou non à l'étude n'affectera pas mes notes).</li>" +
+    "<li align='left'>Je comprends que ma participation est entièrement volontaire, que je peux choisir de ne pas participer à tout ou partie de l'étude et que je peux me retirer à tout moment sans avoir à donner de raison et sans être pénalisé(e) de quelque manière que ce soit (par exemple, si je suis étudiant(e), ma décision de participer ou non à l'étude n'affectera pas mes notes).</li>" +
     "<li align='left'>Je comprends que,  l'étude étant anonyme, il sera impossible de retirer mes données une fois que j'aurai completé et envoyé mes réponses.</li>" +
     "<li align='left'>Je comprends que mes données personnelles seront utilisées aux fins de cette recherche et qu'elles seront traitées conformément à la législation sur la protection des données. Je comprends que la déclaration de confidentialité de l'Université fournit de plus amples informations sur la manière dont l'Université utilise les données personnelles dans le cadre de la recherche.</li>" +
     "<li align='left'>Je comprends que les données collectées seront stockées de manière anonyme. Les données anonymes peuvent être rendues publiques par le biais de dépôts de données scientifiques sécurisés en ligne.</li>" +
     // Ethical managements
     "<li align='left'>Je comprends que l'on me montrera du matériel potentiellement sensible (images érotiques) et je confirme donc que j'ai plus de 18 ans.</li>" +
     "</ul></p>" +
-    // "<p align='left'>Votre participation à cette recherche restera totalement confidentielle. Vos réponses sont entièrement anonymes et aucune adresse IP ni aucun identifiant ne sera collecté.</p>" +
+    // "<p align='left'>Votre participation à cette recherche restera totalement confidentielle. Vos réponses sont entièrement anonymes et que aucune information identifiante (i.e. adresse IP, adresse e-mail) ne sera collectée.</p>" +
     // "<p align='left'><b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, fermez simplement votre navigateur.</p>" +
-    // "<p>Veuillez noter que divers contrôles seront effectués pour garantir la validité des données.<br>Nous nous réservons le droit d'exclure vos données si nous détectons des réponses non valides (par exemple, des réponses aléatoires, des instructions non lues, ...).</p>"
+    // "<p>Veuillez noter que divers contrôles seront effectués pour garantir la validité des données. <br>Nous nous réservons le droit d'exclure vos données si nous détectons des réponses non valides</br> (par exemple, des réponses aléatoires, des instructions non lues, ...).</p>"
     "<p align='left'>Pour plus d'informations sur cette recherche, ou si vous avez des questions, veuillez contacter le Dr Dominique Makowski (D.Makowski@sussex.ac.uk) et/ou le Dr Marco Sperduti (marco.sperduti@u-paris.fr). Cette recherche a été approuvée (ER/NR274/1) par la School of Psychology de l'Université du Sussex. L'Université du Sussex a souscrit une assurance pour couvrir ses responsabilités légales dans le cadre de cette étude.</p>"
 
 var consent_button =
