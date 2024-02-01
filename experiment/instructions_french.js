@@ -20,7 +20,7 @@ var text_instructions1 =
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans cette étude, nous visons à valider notre <b> nouvel algorithme de génération d'images </b> (basé sur une nouvelle forme de technologie Generative Adversarial Network - GAN) entraîné pour produire du contenu érotique (mais aussi non érotique) de haute qualité.</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans la tâche suivante, on vous présentera des images érotiques et non érotiques générées par notre algorithme (précédées de l'étiquette '<b style='color:" +
     color_cues["Fiction"] +
-    "'>generée pa l'IA</b>'), mélangées à des photos réelles (précédées de l'étiquette  '<b style='color:" +
+    "'>generée par l'IA</b>'), mélangées à des photos réelles (précédées de l'étiquette  '<b style='color:" +
     color_cues["Reality"] +
     "'>Photographie</b>') tirées de bases de données d'images publiques.</p > " +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Après chaque image, vous devrez l'évaluer sur les échelles suivantes :</p>" +
