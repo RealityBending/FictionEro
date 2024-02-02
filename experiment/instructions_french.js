@@ -17,28 +17,28 @@ color_cues = { Reality: color_cues[0], Fiction: color_cues[1] }
 var text_instructions1 =
     "<h1>Instructions</h1>" +
     // Left aligned text
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans cette étude, nous visons à valider notre <b> nouvel algorithme de génération d'images </b> (basé sur une nouvelle forme de technologie Generative Adversarial Network - GAN) entraîné pour produire du contenu érotique (mais aussi non érotique) de haute qualité.</p>" +
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans la tâche suivante, on vous présentera des images érotiques et non érotiques générées par notre algorithme (précédées de l'étiquette '<b style='color:" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans cette étude, nous visons à valider notre <b>nouvel algorithme de génération d'images</b> (basé sur une nouvelle forme de technologie Generative Adversarial Network - GAN) entraîné pour produire du contenu érotique (mais aussi non-érotique) de haute qualité.</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Dans la tâche suivante, on vous présentera des images érotiques et non-érotiques générées par notre algorithme (précédées de l'étiquette '<b style='color:" +
     color_cues["Fiction"] +
     "'>Generée par l'IA</b>'), mélangées à des photos réelles (précédées de l'étiquette  '<b style='color:" +
     color_cues["Reality"] +
     "'>Photographie</b>') tirées de bases de données d'images publiques.</p > " +
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Après chaque image, vous devrez l'évaluer sur les échelles suivantes :</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Après chaque image, vous devrez l'évaluer sur les échelles suivantes:</p>" +
     "<ul style='text-align: left; margin-left: 30%; margin-right: 30%;'>" +
     // Arousal: embodied
-    "<li><b>Excitation</b>: Dans quelle mesure trouvez-vous l'image sexuellement excitante ? Cette question porte sur votre <i> réaction personnelle </i> ressentie dans votre corps à la vue de l'image.</li>" +
+    "<li><b>Excitation</b>: Dans quelle mesure trouvez-vous l'image sexuellement excitante ? Cette question porte sur votre <i>réaction personnelle</i> ressentie dans votre corps à la vue de l'image.</li>" +
     // Appeal: "objective"
     "<li><b>Attrait</b>: Dans quelle mesure jugez-vous cette image séduisante et sexuellement attrayante ? Pensez à la façon dont, en général, les personnes qui vous ressemblent en termes de sexe et d'orientation sexuelle l'aimeraient.</li>" +
     // Emotional Valence
-    "<li><b>Agrément</b>: L'image a-t-elle suscité en vous un sentiment positif et agréable (pas nécessairement sexuel), ou pourrait-elle être qualifiée de négative et désagréable ? Pensez au plaisir que vous avez pris (ou non) à regarder l'image</li></ul>" +
+    "<li><b>Valence du ressenti</b>: L'image a-t-elle suscité en vous un sentiment positif et agréable (pas nécessairement sexuel), ou plutôt une émotion négative et désagréable ? Pensez au plaisir que vous avez pris (ou non) à regarder l'image</li></ul>" +
     // Contrasting explanation
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Si les réponses à ces échelles peuvent parfois être très similaires, elles peuvent aussi être différentes en fonction de la personne, de l'image et du contexte. Par exemple, nous pouvons parfois nous sentir sexuellement excité(e)s par une image qui ne serait probablement pas considérée comme universellement attrayante. À l'inverse, une image séduisante et \"objectivement\" sexy peut, pour une raison ou une autre, ne susciter aucune réaction dans notre corps.</p>" +
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'><b>Essayez d'être attentif à ce qui se passe dans votre esprit et dans votre corps lorsque vous regardez les images, afin de tenter de répondre avec précision en fonction de vos propres sentiments et réactions.</b></p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'><b>Essayez d'être attentif à ce qui se passe dans votre esprit et dans votre corps lorsque vous regardez les images, afin de tenter de répondre au mieux en fonction de vos propres sentiments et réactions.</b></p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Par ailleurs, certaines images n'étant pas érotiques, il peut sembler étrange de penser à l'excitation qu'elles procurent. Ne vous inquiétez pas, c'est normal. <b>Il n'y a pas de bonne ou de mauvaise réponse</b>, il suffit d'écouter votre corps et d'essayer de répondre le mieux possible en fonction de ce que vous ressentez.</p>"
 
 var text_instructions2 =
     "<h1>Très bien !</h1>" +
-    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Merci beaucoup. Dans la phase suivante, nous aimerions voir si vous avez trouvé notre <b> algorithme de génération d'images convaincant</b> et sans erreur.</p>" +
+    "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Merci beaucoup. Dans la phase suivante, nous aimerions voir si vous avez trouvé notre <b>algorithme de génération d'images convaincant</b> et sans erreur.</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Nous vous présenterons brièvement <b>toutes les images</b> une dernière fois (celles générées par l'IA, ainsi que les photographies), et vous devrez les évaluer en fonction de leur degré de similitude avec une <b>image réelle</b> (réalisme, ressemblance avec une photographie).</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Ce qui nous intéresse, c'est votre impression générale et votre intuition, à savoir si vous avez le sentiment que l'image a été générée par l'IA ou non.</p>"
 
@@ -56,13 +56,11 @@ var text_instructions_questionnaires =
 // Ratings ----------------------------------------------------------------
 var text_ticks = ["Pas du tout", "Beaucoup"]
 var text_ticks_valence = ["Désagréable", "Agréable"]
-var text_rating_appeal =
-    "Dans quelle mesure cette image vous semble-t-elle <b>attrayante</b> ?"
+var text_rating_appeal = "Dans quelle mesure cette image vous semble-t-elle <b>attrayante</b> ?"
 var text_rating_arousal =
     "Dans quelle mesure vous êtes-vous senti(e) <b>sexuellement excité(e)</b> ?"
-var text_rating_valence = "Le <b>sentiment</b> évoqué par l'image était..."
-var text_rating_realness =
-    "Dans quelle mesure cette image est-elle <b>réaliste</b> ?"
+var text_rating_valence = "Le <b>ressenti</b> évoqué par l'image était..."
+var text_rating_realness = "Dans quelle mesure cette image est-elle <b>réaliste</b> ?"
 
 // -------------------------
 var text_feedback1 =
@@ -92,7 +90,7 @@ var text_debriefing =
     "Comme nous nous intéressons principalement à vos <i>croyances</i> sur la réalité, toutes les images étaient en fait tirées d'une base de données d'images réelles utilisées dans la recherche en psychologie sur les émotions. " +
     "Nous nous excusons pour la tromperie inévitable contenue dans nos instructions, et nous espérons que vous comprenez son rôle pour assurer la validité de notre expérience.</p>" +
     "<p align='left'><b>Merci !</b> Votre participation à cette étude restera totalement confidentielle. Si vous avez des questions ou des doutes concernant le projet, veuillez contacter D.Makowski@sussex.ac.uk ou marco.sperduti@u-paris.fr.</p>" +
-    '<p>Pour terminer votre participation à cette étude, cliquez sur "Continuer" et <b>attendez que vos réponses aient été sauvegardées</b> avant de fermer l'onglet.</p> '
+    '<p>Pour terminer votre participation à cette étude, cliquez sur "Continuer" et <b>attendez que vos réponses aient été sauvegardées</b> avant de fermer l\'onglet.</p>'
 
 var text_endscreen = function (
     link = "https://realitybending.github.io/FictionEro/experiment/french?exp=snow&lang=fr"
@@ -293,8 +291,7 @@ var consent_text = // Logo and title
     // "<p>Veuillez noter que divers contrôles seront effectués pour garantir la validité des données. <br>Nous nous réservons le droit d'exclure vos données si nous détectons des réponses non valides</br> (par exemple, des réponses aléatoires, des instructions non lues, ...).</p>"
     "<p align='left'>Pour plus d'informations sur cette recherche, ou si vous avez des questions, veuillez contacter le Dr Dominique Makowski (D.Makowski@sussex.ac.uk) et/ou le Dr Marco Sperduti (marco.sperduti@u-paris.fr). Cette recherche a été approuvée (ER/NR274/1) par la School of Psychology de l'Université du Sussex. L'Université du Sussex a souscrit une assurance pour couvrir ses responsabilités légales dans le cadre de cette étude.</p>"
 
-var consent_button =
-    "J'ai plus de 18 ans et j'ai lu, compris et accepté ce qui précède."
+var consent_button = "J'ai plus de 18 ans et j'ai lu, compris et accepté ce qui précède."
 
 var fullscreen_text =
     "<p>L'expérience passe en mode plein écran lorsque vous appuyez sur le bouton ci-dessous.</p>"
@@ -304,15 +301,13 @@ var fullscreen_button = "Continuer"
 var button_continue = "Continuer"
 var button_end = "Fin"
 
-var demographics1_preamble =
-    "<b>Merci de répondre aux questions suivantes :</b>"
+var demographics1_preamble = "<b>Merci de répondre aux questions suivantes :</b>"
 var demographics_q_sex = "Quel est votre sexe biologique ?"
 var demographics_c_sex = ["Masculin", "Féminin", "Autre"]
-var demographics_q_edu =
-    "Quel est le cycle d'étude le plus élevé que vous ayez jamais completé ?"
+var demographics_q_edu = "Quel est le cycle d'étude le plus élevé que vous ayez jamais completé ?"
 var demographics_c_edu = [
     "Université (doctorat)",
-    "Université (master/maîtrise) <sub><sup>ou équivalent</sup></sub>",
+    "Université (master) <sub><sup>ou équivalent</sup></sub>",
     "Université (licence) <sub><sup>ou équivalent</sup></sub>",
     "Baccalauréat <sub><sup>ou équivalent</sup></sub>",
     "École primaire",
@@ -324,34 +319,17 @@ var demographics_q_eth = "Veuillez indiquer votre appartenance ethnique"
 var demographics_p_eth = "e.g., Caucasien"
 var demographics_q_cou = "Dans quel pays vivez-vous actuellement ?"
 var demographics_p_cou = "e.g., UK, France"
-var demographics_q_lang =
-    "<b>Comment évaluez-vous votre niveau de français ?</b>"
-var demographics_c_lang = [
-    "Débutant - 0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6 - Langue maternelle",
-]
+var demographics_q_lang = "<b>Comment évaluez-vous votre niveau de français ?</b>"
+var demographics_c_lang = ["Débutant - 0", "1", "2", "3", "4", "5", "6 - Langue maternelle"]
 var demographics_q_ai =
     "<b>Dans quelle mesure considérez-vous que vous connaissez la technologie de l'intelligence artificielle (IA) ?</b>"
-var demographics_c_ai = [
-    "Pas du tout - 0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6 - Expert",
-]
+var demographics_c_ai = ["Pas du tout - 0", "1", "2", "3", "4", "5", "6 - Expert"]
 var demographics_hormones_preamble =
     "<b>La question suivante est importante pour comprendre le rôle des facteurs biologiques potentiels dans notre étude.</b><br>Elle est toutefois facultative et vous pouvez l'omettre si vous le souhaitez."
 var demographics_q_hormones =
     "Si vous êtes une femme, utilisez-vous actuellement un moyen de contraception ?"
 var demographics_c_hormones = [
-    "No",
+    "Non",
     "Oui - pilules contraceptives (pilules combinées)",
     "Oui - pilules contraceptives (progestatif seul)",
     "Oui - dispositif intra-utérin (stérilet en cuivre, DIU)",
