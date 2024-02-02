@@ -316,7 +316,7 @@ var demographics_q_eth = "Per favore immetti la tua entia"
 var demographics_p_eth = "per es. Caucasica"
 var demographics_q_cou = "In che paese risiedi attualmente?"
 var demographics_p_cou = "per es. Italia, UK"
-var demographics_q_lang = "<b>Come giudicheresti il tuo livello di Inglese?</b>"
+var demographics_q_lang = "<b>Come giudicheresti il tuo livello di Italiano?</b>"
 var demographics_c_lang = ["Principiante - 0", "1", "2", "3", "4", "5", "6 - Madrelingua"]
 var demographics_q_ai =
     "<b>Quanta familiarità ritieni di avere con l'Intelligenza Artificiale? (IA)</b>"
