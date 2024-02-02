@@ -31,11 +31,7 @@
         <script src="stimuli_selection/stimuli_list.js"></script>
         <script src="fiction.js"></script>
 
-        <link
-            href="https://unpkg.com/jspsych/css/jspsych.css"
-            rel="stylesheet"
-            type="text/css"
-        />
+        <link href="https://unpkg.com/jspsych/css/jspsych.css" rel="stylesheet" type="text/css" />
         <style>
             /* set canvas to be full screen */
             .jspsych-content {
@@ -90,13 +86,13 @@
         timeline.push(demographics_debriefing)
 
         // Save data via DataPipe
-        // timeline.push({
-        //     type: jsPsychPipe,
-        //     action: "save",
-        //     experiment_id: "OKYIgAxQu8cX", // This in generated in the DataPipe interface
-        //     filename: `${jsPsych.randomization.randomID(10)}.csv`,
-        //     data_string: () => jsPsych.data.get().csv(),
-        // })
+        timeline.push({
+            type: jsPsychPipe,
+            action: "save",
+            experiment_id: "OKYIgAxQu8cX", // This in generated in the DataPipe interface
+            filename: `${jsPsych.randomization.randomID(10)}.csv`,
+            data_string: () => jsPsych.data.get().csv(),
+        })
 
         // Exit fullscreen mode
         timeline.push(fullscreen_off)
