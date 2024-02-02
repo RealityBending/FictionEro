@@ -160,6 +160,7 @@ var fiction_ratings = {
     randomize_question_order: false,
     require_movement: true,
     slider_width: 600,
+    button_label: button_continue,
     data: function () {
         return {
             screen: "fiction_ratings1",
