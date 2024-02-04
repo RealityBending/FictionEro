@@ -129,7 +129,7 @@ df |>
 data.frame(Language = df$Language,
            Source = df$Experimenter,
            Comments = trimws(df$Feedback_Comments)) |> 
-  filter(!Comments %in% c(NA, "", "No", "Nope", "nope", "None", "na")) |> 
+  filter(!Comments %in% c(NA, "No", "Nope", "nope", "None", "na", "n/a")) |> 
   arrange(Language, Source) |>
   gt::gt() |> 
   gt::opt_stylize() |> 
