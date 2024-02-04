@@ -29,7 +29,7 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
     return files
 
 
-token = ""  # Paste OSF token here to access private repositories
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="sm4jc",  # Data subproject ID
@@ -51,6 +51,7 @@ norm_data = pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv").rena
     }
 )
 
+
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
 
@@ -60,30 +61,40 @@ for i, file in enumerate(files):
     # data["screen"].unique()
 
     # Browser info -------------------------------------------------------
-    brower = data[data["screen"] == "browser_info"].iloc[0]
+    browser = data[data["screen"] == "browser_info"].iloc[0]
 
     # Experimenter
-    experimenter = brower["researcher"]
+    experimenter = browser["researcher"]
     if experimenter == "TEST":
         continue
     if isinstance(experimenter, float):
-        experimenter = "Experimenter" + str(int(experimenter))
+        if np.isnan(experimenter):
+            experimenter = "Unknown"
+        else:
+            experimenter = "Experimenter" + str(int(experimenter))
 
-    file["date"]
+    lang = "English" if browser["language"] == "en" else browser["language"]
+    lang = "Italian" if lang == "it" else lang
+    lang = "French" if lang == "fr" else lang
+    if lang not in ["English", "Italian", "French"]:
+        sex = json.loads(data[data["screen"] == "demographics_1"].iloc[0]["response"])
+        if sex["Sex"] in ["Male", "Female", "Other"]:  # Fix
+            lang = "English"
+
     df = pd.DataFrame(
         {
             "Participant": file["name"],
             "Experimenter": experimenter,
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
-            "Language": brower["language"],
-            "Date": brower["date"],
-            "Time": brower["time"],
+            "Language": lang,
             "Date_OSF": file["date"],
-            "Browser": brower["browser"],
-            "Mobile": brower["mobile"],
-            "Platform": brower["os"],
-            "Screen_Width": brower["screen_width"],
-            "Screen_Height": brower["screen_height"],
+            "Date": browser["date"],
+            "Time": browser["time"],
+            "Browser": browser["browser"],
+            "Mobile": browser["mobile"],
+            "Platform": browser["os"],
+            "Screen_Width": browser["screen_width"],
+            "Screen_Height": browser["screen_height"],
         },
         index=[0],
     )
@@ -96,24 +107,38 @@ for i, file in enumerate(files):
     demo3 = data[data["screen"] == "demographics_other"].iloc[0]
     demo3 = json.loads(demo3["response"])
 
-    df["Sex"] = demo1["Sex"]
-    df["Age"] = demo2["Age"]
-    df["Country"] = demo2["Country"]
+    df["Age"] = int(demo2["Age"])
+    if df["Age"][0] < 18:
+        continue
+    sex = "Male" if demo1["Sex"] in ["Maschio", "Masculin"] else demo1["Sex"]
+    sex = "Female" if sex in ["Femmina", "Féminin"] else sex
+    df["Sex"] = sex
     df["Language_Level"] = demo3["Language_Level"]
     df["AI_Knowledge"] = demo3["AI_Knowledge"]
 
     # Education
     edu = demo1["Education"]
-    edu = "Bachelor" if "bachelor" in edu else edu
-    edu = "Master" if "master" in edu else edu
-    edu = "Doctorate" if "doctorate" in edu else edu
-    edu = "High School" if "High school" in edu else edu
+    edu = (
+        "Bachelor" if any([x in edu for x in ["bachelor", "laurea triennale"]]) else edu
+    )
+    edu = "Master" if any([x in edu for x in ["master"]]) else edu
+    edu = "Doctorate" if any([x in edu for x in ["doctorate", "dottorato"]]) else edu
+    edu = (
+        "High School"
+        if any([x in edu for x in ["High school", "Scuola superior"]])
+        else edu
+    )
     df["Education"] = edu
 
     # Country
     country = demo2["Country"].title().rstrip()
-    country = "UK" if country in ["Uk", "England"] else country
+    country = (
+        "UK" if country in ["Uk", "England", "United Kingdom", "Brighton"] else country
+    )
+    country = "Netherlands" if country in ["The Netherlands"] else country
+    country = "Italy" if country in ["Italia"] else country
     country = "Pakistan" if country in ["Pk"] else country
+    country = "Thailand" if country in ["Th"] else country
     country = (
         "USA"
         if country
@@ -128,7 +153,7 @@ for i, file in enumerate(files):
         ]
         else country
     )
-    country = np.nan if country in ["", "Na"] else country
+    country = np.nan if country in ["", "Na", "E.G. Europe"] else country
     df["Country"] = country
 
     # Ethnicity
@@ -145,25 +170,67 @@ for i, file in enumerate(files):
             "Latin White",
             "White Caucasian",
             "Causcian",
-            "Mediterranean",
             "Romanian",
             "Polish",
             "Mediterranian Caucasian",
             "White/European Descent",
+            "Russian",
+            "Greek",
+            "Causasian",
+            "Germans",
+            "White Slavic European",
+            "White British",
+            "White/Caucasian",
+            "Italiana",
+            "Caucasico",
+            "Caucasica",
+            "White (Us American)",
         ]
         else race
     )
-    race = "Asian" if race in ["Southeast Asian", "East Asian", "Chinese"] else race
+    race = "Arab" if race in ["Arabo"] else race
+    race = (
+        "Asian"
+        if race in ["Southeast Asian", "East Asian", "Chinese", "Indonesian"]
+        else race
+    )
     race = "Hispanic" if race in ["Latino", "Latin", "Mexican"] else race
     race = "South Asian" if race in ["Indian", "Brown"] else race
     race = "Black" if race in ["Black African", "African American"] else race
     race = (
         "Mixed"
-        if race in ["Latin American X Asian", "White, Hispanic", "White/Arabic"]
+        if race
+        in [
+            "Latin American X Asian",
+            "White, Hispanic",
+            "White/Arabic",
+            "Mixed White/Latino",
+            "Afro-Mediterranean",
+            "Mixed British Asian",
+            "Mixed Caucasian/Asian",
+        ]
         else race
     )
-    race = "Other" if race in ["Native American"] else race
-    race = np.nan if race in ["", "Na", "Human"] else race
+    race = (
+        "Other"
+        if race
+        in [
+            "Native American",
+            "Jewish",
+            "Meditteranean",
+            "Mediterranean",
+            "Turkish",
+            "Indigenous",
+            "Javanese",
+        ]
+        else race
+    )
+    race = (
+        np.nan
+        if race
+        in ["", "Na", "Human", "Caucasian Is Not An Ethnicity", "E.G. Caucadian"]
+        else race
+    )
     df["Ethnicity"] = race
 
     # Female questions
@@ -175,6 +242,7 @@ for i, file in enumerate(files):
         birth = "Intrauterine System (IUS)" if "IUS" in birth else birth
         birth = "Combined pills" if "combined pills" in birth else birth
         birth = "Condoms (for partner)" if "condoms for partner" in birth else birth
+        birth = np.nan if birth in [""] else birth
         df["BirthControl"] = birth
 
     else:
@@ -239,43 +307,105 @@ for i, file in enumerate(files):
 
     df["COPS_Duration"] = cops["rt"] / 1000 / 60
     cops = json.loads(cops["response"])
-    for item in cops:
-        df[item] = cops[item]
+
+    # Sexual orientation
+    sexorientation = cops["SexualOrientation"].rstrip()
+    sexorientation = (
+        "Heterosexual" if sexorientation in ["Eterosessuale"] else sexorientation
+    )
+    sexorientation = (
+        "Homosexual" if sexorientation in ["Omosessuale"] else sexorientation
+    )
+    sexorientation = "Bisexual" if sexorientation in ["Bisessuale"] else sexorientation
+    sexorientation = "Other" if sexorientation in ["Altro"] else sexorientation
+    sexorientation = np.nan if sexorientation in [""] else sexorientation
+    df["SexualOrientation"] = sexorientation
+
+    sexactivity = cops["SexualActivity"].lower().rstrip()
+    sexactivity = "1. Less than 24h ago" if "1." in sexactivity else sexactivity
+    sexactivity = "2. Within the last 3 days" if "2." in sexactivity else sexactivity
+    sexactivity = "3. Within the last week" if "3." in sexactivity else sexactivity
+    sexactivity = "4. Within the last month" if "4." in sexactivity else sexactivity
+    sexactivity = "5. Within the last year" if "5." in sexactivity else sexactivity
+    sexactivity = "6. More than a year ago" if "6." in sexactivity else sexactivity
+    sexactivity = np.nan if sexactivity in [""] else sexactivity
+    df["SexualActivity"] = sexactivity
+
+    copsfreq = cops["COPS_Frequency_2"].rstrip()
+    copsfreq = (
+        "0. I haven't viewed pornography in the past 30 days"
+        if "0." in copsfreq
+        else copsfreq
+    )
+    copsfreq = (
+        "1. I viewed pornography once in the past 30 days"
+        if "1." in copsfreq
+        else copsfreq
+    )
+    copsfreq = (
+        "2. I viewed pornography twice in the past 30 days"
+        if "2." in copsfreq
+        else copsfreq
+    )
+    copsfreq = "3. I viewed pornography weekly" if "3." in copsfreq else copsfreq
+    copsfreq = (
+        "4. I viewed pornography multiple times a week"
+        if "4." in copsfreq
+        else copsfreq
+    )
+    copsfreq = "5. I viewed pornography daily" if "5." in copsfreq else copsfreq
+    copsfreq = (
+        "6. I viewed pornography multiple times a day" if "6." in copsfreq else copsfreq
+    )
+    copsfreq = np.nan if copsfreq in [""] else copsfreq
+    df["COPS_Frequency_2"] = copsfreq
+
+    copsdur = cops["COPS_Duration_1"].rstrip()
+    copsdur = "1. Less than 5 minutes" if "1." in copsdur else copsdur
+    copsdur = "2. 6-15 minutes" if "2." in copsdur else copsdur
+    copsdur = "3. 16-25 minutes" if "3." in copsdur else copsdur
+    copsdur = "4. 26-35 minutes" if "4." in copsdur else copsdur
+    copsdur = "5. 36-45 minutes" if "5." in copsdur else copsdur
+    copsdur = "6. 46+ minutes" if "6." in copsdur else copsdur
+    copsdur = np.nan if copsdur in [""] else copsdur
+    df["COPS_Duration_1"] = copsdur
 
     # Feedback ---------------------------------------------------------
     feedback = data[data["screen"] == "fiction_feedback1"].iloc[0]
     feedback = json.loads(feedback["response"])["FeedbackChoice"]
 
-    df["Feedback_Boring"] = (
-        True if True in [True for s in feedback if "boring" in s] else False
-    )
-    df["Feedback_Fun"] = (
-        True if True in [True for s in feedback if "fun" in s] else False
-    )
-    df["Feedback_CouldDiscriminate"] = (
-        True if True in [True for s in feedback if "could tell" in s] else False
-    )
-    df["Feedback_CouldNotDiscriminate"] = (
-        True if True in [True for s in feedback if "didn't see" in s] else False
-    )
-    df["Feedback_AIMoreArousing"] = (
-        True if True in [True for s in feedback if "more arousing" in s] else False
-    )
-    df["Feedback_AILessArousing"] = (
-        True if True in [True for s in feedback if "less arousing" in s] else False
-    )
-    df["Feedback_LabelsIncorrect"] = (
-        True if True in [True for s in feedback if "not always" in s] else False
-    )
-    df["Feedback_LabelsReversed"] = (
-        True if True in [True for s in feedback if "reversed" in s] else False
-    )
-    df["Feedback_Arousing"] = (
-        True if True in [True for s in feedback if "really arousing" in s] else False
-    )
-    df["Feedback_NoFeels"] = (
-        True if True in [True for s in feedback if "feel anything" in s] else False
-    )
+    df["Feedback_Boring"] = False
+    df["Feedback_Fun"] = False
+    df["Feedback_CouldDiscriminate"] = False
+    df["Feedback_CouldNotDiscriminate"] = False
+    df["Feedback_AIMoreArousing"] = False
+    df["Feedback_AILessArousing"] = False
+    df["Feedback_LabelsIncorrect"] = False
+    df["Feedback_LabelsReversed"] = False
+    df["Feedback_Arousing"] = False
+    df["Feedback_NoFeels"] = False
+
+    for f in feedback:
+        if any(x in f for x in ["boring", "noioso"]):
+            df["Feedback_Boring"] = True
+        if any(x in f for x in ["fun", "divertente"]):
+            df["Feedback_Fun"] = True
+        if any(x in f for x in ["could tell", "in grado"]):
+            df["Feedback_CouldDiscriminate"] = True
+        if any(x in f for x in ["didn't see", "percepito alcuna"]):
+            df["Feedback_CouldNotDiscriminate"] = True
+        if any(x in f for x in ["more arousing", "più eccitanti"]):
+            df["Feedback_AIMoreArousing"] = True
+        if any(x in f for x in ["less arousing", "meno eccitanti"]):
+            df["Feedback_AILessArousing"] = True
+        if any(x in f for x in ["not always", "non fossero"]):
+            df["Feedback_LabelsIncorrect"] = True
+        if any(x in f for x in ["reversed", "viceversa"]):
+            df["Feedback_LabelsReversed"] = True
+        if any(x in f for x in ["really arousing", "davvero eccitanti"]):
+            df["Feedback_Arousing"] = True
+        if any(x in f for x in ["feel anything", "niente guardando"]):
+            df["Feedback_NoFeels"] = True
 
     feedback = data[data["screen"] == "fiction_feedback2"].iloc[0]
     df["Feedback_Comments"] = json.loads(feedback["response"])["FeedbackFree"]

@@ -243,7 +243,7 @@ var cops_items = [
         options: [
             "1. Less than 24h ago",
             "2. Within the last 3 days",
-            "3. within the last week",
+            "3. Within the last week",
             "4. Within the last month",
             "5. Within the last year",
             "6. More than a year ago",

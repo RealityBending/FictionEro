@@ -26,7 +26,8 @@ library(ggside)
 ```{r}
 #| code-fold: false
 
-df <- read.csv("../data/rawdata_participants.csv")
+df <- read.csv("../data/rawdata_participants.csv") |> 
+  mutate(across(everything(), ~ifelse(.x == "", NA, .x))) 
 dftask <- read.csv("../data/rawdata_task.csv") |> 
   full_join(
     df[c("Participant", "Sex", "SexualOrientation")],
@@ -65,12 +66,12 @@ dftask <- dftask |>
 # Consecutive count of participants per day (as area)
 df |>
   mutate(Date = as.Date(Date, format = "%d/%m/%Y")) |> 
-  group_by(Date, Experimenter) |> 
+  group_by(Date, Language, Experimenter) |> 
   summarize(N = n()) |> 
   ungroup() |>
   # https://bocoup.com/blog/padding-time-series-with-r
-  complete(Date, Experimenter, fill = list(N = 0)) |> 
-  group_by(Experimenter) |>
+  complete(Date, Language, Experimenter, fill = list(N = 0)) |> 
+  group_by(Language, Experimenter) |>
   mutate(N = cumsum(N)) |>
   ggplot(aes(x = Date, y = N)) +
   geom_area(aes(fill=Experimenter)) +
@@ -80,7 +81,9 @@ df |>
     x = "Date",
     y = "Total Number of Participants"
   ) +
-  see::theme_modern()
+  facet_wrap(~Language, nrow=2) +
+  see::theme_modern() 
+ 
 ```
 
 
@@ -123,9 +126,11 @@ df |>
 ### Comments
 
 ```{r}
-data.frame(Source = df$Experimenter,
+data.frame(Language = df$Language,
+           Source = df$Experimenter,
            Comments = trimws(df$Feedback_Comments)) |> 
   filter(!Comments %in% c("", "No", "Nope", "nope", "None", "na")) |> 
+  arrange(Language, Source) |>
   gt::gt() |> 
   gt::opt_stylize() |> 
   gt::opt_interactive(use_compact_mode = TRUE) 
@@ -150,6 +155,7 @@ outliers <- c(
 df |>
   ggplot(aes(x=Mobile, fill=Mobile)) +
   geom_bar() +
+  geom_hline(yintercept=nrow(df)/2, linetype="dashed") +
   theme_modern()
 ```
 
@@ -161,6 +167,8 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
 ### Experiment Duration
+
+The experiment's median duration is `r insight::format_value(median(df$Experiment_Duration))` min (`r print(bayestestR::hdi(df$Experiment_Duration, ci=0.5))`).
 
 ```{r}
 #| fig-width: 15
@@ -191,27 +199,48 @@ df |>
 ```
 
 
-### Task Duration
+### Task Duration 
+
+```{r}
+plot_hist <- function(dat) {
+  dat |> 
+    mutate(Participant = fct_reorder(Participant, RT1)) |> 
+    filter(RT1 < 100) |> 
+    ggplot(aes(x=RT1, fill=Participant)) +
+    geom_histogram(bins=140) +
+    coord_cartesian(xlim = c(0, 15)) +
+    scale_fill_metro_d(guide="none") +
+    theme_modern() +
+    theme(axis.title.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y = element_blank(),
+          axis.line.y = element_blank()) +
+    labs(title = "Distribution of Response Time for each Participant", x="Response time (for 3 scales) per stimuli (s)") +
+    facet_wrap(~Participant, ncol=5, scales="free_y")
+}
+```
+
+::: {.panel-tabset}
+
+#### 1-60
 
 ```{r}
 #| fig-width: 15
 #| fig-height: 15
 
-dftask |> 
-  mutate(Participant = fct_reorder(Participant, RT1)) |> 
-  filter(RT1 < 100) |> 
-  ggplot(aes(x=RT1, fill=Participant)) +
-  geom_histogram(bins=60) +
-  coord_cartesian(xlim = c(0, 15)) +
-  scale_fill_metro_d(guide="none") +
-  theme_modern() +
-  theme(axis.title.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.line.y = element_blank()) +
-  labs(title = "Distribution of Response Time for each Participant", x="Response time (for 3 scales) per item (s)") +
-  facet_wrap(~Participant, ncol=5, scales="free_y")
+plot_hist(dftask[dftask$Participant %in% df$Participant[1:60], ])
 ```
+
+#### 61-120
+
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+plot_hist(dftask[dftask$Participant %in% df$Participant[61:120], ])
+```
+
+:::
 
 ### BAIT Questionnaire Duration
 
@@ -270,6 +299,8 @@ dftask |>
   scale_fill_gradient2(low = "#3F51B5", mid = "#FF9800", high = "#4CAF50", midpoint = 0) +
   # scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
   theme_bw() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
   labs(title = "Difference between Erotic and Neutral", x="Erotic - Neutral") +
   facet_wrap(~name, ncol=3, scales="free_x")
 ```
@@ -277,6 +308,9 @@ dftask |>
 
 
 ### Sexual Profile
+
+
+#### Sample
 
 ```{r}
 df |>
@@ -297,7 +331,6 @@ df |>
 
 We removed `r sum(df$Sex=="Other" | df$SexualOrientation=="Other")` participants that were incompatible with further analysis.
 
-
 ```{r}
 #| code-fold: false
 
@@ -306,6 +339,52 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
 
+
+#### Task Behaviour
+
+```{r}
+#| fig-width: 13
+#| fig-height: 13
+#| warning: false
+
+show_distribution <- function(dftask, target="Arousal") {
+  dftask |> 
+    filter(SexualOrientation %in% c("Heterosexual", "Bisexual", "Homosexual")) |>
+    bayestestR::estimate_density(select=target, 
+                                 at=c("Relevance", "Category", "Sex", "SexualOrientation"), 
+                                 method="KernSmooth") |>
+    ggplot(aes(x = x, y = y)) +
+    geom_line(aes(color = Relevance, linetype = Category)) +
+    facet_grid(SexualOrientation~Sex)  +
+    scale_color_manual(values = c("Relevant" = "red", "Non-erotic" = "blue", "Irrelevant"="orange")) +
+    scale_y_continuous(expand = c(0, 0)) +
+    scale_x_continuous(expand = c(0, 0)) +
+    theme_minimal()  +
+    theme(axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          axis.text.y = element_blank(),
+          plot.title = element_text(face="bold")) +
+    labs(title = target) 
+}
+
+(show_distribution(dftask, "Arousal") | show_distribution(dftask, "Valence")) /
+  (show_distribution(dftask, "Enticement") | show_distribution(dftask, "Realness")) +
+  patchwork::plot_layout(guides = "collect") +
+  patchwork::plot_annotation(title = "Distribution of Appraisals depending on the Sexual Profile",
+                             theme = theme(plot.title = element_text(hjust = 0.5, face="bold"))) 
+```
+
+
+
+We kept only heterosexual participants (`r insight::format_percent(sum(df$SexualOrientation == "Heterosexual") / nrow(df))`).
+
+```{r}
+#| code-fold: false
+
+df <- filter(df, SexualOrientation == "Heterosexual")
+dftask <- filter(dftask, Participant %in% df$Participant)
+```
+
 ## Final Sample
 
 ```{r}
@@ -313,7 +392,13 @@ df <- filter(df, !Participant %in% outliers)
 dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
-### Country of Origin
+::: {.panel-tabset}
+
+### Summary
+
+The final sample includes `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+
+### Origin
 
 ```{r p_demographics_country}
 p_country <- dplyr::select(df, region = Country) |>
@@ -331,6 +416,22 @@ p_country <- dplyr::select(df, region = Country) |>
     plot.subtitle = element_text(size = rel(1.2))
   )
 p_country
+```
+
+```{r p_ethnicity}
+ggwaffle::waffle_iron(df, ggwaffle::aes_d(group = Ethnicity), rows=10) |> 
+  ggplot(aes(x, y, fill = group)) + 
+  ggwaffle::geom_waffle() + 
+  coord_equal() + 
+  scale_fill_flat_d() + 
+  ggwaffle::theme_waffle() +
+  labs(title = "Self-reported Ethnicity", subtitle = "Each square represents a participant", fill="")  +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2)),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank()
+  )
 ```
 
 ### Age
@@ -472,7 +573,7 @@ p_sexprofile
 ```
 
 
-### English and AI-Expertise 
+### Expertise 
 
 ```{r p_demographics_expertise}
 p_language <- df |>
@@ -505,9 +606,7 @@ p_language | p_expertise
 ```
 
 
-### Summary
-
-The final sample includes `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+:::
 
 ```{r p_summary}
 #| fig-width: 15
@@ -516,6 +615,198 @@ The final sample includes `r report::report_participants(df, age="Age", sex="Sex
 p_country /
   (p_age + p_edu)
 ```
+
+
+## Beliefs about Artificial Information Technology (BAIT)
+
+This section pertains to the validation of the BAIT scale measuring beliefs and expectations about artificial creations.
+
+::: {.panel-tabset}
+
+### Structure 
+
+#### Exploratory Factor Analysis
+
+```{r}
+bait <- df |> 
+  select(starts_with("BAIT_"), -BAIT_Duration) 
+
+
+cor <- correlation::correlation(bait, redundant = TRUE) |> 
+  correlation::cor_sort() |> 
+  correlation::cor_lower()
+
+clean_labels <- function(x) {
+  x <- str_remove_all(x, "BAIT_") |> 
+    str_replace_all("_", " - ")
+}
+
+cor |> 
+  mutate(val = paste0(insight::format_value(r), format_p(p, stars_only=TRUE))) |>
+  mutate(Parameter2 = fct_rev(Parameter2)) |>
+  mutate(Parameter1 = fct_relabel(Parameter1, clean_labels),
+         Parameter2 = fct_relabel(Parameter2, clean_labels)) |> 
+  ggplot(aes(x=Parameter1, y=Parameter2)) +
+  geom_tile(aes(fill = r), color = "white") +
+  geom_text(aes(label = val), size = 3) +
+  labs(title = "Correlation Matrix",
+       subtitle = "Beliefs about Artificial Information Technology (BAIT)") +
+  scale_fill_gradient2(
+    low = "#2196F3",
+    mid = "white",
+    high = "#F44336",
+    breaks = c(-1, 0, 1),
+    guide = guide_colourbar(ticks=FALSE),
+    midpoint = 0,
+    na.value = "grey85",
+    limit = c(-1, 1))  + 
+  theme_minimal() +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#| message: false
+
+# n <- parameters::n_factors(bait, type="FA")  
+# plot(n)
+
+efa <- parameters::factor_analysis(bait, cor=cor(bait), n=2, rotation = "oblimin", sort=TRUE, scores="tenBerge", fm="ml")
+plot(efa)
+display(efa)
+```
+
+#### Confirmatory Factor Analysis
+
+```{r}
+m1 <- lavaan::cfa(efa_to_cfa(efa, threshold="max"), data=df)
+m2 <- lavaan::cfa(
+  "G =~ BAIT_5_ImitatingReality + BAIT_6_EnvironmentReal + BAIT_4_VideosIssues + BAIT_8_TextIssues + BAIT_3_VideosRealistic + BAIT_1_ImagesRealistic + BAIT_2_ImagesIssues + BAIT_7_TextRealistic", 
+  data=df)
+
+# bayestestR::bayesfactor_models(m1, m2)
+lavaan::anova(m1, m2)
+```
+```{r}
+display(parameters::parameters(m1))
+```
+
+### Scores
+
+```{r}
+#| code-fold: false
+
+# Merge with data
+scores <- lavaan::predict(m1) |> 
+  as.data.frame() |> 
+  data_rename(c("ML2"), c("BAIT_SEM")) |> 
+  mutate(Participant = df$Participant) |>
+  mutate(BAIT = rowMeans(select(bait, -contains("Videos")), na.rm = TRUE))
+
+df <- full_join(df, scores[c("Participant", "BAIT_SEM", "BAIT")], by="Participant")
+```
+
+
+We computed two type of general scores for the BAIT scale, an **empirical** score based on the average of observed data (of the most loading items) and a **model-based** score as predicted by the structural model. The first one gives equal weight to all items (and keeps the same [0-1] range), while the second one is based on the factor loadings and the covariance structure.
+
+```{r}
+correlation::cor_test(scores, "BAIT_SEM", "BAIT") |> 
+  plot() +
+  ggside::geom_xsidedensity(aes(x=BAIT_SEM), color="grey", linewidth=1) +
+  ggside::geom_ysidedensity(aes(y=BAIT), color="grey", linewidth=1) +
+  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
+  ggside::scale_ysidex_continuous(expand = c(0, 0)) +
+  ggside::theme_ggside_void() +
+  theme(ggside.panel.scale = .1) 
+```
+
+
+### Validity
+
+#### Corrrelation with GAAIS
+
+```{r}
+table <- correlation::correlation(scores, 
+                         select(df, starts_with("GAAIS")),
+                         bayesian=TRUE) |> 
+  summary()
+
+format(table) |> 
+  datawizard::data_rename("Parameter", "Variables") |> 
+  gt::gt() |> 
+  gt::cols_align(align="center") |> 
+  gt::tab_options(column_labels.font.weight="bold")
+```
+
+#### AI-Expertise
+
+```{r}
+df |> 
+  ggplot(aes(x=as.factor(AI_Knowledge), y=BAIT)) +
+  geom_boxplot()
+
+
+# m <- betareg::betareg(BAIT ~ AI_Knowledge, data=df)
+m <- lm(BAIT_SEM ~ AI_Knowledge, data=df)
+# m <- brms::brm(BAIT ~ mo(AI_Knowledge), data=dfsub, algorithm = "meanfield")
+# m <- brms::brm(BAIT ~ AI_Knowledge, data=dfsub, algorithm = "meanfield")
+display(parameters::parameters(m))
+
+
+marginaleffects::predictions(m, by=c("AI_Knowledge"), newdata = "marginalmeans") |> 
+  as.data.frame() |> 
+  ggplot(aes(x=AI_Knowledge, y=estimate)) +
+  geom_jitter2(data=df, aes(y=BAIT_SEM), alpha=0.2, width=0.1) +
+  geom_line(aes(group=1), position = position_dodge(width=0.2)) +
+  geom_pointrange(aes(ymin = conf.low, ymax=conf.high), position = position_dodge(width=0.2))
+```
+
+#### Gender and Age
+
+```{r}
+# m <- betareg::betareg(BAIT ~ Sex / Age, data=df, na.action=na.omit)
+m <- lm(BAIT_SEM ~ Sex / Age, data=df)
+display(parameters::parameters(m))
+```
+
+#### Belief in the Instructions
+
+
+```{r}
+glm(Feedback_LabelsIncorrect ~ BAIT_SEM * AI_Knowledge, 
+    data=mutate(df, Feedback_LabelsIncorrect = ifelse(Feedback_LabelsIncorrect=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'Labels are Incorrect'")
+```
+
+```{r}
+glm(Feedback_LabelsReversed ~ BAIT_SEM * AI_Knowledge, 
+    data=mutate(df, Feedback_LabelsReversed = ifelse(Feedback_LabelsReversed=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'Labels are reversed'")
+```
+
+```{r}
+glm(Feedback_CouldDiscriminate ~ BAIT_SEM * AI_Knowledge, 
+    data=mutate(df, Feedback_CouldDiscriminate = ifelse(Feedback_CouldDiscriminate=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'Easy to discriminate'")
+```
+
+```{r}
+glm(Feedback_CouldNotDiscriminate ~ BAIT_SEM * AI_Knowledge, 
+    data=mutate(df, Feedback_CouldNotDiscriminate = ifelse(Feedback_CouldNotDiscriminate=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'Hard to discriminate'")
+```
+
+:::
 
 ## Save 
 
