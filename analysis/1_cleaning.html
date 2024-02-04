@@ -4949,7 +4949,7 @@ module.exports = window.Shiny;
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Language =</span> df<span class="sc">$</span>Language,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">Source =</span> df<span class="sc">$</span>Experimenter,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">Comments =</span> <span class="fu">trimws</span>(df<span class="sc">$</span>Feedback_Comments)) <span class="sc">|&gt;</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Comments <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Nope&quot;</span>, <span class="st">&quot;nope&quot;</span>, <span class="st">&quot;None&quot;</span>, <span class="st">&quot;na&quot;</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>Comments <span class="sc">%in%</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;No&quot;</span>, <span class="st">&quot;Nope&quot;</span>, <span class="st">&quot;nope&quot;</span>, <span class="st">&quot;None&quot;</span>, <span class="st">&quot;na&quot;</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Language, Source) <span class="sc">|&gt;</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">opt_stylize</span>() <span class="sc">|&gt;</span> </span>
@@ -4957,20 +4957,20 @@ module.exports = window.Shiny;
 </details>
 <div class="cell-output-display">
 
-<div id="utzdeqabnn" class=".gt_table" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#utzdeqabnn table {
+<div id="ytogpsdnod" class=".gt_table" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ytogpsdnod table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#utzdeqabnn thead, #utzdeqabnn tbody, #utzdeqabnn tfoot, #utzdeqabnn tr, #utzdeqabnn td, #utzdeqabnn th {
+#ytogpsdnod thead, #ytogpsdnod tbody, #ytogpsdnod tfoot, #ytogpsdnod tr, #ytogpsdnod td, #ytogpsdnod th {
 border-style: none;
 }
-#utzdeqabnn p {
+#ytogpsdnod p {
 margin: 0;
 padding: 0;
 }
-#utzdeqabnn .gt_table {
+#ytogpsdnod .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -4995,11 +4995,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#utzdeqabnn .gt_caption {
+#ytogpsdnod .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#utzdeqabnn .gt_title {
+#ytogpsdnod .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -5010,7 +5010,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#utzdeqabnn .gt_subtitle {
+#ytogpsdnod .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -5021,7 +5021,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#utzdeqabnn .gt_heading {
+#ytogpsdnod .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -5032,12 +5032,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#utzdeqabnn .gt_bottom_border {
+#ytogpsdnod .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #0076BA;
 }
-#utzdeqabnn .gt_col_headings {
+#ytogpsdnod .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #0076BA;
@@ -5051,7 +5051,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#utzdeqabnn .gt_col_heading {
+#ytogpsdnod .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5070,7 +5070,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#utzdeqabnn .gt_column_spanner_outer {
+#ytogpsdnod .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5081,13 +5081,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#utzdeqabnn .gt_column_spanner_outer:first-child {
+#ytogpsdnod .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#utzdeqabnn .gt_column_spanner_outer:last-child {
+#ytogpsdnod .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#utzdeqabnn .gt_column_spanner {
+#ytogpsdnod .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #0076BA;
@@ -5098,10 +5098,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#utzdeqabnn .gt_spanner_row {
+#ytogpsdnod .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#utzdeqabnn .gt_group_heading {
+#ytogpsdnod .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5126,7 +5126,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#utzdeqabnn .gt_empty_group_heading {
+#ytogpsdnod .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -5140,13 +5140,13 @@ border-bottom-width: 2px;
 border-bottom-color: #0076BA;
 vertical-align: middle;
 }
-#utzdeqabnn .gt_from_md > :first-child {
+#ytogpsdnod .gt_from_md > :first-child {
 margin-top: 0;
 }
-#utzdeqabnn .gt_from_md > :last-child {
+#ytogpsdnod .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#utzdeqabnn .gt_row {
+#ytogpsdnod .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5164,7 +5164,7 @@ border-right-color: #89D3FE;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#utzdeqabnn .gt_stub {
+#ytogpsdnod .gt_stub {
 color: #FFFFFF;
 background-color: #0076BA;
 font-size: 100%;
@@ -5176,7 +5176,7 @@ border-right-color: #0076BA;
 padding-left: 5px;
 padding-right: 5px;
 }
-#utzdeqabnn .gt_stub_row_group {
+#ytogpsdnod .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -5189,13 +5189,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#utzdeqabnn .gt_row_group_first td {
+#ytogpsdnod .gt_row_group_first td {
 border-top-width: 2px;
 }
-#utzdeqabnn .gt_row_group_first th {
+#ytogpsdnod .gt_row_group_first th {
 border-top-width: 2px;
 }
-#utzdeqabnn .gt_summary_row {
+#ytogpsdnod .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -5204,14 +5204,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#utzdeqabnn .gt_first_summary_row {
+#ytogpsdnod .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #0076BA;
 }
-#utzdeqabnn .gt_first_summary_row.thick {
+#ytogpsdnod .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#utzdeqabnn .gt_last_summary_row {
+#ytogpsdnod .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5220,7 +5220,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #0076BA;
 }
-#utzdeqabnn .gt_grand_summary_row {
+#ytogpsdnod .gt_grand_summary_row {
 color: #333333;
 background-color: #89D3FE;
 text-transform: inherit;
@@ -5229,7 +5229,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#utzdeqabnn .gt_first_grand_summary_row {
+#ytogpsdnod .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5238,7 +5238,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #0076BA;
 }
-#utzdeqabnn .gt_last_grand_summary_row_top {
+#ytogpsdnod .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -5247,10 +5247,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #0076BA;
 }
-#utzdeqabnn .gt_striped {
+#ytogpsdnod .gt_striped {
 background-color: #F4F4F4;
 }
-#utzdeqabnn .gt_table_body {
+#ytogpsdnod .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #0076BA;
@@ -5258,7 +5258,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #0076BA;
 }
-#utzdeqabnn .gt_footnotes {
+#ytogpsdnod .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5271,7 +5271,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#utzdeqabnn .gt_footnote {
+#ytogpsdnod .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -5279,7 +5279,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#utzdeqabnn .gt_sourcenotes {
+#ytogpsdnod .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -5292,62 +5292,62 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#utzdeqabnn .gt_sourcenote {
+#ytogpsdnod .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#utzdeqabnn .gt_left {
+#ytogpsdnod .gt_left {
 text-align: left;
 }
-#utzdeqabnn .gt_center {
+#ytogpsdnod .gt_center {
 text-align: center;
 }
-#utzdeqabnn .gt_right {
+#ytogpsdnod .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#utzdeqabnn .gt_font_normal {
+#ytogpsdnod .gt_font_normal {
 font-weight: normal;
 }
-#utzdeqabnn .gt_font_bold {
+#ytogpsdnod .gt_font_bold {
 font-weight: bold;
 }
-#utzdeqabnn .gt_font_italic {
+#ytogpsdnod .gt_font_italic {
 font-style: italic;
 }
-#utzdeqabnn .gt_super {
+#ytogpsdnod .gt_super {
 font-size: 65%;
 }
-#utzdeqabnn .gt_footnote_marks {
+#ytogpsdnod .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#utzdeqabnn .gt_asterisk {
+#ytogpsdnod .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#utzdeqabnn .gt_indent_1 {
+#ytogpsdnod .gt_indent_1 {
 text-indent: 5px;
 }
-#utzdeqabnn .gt_indent_2 {
+#ytogpsdnod .gt_indent_2 {
 text-indent: 10px;
 }
-#utzdeqabnn .gt_indent_3 {
+#ytogpsdnod .gt_indent_3 {
 text-indent: 15px;
 }
-#utzdeqabnn .gt_indent_4 {
+#ytogpsdnod .gt_indent_4 {
 text-indent: 20px;
 }
-#utzdeqabnn .gt_indent_5 {
+#ytogpsdnod .gt_indent_5 {
 text-indent: 25px;
 }
 </style>
-<div id="utzdeqabnn" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="utzdeqabnn">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Language":["English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","Italian","Italian","Italian","Italian"],"Source":["Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter2","Experimenter2","Experimenter2","Unknown","Unknown","Unknown","Unknown","Unknown","readme","readme","reddit1","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit2","reddit2","reddit2","reddit2","reddit2","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit5","reddit5","reddit5","reddit5","reddit5","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit7","reddit8","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","website","website","website","mafas","sobon","sobon","sobon"],"Comments":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"It was too long to fill out",null,null,null,"Sizing of pics wasn't ideal for my phone, they didn't fully show/fit on the screen",null,null,"Don't know if it's intentional, but found the label green/red to be reversed on different test tries",null,null,null,"Interesting study!","I think for better results, the images displayed should be friendly to the participant’s sexual orientation",null,"The test was a little long. I would have liked if it revealed if any of the photos/AI images were mislabeled intentionally or not at the end or just confirm all the labels were correct at the end.",null,"Better results might be achieved by focusing on themes: Arousal/Enticement (with hetero/homo/bi selected first), and Realism (with unlabeled images and a mix of obvious and no-so-obvious images)","Less men",null,null,null,null,null,null,"Sliders would have better UX if you could near clicks outside slider would still set the slider value",null,null,"When do we get to use the model. It looks great!",null,"I felt there were more explicit pictures showing men than women",null,"seemed like the ratio of males to females was skewed",null,null,"i know \"AI generated\" and \"photo\" were most likely just randomly put to random pics, but to be fair i didn't have enough time to notice any pics that i absolutely knew they were made with AI",null,null,null,"In terms of pornografy, I don't think realism and lewd images are what you should be focusing on. The future AI has in pornography is to express the fantastic, and to relieve the business of ethical dilemmas, imo. Or, that could be one possible future where AI can add something other than budget cuts.",null,null,"When comfyui",null,null,null,null,null,"I do not","Might wanna get your test subject to select sexual orientation beforehand in order to get better results.","1 second is not nearly enough to evaluate if a picture is realistic.",null,null,null,null,"This whole thing felt dumb, there are to many verables you are not getting that the info is useless, by then end I was just board. Next time find out what peoples kinks are and connect electrodes to our penis",null,null,null,null,null,null,"It was honestly a little hard to get through. I don't think I've flipped through so many dick pics in my whole life. Maybe shorten it. Or sort by gender preference, or smth..",null,null,null,"Seems like a test of sexual orientation","Interesting experiment!",null,"-Not enough time to look at the pictures.",null,null,"sliders are too small",null,null,null,null,"n/a",null,"I hope the milk guy is a researcher","Give a promp to those who are ai image, details about it and program/software used",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"They were all real photos",null,null,"now I am worried and excited about the future of AI. I guess a erotic content will be generated more as compared to the real in the future.","I’d like to see the final results.",null,"Feel like being primed for sexual images meant I was more annoyed with and disliked non sexual images more than I usually would","I noticed most of the people in both the AI and real photos were mostly all white.  But this was a cool study!","Quite fun! Wish to see what outcomes you find from this research!",null,null,null,null,"Too much male genitalia",null,null,null,null,null,null,"if images were shown longer it would probably be easier to tell Ai generated from photographs",null,"The photographs seemed to overly trend towards control pics while the AI shots trended towards explicit pornography. Also I think there were more shirtless men than any other type of content lol",null,null,"images should be shows for longer to see more details",null,null,null,"There was not a lot of time to judge if the pictures were photo's or AI-generated",null,null,null,null,"why all men",null,null,null,"A second is not enough time to look at a picture and decide how realistic it is. Otherwise a fine questionaire","Fun",null,null,null,null,"Couldn't you have asked my sexual orientation in advance? I'm being helpful here by participating. I really don't enjoy seeing dicks.",null,null,null,null,null,null,null,null,null,"Not mobile friendly",null,null,"Should do some with actual sexual activity such as sex, oral, anal ect as they tend to be harder to generate for AI.",null,null,null,null,null,null,null,null,null,null,null,null,null,null,"AI with ethics is the only sustainable path",null,"This was shit.  You suck.",null,"AI porn is just the worst.","get hotter pics of women - or don't idrk i kinda just got bored",null,null,"The pictures flashed by too quickly to really look for potential AI artifacts. Overall, almost all pictures looked realistic enough and whether or not it was sexy depended solely on the subject - not on whether it was AI or not.","The images did not stay visible long enough to search for artifacts, yet some of the artifacts were blatant and ruined the authenticity of the image.",null,null,null,null,null,null,"In the blink of an eye you can, of course, not differentiate between AI made and human made pictures. However, the same is true for situations happening in real life (e.g. did a person drive a red or green car if I only saw it as part of a picture for the fraction of a second. It takes time to spot AI made content. But it also takes time to grasp a picture at all for verifying if there are any flaws.",null,null,null,null,"Images moved past too quick to actually look for the telltail signs of ai","All pics are real",null,null,null,null,null,"Too many men",null,null,null,null,null,"Nice",null,null,null,null,null,null,"Though not in this set of images, I can usually tell that an image was created by an AI if it contains faces. In those cases I’ve often found the AI generated faces prettier, even if they’re less realistic.",null,null,null,"in second test, it is to quickly for viewing","Thanks for all the hard work, I hope your research provide great results, have a happy 2024!","The pictures went very fast",null,null,null,null,null,null,null,null,null,null,null,"Would have liked a completion bar so I knew roughly how much longer I had until finishing. Interesting experiment.",null,null,null,null,null,null,null,null,null,null,null,null,null,null,"Didn't have long enough to really examine the images to see the details that AI often gets wrong.","It would have been interesting to be able to give more qualified responses to the questions about our perception of AI - really interesting study",null,null,null,null,"meh",null,null,"No. Thank you for allowing me to take part in such an interesting (and arousing!) study.",null,null,"Interesting project, difficult to distinguish \"enticing\" from \"pleasant\"","A blink examination cannot be equated with a full examination of the image.","I think it's worth noting that, if the labels are correct, a lot of the ai-generated images are different from the photos in the sense that they're less contextualized and spontaneous? (Like a lot of them are contextless butts in very pin-up-like angles/poses) which is an important factor in how we feel about them.",null,"image time made it difficult to determine artefacts, which i suspect was the purpose!",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},"columns":[{"id":"Language","name":"Language","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","Italian","Italian","Italian","Italian"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Source","name":"Source","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter1","Experimenter2","Experimenter2","Experimenter2","Unknown","Unknown","Unknown","Unknown","Unknown","readme","readme","reddit1","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit2","reddit2","reddit2","reddit2","reddit2","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit5","reddit5","reddit5","reddit5","reddit5","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit7","reddit8","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","snow","website","website","website","mafas","sobon","sobon","sobon"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Comments","name":"Comments","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","It was too long to fill out","NA","NA","NA","Sizing of pics wasn't ideal for my phone, they didn't fully show/fit on the screen","NA","NA","Don't know if it's intentional, but found the label green/red to be reversed on different test tries","NA","NA","NA","Interesting study!","I think for better results, the images displayed should be friendly to the participant’s sexual orientation","NA","The test was a little long. I would have liked if it revealed if any of the photos/AI images were mislabeled intentionally or not at the end or just confirm all the labels were correct at the end.","NA","Better results might be achieved by focusing on themes: Arousal/Enticement (with hetero/homo/bi selected first), and Realism (with unlabeled images and a mix of obvious and no-so-obvious images)","Less men","NA","NA","NA","NA","NA","NA","Sliders would have better UX if you could near clicks outside slider would still set the slider value","NA","NA","When do we get to use the model. It looks great!","NA","I felt there were more explicit pictures showing men than women","NA","seemed like the ratio of males to females was skewed","NA","NA","i know \"AI generated\" and \"photo\" were most likely just randomly put to random pics, but to be fair i didn't have enough time to notice any pics that i absolutely knew they were made with AI","NA","NA","NA","In terms of pornografy, I don't think realism and lewd images are what you should be focusing on. The future AI has in pornography is to express the fantastic, and to relieve the business of ethical dilemmas, imo. Or, that could be one possible future where AI can add something other than budget cuts.","NA","NA","When comfyui","NA","NA","NA","NA","NA","I do not","Might wanna get your test subject to select sexual orientation beforehand in order to get better results.","1 second is not nearly enough to evaluate if a picture is realistic.","NA","NA","NA","NA","This whole thing felt dumb, there are to many verables you are not getting that the info is useless, by then end I was just board. Next time find out what peoples kinks are and connect electrodes to our penis","NA","NA","NA","NA","NA","NA","It was honestly a little hard to get through. I don't think I've flipped through so many dick pics in my whole life. Maybe shorten it. Or sort by gender preference, or smth..","NA","NA","NA","Seems like a test of sexual orientation","Interesting experiment!","NA","-Not enough time to look at the pictures.","NA","NA","sliders are too small","NA","NA","NA","NA","n/a","NA","I hope the milk guy is a researcher","Give a promp to those who are ai image, details about it and program/software used","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","They were all real photos","NA","NA","now I am worried and excited about the future of AI. I guess a erotic content will be generated more as compared to the real in the future.","I’d like to see the final results.","NA","Feel like being primed for sexual images meant I was more annoyed with and disliked non sexual images more than I usually would","I noticed most of the people in both the AI and real photos were mostly all white.  But this was a cool study!","Quite fun! Wish to see what outcomes you find from this research!","NA","NA","NA","NA","Too much male genitalia","NA","NA","NA","NA","NA","NA","if images were shown longer it would probably be easier to tell Ai generated from photographs","NA","The photographs seemed to overly trend towards control pics while the AI shots trended towards explicit pornography. Also I think there were more shirtless men than any other type of content lol","NA","NA","images should be shows for longer to see more details","NA","NA","NA","There was not a lot of time to judge if the pictures were photo's or AI-generated","NA","NA","NA","NA","why all men","NA","NA","NA","A second is not enough time to look at a picture and decide how realistic it is. Otherwise a fine questionaire","Fun","NA","NA","NA","NA","Couldn't you have asked my sexual orientation in advance? I'm being helpful here by participating. I really don't enjoy seeing dicks.","NA","NA","NA","NA","NA","NA","NA","NA","NA","Not mobile friendly","NA","NA","Should do some with actual sexual activity such as sex, oral, anal ect as they tend to be harder to generate for AI.","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","AI with ethics is the only sustainable path","NA","This was shit.  You suck.","NA","AI porn is just the worst.","get hotter pics of women - or don't idrk i kinda just got bored","NA","NA","The pictures flashed by too quickly to really look for potential AI artifacts. Overall, almost all pictures looked realistic enough and whether or not it was sexy depended solely on the subject - not on whether it was AI or not.","The images did not stay visible long enough to search for artifacts, yet some of the artifacts were blatant and ruined the authenticity of the image.","NA","NA","NA","NA","NA","NA","In the blink of an eye you can, of course, not differentiate between AI made and human made pictures. However, the same is true for situations happening in real life (e.g. did a person drive a red or green car if I only saw it as part of a picture for the fraction of a second. It takes time to spot AI made content. But it also takes time to grasp a picture at all for verifying if there are any flaws.","NA","NA","NA","NA","Images moved past too quick to actually look for the telltail signs of ai","All pics are real","NA","NA","NA","NA","NA","Too many men","NA","NA","NA","NA","NA","Nice","NA","NA","NA","NA","NA","NA","Though not in this set of images, I can usually tell that an image was created by an AI if it contains faces. In those cases I’ve often found the AI generated faces prettier, even if they’re less realistic.","NA","NA","NA","in second test, it is to quickly for viewing","Thanks for all the hard work, I hope your research provide great results, have a happy 2024!","The pictures went very fast","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","Would have liked a completion bar so I knew roughly how much longer I had until finishing. Interesting experiment.","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","Didn't have long enough to really examine the images to see the details that AI often gets wrong.","It would have been interesting to be able to give more qualified responses to the questions about our perception of AI - really interesting study","NA","NA","NA","NA","meh","NA","NA","No. Thank you for allowing me to take part in such an interesting (and arousing!) study.","NA","NA","Interesting project, difficult to distinguish \"enticing\" from \"pleasant\"","A blink examination cannot be equated with a full examination of the image.","I think it's worth noting that, if the labels are correct, a lot of the ai-generated images are different from the photos in the sense that they're less contextualized and spontaneous? (Like a lot of them are contextless butts in very pin-up-like angles/poses) which is an important factor in how we feel about them.","NA","image time made it difficult to determine artefacts, which i suspect was the purpose!","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA","NA"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}}],"defaultPageSize":10,"showPageSizeOptions":false,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPagination":true,"showPageInfo":true,"minRows":1,"striped":true,"compact":true,"showSortable":true,"height":"auto","theme":{"color":"#333333","backgroundColor":"#FFFFFF","stripedColor":"#F4F4F4","style":{"fontFamily":"system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"},"headerStyle":{"borderTopStyle":"solid","borderTopWidth":"2px","borderTopColor":"#0076BA","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#0076BA"}},"elementId":"utzdeqabnn","dataKey":"5f632b0f4e7e58b7e8311aca81c89055"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style"],"jsHooks":[]}</script>
+<div id="ytogpsdnod" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="ytogpsdnod">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Language":["English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English"],"Source":["Experimenter2","Unknown","readme","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit2","reddit2","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit5","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit8","snow","snow","snow","snow","snow","snow","snow"],"Comments":["It was too long to fill out","Sizing of pics wasn't ideal for my phone, they didn't fully show/fit on the screen","Don't know if it's intentional, but found the label green/red to be reversed on different test tries","Interesting study!","I think for better results, the images displayed should be friendly to the participant’s sexual orientation","The test was a little long. I would have liked if it revealed if any of the photos/AI images were mislabeled intentionally or not at the end or just confirm all the labels were correct at the end.","Better results might be achieved by focusing on themes: Arousal/Enticement (with hetero/homo/bi selected first), and Realism (with unlabeled images and a mix of obvious and no-so-obvious images)","Less men","Sliders would have better UX if you could near clicks outside slider would still set the slider value","When do we get to use the model. It looks great!","I felt there were more explicit pictures showing men than women","seemed like the ratio of males to females was skewed","i know \"AI generated\" and \"photo\" were most likely just randomly put to random pics, but to be fair i didn't have enough time to notice any pics that i absolutely knew they were made with AI","In terms of pornografy, I don't think realism and lewd images are what you should be focusing on. The future AI has in pornography is to express the fantastic, and to relieve the business of ethical dilemmas, imo. Or, that could be one possible future where AI can add something other than budget cuts.","When comfyui","I do not","Might wanna get your test subject to select sexual orientation beforehand in order to get better results.","1 second is not nearly enough to evaluate if a picture is realistic.","This whole thing felt dumb, there are to many verables you are not getting that the info is useless, by then end I was just board. Next time find out what peoples kinks are and connect electrodes to our penis","It was honestly a little hard to get through. I don't think I've flipped through so many dick pics in my whole life. Maybe shorten it. Or sort by gender preference, or smth..","Seems like a test of sexual orientation","Interesting experiment!","-Not enough time to look at the pictures.","sliders are too small","n/a","I hope the milk guy is a researcher","Give a promp to those who are ai image, details about it and program/software used","They were all real photos","now I am worried and excited about the future of AI. I guess a erotic content will be generated more as compared to the real in the future.","I’d like to see the final results.","Feel like being primed for sexual images meant I was more annoyed with and disliked non sexual images more than I usually would","I noticed most of the people in both the AI and real photos were mostly all white.  But this was a cool study!","Quite fun! Wish to see what outcomes you find from this research!","Too much male genitalia","if images were shown longer it would probably be easier to tell Ai generated from photographs","The photographs seemed to overly trend towards control pics while the AI shots trended towards explicit pornography. Also I think there were more shirtless men than any other type of content lol","images should be shows for longer to see more details","There was not a lot of time to judge if the pictures were photo's or AI-generated","why all men","A second is not enough time to look at a picture and decide how realistic it is. Otherwise a fine questionaire","Fun","Couldn't you have asked my sexual orientation in advance? I'm being helpful here by participating. I really don't enjoy seeing dicks.","Not mobile friendly","Should do some with actual sexual activity such as sex, oral, anal ect as they tend to be harder to generate for AI.","AI with ethics is the only sustainable path","This was shit.  You suck.","AI porn is just the worst.","get hotter pics of women - or don't idrk i kinda just got bored","The pictures flashed by too quickly to really look for potential AI artifacts. Overall, almost all pictures looked realistic enough and whether or not it was sexy depended solely on the subject - not on whether it was AI or not.","The images did not stay visible long enough to search for artifacts, yet some of the artifacts were blatant and ruined the authenticity of the image.","In the blink of an eye you can, of course, not differentiate between AI made and human made pictures. However, the same is true for situations happening in real life (e.g. did a person drive a red or green car if I only saw it as part of a picture for the fraction of a second. It takes time to spot AI made content. But it also takes time to grasp a picture at all for verifying if there are any flaws.","Images moved past too quick to actually look for the telltail signs of ai","All pics are real","Too many men","Nice","Though not in this set of images, I can usually tell that an image was created by an AI if it contains faces. In those cases I’ve often found the AI generated faces prettier, even if they’re less realistic.","in second test, it is to quickly for viewing","Thanks for all the hard work, I hope your research provide great results, have a happy 2024!","The pictures went very fast","Would have liked a completion bar so I knew roughly how much longer I had until finishing. Interesting experiment.","Didn't have long enough to really examine the images to see the details that AI often gets wrong.","It would have been interesting to be able to give more qualified responses to the questions about our perception of AI - really interesting study","meh","No. Thank you for allowing me to take part in such an interesting (and arousing!) study.","Interesting project, difficult to distinguish \"enticing\" from \"pleasant\"","A blink examination cannot be equated with a full examination of the image.","I think it's worth noting that, if the labels are correct, a lot of the ai-generated images are different from the photos in the sense that they're less contextualized and spontaneous? (Like a lot of them are contextless butts in very pin-up-like angles/poses) which is an important factor in how we feel about them.","image time made it difficult to determine artefacts, which i suspect was the purpose!"]},"columns":[{"id":"Language","name":"Language","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English","English"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Source","name":"Source","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["Experimenter2","Unknown","readme","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit12","reddit2","reddit2","reddit3","reddit3","reddit3","reddit3","reddit3","reddit3","reddit5","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit6","reddit8","snow","snow","snow","snow","snow","snow","snow"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}},{"id":"Comments","name":"Comments","type":"character","style":"function(rowInfo, colInfo) {\nconst rowIndex = rowInfo.index + 1\n}","cell":["It was too long to fill out","Sizing of pics wasn't ideal for my phone, they didn't fully show/fit on the screen","Don't know if it's intentional, but found the label green/red to be reversed on different test tries","Interesting study!","I think for better results, the images displayed should be friendly to the participant’s sexual orientation","The test was a little long. I would have liked if it revealed if any of the photos/AI images were mislabeled intentionally or not at the end or just confirm all the labels were correct at the end.","Better results might be achieved by focusing on themes: Arousal/Enticement (with hetero/homo/bi selected first), and Realism (with unlabeled images and a mix of obvious and no-so-obvious images)","Less men","Sliders would have better UX if you could near clicks outside slider would still set the slider value","When do we get to use the model. It looks great!","I felt there were more explicit pictures showing men than women","seemed like the ratio of males to females was skewed","i know \"AI generated\" and \"photo\" were most likely just randomly put to random pics, but to be fair i didn't have enough time to notice any pics that i absolutely knew they were made with AI","In terms of pornografy, I don't think realism and lewd images are what you should be focusing on. The future AI has in pornography is to express the fantastic, and to relieve the business of ethical dilemmas, imo. Or, that could be one possible future where AI can add something other than budget cuts.","When comfyui","I do not","Might wanna get your test subject to select sexual orientation beforehand in order to get better results.","1 second is not nearly enough to evaluate if a picture is realistic.","This whole thing felt dumb, there are to many verables you are not getting that the info is useless, by then end I was just board. Next time find out what peoples kinks are and connect electrodes to our penis","It was honestly a little hard to get through. I don't think I've flipped through so many dick pics in my whole life. Maybe shorten it. Or sort by gender preference, or smth..","Seems like a test of sexual orientation","Interesting experiment!","-Not enough time to look at the pictures.","sliders are too small","n/a","I hope the milk guy is a researcher","Give a promp to those who are ai image, details about it and program/software used","They were all real photos","now I am worried and excited about the future of AI. I guess a erotic content will be generated more as compared to the real in the future.","I’d like to see the final results.","Feel like being primed for sexual images meant I was more annoyed with and disliked non sexual images more than I usually would","I noticed most of the people in both the AI and real photos were mostly all white.  But this was a cool study!","Quite fun! Wish to see what outcomes you find from this research!","Too much male genitalia","if images were shown longer it would probably be easier to tell Ai generated from photographs","The photographs seemed to overly trend towards control pics while the AI shots trended towards explicit pornography. Also I think there were more shirtless men than any other type of content lol","images should be shows for longer to see more details","There was not a lot of time to judge if the pictures were photo's or AI-generated","why all men","A second is not enough time to look at a picture and decide how realistic it is. Otherwise a fine questionaire","Fun","Couldn't you have asked my sexual orientation in advance? I'm being helpful here by participating. I really don't enjoy seeing dicks.","Not mobile friendly","Should do some with actual sexual activity such as sex, oral, anal ect as they tend to be harder to generate for AI.","AI with ethics is the only sustainable path","This was shit.  You suck.","AI porn is just the worst.","get hotter pics of women - or don't idrk i kinda just got bored","The pictures flashed by too quickly to really look for potential AI artifacts. Overall, almost all pictures looked realistic enough and whether or not it was sexy depended solely on the subject - not on whether it was AI or not.","The images did not stay visible long enough to search for artifacts, yet some of the artifacts were blatant and ruined the authenticity of the image.","In the blink of an eye you can, of course, not differentiate between AI made and human made pictures. However, the same is true for situations happening in real life (e.g. did a person drive a red or green car if I only saw it as part of a picture for the fraction of a second. It takes time to spot AI made content. But it also takes time to grasp a picture at all for verifying if there are any flaws.","Images moved past too quick to actually look for the telltail signs of ai","All pics are real","Too many men","Nice","Though not in this set of images, I can usually tell that an image was created by an AI if it contains faces. In those cases I’ve often found the AI generated faces prettier, even if they’re less realistic.","in second test, it is to quickly for viewing","Thanks for all the hard work, I hope your research provide great results, have a happy 2024!","The pictures went very fast","Would have liked a completion bar so I knew roughly how much longer I had until finishing. Interesting experiment.","Didn't have long enough to really examine the images to see the details that AI often gets wrong.","It would have been interesting to be able to give more qualified responses to the questions about our perception of AI - really interesting study","meh","No. Thank you for allowing me to take part in such an interesting (and arousing!) study.","Interesting project, difficult to distinguish \"enticing\" from \"pleasant\"","A blink examination cannot be equated with a full examination of the image.","I think it's worth noting that, if the labels are correct, a lot of the ai-generated images are different from the photos in the sense that they're less contextualized and spontaneous? (Like a lot of them are contextless butts in very pin-up-like angles/poses) which is an important factor in how we feel about them.","image time made it difficult to determine artefacts, which i suspect was the purpose!"],"html":true,"align":"left","headerStyle":{"font-weight":"normal"}}],"defaultPageSize":10,"showPageSizeOptions":false,"pageSizeOptions":[10,25,50,100],"paginationType":"numbers","showPagination":true,"showPageInfo":true,"minRows":1,"striped":true,"compact":true,"showSortable":true,"height":"auto","theme":{"color":"#333333","backgroundColor":"#FFFFFF","stripedColor":"#F4F4F4","style":{"fontFamily":"system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"},"headerStyle":{"borderTopStyle":"solid","borderTopWidth":"2px","borderTopColor":"#0076BA","borderBottomStyle":"solid","borderBottomWidth":"2px","borderBottomColor":"#0076BA"}},"elementId":"ytogpsdnod","dataKey":"0e5994488e0fa0fb5df66e15317255f4"},"children":[]},"class":"reactR_markup"},"evals":["tag.attribs.columns.0.style","tag.attribs.columns.1.style","tag.attribs.columns.2.style"],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
@@ -6180,7 +6180,7 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">full_join</span>(df, scores[<span class="fu">c</span>(<span class="st">&quot;Participant&quot;</span>, <span class="st">&quot;BAIT_SEM&quot;</span>, <span class="st">&quot;BAIT&quot;</span>)], <span class="at">by=</span><span class="st">&quot;Participant&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We computed two type of general scores for the BAIT scale, an <strong>empirical</strong> score based on the average of observed data (of the most loading items) and a model-based variable as predicted by the structural model. The first one gives equal weight to all items (and keeps the same [0-1] range), while the second one is based on the factor loadings and the covariance structure.</p>
+<p>We computed two type of general scores for the BAIT scale, an <strong>empirical</strong> score based on the average of observed data (of the most loading items) and a <strong>model-based</strong> score as predicted by the structural model. The first one gives equal weight to all items (and keeps the same [0-1] range), while the second one is based on the factor loadings and the covariance structure.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -6217,20 +6217,20 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 </details>
 <div class="cell-output-display">
 
-<div id="zpzcvpohpy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zpzcvpohpy table {
+<div id="iozilxpuud" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iozilxpuud table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#zpzcvpohpy thead, #zpzcvpohpy tbody, #zpzcvpohpy tfoot, #zpzcvpohpy tr, #zpzcvpohpy td, #zpzcvpohpy th {
+#iozilxpuud thead, #iozilxpuud tbody, #iozilxpuud tfoot, #iozilxpuud tr, #iozilxpuud td, #iozilxpuud th {
 border-style: none;
 }
-#zpzcvpohpy p {
+#iozilxpuud p {
 margin: 0;
 padding: 0;
 }
-#zpzcvpohpy .gt_table {
+#iozilxpuud .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -6255,11 +6255,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_caption {
+#iozilxpuud .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#zpzcvpohpy .gt_title {
+#iozilxpuud .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -6270,7 +6270,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#zpzcvpohpy .gt_subtitle {
+#iozilxpuud .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -6281,7 +6281,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#zpzcvpohpy .gt_heading {
+#iozilxpuud .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -6292,12 +6292,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_bottom_border {
+#iozilxpuud .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_col_headings {
+#iozilxpuud .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -6311,7 +6311,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_col_heading {
+#iozilxpuud .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -6330,7 +6330,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#zpzcvpohpy .gt_column_spanner_outer {
+#iozilxpuud .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -6341,13 +6341,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#zpzcvpohpy .gt_column_spanner_outer:first-child {
+#iozilxpuud .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#zpzcvpohpy .gt_column_spanner_outer:last-child {
+#iozilxpuud .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#zpzcvpohpy .gt_column_spanner {
+#iozilxpuud .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -6358,10 +6358,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#zpzcvpohpy .gt_spanner_row {
+#iozilxpuud .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#zpzcvpohpy .gt_group_heading {
+#iozilxpuud .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -6386,7 +6386,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#zpzcvpohpy .gt_empty_group_heading {
+#iozilxpuud .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -6400,13 +6400,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#zpzcvpohpy .gt_from_md > :first-child {
+#iozilxpuud .gt_from_md > :first-child {
 margin-top: 0;
 }
-#zpzcvpohpy .gt_from_md > :last-child {
+#iozilxpuud .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#zpzcvpohpy .gt_row {
+#iozilxpuud .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -6424,7 +6424,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#zpzcvpohpy .gt_stub {
+#iozilxpuud .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -6436,7 +6436,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zpzcvpohpy .gt_stub_row_group {
+#iozilxpuud .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -6449,13 +6449,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#zpzcvpohpy .gt_row_group_first td {
+#iozilxpuud .gt_row_group_first td {
 border-top-width: 2px;
 }
-#zpzcvpohpy .gt_row_group_first th {
+#iozilxpuud .gt_row_group_first th {
 border-top-width: 2px;
 }
-#zpzcvpohpy .gt_summary_row {
+#iozilxpuud .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -6464,14 +6464,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zpzcvpohpy .gt_first_summary_row {
+#iozilxpuud .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_first_summary_row.thick {
+#iozilxpuud .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#zpzcvpohpy .gt_last_summary_row {
+#iozilxpuud .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -6480,7 +6480,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_grand_summary_row {
+#iozilxpuud .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -6489,7 +6489,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zpzcvpohpy .gt_first_grand_summary_row {
+#iozilxpuud .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -6498,7 +6498,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_last_grand_summary_row_top {
+#iozilxpuud .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -6507,10 +6507,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_striped {
+#iozilxpuud .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#zpzcvpohpy .gt_table_body {
+#iozilxpuud .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -6518,7 +6518,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_footnotes {
+#iozilxpuud .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -6531,7 +6531,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_footnote {
+#iozilxpuud .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -6539,7 +6539,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zpzcvpohpy .gt_sourcenotes {
+#iozilxpuud .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -6552,57 +6552,57 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zpzcvpohpy .gt_sourcenote {
+#iozilxpuud .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zpzcvpohpy .gt_left {
+#iozilxpuud .gt_left {
 text-align: left;
 }
-#zpzcvpohpy .gt_center {
+#iozilxpuud .gt_center {
 text-align: center;
 }
-#zpzcvpohpy .gt_right {
+#iozilxpuud .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#zpzcvpohpy .gt_font_normal {
+#iozilxpuud .gt_font_normal {
 font-weight: normal;
 }
-#zpzcvpohpy .gt_font_bold {
+#iozilxpuud .gt_font_bold {
 font-weight: bold;
 }
-#zpzcvpohpy .gt_font_italic {
+#iozilxpuud .gt_font_italic {
 font-style: italic;
 }
-#zpzcvpohpy .gt_super {
+#iozilxpuud .gt_super {
 font-size: 65%;
 }
-#zpzcvpohpy .gt_footnote_marks {
+#iozilxpuud .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#zpzcvpohpy .gt_asterisk {
+#iozilxpuud .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#zpzcvpohpy .gt_indent_1 {
+#iozilxpuud .gt_indent_1 {
 text-indent: 5px;
 }
-#zpzcvpohpy .gt_indent_2 {
+#iozilxpuud .gt_indent_2 {
 text-indent: 10px;
 }
-#zpzcvpohpy .gt_indent_3 {
+#iozilxpuud .gt_indent_3 {
 text-indent: 15px;
 }
-#zpzcvpohpy .gt_indent_4 {
+#iozilxpuud .gt_indent_4 {
 text-indent: 20px;
 }
-#zpzcvpohpy .gt_indent_5 {
+#iozilxpuud .gt_indent_5 {
 text-indent: 25px;
 }
 </style>
@@ -6622,10 +6622,10 @@ text-indent: 25px;
     <tr><td headers="Variables" class="gt_row gt_center">BAIT_SEM</td>
 <td headers="GAAIS_Negative_10" class="gt_row gt_center">-0.13</td>
 <td headers="GAAIS_Positive_7" class="gt_row gt_center">0.39***</td>
-<td headers="GAAIS_Negative_9" class="gt_row gt_center">0.13</td>
+<td headers="GAAIS_Negative_9" class="gt_row gt_center">0.14</td>
 <td headers="GAAIS_Positive_12" class="gt_row gt_center">0.31***</td>
-<td headers="GAAIS_Positive_17" class="gt_row gt_center">0.23**</td>
-<td headers="GAAIS_Negative_15" class="gt_row gt_center">-0.16</td></tr>
+<td headers="GAAIS_Positive_17" class="gt_row gt_center">0.24**</td>
+<td headers="GAAIS_Negative_15" class="gt_row gt_center">-0.15</td></tr>
     <tr><td headers="Variables" class="gt_row gt_center">ML1</td>
 <td headers="GAAIS_Negative_10" class="gt_row gt_center">0.11</td>
 <td headers="GAAIS_Positive_7" class="gt_row gt_center">0.02</td>
@@ -6639,7 +6639,7 @@ text-indent: 25px;
 <td headers="GAAIS_Negative_9" class="gt_row gt_center">0.13</td>
 <td headers="GAAIS_Positive_12" class="gt_row gt_center">0.22**</td>
 <td headers="GAAIS_Positive_17" class="gt_row gt_center">0.20**</td>
-<td headers="GAAIS_Negative_15" class="gt_row gt_center">7.39e-04</td></tr>
+<td headers="GAAIS_Negative_15" class="gt_row gt_center">1.35e-03</td></tr>
   </tbody>
   
   
@@ -6710,7 +6710,7 @@ text-indent: 25px;
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax=</span>conf.high), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="data:image/png;base64,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" class="img-fluid" width="672"></p>
+<p><img src="data:image/png;base64,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" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>

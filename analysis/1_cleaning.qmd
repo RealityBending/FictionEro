@@ -129,7 +129,7 @@ df |>
 data.frame(Language = df$Language,
            Source = df$Experimenter,
            Comments = trimws(df$Feedback_Comments)) |> 
-  filter(!Comments %in% c("", "No", "Nope", "nope", "None", "na")) |> 
+  filter(!Comments %in% c(NA, "", "No", "Nope", "nope", "None", "na")) |> 
   arrange(Language, Source) |>
   gt::gt() |> 
   gt::opt_stylize() |> 
@@ -458,31 +458,6 @@ p_age <- estimate_density(df$Age) |>
   )
 p_age
 ```
-
-
-<!-- ## Ethnicity -->
-
-<!-- ```{r p_demographics_ethnicity} -->
-<!-- plot_waffle <- function(sub, what = "Nationality", title = what, rows = 8, size = 3) { -->
-<!--   ggwaffle::waffle_iron(sub, what, rows = rows) |> -->
-<!--     ggplot(aes(x, y)) + -->
-<!--     geom_point(aes(color = group), shape = "square", size = size) + -->
-<!--     coord_equal() + -->
-<!--     ggtitle(title) + -->
-<!--     labs(fill = "", color = "", subtitle = "N participants per self-declared group") + # (each square represents one participant)" -->
-<!--     theme_void() + -->
-<!--     theme( -->
-<!--       plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0), -->
-<!--       plot.subtitle = element_text(size = rel(1.2)), -->
-<!--       legend.key.height = unit(1, "mm"), -->
-<!--       legend.key.width = unit(1, "mm") -->
-<!--     ) -->
-<!-- } -->
-
-<!-- p_ethni <- plot_waffle(sub, "Ethnicity", rows = 20, size = 8) + -->
-<!--   scale_color_manual(values = c("Hispanic" = "#FF5722", "Caucasian" = "#2196F3", "African" = "#4CAF50", "Asian" = "#FFC107", "Other" = "#795548")) -->
-<!-- p_ethni -->
-<!-- ``` -->
 
 
 ### Education
