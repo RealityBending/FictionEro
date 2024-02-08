@@ -1,6 +1,6 @@
 # FictionEro
 
-This international and interdisciplinary project brings together neuroscientists, psychologists and philosophers to study the effect of reality beliefs on sexual arousal.
+An International Multilab Investigqtion on the Impact on Sexual Arousal of Believing that the Content is AI-Generated
 
 **Warning**: This repository contains graphic stimuli (erotic images) from the open-access scientific database [NAPS-ERO](https://www.frontiersin.org/articles/10.3389/fpsyg.2015.01336/full). This is for scientific purposes only. If you are minor, please quit this repository immediately.
 
@@ -11,7 +11,12 @@ This international and interdisciplinary project brings together neuroscientists
   - [English](https://realitybending.github.io/FictionEro/experiment/english?exp=readme&lang=en)
   - [French](https://realitybending.github.io/FictionEro/experiment/french?exp=readme&lang=fr)
   - [Italian](https://realitybending.github.io/FictionEro/experiment/italian?exp=readme&lang=it)
+  - [Spanish](https://realitybending.github.io/FictionEro/experiment/spanish?exp=readme&lang=es)
 - [**Data preprocessing**](https://realitybending.github.io/FictionEro/analysis/1_cleaning.html)
+
+## Aim
+
+This international and interdisciplinary project brings together neuroscientists, psychologists and philosophers to study the effect of reality beliefs on sexual arousal.
 
 ## Rationale
 
