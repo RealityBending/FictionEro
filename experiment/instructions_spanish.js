@@ -19,10 +19,10 @@ var text_instructions1 =
     // Left aligned text
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>En este estudio buscamos validar nuestro <b> nuevo algoritmo de generación de imágenes </b> (basado en una nueva forma de Generative Adversarial Network - GAN - tecnología) diseñado para producir contenido erótico de alta calidad (pero también contenido no erótico).</p>" +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>En la siguiente tarea, se te presentarán imágenes eróticas y no eróticas generadas por nuestro algoritmo (precedidas por la palabra '<b style='color:" +
-   color_cues["Ficción"] +
+    color_cues["Fiction"] +
     "'>Generadas por IA (Inteligencia Artificial)</b>'), entremezcladas con fotos reales (precedidas por la palabra '<b style='color:" +
-    color_cues["Realidad"] +
-   "'>Fotografías</b>') tomada de bases de datos públicas.</p > " +
+    color_cues["Reality"] +
+    "'>Fotografías</b>') tomada de bases de datos públicas.</p > " +
     "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>Después de cada imagen, deberás de evaluarla a través de las siguientes escalas:</p>" +
     "<ul style='text-align: left; margin-left: 30%; margin-right: 30%;'>" +
     // Arousal: embodied
@@ -47,7 +47,7 @@ var text_instructionsbutton = "Empecemos!"
 
 // -------------------------
 
-var text_cue = { Realidad: "Fotografía", Ficción: "Generada por IA" }
+var text_cue = { Reality: "Fotografía", Fiction: "Generada por IA" }
 
 // -------------------------
 var text_instructions_questionnaires =
@@ -56,9 +56,10 @@ var text_instructions_questionnaires =
 // Ratings ----------------------------------------------------------------
 var text_ticks = ["En absoluto", "Mucho"]
 var text_ticks_valence = ["Desagradable", "Agradable"]
-var text_rating_appeal = "Que tan <b>atractiva/apetecible</b> consideras que es esta imagen?"
+var text_rating_appeal =
+    "Que tan <b>atractiva/apetecible</b> consideras que es esta imagen?"
 var text_rating_arousal = "En qué medida experimentas <b>activación sexual</b>?"
-var text_rating_valence =  "La<b>sensación</b> generada por la imagen fue..."
+var text_rating_valence = "La<b>sensación</b> generada por la imagen fue..."
 var text_rating_realness = "¿Que tan <b>realista</b> fue la imagen?"
 
 // -------------------------
@@ -81,9 +82,9 @@ var text_feedback1_items = [
 var text_feedback2 = "¿Tienes algún comentario o feedback?"
 var text_feedback2_placeholder = "Escribe aquí "
 
-// ------------------------- 
+// -------------------------
 var text_debriefing =
-"<p align='left'>El propósito de este estudio era en realidad estudiar el efecto sobre la excitación sexual de <i>creer</i> que el contenido es generado por IA. " +
+    "<p align='left'>El propósito de este estudio era en realidad estudiar el efecto sobre la excitación sexual de <i>creer</i> que el contenido es generado por IA. " +
     "De hecho, queremos probar la hipótesis de que creer que las imágenes eróticas son falsas llevaría a una menor excitación emocional. " +
     "Dado que estamos principalmente interesados en tus <i>creencias</i> sobre la realidad, todas las imágenes fueron tomadas de una base de datos existente de imágenes reales utilizadas en investigaciones psicológicas para estudiar las emociones. " +
     "Nos disculpamos por la necesaria “trampa” utilizada en las instrucciones, y esperamos que entiendas su papel en garantizar la validez de nuestro experimento.</p>" +
@@ -174,7 +175,7 @@ var cops_items = [
     {
         prompt: "<b>¿Qué tan frecuente miraste pornografía en los últimos 30 días?</b>",
         options: [
-             "0. No miré pornografía en los últimos 30 días",
+            "0. No miré pornografía en los últimos 30 días",
             "1. Miré pornografía una vez en los últimos 30 días",
             "2. Miré pornografía dos veces en los últimos 30 días",
             "3. Miré pornografía semanalmente",
@@ -264,7 +265,7 @@ var cops_items = [
 
 var consent_text = // Logo and title
     "<img src='https://blogs.brighton.ac.uk/sussexwrites/files/2019/06/University-of-Sussex-logo-transparent.png' width='150px' align='right'/><br><br><br><br><br>" +
-   "<h1>Consentimiento informado</h1>" +
+    "<h1>Consentimiento informado</h1>" +
     // Overview
     "<p align='left'><b>Invitación para participar</b><br>" +
     "Le invitamos a participar en un estudio de investigación para mejorar nuestra comprensión del impacto de las nuevas tecnologías. Gracias por leer atentamente esta hoja informativa. Este estudio está siendo liderado por el Dr. Dominique Makowski de la Universidad de Sussex, quien estará encantado de poder ser contactado (D.Makowski@sussex.ac.uk) si tiene alguna pregunta.</p>" +
@@ -289,17 +290,19 @@ var consent_text = // Logo and title
     // "<p> Tenga en cuenta que se realizarán varias comprobaciones para garantizar la validez de los datos.<br>Nos reservamos el derecho de devolverle su participación o un reembolso prorrateado si detectamos respuestas no válidas (por ejemplo, patrón aleatorio de respuestas, instrucciones no leídas, . ..).</p>"
     "<p align='left'>Para obtener más información sobre esta investigación, o si tiene alguna inquietud, comuníquese con el Dr Dominique Makowski (D.Makowski@sussex.ac.uk). Esta investigación ha sido aprobada (XX/XXXX/XX) por el consejo de ética. La Universidad de Sussex cuenta con un seguro para cubrir sus responsabilidades legales con respecto a este estudio.</p>"
 
-var consent_button = " Tengo más de 18 años y leo, entiendo y doy mi consentimiento a lo anterior."
+var consent_button =
+    " Tengo más de 18 años y leo, entiendo y doy mi consentimiento a lo anterior."
 
-
-var fullscreen_text = "<p> El experimento cambiará al modo de pantalla completa cuando presione el botón a continuación</p>"
+var fullscreen_text =
+    "<p> El experimento cambiará al modo de pantalla completa cuando presione el botón a continuación</p>"
 var fullscreen_button = "Continúa"
 
 // -------------------------
 var button_continue = "Continúa"
 var button_end = "Fin"
 
-var demographics1_preamble = "<b>Por favor, contesta las siguientes preguntas:</b>"
+var demographics1_preamble =
+    "<b>Por favor, contesta las siguientes preguntas:</b>"
 var demographics_q_sex = "¿Cual es tu sexo biológico?"
 var demographics_c_sex = ["Masculino", "Femenino", "Otro"]
 var demographics_q_edu = "¿Cual es tu máximo nivel de estudios alcanzado?"
@@ -318,7 +321,15 @@ var demographics_p_eth = "p.e., caucásico"
 var demographics_q_cou = "¿En qué país vives?"
 var demographics_p_cou = "p.e., España"
 var demographics_q_lang = "<b>¿Cúal dirías que es tu nivel de castellano?</b>"
-var demographics_c_lang = ["Principiante - 0", "1", "2", "3", "4", "5", "6 - Nativo"]
+var demographics_c_lang = [
+    "Principiante - 0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6 - Nativo",
+]
 var demographics_q_ai =
     "<b>¿En qué medida te consideras conocedor sobre la tecnología de Inteligencia Artificial (IA)?</b>"
 var demographics_c_ai = ["Nada - 0", "1", "2", "3", "4", "5", "6 - Experto"]
