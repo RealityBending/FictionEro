@@ -27,7 +27,14 @@ library(ggside)
 #| code-fold: false
 
 df <- read.csv("../data/rawdata_participants.csv") |> 
-  mutate(across(everything(), ~ifelse(.x == "", NA, .x))) 
+  mutate(across(everything(), ~ifelse(.x == "", NA, .x))) |>
+  mutate(Experimenter = case_when(
+    Language=="English" & Experimenter == "reddit7" ~ "Reddit (other)",
+    Language=="English" & Experimenter == "reddit8" ~ "Reddit (other)",
+    Language=="English" & Experimenter == "reddit1" ~ "Reddit (other)",
+    .default = Experimenter
+  ))
+
 dftask <- read.csv("../data/rawdata_task.csv") |> 
   full_join(
     df[c("Participant", "Sex", "SexualOrientation")],
@@ -81,9 +88,15 @@ df |>
     x = "Date",
     y = "Total Number of Participants"
   ) +
-  facet_wrap(~Language, nrow=2) +
+  facet_wrap(~Language, nrow=3) +
   see::theme_modern() 
- 
+
+# Table
+summarize(df, N = n(), .by=c("Language", "Experimenter")) |> 
+  arrange(desc(N)) |> 
+  gt::gt() |> 
+  gt::opt_stylize() |> 
+  gt::opt_interactive(use_compact_mode = TRUE) 
 ```
 
 
@@ -107,8 +120,8 @@ df |>
          Question = str_replace(Question, "LabelsIncorrect", "Labels were incorrect"),
          Question = str_replace(Question, "NoFeels", "Didn't feel anything"),
          Question = str_replace(Question, "CouldDiscriminate", "Easy to discriminate"),
-         Question = str_replace(Question, "LabelsReversed", "Labels were reversed"),
-         Question = fct_reorder(Question, desc(prop))) |>
+         Question = str_replace(Question, "LabelsReversed", "Labels were reversed")) |>
+  mutate(Question = fct_reorder(Question, desc(prop))) |> 
   ggplot(aes(x = Question, y = prop)) +
   geom_bar(stat = "identity") +
   scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks(), labels=scales::percent) +
@@ -129,7 +142,7 @@ df |>
 data.frame(Language = df$Language,
            Source = df$Experimenter,
            Comments = trimws(df$Feedback_Comments)) |> 
-  filter(!Comments %in% c(NA, "No", "Nope", "nope", "None", "na", "n/a")) |> 
+  filter(!Comments %in% c(NA, "No", "Nope", "nope", "None", "na", "n/a", "Non")) |> 
   arrange(Language, Source) |>
   gt::gt() |> 
   gt::opt_stylize() |> 
@@ -144,9 +157,9 @@ data.frame(Language = df$Language,
 #| code-fold: false
 
 outliers <- c(
-  # "S077", "S094",  # Low RT per item
-  # "S107"  # Low BAIT duration
+  # "S344"  # Negative Arousal-Valence correlations
   )
+potentials <- list()
 ```
 
 ### Mobile
@@ -155,7 +168,7 @@ outliers <- c(
 df |>
   ggplot(aes(x=Mobile, fill=Mobile)) +
   geom_bar() +
-  geom_hline(yintercept=nrow(df)/2, linetype="dashed") +
+  geom_hline(yintercept=0.5*nrow(df), linetype="dashed") +
   theme_modern()
 ```
 
@@ -168,7 +181,7 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 
 ### Experiment Duration
 
-The experiment's median duration is `r insight::format_value(median(df$Experiment_Duration))` min (`r print(bayestestR::hdi(df$Experiment_Duration, ci=0.5))`).
+The experiment's median duration is `r insight::format_value(median(df$Experiment_Duration))` min (`r insight::format_ci(bayestestR::hdi(df$Experiment_Duration, ci=0.5))`).
 
 ```{r}
 #| fig-width: 15
@@ -195,7 +208,13 @@ df |>
   theme_bw() +
   ggside::theme_ggside_void() +
   theme(ggside.panel.scale = .3,
-        panel.border = element_blank()) 
+        panel.border = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+potentials$expe_duration <- arrange(df, Experiment_Duration) |>
+  select(Participant, Experiment_Duration) |>
+  head(5) 
 ```
 
 
@@ -240,7 +259,18 @@ plot_hist(dftask[dftask$Participant %in% df$Participant[1:60], ])
 plot_hist(dftask[dftask$Participant %in% df$Participant[61:120], ])
 ```
 
+
+#### 121-180
+
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+plot_hist(dftask[dftask$Participant %in% df$Participant[121:180], ])
+```
+
 :::
+
 
 ### BAIT Questionnaire Duration
 
@@ -278,7 +308,7 @@ df |>
 #| fig-width: 15
 #| fig-height: 15
 
-dftask |> 
+dat <- dftask |> 
   filter(Relevance %in% c("Relevant", "Non-erotic")) |> 
   group_by(Participant, Type) |> 
   summarise(Arousal = mean(Arousal), 
@@ -291,11 +321,13 @@ dftask |>
             Valence = Valence_Erotic - `Valence_Non-erotic`,
             Enticement = Enticement_Erotic - `Enticement_Non-erotic`) |>
   filter(!is.na(Arousal)) |> 
-  mutate(Participant = fct_reorder(Participant, Arousal)) |> 
+  mutate(Participant = fct_reorder(Participant, Arousal)) 
+
+dat |> 
   pivot_longer(-Participant) |> 
   mutate(Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |> 
-  ggplot(aes(x=value, y=Participant, fill=value)) +
-  geom_bar(stat = "identity") +
+  ggplot(aes(x=value, y=Participant, fill=Group)) +
+  geom_bar(aes(fill=value), stat = "identity") +
   scale_fill_gradient2(low = "#3F51B5", mid = "#FF9800", high = "#4CAF50", midpoint = 0) +
   # scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
   theme_bw() +
@@ -303,9 +335,47 @@ dftask |>
         axis.ticks.y = element_blank()) +
   labs(title = "Difference between Erotic and Neutral", x="Erotic - Neutral") +
   facet_wrap(~name, ncol=3, scales="free_x")
+
+
+potentials$emo_diff <- arrange(dat, Arousal) |>
+  head(5)
 ```
 
 
+### Response Coherence
+
+```{r}
+dat <- dftask |> 
+  summarize(cor_ArVal = cor(Arousal, Valence),
+            cor_ArEnt = cor(Arousal, Enticement),
+            .by="Participant") |>
+  mutate(Participant = fct_reorder(Participant, cor_ArVal)) 
+
+dat |>
+  pivot_longer(-Participant) |> 
+  mutate(Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |> 
+  mutate(name = fct_relevel(name, "cor_ArVal", "cor_ArEnt"),
+         name = fct_recode(name, "Arousal - Valence" = "cor_ArVal", "Arousal - Enticement" = "cor_ArEnt")) |>
+  ggplot(aes(y = Participant, x = value, fill = Group)) +
+  geom_bar(stat = "identity") +
+  # scale_fill_gradient2(low = "#3F51B5", mid = "#FF9800", high = "#4CAF50", midpoint = 0) +
+  scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  theme_bw() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  labs(title = "Difference between Erotic and Neutral", x="Erotic - Neutral") +
+  facet_wrap(~name, ncol=3, scales="free_x")
+
+potentials$emo_cor <- arrange(dat, cor_ArVal) |>
+  head(5)
+```
+
+```{r}
+c(as.character(potentials$expe_duration$Participant), 
+  as.character(potentials$emo_diff$Participant), 
+  as.character(potentials$emo_cor$Participant)) |> 
+  table()
+```
 
 ### Sexual Profile
 
@@ -355,7 +425,7 @@ show_distribution <- function(dftask, target="Arousal") {
                                  method="KernSmooth") |>
     ggplot(aes(x = x, y = y)) +
     geom_line(aes(color = Relevance, linetype = Category)) +
-    facet_grid(SexualOrientation~Sex)  +
+    facet_grid(SexualOrientation~Sex, scales="free_y")  +
     scale_color_manual(values = c("Relevant" = "red", "Non-erotic" = "blue", "Irrelevant"="orange")) +
     scale_y_continuous(expand = c(0, 0)) +
     scale_x_continuous(expand = c(0, 0)) +
@@ -464,7 +534,7 @@ p_age
 
 ```{r p_demographics_education}
 p_edu <- df |>
-  mutate(Education = fct_relevel(Education, "Other", "High School", "Bachelor", "Master", "Doctorate")) |> 
+  mutate(Education = fct_relevel(Education, "Other", "Primary School", "High School", "Bachelor", "Master", "Doctorate")) |> 
   ggplot(aes(x = Education)) +
   geom_bar(aes(fill = Education)) +
   scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
@@ -645,8 +715,8 @@ cor |>
 ```{r}
 #| message: false
 
-# n <- parameters::n_factors(bait, type="FA")  
-# plot(n)
+n <- parameters::n_factors(bait, package = "nFactors")
+plot(n)
 
 efa <- parameters::factor_analysis(bait, cor=cor(bait), n=2, rotation = "oblimin", sort=TRUE, scores="tenBerge", fm="ml")
 plot(efa)
@@ -780,6 +850,24 @@ glm(Feedback_CouldNotDiscriminate ~ BAIT_SEM * AI_Knowledge,
   parameters::parameters() |> 
   display(title="Predicting 'Hard to discriminate'")
 ```
+
+```{r}
+glm(Feedback_Fun ~ BAIT_SEM * AI_Knowledge, 
+    data=mutate(df, Feedback_Fun = ifelse(Feedback_Fun=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'Fun'")
+```
+
+```{r}
+glm(Feedback_Boring ~ BAIT_SEM * AI_Knowledge, 
+    data=mutate(df, Feedback_Boring = ifelse(Feedback_Boring=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'Boring'")
+```
+
+
 
 :::
 

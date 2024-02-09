@@ -1,7 +1,7 @@
 import json
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 
 # Get files from OSF ======================================================
@@ -29,12 +29,14 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
     return files
 
 
-token = ""  # Paste OSF token here to access private repositories
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="sm4jc",  # Data subproject ID
     after_date="19/01/2024",
 )
+len(files)
+
 
 # Loop through files ======================================================
 # Initialize empty dataframes
@@ -65,13 +67,16 @@ for i, file in enumerate(files):
 
     # Experimenter
     experimenter = browser["researcher"]
-    if experimenter == "TEST":
+    if experimenter in ["TEST", "jc"]:
         continue
     if isinstance(experimenter, float):
         if np.isnan(experimenter):
             experimenter = "Unknown"
         else:
             experimenter = "Experimenter" + str(int(experimenter))
+    experimenter = "Readme (GitHub)" if experimenter in ["readme"] else experimenter
+    experimenter = "RISC" if experimenter in ["risc"] else experimenter
+    experimenter = "Snowball" if experimenter in ["snow"] else experimenter
 
     lang = "English" if browser["language"] == "en" else browser["language"]
     lang = "Italian" if lang == "it" else lang
@@ -119,15 +124,27 @@ for i, file in enumerate(files):
     # Education
     edu = demo1["Education"]
     edu = (
-        "Bachelor" if any([x in edu for x in ["bachelor", "laurea triennale"]]) else edu
-    )
-    edu = "Master" if any([x in edu for x in ["master"]]) else edu
-    edu = "Doctorate" if any([x in edu for x in ["doctorate", "dottorato"]]) else edu
-    edu = (
-        "High School"
-        if any([x in edu for x in ["High school", "Scuola superior"]])
+        "Bachelor"
+        if any([x in edu for x in ["bachelor", "laurea triennale", "licence"]])
         else edu
     )
+    edu = "Master" if any([x in edu for x in ["master"]]) else edu
+    edu = (
+        "Doctorate"
+        if any([x in edu for x in ["doctorate", "dottorato", "doctorat"]])
+        else edu
+    )
+    edu = (
+        "High School"
+        if any([x in edu for x in ["High school", "Scuola superior", "Baccalauréat"]])
+        else edu
+    )
+    edu = (
+        "Primary School"
+        if any([x in edu for x in ["Primary school", "École primaire", "dell'obbligo"]])
+        else edu
+    )
+    edu = "Other" if any([x in edu for x in ["Autre", "Altro", "Other"]]) else edu
     df["Education"] = edu
 
     # Country
@@ -136,8 +153,9 @@ for i, file in enumerate(files):
         "UK" if country in ["Uk", "England", "United Kingdom", "Brighton"] else country
     )
     country = "Netherlands" if country in ["The Netherlands"] else country
-    country = "Italy" if country in ["Italia"] else country
     country = "Pakistan" if country in ["Pk"] else country
+    country = "Italy" if country in ["Italia"] else country
+    country = "Belgium" if country in ["Belgique"] else country
     country = "Thailand" if country in ["Th"] else country
     country = (
         "USA"
@@ -153,7 +171,7 @@ for i, file in enumerate(files):
         ]
         else country
     )
-    country = np.nan if country in ["", "Na", "E.G. Europe"] else country
+    country = np.nan if country in ["", "Na", "E.G. Europe", "N"] else country
     df["Country"] = country
 
     # Ethnicity
@@ -184,6 +202,15 @@ for i, file in enumerate(files):
             "Italiana",
             "Caucasico",
             "Caucasica",
+            "Caucasien",
+            "Caucasienne",
+            "Cacasien",
+            "Français",
+            "Caucasien / Française",
+            "Européen",
+            "Caucasion",
+            "Française",
+            "Francais",
             "White (Us American)",
         ]
         else race
@@ -237,11 +264,38 @@ for i, file in enumerate(files):
     if "demographics_hormones" in data["screen"].unique():
         demo4 = data[data["screen"] == "demographics_hormones"].iloc[0]
         demo4 = json.loads(demo4["response"])
-        birth = demo4["BirthControl"].replace("Yes - ", "")
-        birth = "Intrauterine Device (IUD)" if "copper" in birth else birth
-        birth = "Intrauterine System (IUS)" if "IUS" in birth else birth
-        birth = "Combined pills" if "combined pills" in birth else birth
-        birth = "Condoms (for partner)" if "condoms for partner" in birth else birth
+        birth = demo4["BirthControl"]
+        birth = (
+            "Intrauterine Device (IUD)"
+            if any([x in birth for x in ["IUD", "DIU"]])
+            else birth
+        )
+        birth = (
+            "Intrauterine System (IUS)"
+            if any([x in birth for x in ["IUS", "SIU"]])
+            else birth
+        )
+        birth = (
+            "Combined pills"
+            if any([x in birth for x in ["combined pills", "combinées"]])
+            else birth
+        )
+        birth = (
+            "Progestogen pills"
+            if any([x in birth for x in ["progestogen-only", "progestatif "]])
+            else birth
+        )
+        birth = (
+            "Condoms (female)"
+            if any([x in birth for x in ["préservatifs féminins"]])
+            else birth
+        )
+        birth = (
+            "Condoms (for partner)"
+            if any([x in birth for x in ["for partner", "du partenaire"]])
+            else birth
+        )
+        birth = "No" if any([x in birth for x in ["No", "Non"]]) else birth
         birth = np.nan if birth in [""] else birth
         df["BirthControl"] = birth
 
@@ -311,13 +365,19 @@ for i, file in enumerate(files):
     # Sexual orientation
     sexorientation = cops["SexualOrientation"].rstrip()
     sexorientation = (
-        "Heterosexual" if sexorientation in ["Eterosessuale"] else sexorientation
+        "Heterosexual"
+        if sexorientation in ["Hétérosexuel", "Eterosessuale"]
+        else sexorientation
     )
     sexorientation = (
-        "Homosexual" if sexorientation in ["Omosessuale"] else sexorientation
+        "Homosexual"
+        if sexorientation in ["Omosessuale", "Homosexuel"]
+        else sexorientation
     )
-    sexorientation = "Bisexual" if sexorientation in ["Bisessuale"] else sexorientation
-    sexorientation = "Other" if sexorientation in ["Altro"] else sexorientation
+    sexorientation = (
+        "Bisexual" if sexorientation in ["Bisessuale", "Bisexuel"] else sexorientation
+    )
+    sexorientation = "Other" if sexorientation in ["Altro", "Autre"] else sexorientation
     sexorientation = np.nan if sexorientation in [""] else sexorientation
     df["SexualOrientation"] = sexorientation
 
@@ -386,25 +446,28 @@ for i, file in enumerate(files):
     df["Feedback_NoFeels"] = False
 
     for f in feedback:
-        if any(x in f for x in ["boring", "noioso"]):
+        if any(x in f for x in ["boring", "noioso", "ennuyeux"]):
             df["Feedback_Boring"] = True
-        if any(x in f for x in ["fun", "divertente"]):
+        if any(x in f for x in ["fun", "divertente", "amusé(e)"]):
             df["Feedback_Fun"] = True
-        if any(x in f for x in ["could tell", "in grado"]):
+        if any(x in f for x in ["could tell", "in grado", "pouvais distinguer"]):
             df["Feedback_CouldDiscriminate"] = True
-        if any(x in f for x in ["didn't see", "percepito alcuna"]):
+        if any(x in f for x in ["didn't see", "percepito alcuna", "pas vu"]):
             df["Feedback_CouldNotDiscriminate"] = True
-        if any(x in f for x in ["more arousing", "più eccitanti"]):
+        if any(x in f for x in ["more arousing", "più eccitanti", "plus excitantes"]):
             df["Feedback_AIMoreArousing"] = True
-        if any(x in f for x in ["less arousing", "meno eccitanti"]):
+        if any(x in f for x in ["less arousing", "meno eccitanti", "moins excitantes"]):
             df["Feedback_AILessArousing"] = True
-        if any(x in f for x in ["not always", "non fossero"]):
+        if any(x in f for x in ["not always", "non fossero", "pas toujours"]):
             df["Feedback_LabelsIncorrect"] = True
-        if any(x in f for x in ["reversed", "viceversa"]):
+        if any(x in f for x in ["reversed", "viceversa", "inversées"]):
             df["Feedback_LabelsReversed"] = True
-        if any(x in f for x in ["really arousing", "davvero eccitanti"]):
+        if any(
+            x in f
+            for x in ["really arousing", "davvero eccitanti", "vraiment excitantes."]
+        ):
             df["Feedback_Arousing"] = True
-        if any(x in f for x in ["feel anything", "niente guardando"]):
+        if any(x in f for x in ["feel anything", "niente guardando", "rien ressenti"]):
             df["Feedback_NoFeels"] = True
 
     feedback = data[data["screen"] == "fiction_feedback2"].iloc[0]
