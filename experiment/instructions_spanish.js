@@ -87,7 +87,7 @@ var text_debriefing =
     "De hecho, queremos probar la hipótesis de que creer que las imágenes eróticas son falsas llevaría a una menor excitación emocional. " +
     "Dado que estamos principalmente interesados en tus <i>creencias</i> sobre la realidad, todas las imágenes fueron tomadas de una base de datos existente de imágenes reales utilizadas en investigaciones psicológicas para estudiar las emociones. " +
     "Nos disculpamos por la necesaria “trampa” utilizada en las instrucciones, y esperamos que entiendas su papel en garantizar la validez de nuestro experimento.</p>" +
-    "<p align='left'><b>Gracias de nuevo!</b> Tu participación en este estudio se mantendrá completamente confidencial. Si tienes alguna pregunta o inquietud sobre el proyecto, por favor contacta a D.Makowski@sussex.ac.uk.</p>" +
+    "<p align='left'><b>Gracias de nuevo!</b> Tu participación en este estudio se mantendrá completamente confidencial. Si tienes alguna pregunta o inquietud sobre el proyecto, por favor contacta a antonio.oliverade@amigo.edu.co.</p>" +
     "<p>Para completar tu participación en este estudio, haz clic en 'Continuar' y <b>espera hasta que tus respuestas hayan sido guardadas exitosamente</b> antes de cerrar la pestaña.</p> "
 
 var text_endscreen = function (
@@ -287,7 +287,7 @@ var consent_text = // Logo and title
     // "<p align='left'> Su participación en esta investigación se mantendrá completamente confidencial. Sus respuestas son completamente anónimas y no se recopila ninguna dirección IP ni ningún identificador.</p>" +
     // "<p align='left'><b> Al participar, acepta seguir las instrucciones y proporcionar respuestas honestas.</b> Si no desea participar en esta encuesta, simplemente cierre su navegador.</p>" +
     // "<p> Tenga en cuenta que se realizarán varias comprobaciones para garantizar la validez de los datos.<br>Nos reservamos el derecho de devolverle su participación o un reembolso prorrateado si detectamos respuestas no válidas (por ejemplo, patrón aleatorio de respuestas, instrucciones no leídas, . ..).</p>"
-    "<p align='left'>Para obtener más información sobre esta investigación, o si tiene alguna inquietud, comuníquese con el Dr Dominique Makowski (D.Makowski@sussex.ac.uk). Esta investigación ha sido aprobada (ER/NR274/1) por el consejo de ética. La Universidad de Sussex cuenta con un seguro para cubrir sus responsabilidades legales con respecto a este estudio.</p>"
+    "<p align='left'>Para obtener más información sobre esta investigación, o si tiene alguna inquietud, comuníquese con el Dr Antonio Olivera-La Rosa (antonio.oliverade@amigo.edu.co). Esta investigación ha sido aprobada (ER/NR274/1) por el consejo de ética. La Universidad de Sussex cuenta con un seguro para cubrir sus responsabilidades legales con respecto a este estudio.</p>"
 
 var consent_button = " Tengo más de 18 años y leo, entiendo y doy mi consentimiento a lo anterior."
 
