@@ -31,9 +31,12 @@ var demographics_browser_info = {
 
         // Add URL variables - ?sona_id=x&exp=1
         let urlvars = jsPsych.data.urlVariables()
-        data["sona_id"] = urlvars["sona_id"]
         data["researcher"] = urlvars["exp"]
         data["language"] = urlvars["lang"]
+        data["sona_id"] = urlvars["sona_id"]
+        data["prolific_id"] = urlvars["PROLIFIC_PID"] // Prolific
+        data["study_id"] = urlvars["STUDY_ID"] // Prolific
+        data["session_id"] = urlvars["SESSION_ID"] // Prolific
     },
 }
 
@@ -53,7 +56,9 @@ var demographics_participant_id = {
     on_finish: function () {
         // Store `participant_id` so that it can be reused later
         jsPsych.data.addProperties({
-            participant_id: jsPsych.data.get().last().values()[0]["response"]["Participant_ID"],
+            participant_id: jsPsych.data.get().last().values()[0]["response"][
+                "Participant_ID"
+            ],
         })
     },
 }
@@ -194,9 +199,10 @@ var demographics_hormones = {
     conditional_function: function () {
         // get the data from the previous trial,
         // and check which key was pressed
-        var sex = jsPsych.data.get().filter({ screen: "demographics_1" }).values()[0]["response"][
-            "Sex"
-        ]
+        var sex = jsPsych.data
+            .get()
+            .filter({ screen: "demographics_1" })
+            .values()[0]["response"]["Sex"]
         if (["Male", "Maschio", "Masculin"].includes(sex)) {
             return false
         } else {
