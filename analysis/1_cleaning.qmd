@@ -88,7 +88,7 @@ df |>
     x = "Date",
     y = "Total Number of Participants"
   ) +
-  facet_wrap(~Language, nrow=3) +
+  facet_wrap(~Language, nrow=3, scales = "free_y") +
   see::theme_modern() 
 
 # Table
