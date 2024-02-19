@@ -29,13 +29,12 @@ def osf_listfiles(data_subproject="", token="", after_date=None):
     return files
 
 
-token = ""  # Paste OSF token here to access private repositories
+token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
 files = osf_listfiles(
     token=token,
     data_subproject="sm4jc",  # Data subproject ID
     after_date="19/01/2024",
 )
-len(files)
 
 
 # Loop through files ======================================================
@@ -57,7 +56,7 @@ norm_data = pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv").rena
 for i, file in enumerate(files):
     print(f"File N°{i+1}/{len(files)}")
 
-    if file["name"] in alldata_subs["Participant"].values:
+    if i > 0 and  file["name"] in alldata_subs["Participant"].values:
         continue
     data = pd.read_csv(file["file"]._get(file["url"], stream=True).raw)
 

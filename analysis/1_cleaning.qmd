@@ -869,7 +869,7 @@ EGAnet::compare.EGA.plots(
   plot.all = FALSE)$all
 ```
 
-#### Dimension Stability
+#### Structure Stability
 
 Figures shows how often each variable is replicating in their empirical structure across bootstraps. 
 
