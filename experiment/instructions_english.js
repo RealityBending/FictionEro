@@ -271,7 +271,7 @@ var consent_text = // Logo and title
     "You are being invited to take part in a research study to further our understanding of the impact of new technologies. Thank you for carefully reading this information sheet. This study is being conducted by Dr Dominique Makowski from the University of Sussex, who is happy to be contacted (D.Makowski@sussex.ac.uk) if you have any questions.</p>" +
     // Description
     "<p align='left'><b>Why have I been invited and what will I do?</b><br>" +
-    "We are investigating how new technology can impact the habits and behaviours related to pornography. In this study, you will be shown <b>erotic images</b>, so please make sure you find yourself in an <b>private setting</b> for the whole duration of the experiment (~20min).</p>" +
+    "We are investigating how new technology can impact the habits and behaviours related to pornography. In this study, you will be shown <b>erotic images</b>, so please make sure you find yourself in an <b>private setting</b> for the whole duration of the experiment (~25min).</p>" +
     // Results and personal information
     "<p align='left'><b>What will happen to the results and my personal information?</b><br>" +
     "The results of this research may be written into a scientific publication. Your anonymity will be ensured in the way described in the consent information below. Please read this information carefully and then, if you wish to take part, please acknowledge that you have fully understood this sheet, and that you consent to take part in the study as it is described here.</p>" +
@@ -288,7 +288,7 @@ var consent_text = // Logo and title
     // "<p align='left'>Your participation in this research will be kept completely confidential. Your responses are entirely anonymous, and no IP address or any identifiers is collected.</p>" +
     // "<p align='left'><b>By participating, you agree to follow the instructions and provide honest answers.</b> If you do not wish to participate this survey, simply close your browser.</p>" +
     // "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).</p>"
-    "<p align='left'>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (ER/NR274/1) by the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</p>"
+    "<p align='left'>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (ER/MHHE20/2) by the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</p>"
 
 var consent_button = "I am more than 18 years old, and I read, understood, and consent to the above"
 

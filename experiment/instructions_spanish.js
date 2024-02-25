@@ -270,7 +270,7 @@ var consent_text = // Logo and title
     "Le invitamos a participar en un estudio de investigación para mejorar nuestra comprensión del impacto de las nuevas tecnologías. Gracias por leer atentamente esta hoja informativa. Este estudio está siendo liderado por el Dr. Dominique Makowski de la Universidad de Sussex, quien estará encantado de poder ser contactado (D.Makowski@sussex.ac.uk) si tiene alguna pregunta.</p>" +
     // Description
     "<p align='left'><b> ¿Por qué me han invitado y qué haré?</b><br>" +
-    " Estamos investigando cómo las nuevas tecnologías pueden afectar los hábitos y comportamientos relacionados con la pornografía. En este estudio, se le mostrarán <b>imágenes eróticas</b>, así que asegúrese de encontrarse en un <b>entorno privado</b> durante todo el experimento(~20min).</p>" +
+    " Estamos investigando cómo las nuevas tecnologías pueden afectar los hábitos y comportamientos relacionados con la pornografía. En este estudio, se le mostrarán <b>imágenes eróticas</b>, así que asegúrese de encontrarse en un <b>entorno privado</b> durante todo el experimento(~25min).</p>" +
     // Results and personal information
     "<p align='left'><b> ¿Qué pasará con los resultados y con mi información personal?</b><br>" +
     "Los resultados de esta investigación podrán plasmarse en una publicación científica. Su anonimato estará garantizado de la manera descrita en la información de consentimiento a continuación. Lea esta información detenidamente y luego, si desea participar, reconozca que ha entendido completamente esta hoja y que acepta participar en el estudio como se describe aquí.</p>" +
@@ -287,7 +287,7 @@ var consent_text = // Logo and title
     // "<p align='left'> Su participación en esta investigación se mantendrá completamente confidencial. Sus respuestas son completamente anónimas y no se recopila ninguna dirección IP ni ningún identificador.</p>" +
     // "<p align='left'><b> Al participar, acepta seguir las instrucciones y proporcionar respuestas honestas.</b> Si no desea participar en esta encuesta, simplemente cierre su navegador.</p>" +
     // "<p> Tenga en cuenta que se realizarán varias comprobaciones para garantizar la validez de los datos.<br>Nos reservamos el derecho de devolverle su participación o un reembolso prorrateado si detectamos respuestas no válidas (por ejemplo, patrón aleatorio de respuestas, instrucciones no leídas, . ..).</p>"
-    "<p align='left'>Para obtener más información sobre esta investigación, o si tiene alguna inquietud, comuníquese con el Dr Antonio Olivera-La Rosa (antonio.oliverade@amigo.edu.co). Esta investigación ha sido aprobada (ER/NR274/1) por el consejo de ética. La Universidad de Sussex cuenta con un seguro para cubrir sus responsabilidades legales con respecto a este estudio.</p>"
+    "<p align='left'>Para obtener más información sobre esta investigación, o si tiene alguna inquietud, comuníquese con el Dr Antonio Olivera-La Rosa (antonio.oliverade@amigo.edu.co). Esta investigación ha sido aprobada (ER/MHHE20/2) por el consejo de ética. La Universidad de Sussex cuenta con un seguro para cubrir sus responsabilidades legales con respecto a este estudio.</p>"
 
 var consent_button = " Tengo más de 18 años y leo, entiendo y doy mi consentimiento a lo anterior."
 

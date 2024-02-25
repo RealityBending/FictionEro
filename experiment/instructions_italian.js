@@ -272,7 +272,7 @@ var consent_text = // Logo and title
     "Ti stiamo invitando a partecipare ad una ricerca scientifica volta a comprendere l'impatto delle nuove tecnologie. Ti chiediamo cortesemente di leggere attentamente questo foglio informativo. Lo studio è condotto dal Dr. Dominique Makowski dell'Università di Sussex (D.Makowski@sussex.ac.uk) assieme al Dr. Marco Viola dell'Università di Roma Tre (marco.viola@uniroma3.it). Puoi contattarli se hai domande.</p>" +
     // Description
     "<p align='left'><b>Perché questo invito e cosa devo fare?</b><br>" +
-    "Stiamo indagando come le nuove tecnologie possono influenzare le abitudini e i comportamenti legati alla pornografia. In questo studio, ti verranno mostrate <b>immagini erotiche</b>, quindi assicurati di trovarti in un ambiente <b>privato</b> per tutta la durata dell'esperimento (circa 20 minuti).</p>" +
+    "Stiamo indagando come le nuove tecnologie possono influenzare le abitudini e i comportamenti legati alla pornografia. In questo studio, ti verranno mostrate <b>immagini erotiche</b>, quindi assicurati di trovarti in un ambiente <b>privato</b> per tutta la durata dell'esperimento (circa 25 minuti).</p>" +
     // Results and personal information
     "<p align='left'><b>Cosa accadrà ai risultati e alle mie informazioni personali?</b><br>" +
     "I risultati di questa ricerca potrebbero essere inclusi in una pubblicazione scientifica. Il tuo anonimato sarà garantito come descritto di seguito. Leggi attentamente queste informazioni e, se desideri partecipare, conferma di aver compreso appieno questo foglio e acconsenti a partecipare allo studio come descritto qui.</p>" +
@@ -286,7 +286,7 @@ var consent_text = // Logo and title
     // Ethical managements
     "<li align='left'>Comprendo che mi verrà mostrato materiale potenzialmente sensibile (immagini erotiche) e confermo quindi di avere più di 18 anni.</li>" +
     "</ul></p>" +
-    "<p align='left'>Per ulteriori informazioni su questa ricerca o se hai domande, contatta il Dr. Dominique Makowski (D.Makowski@sussex.ac.uk) e/o il Dr. Marco Viola dell'Università di Roma Tre (marco.viola@uniroma3.it). Questa ricerca è stata approvata (ER/NR274/1) dalla School of Psychology dell'Università del Sussex. L'Università di Sussex ha un'assicurazione in vigore per coprire le responsabilità legali relative a questo studio.</p>"
+    "<p align='left'>Per ulteriori informazioni su questa ricerca o se hai domande, contatta il Dr. Dominique Makowski (D.Makowski@sussex.ac.uk) e/o il Dr. Marco Viola dell'Università di Roma Tre (marco.viola@uniroma3.it). Questa ricerca è stata approvata (ER/MHHE20/2) dalla School of Psychology dell'Università del Sussex. L'Università di Sussex ha un'assicurazione in vigore per coprire le responsabilità legali relative a questo studio.</p>"
 
 var consent_button = "Ho più di 18 anni, ho letto, compreso e acconsento a quanto sopra"
 

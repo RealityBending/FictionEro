@@ -50,9 +50,17 @@
         var timeline = []
 
         var jsPsych = initJsPsych({
-            // on_finish: function () {
-            //     jsPsych.data.displayData("json") // Display data in browser
-            // },
+            on_finish: function () {
+                // jsPsych.data.displayData("json") // Display data in browser
+                let sona_id = jsPsych.data.urlVariables()["sona_id"]
+                if (sona_id != undefined) {
+                    window.location =
+                        "https://sussexpsychology.sona-systems.com/webstudy_credit.aspx?experiment_id=1836&credit_token=50011868c1fa42cfb67bfa0fabdc9a98&survey_code=" +
+                        sona_id
+                } else {
+                    window.location = "https://realitybending.github.io/"
+                }
+            },
         })
 
         // Demographics ========================================================

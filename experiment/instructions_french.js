@@ -272,7 +272,7 @@ var consent_text = // Logo and title
     "Nous vous invitons à participer à une étude visant à mieux comprendre l'impact des nouvelles technologies. Nous vous remercions de lire attentivement cette fiche d'information. Cette étude est menée par le Dr Dominique Makowski de l'Université du Sussex et le Dr Marco Sperduti de l'Université Paris Cité, qui se tiennent à votre disposition (D.Makowski@sussex.ac.uk ; marco.sperduti@u-paris.fr) si vous avez des questions.</p>" +
     // Description
     "<p align='left'><b>Pourquoi ai-je été invité et que vais-je faire ?</b><br>" +
-    "Nous étudions l'impact des nouvelles technologies sur les habitudes et les comportements liés à la pornographie. Dans le cadre de cette étude, des <b>images érotiques</b> vous seront montrées. Veillez donc à vous trouver dans un <b>endroit privé</b> pendant toute la durée de l'expérience (~20min).</p>" +
+    "Nous étudions l'impact des nouvelles technologies sur les habitudes et les comportements liés à la pornographie. Dans le cadre de cette étude, des <b>images érotiques</b> vous seront montrées. Veillez donc à vous trouver dans un <b>endroit privé</b> pendant toute la durée de l'expérience (~25min).</p>" +
     // Results and personal information
     "<p align='left'><b>Qu'adviendra-t-il des résultats et de mes informations personnelles ?</b><br>" +
     "Les résultats de cette recherche peuvent faire l'objet d'une publication scientifique. Votre anonymat sera garanti de la manière décrite dans les informations de consentement ci-dessous. Veuillez lire attentivement ces informations et, si vous souhaitez participer, reconnaissez que vous avez bien compris cette fiche et que vous acceptez de prendre part à l'étude telle qu'elle est décrite ici.</p>" +
@@ -289,7 +289,7 @@ var consent_text = // Logo and title
     // "<p align='left'>Votre participation à cette recherche restera totalement confidentielle. Vos réponses sont entièrement anonymes et que aucune information identifiante (i.e. adresse IP, adresse e-mail) ne sera collectée.</p>" +
     // "<p align='left'><b>En participant, vous acceptez de suivre les instructions et de fournir des réponses honnêtes.</b> Si vous ne souhaitez pas participer à cette étude, fermez simplement votre navigateur.</p>" +
     // "<p>Veuillez noter que divers contrôles seront effectués pour garantir la validité des données. <br>Nous nous réservons le droit d'exclure vos données si nous détectons des réponses non valides</br> (par exemple, des réponses aléatoires, des instructions non lues, ...).</p>"
-    "<p align='left'>Pour plus d'informations sur cette recherche, ou si vous avez des questions, veuillez contacter le Dr Dominique Makowski (D.Makowski@sussex.ac.uk) et/ou le Dr Marco Sperduti (marco.sperduti@u-paris.fr). Cette recherche a été approuvée (ER/NR274/1) par la School of Psychology de l'Université du Sussex. L'Université du Sussex a souscrit une assurance pour couvrir ses responsabilités légales dans le cadre de cette étude.</p>"
+    "<p align='left'>Pour plus d'informations sur cette recherche, ou si vous avez des questions, veuillez contacter le Dr Dominique Makowski (D.Makowski@sussex.ac.uk) et/ou le Dr Marco Sperduti (marco.sperduti@u-paris.fr). Cette recherche a été approuvée (ER/MHHE20/2) par la School of Psychology de l'Université du Sussex. L'Université du Sussex a souscrit une assurance pour couvrir ses responsabilités légales dans le cadre de cette étude.</p>"
 
 var consent_button = "J'ai plus de 18 ans et j'ai lu, compris et accepté ce qui précède."
 
