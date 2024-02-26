@@ -88,7 +88,7 @@ df |>
     x = "Date",
     y = "Total Number of Participants"
   ) +
-  facet_wrap(~Language, nrow=3, scales = "free_y") +
+  facet_wrap(~Language, nrow=4, scales = "free_y") +
   see::theme_modern() 
 
 # Table
@@ -186,7 +186,7 @@ cor |>
 data.frame(Language = df$Language,
            Source = df$Experimenter,
            Comments = trimws(df$Feedback_Comments)) |> 
-  filter(!Comments %in% c(NA, "No", "Nope", "nope", "None", "na", "n/a", "Non")) |> 
+  filter(!tolower(Comments) %in% c(NA, "no", "nope", "none", "na", "n/a", "non")) |> 
   arrange(Language, Source) |>
   gt::gt() |> 
   gt::opt_stylize() |> 
@@ -203,6 +203,7 @@ data.frame(Language = df$Language,
 outliers <- c(
   # "S206"  # Collapsed RTs in both phases
   # "S399"  # Negative Arousal-Valence correlations
+  "S432"  # Only 0s for arousal (creates statistical problems)
   )
 potentials <- list()
 ```
@@ -424,6 +425,7 @@ potentials$emo_diff <- arrange(dat, Arousal) |>
 
 ```{r}
 dat <- dftask |> 
+  filter(!Participant %in% c("S432")) |> 
   summarize(cor_ArVal = cor(Arousal, Valence),
             cor_ArEnt = cor(Arousal, Enticement),
             .by="Participant") |>
