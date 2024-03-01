@@ -29,9 +29,7 @@ library(ggside)
 df <- read.csv("../data/rawdata_participants.csv") |> 
   mutate(across(everything(), ~ifelse(.x == "", NA, .x))) |>
   mutate(Experimenter = case_when(
-    Language=="English" & Experimenter == "reddit7" ~ "Reddit (other)",
-    Language=="English" & Experimenter == "reddit8" ~ "Reddit (other)",
-    Language=="English" & Experimenter == "reddit1" ~ "Reddit (other)",
+    Language=="English" & Experimenter %in% c("reddit7", "reddit8", "reddit1", "reddit2", "reddit5") ~ "Reddit (other)",
     .default = Experimenter
   ))
 
@@ -67,46 +65,95 @@ dftask <- dftask |>
 
 ### Recruitment History
 
+::: {.panel-tabset}
+
+#### Global
+
+
 ```{r}
 #| message: false
 
-# Consecutive count of participants per day (as area)
-df |>
-  mutate(Date = as.Date(Date, format = "%d/%m/%Y")) |> 
-  group_by(Date, Language, Experimenter) |> 
-  summarize(N = n()) |> 
-  ungroup() |>
-  # https://bocoup.com/blog/padding-time-series-with-r
-  complete(Date, Language, Experimenter, fill = list(N = 0)) |> 
-  group_by(Language, Experimenter) |>
-  mutate(N = cumsum(N)) |>
-  ggplot(aes(x = Date, y = N)) +
-  geom_area(aes(fill=Experimenter)) +
-  scale_y_continuous(expand = c(0, 0)) +
-  labs(
-    title = "Recruitment History",
-    x = "Date",
-    y = "Total Number of Participants"
-  ) +
-  facet_wrap(~Language, nrow=4, scales = "free_y") +
-  see::theme_modern() 
+plot_recruitement <- function(df) {
+  # Consecutive count of participants per day (as area)
+  df |>
+    mutate(Date = as.Date(Date, format = "%d/%m/%Y")) |> 
+    group_by(Date, Language, Experimenter) |> 
+    summarize(N = n()) |> 
+    ungroup() |>
+    # https://bocoup.com/blog/padding-time-series-with-r
+    complete(Date, Language, Experimenter, fill = list(N = 0)) |> 
+    group_by(Language, Experimenter) |>
+    mutate(N = cumsum(N)) |>
+    ggplot(aes(x = Date, y = N)) +
+    geom_area(aes(fill=Experimenter)) +
+    scale_y_continuous(expand = c(0, 0)) +
+    labs(
+      title = "Recruitment History",
+      x = "Date",
+      y = "Total Number of Participants"
+    ) +
+    see::theme_modern() 
+}
+
+plot_recruitement(df) +
+  facet_wrap(~Language, nrow=5, scales = "free_y")
 
 # Table
-summarize(df, N = n(), .by=c("Language", "Experimenter")) |> 
-  arrange(desc(N)) |> 
-  gt::gt() |> 
-  gt::opt_stylize() |> 
-  gt::opt_interactive(use_compact_mode = TRUE) |> 
-  gt::tab_header("Number of participants per recruitment source")
+table_recruitment <- function(df) {
+  summarize(df, N = n(), .by=c("Language", "Experimenter")) |> 
+    arrange(desc(N)) |> 
+    gt::gt() |> 
+    gt::opt_stylize() |> 
+    gt::opt_interactive(use_compact_mode = TRUE) |> 
+    gt::tab_header("Number of participants per recruitment source")
+}
+table_recruitment(df)
+```
+
+#### English
+
+```{r}
+#| message: false
+
+plot_recruitement(filter(df, Language == "English"))
+table_recruitment(filter(df, Language == "English"))
+```
+
+#### French
+
+```{r}
+#| message: false
+
+plot_recruitement(filter(df, Language == "French"))
+table_recruitment(filter(df, Language == "French"))
+```
+
+#### Italian
+
+```{r}
+#| message: false
+
+plot_recruitement(filter(df, Language == "Italian"))
+table_recruitment(filter(df, Language == "Italian"))
 ```
 
 
+#### Colombian
+
+```{r}
+#| message: false
+
+plot_recruitement(filter(df, Language == "Colombian"))
+table_recruitment(filter(df, Language == "Colombian"))
+```
+
+:::
 
 ## Feedback
 
 ### Evaluation
 
-The majority of participants found the study to be a "fun" experience. Interstingly, reports of "fun" were significantly associated with finding at least some stimuli arousing. Conversely, reporting "no feelings" was associated with finding the experiment "boring".
+The majority of participants found the study to be a "fun" experience. Interestingly, reports of "fun" were significantly associated with finding at least some stimuli arousing. Conversely, reporting "no feelings" was associated with finding the experiment "boring".
 
 ::: {.panel-tabset}
 
@@ -203,7 +250,9 @@ data.frame(Language = df$Language,
 outliers <- c(
   # "S206"  # Collapsed RTs in both phases
   # "S399"  # Negative Arousal-Valence correlations
-  "S432"  # Only 0s for arousal (creates statistical problems)
+  "S428",  # Only 0s for arousal (creates statistical problems)
+  "S498",  # Only 0s for arousal (creates statistical problems)
+  "S508"  # Only 0s for arousal (creates statistical problems)
   )
 potentials <- list()
 ```
@@ -212,7 +261,7 @@ potentials <- list()
 
 ```{r}
 df |>
-  ggplot(aes(x=Mobile, fill=Mobile)) +
+  ggplot(aes(x=Mobile, fill=Language)) +
   geom_bar() +
   geom_hline(yintercept=0.5*nrow(df), linetype="dashed") +
   theme_modern()
@@ -424,22 +473,26 @@ potentials$emo_diff <- arrange(dat, Arousal) |>
 ### Response Coherence
 
 ```{r}
+# dftask[dftask$Participant == "S428", "Arousal"]
+# dftask[dftask$Participant == "S498", "Arousal"]
+# dftask[dftask$Participant == "S508", "Arousal"]
 dat <- dftask |> 
-  filter(!Participant %in% c("S432")) |> 
+  filter(!Participant %in% c("S428", "S498", "S508")) |> 
   summarize(cor_ArVal = cor(Arousal, Valence),
             cor_ArEnt = cor(Arousal, Enticement),
-            .by="Participant") |>
-  mutate(Participant = fct_reorder(Participant, cor_ArVal)) 
-
+            .by="Participant") 
+  
 dat |>
-  pivot_longer(-Participant) |> 
+  left_join(df[c("Participant", "Language")], by="Participant") |>
+  mutate(Participant = fct_reorder(Participant, cor_ArVal))  |> 
+  pivot_longer(starts_with("cor_")) |> 
   mutate(Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |> 
   mutate(name = fct_relevel(name, "cor_ArVal", "cor_ArEnt"),
          name = fct_recode(name, "Arousal - Valence" = "cor_ArVal", "Arousal - Enticement" = "cor_ArEnt")) |>
-  ggplot(aes(y = Participant, x = value, fill = Group)) +
-  geom_bar(stat = "identity") +
+  ggplot(aes(y = Participant, x = value)) +
+  geom_bar(aes(fill = Language), stat = "identity") +
   # scale_fill_gradient2(low = "#3F51B5", mid = "#FF9800", high = "#4CAF50", midpoint = 0) +
-  scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  # scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
   theme_bw() +
   theme(axis.text.y = element_blank(),
         axis.ticks.y = element_blank()) +
@@ -800,7 +853,8 @@ cor |>
 n <- parameters::n_factors(bait, package = "nFactors")
 plot(n)
 
-efa <- parameters::factor_analysis(bait, cor=cor(bait), n=2, rotation = "oblimin", sort=TRUE, scores="tenBerge", fm="ml")
+efa <- parameters::factor_analysis(bait, cor=cor(bait), n=3, rotation = "oblimin", 
+                                   sort=TRUE, scores="tenBerge", fm="ml")
 plot(efa)
 display(efa)
 ```
@@ -808,16 +862,32 @@ display(efa)
 #### Confirmatory Factor Analysis
 
 ```{r}
-m1 <- lavaan::cfa(efa_to_cfa(efa, threshold="max"), data=bait)
-m2 <- lavaan::cfa(
+m1 <- lavaan::cfa(
   "G =~ ImitatingReality + EnvironmentReal + VideosIssues + TextIssues + VideosRealistic + ImagesRealistic + ImagesIssues + TextRealistic", 
   data=bait)
+m2 <- lavaan::cfa(
+  "Images =~ ImitatingReality + EnvironmentReal + ImagesRealistic + ImagesIssues + VideosIssues + VideosRealistic
+  Text =~ TextIssues + TextRealistic", 
+  data=bait)
+m3 <- lavaan::cfa(
+  "Images =~ ImitatingReality + EnvironmentReal + ImagesRealistic + ImagesIssues
+  Videos =~ VideosIssues + VideosRealistic
+  Text =~ TextIssues + TextRealistic", 
+  data=bait)
+m4 <- lavaan::cfa(
+  "Environment =~ ImitatingReality + EnvironmentReal 
+  Images =~ ImagesRealistic + ImagesIssues
+  Videos =~ VideosIssues + VideosRealistic
+  Text =~ TextIssues + TextRealistic", 
+  data=bait)
+m5 <- lavaan::cfa(efa_to_cfa(efa, threshold="max"), data=bait)
+
 
 # bayestestR::bayesfactor_models(m1, m2)
-lavaan::anova(m1, m2)
+lavaan::anova(m1, m2, m3, m4, m5)
 ```
 ```{r}
-display(parameters::parameters(m1))
+display(parameters::parameters(m3, standardize = TRUE))
 ```
 
 
@@ -838,14 +908,14 @@ uva$keep_remove
 
 #### Networks
 
-```{r}
+```{r ega}
 #| fig-height: 20
 #| fig-width: 12
 
 ega <- list()
 for(model in c("glasso", "TMFG")) {
   for(algo in c("walktrap", "louvain")) {
-    for(type in c("ega", "ega.fit")) {  # "hierega"
+    for(type in c("ega", "ega.fit", "riEGA")) {  # "hierega"
       if(type=="ega.fit" & algo=="louvain") next  # Too slow
       ega[[paste0(model, "_", algo, "_", type)]] <- EGAnet::bootEGA(
         data = bait,
@@ -863,11 +933,15 @@ for(model in c("glasso", "TMFG")) {
 EGAnet::compare.EGA.plots(
   ega$glasso_walktrap_ega, ega$glasso_walktrap_ega.fit,
   ega$glasso_louvain_ega, ega$TMFG_louvain_ega,
+  ega$glasso_louvain_riEGA, ega$glasso_walktrap_riEGA,
   ega$TMFG_walktrap_ega, ega$TMFG_walktrap_ega.fit,
+  ega$TMFG_louvain_riEGA, ega$TMFG_walktrap_riEGA, 
   labels=c("glasso_walktrap_ega", "glasso_walktrap_ega.fit",
            "glasso_louvain_ega", "TMFG_louvain_ega",
-           "TMFG_walktrap_ega", "TMFG_walktrap_ega.fit"),
-                          rows=3,
+           "glasso_louvain_riEGA", "glasso_walktrap_riEGA",
+           "TMFG_walktrap_ega", "TMFG_walktrap_ega.fit",
+           "TMFG_louvain_riEGA", "TMFG_walktrap_riEGA"),
+  rows=5,
   plot.all = FALSE)$all
 ```
 
@@ -881,18 +955,18 @@ Figures shows how often each variable is replicating in their empirical structur
 #| fig-height: 20
 #| fig-width: 12
 
-patchwork::wrap_plots(lapply(ega, plot), nrow = 3)
+patchwork::wrap_plots(lapply(ega, plot), nrow = 4)
 ```
 
 #### Final Model
 
 ```{r}
-ega <- ega$TMFG_walktrap_ega$EGA
-plot(ega)
+ega_final <- ega$glasso_walktrap_riEGA$EGA
+plot(ega_final)
 
-ega_scores <-  EGAnet::net.scores(bait, ega)$scores$std.scores |> 
+ega_scores <-  EGAnet::net.scores(bait, ega_final)$scores$std.scores |> 
   as.data.frame() |> 
-  setNames(c("EGA1", "EGA2")) 
+  setNames(c("EGA_Text", "EGA_Image", "EGA_Videos")) 
 ```
 
 ### Scores
@@ -901,12 +975,16 @@ ega_scores <-  EGAnet::net.scores(bait, ega)$scores$std.scores |>
 #| code-fold: false
 
 # Merge with data
-scores <- lavaan::predict(m1) |> 
+scores <- lavaan::predict(m3) |> 
   as.data.frame() |> 
-  data_rename(c("ML1", "ML2"), c("BAIT_SEM1", "BAIT_SEM2")) |> 
+  datawizard::data_addprefix("CFA_") |> 
+  # data_rename(c("ML1", "ML2"), c("BAIT_SEM1", "BAIT_SEM2")) |> 
   cbind(ega_scores) |> 
-  mutate(Participant = df$Participant) |>
-  mutate(BAIT = rowMeans(select(bait, -contains("Videos")), na.rm = TRUE))
+  mutate(Participant = df$Participant)
+
+scores$BAIT_Videos <- (bait$VideosRealistic + (1 - bait$VideosIssues)) / 2
+scores$BAIT_Images <- (bait$ImagesRealistic + (1 - bait$ImagesIssues) + bait$ImitatingReality + bait$EnvironmentReal) / 4
+scores$BAIT_Text <- (bait$TextRealistic + (1 - bait$TextIssues)) / 2
 
 df <- full_join(df, scores, by="Participant")
 ```
@@ -915,10 +993,10 @@ df <- full_join(df, scores, by="Participant")
 We computed two type of general scores for the BAIT scale, an **empirical** score based on the average of observed data (of the most loading items) and a **model-based** score as predicted by the structural model. The first one gives equal weight to all items (and keeps the same [0-1] range), while the second one is based on the factor loadings and the covariance structure.
 
 ```{r}
-correlation::cor_test(scores, "BAIT_SEM2", "BAIT") |> 
+correlation::cor_test(scores, "BAIT_Images", "CFA_Images") |> 
   plot() +
-  ggside::geom_xsidedensity(aes(x=BAIT_SEM2), color="grey", linewidth=1) +
-  ggside::geom_ysidedensity(aes(y=BAIT), color="grey", linewidth=1) +
+  ggside::geom_xsidedensity(aes(x=BAIT_Images), color="grey", linewidth=1) +
+  ggside::geom_ysidedensity(aes(y=CFA_Images), color="grey", linewidth=1) +
   ggside::scale_xsidey_continuous(expand = c(0, 0)) +
   ggside::scale_ysidex_continuous(expand = c(0, 0)) +
   ggside::theme_ggside_void() +
@@ -943,9 +1021,10 @@ format(table) |>
 #### Corrrelation with GAAIS
 
 ```{r}
-table <- correlation::correlation(scores, 
-                         select(df, starts_with("GAAIS")),
-                         bayesian=TRUE) |> 
+table <- correlation::correlation(
+  select(scores, starts_with("BAIT_")), 
+  select(df, starts_with("GAAIS")),
+  bayesian=TRUE) |> 
   summary()
 
 format(table) |> 
@@ -959,12 +1038,12 @@ format(table) |>
 
 ```{r}
 df |> 
-  ggplot(aes(x=as.factor(AI_Knowledge), y=BAIT)) +
+  ggplot(aes(x=as.factor(AI_Knowledge), y=BAIT_Images)) +
   geom_boxplot()
 
 
 # m <- betareg::betareg(BAIT ~ AI_Knowledge, data=df)
-m <- lm(BAIT ~ AI_Knowledge, data=df)
+m <- lm(BAIT_Images ~ poly(AI_Knowledge, 2), data=df)
 # m <- brms::brm(BAIT ~ mo(AI_Knowledge), data=df, algorithm = "meanfield")
 # m <- brms::brm(BAIT ~ AI_Knowledge, data=dfsub, algorithm = "meanfield")
 display(parameters::parameters(m))
@@ -973,7 +1052,7 @@ display(parameters::parameters(m))
 marginaleffects::predictions(m, by=c("AI_Knowledge"), newdata = "marginalmeans") |> 
   as.data.frame() |> 
   ggplot(aes(x=AI_Knowledge, y=estimate)) +
-  geom_jitter2(data=df, aes(y=BAIT), alpha=0.2, width=0.1) +
+  geom_jitter2(data=df, aes(y=BAIT_Images), alpha=0.2, width=0.1) +
   geom_line(aes(group=1), position = position_dodge(width=0.2)) +
   geom_pointrange(aes(ymin = conf.low, ymax=conf.high), position = position_dodge(width=0.2)) +
   theme_minimal() +
@@ -984,7 +1063,7 @@ marginaleffects::predictions(m, by=c("AI_Knowledge"), newdata = "marginalmeans")
 
 ```{r}
 # m <- betareg::betareg(BAIT ~ Sex / Age, data=df, na.action=na.omit)
-m <- lm(BAIT ~ Sex / Age, data=df)
+m <- lm(BAIT_Images ~ Sex / Age, data=df)
 display(parameters::parameters(m))
 ```
 
@@ -992,7 +1071,7 @@ display(parameters::parameters(m))
 
 
 ```{r}
-glm(Feedback_LabelsIncorrect ~ BAIT * AI_Knowledge, 
+glm(Feedback_LabelsIncorrect ~ BAIT_Images * AI_Knowledge, 
     data=mutate(df, Feedback_LabelsIncorrect = ifelse(Feedback_LabelsIncorrect=="True", 1, 0)), 
     family="binomial") |> 
   parameters::parameters() |> 
@@ -1000,7 +1079,7 @@ glm(Feedback_LabelsIncorrect ~ BAIT * AI_Knowledge,
 ```
 
 ```{r}
-glm(Feedback_LabelsReversed ~ BAIT * AI_Knowledge, 
+glm(Feedback_LabelsReversed ~ BAIT_Images * AI_Knowledge, 
     data=mutate(df, Feedback_LabelsReversed = ifelse(Feedback_LabelsReversed=="True", 1, 0)), 
     family="binomial") |> 
   parameters::parameters() |> 
@@ -1008,7 +1087,7 @@ glm(Feedback_LabelsReversed ~ BAIT * AI_Knowledge,
 ```
 
 ```{r}
-glm(Feedback_CouldDiscriminate ~ BAIT * AI_Knowledge, 
+glm(Feedback_CouldDiscriminate ~ BAIT_Images * AI_Knowledge, 
     data=mutate(df, Feedback_CouldDiscriminate = ifelse(Feedback_CouldDiscriminate=="True", 1, 0)), 
     family="binomial") |> 
   parameters::parameters() |> 
@@ -1016,7 +1095,7 @@ glm(Feedback_CouldDiscriminate ~ BAIT * AI_Knowledge,
 ```
 
 ```{r}
-glm(Feedback_CouldNotDiscriminate ~ BAIT * AI_Knowledge, 
+glm(Feedback_CouldNotDiscriminate ~ BAIT_Images * AI_Knowledge, 
     data=mutate(df, Feedback_CouldNotDiscriminate = ifelse(Feedback_CouldNotDiscriminate=="True", 1, 0)), 
     family="binomial") |> 
   parameters::parameters() |> 
@@ -1024,7 +1103,7 @@ glm(Feedback_CouldNotDiscriminate ~ BAIT * AI_Knowledge,
 ```
 
 ```{r}
-glm(Feedback_Fun ~ BAIT * AI_Knowledge, 
+glm(Feedback_Fun ~ BAIT_Images * AI_Knowledge, 
     data=mutate(df, Feedback_Fun = ifelse(Feedback_Fun=="True", 1, 0)), 
     family="binomial") |> 
   parameters::parameters() |> 
@@ -1032,7 +1111,7 @@ glm(Feedback_Fun ~ BAIT * AI_Knowledge,
 ```
 
 ```{r}
-glm(Feedback_Boring ~ BAIT * AI_Knowledge, 
+glm(Feedback_Boring ~ BAIT_Images * AI_Knowledge, 
     data=mutate(df, Feedback_Boring = ifelse(Feedback_Boring=="True", 1, 0)), 
     family="binomial") |> 
   parameters::parameters() |> 

@@ -78,11 +78,13 @@ for i, file in enumerate(files):
     experimenter = "Readme (GitHub)" if experimenter in ["readme"] else experimenter
     experimenter = "RISC" if experimenter in ["risc"] else experimenter
     experimenter = "Snowball" if experimenter in ["snow", "snow〈"] else experimenter
+    experimenter = "SONA" if experimenter in ["sona"] else experimenter
 
     lang = "English" if browser["language"] == "en" else browser["language"]
     lang = "Italian" if lang == "it" else lang
     lang = "French" if lang == "fr" else lang
-    lang = "Colombia" if lang == "co" else lang
+    lang = "Colombian" if lang == "co" else lang
+    lang = "Spanish" if lang == "es" else lang
     if lang not in ["English", "Italian", "French"]:
         sex = json.loads(data[data["screen"] == "demographics_1"].iloc[0]["response"])
         if sex["Sex"] in ["Male", "Female", "Other"]:  # Fix
@@ -105,6 +107,12 @@ for i, file in enumerate(files):
         },
         index=[0],
     )
+
+    df["SONA_ID"] = np.nan
+    if "sona_id" in browser.index:
+        if np.isnan(browser["sona_id"]) == False:
+            id = int(browser["sona_id"])
+            df["SONA_ID"] = id
 
     # Demographics -------------------------------------------------------
     demo1 = data[data["screen"] == "demographics_1"].iloc[0]
@@ -166,6 +174,10 @@ for i, file in enumerate(files):
         "UK" if country in ["Uk", "England", "United Kingdom", "Brighton"] else country
     )
     country = "Netherlands" if country in ["The Netherlands"] else country
+    country = "Spain" if country in ["España"] else country
+    country = "Colombia" if country in ["Medellin"] else country
+    country = "Germany" if country in ["German"] else country
+    country = "Czech Republic" if country in ["Czechia"] else country
     country = "Pakistan" if country in ["Pk"] else country
     country = "Italy" if country in ["Italia"] else country
     country = "Belgium" if country in ["Belgique"] else country
@@ -181,6 +193,7 @@ for i, file in enumerate(files):
             "United States Of America",
             "Us,Texas",
             "Us",
+            "United States Of American",
         ]
         else country
     )
@@ -249,13 +262,26 @@ for i, file in enumerate(files):
             "Indonesian",
             "Asian-American",
             "Asian British",
+            "Filipino",
         ]
         else race
     )
     race = (
         "Hispanic"
         if race
-        in ["Latino", "Latin", "Mexican", "Mestizo", "Mestiza", "Hispano", "Colombiana"]
+        in [
+            "Latino",
+            "Latin",
+            "Mexican",
+            "Mestizo",
+            "Mestiza",
+            "Hispano",
+            "Colombiana",
+            "Antioqueño",
+            "Antioqueña",
+            "Paisa",
+            "Latina",
+        ]
         else race
     )
     race = "South Asian" if race in ["Indian", "Brown", "Srilankan"] else race
@@ -269,6 +295,7 @@ for i, file in enumerate(files):
             "Negra",
             "Negro",
             "Afrodescendiente",
+            "Nigerian",
         ]
         else race
     )
@@ -284,9 +311,11 @@ for i, file in enumerate(files):
             "Mixed British Asian",
             "Mixed Caucasian/Asian",
             "Afrocolombiano",
+            "Afrocolombinao",
             "Asain White Half N Half",
             "Indígenas Y Africanos",
             "Mixed Asian American",
+            "Mulato",
         ]
         else race
     )
@@ -305,6 +334,7 @@ for i, file in enumerate(files):
             "E.G.Caucasian",
             "German Sheperd",
             "Terrestre",
+            "Batak",
         ]
         else race
     )
@@ -323,6 +353,9 @@ for i, file in enumerate(files):
             "Natural",
             "Normal",
             "No Aplica",
+            "Ninguna",
+            "No Pertenezco A Ninguna",
+            "N/D",
         ]
         else race
     )
@@ -467,7 +500,9 @@ for i, file in enumerate(files):
     sexorientation = (
         "Bisexual" if sexorientation in ["Bisessuale", "Bisexuel"] else sexorientation
     )
-    sexorientation = "Other" if sexorientation in ["Altro", "Autre"] else sexorientation
+    sexorientation = (
+        "Other" if sexorientation in ["Altro", "Autre", "Otro"] else sexorientation
+    )
     sexorientation = np.nan if sexorientation in [""] else sexorientation
     df["SexualOrientation"] = sexorientation
 
@@ -536,28 +571,71 @@ for i, file in enumerate(files):
     df["Feedback_NoFeels"] = False
 
     for f in feedback:
-        if any(x in f for x in ["boring", "noioso", "ennuyeux"]):
+        if any(x in f for x in ["boring", "noioso", "ennuyeux", "aburrí"]):
             df["Feedback_Boring"] = True
-        if any(x in f for x in ["fun", "divertente", "amusé(e)"]):
+        if any(x in f for x in ["fun", "divertente", "amusé(e)", "divertí"]):
             df["Feedback_Fun"] = True
-        if any(x in f for x in ["could tell", "in grado", "pouvais distinguer"]):
+        if any(
+            x in f
+            for x in [
+                "could tell",
+                "in grado",
+                "pouvais distinguer",
+                "Pude identificar",
+            ]
+        ):
             df["Feedback_CouldDiscriminate"] = True
-        if any(x in f for x in ["didn't see", "percepito alcuna", "pas vu"]):
+        if any(
+            x in f
+            for x in ["didn't see", "percepito alcuna", "pas vu", "No vi ninguna"]
+        ):
             df["Feedback_CouldNotDiscriminate"] = True
-        if any(x in f for x in ["more arousing", "più eccitanti", "plus excitantes"]):
+        if any(
+            x in f
+            for x in [
+                "more arousing",
+                "più eccitanti",
+                "plus excitantes",
+                "más activantes",
+            ]
+        ):
             df["Feedback_AIMoreArousing"] = True
-        if any(x in f for x in ["less arousing", "meno eccitanti", "moins excitantes"]):
+        if any(
+            x in f
+            for x in [
+                "less arousing",
+                "meno eccitanti",
+                "moins excitantes",
+                "menos activantes",
+            ]
+        ):
             df["Feedback_AILessArousing"] = True
-        if any(x in f for x in ["not always", "non fossero", "pas toujours"]):
+        if any(
+            x in f
+            for x in ["not always", "non fossero", "pas toujours", "no fueron siempre"]
+        ):
             df["Feedback_LabelsIncorrect"] = True
-        if any(x in f for x in ["reversed", "viceversa", "inversées"]):
+        if any(x in f for x in ["reversed", "viceversa", "inversées", "viceversa"]):
             df["Feedback_LabelsReversed"] = True
         if any(
             x in f
-            for x in ["really arousing", "davvero eccitanti", "vraiment excitantes."]
+            for x in [
+                "really arousing",
+                "davvero eccitanti",
+                "vraiment excitantes.",
+                "realmente activantes",
+            ]
         ):
             df["Feedback_Arousing"] = True
-        if any(x in f for x in ["feel anything", "niente guardando", "rien ressenti"]):
+        if any(
+            x in f
+            for x in [
+                "feel anything",
+                "niente guardando",
+                "rien ressenti",
+                "no sentí nada",
+            ]
+        ):
             df["Feedback_NoFeels"] = True
 
     feedback = data[data["screen"] == "fiction_feedback2"].iloc[0]
@@ -603,12 +681,17 @@ alldata["Condition"] = alldata["Condition"].replace(
 )
 alldata["Item"] = alldata["Item"].str.replace(".jpg", "")
 
+sona = alldata_subs[~np.isnan(alldata_subs["SONA_ID"])]
+alldata_subs = alldata_subs.drop(columns=["SONA_ID"])
+
+
 # Inspect ================================================================
 # alldata_subs["Experimenter"].unique()
 # alldata_subs["Country"].unique()
 # alldata_subs["Ethnicity"].unique()
 # alldata_subs["Education"].unique()
 # alldata_subs["BirthControl"].unique()
+
 
 # Reanonimize
 alldata_subs["d"] = pd.to_datetime(
@@ -626,3 +709,45 @@ alldata = alldata.sort_values(by=["Participant", "Order1"])
 alldata.to_csv("../data/rawdata_task.csv", index=False)
 alldata_subs.to_csv("../data/rawdata_participants.csv", index=False)
 print("Done!")
+
+# SONA check ================================================================
+sona_credited = [
+    30642,
+    30643,
+    30664,
+    30710,
+    30753,
+    30800,
+    30848,
+    30894,
+    30900,
+    30985,
+    31774,
+    31777,
+    31788,
+    31830,
+    31851,
+    31865,
+    31869,
+    31911,
+    31915,
+    31927,
+    31935,
+    31950,
+    31955,
+    31965,
+    31972,
+    32047,
+    32056,
+    32067,
+    32091,
+    32093,
+    32098,
+    32130,
+    32164,
+    32188,
+    32244,
+    32253,
+]
+ids = list(np.sort(sona["SONA_ID"].astype(int).values))
+[id for id in ids if id not in sona_credited]

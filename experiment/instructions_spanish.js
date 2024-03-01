@@ -73,7 +73,7 @@ var text_feedback1_items = [
     "Sentí que las imágenes generadas por IA fueron más activantes que las fotos",
     " Sentí que las imágenes generadas por IA fueron menos activantes que las fotos",
     "Sentí que las categorías ('Fotografía' y 'Generada por IA') no fueron siempre correctas",
-    " Sentí que las categorías estaban al revés (e.g., 'Fotografía' para imágenes generadas por IA y viceversa)",
+    "Sentí que las categorías estaban al revés (e.g., 'Fotografía' para imágenes generadas por IA y viceversa)",
     "Algunas imágenes fueron realmente activantes",
     "Realmente no sentí nada cuando miraba las imágenes",
 ]
