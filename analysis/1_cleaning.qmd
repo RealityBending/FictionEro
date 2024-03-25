@@ -147,6 +147,16 @@ plot_recruitement(filter(df, Language == "Colombian"))
 table_recruitment(filter(df, Language == "Colombian"))
 ```
 
+#### Spanish
+
+```{r}
+#| message: false
+
+plot_recruitement(filter(df, Language == "Spanish"))
+table_recruitment(filter(df, Language == "Spanish"))
+```
+
+
 :::
 
 ## Feedback
@@ -250,10 +260,7 @@ data.frame(Language = df$Language,
 outliers <- c(
   # "S206"  # Collapsed RTs in both phases
   # "S399"  # Negative Arousal-Valence correlations
-  "S428",  # Only 0s for arousal (creates statistical problems)
-  "S498",  # Only 0s for arousal (creates statistical problems)
-  "S508"  # Only 0s for arousal (creates statistical problems)
-  )
+)
 potentials <- list()
 ```
 
@@ -346,56 +353,61 @@ plot_hist <- function(dat) {
 }
 ```
 
-::: {.panel-tabset}
+<!-- ::: {.panel-tabset} -->
 
-#### 1-60
+<!-- #### 1-60 -->
 
-```{r}
-#| fig-width: 15
-#| fig-height: 15
+<!-- ```{r} -->
+<!-- #| fig-width: 15 -->
+<!-- #| fig-height: 15 -->
+<!-- #| eval: false -->
 
-plot_hist(dftask[dftask$Participant %in% df$Participant[1:60], ])
-```
+<!-- plot_hist(dftask[dftask$Participant %in% df$Participant[1:60], ]) -->
+<!-- ``` -->
 
-#### 61-120
+<!-- #### 61-120 -->
 
-```{r}
-#| fig-width: 15
-#| fig-height: 15
+<!-- ```{r} -->
+<!-- #| fig-width: 15 -->
+<!-- #| fig-height: 15 -->
+<!-- #| eval: false -->
 
-plot_hist(dftask[dftask$Participant %in% df$Participant[61:120], ])
-```
-
-
-#### 121-180
-
-```{r}
-#| fig-width: 15
-#| fig-height: 15
-
-plot_hist(dftask[dftask$Participant %in% df$Participant[121:180], ])
-```
+<!-- plot_hist(dftask[dftask$Participant %in% df$Participant[61:120], ]) -->
+<!-- ``` -->
 
 
-#### 181-240
+<!-- #### 121-180 -->
 
-```{r}
-#| fig-width: 15
-#| fig-height: 15
+<!-- ```{r} -->
+<!-- #| fig-width: 15 -->
+<!-- #| fig-height: 15 -->
+<!-- #| eval: false -->
 
-plot_hist(dftask[dftask$Participant %in% df$Participant[181:240], ])
-```
+<!-- plot_hist(dftask[dftask$Participant %in% df$Participant[121:180], ]) -->
+<!-- ``` -->
 
-#### 241-300
 
-```{r}
-#| fig-width: 15
-#| fig-height: 15
+<!-- #### 181-240 -->
 
-plot_hist(dftask[dftask$Participant %in% df$Participant[241:264], ])
-```
+<!-- ```{r} -->
+<!-- #| fig-width: 15 -->
+<!-- #| fig-height: 15 -->
+<!-- #| eval: false -->
 
-:::
+<!-- plot_hist(dftask[dftask$Participant %in% df$Participant[181:240], ]) -->
+<!-- ``` -->
+
+<!-- #### 241-300 -->
+
+<!-- ```{r} -->
+<!-- #| fig-width: 15 -->
+<!-- #| fig-height: 15 -->
+<!-- #| eval: false -->
+
+<!-- plot_hist(dftask[dftask$Participant %in% df$Participant[241:264], ]) -->
+<!-- ``` -->
+
+<!-- ::: -->
 
 
 ### BAIT Questionnaire Duration
@@ -473,11 +485,15 @@ potentials$emo_diff <- arrange(dat, Arousal) |>
 ### Response Coherence
 
 ```{r}
-# dftask[dftask$Participant == "S428", "Arousal"]
-# dftask[dftask$Participant == "S498", "Arousal"]
-# dftask[dftask$Participant == "S508", "Arousal"]
+# Single arousal response (0)
+outliers <- summarize(dftask, n = length(unique(Arousal)), .by="Participant") |> 
+  filter(n == 1) |> 
+  select(Participant) |> 
+  pull() |> 
+  c(outliers)
+
 dat <- dftask |> 
-  filter(!Participant %in% c("S428", "S498", "S508")) |> 
+  filter(!Participant %in% outliers) |> 
   summarize(cor_ArVal = cor(Arousal, Valence),
             cor_ArEnt = cor(Arousal, Enticement),
             .by="Participant") 
@@ -503,12 +519,19 @@ potentials$emo_cor <- arrange(dat, cor_ArVal) |>
   head(5)
 ```
 
+We removed `r length(outliers)` that showed no variation in their arousal response.
+
 ```{r}
-c(as.character(potentials$expe_duration$Participant), 
-  as.character(potentials$emo_diff$Participant), 
-  as.character(potentials$emo_cor$Participant)) |> 
-  table()
+# c(as.character(potentials$expe_duration$Participant), 
+#   as.character(potentials$emo_diff$Participant), 
+#   as.character(potentials$emo_cor$Participant)) |> 
+#   table()
+#   
+df <- filter(df, !Participant %in% outliers)
+dftask <- filter(dftask, !Participant %in% outliers)
 ```
+
+
 
 ### Sexual Profile
 
@@ -577,8 +600,6 @@ show_distribution <- function(dftask, target="Arousal") {
                              theme = theme(plot.title = element_text(hjust = 0.5, face="bold"))) 
 ```
 
-
-
 We kept only heterosexual participants (`r insight::format_percent(sum(df$SexualOrientation == "Heterosexual") / nrow(df))`).
 
 ```{r}
@@ -592,7 +613,7 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 
 ```{r}
 df <- filter(df, !Participant %in% outliers)
-dftask <- filter(dftask, Participant %in% df$Participant)
+dftask <- filter(dftask, !Participant %in% outliers)
 ```
 
 ::: {.panel-tabset}
@@ -784,6 +805,25 @@ p_expertise <- df |>
 p_language | p_expertise
 ```
 
+### System
+
+```{r p_demographics_settings}
+df$Screen_Size <- sqrt(df$Screen_Width * df$Screen_Height)
+
+df |> 
+  ggplot(aes(x = Screen_Size)) +
+  geom_histogram() +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
+  labs(x =  expression("Screen Size ("~sqrt(Number~of~Pixels)~")"), y = "Number of Participants", title = "Screen Size") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1))
+  )
+```
+
 
 :::
 
@@ -791,7 +831,7 @@ p_language | p_expertise
 #| fig-width: 15
 #| fig-height: 15
 
-p_country /
+p_country / 
   (p_age + p_edu)
 ```
 
@@ -924,7 +964,7 @@ for(model in c("glasso", "TMFG")) {
         algorithm=algo,
         EGA.type=type,
         type="resampling",
-        plot.itemStability=FALSE,
+        plot.typicalStructure=FALSE,
         verbose=FALSE)
       }
    }
@@ -966,7 +1006,7 @@ plot(ega_final)
 
 ega_scores <-  EGAnet::net.scores(bait, ega_final)$scores$std.scores |> 
   as.data.frame() |> 
-  setNames(c("EGA_Text", "EGA_Image", "EGA_Videos")) 
+  setNames(c("EGA_Image", "EGA_Videos", "EGA_Text")) 
 ```
 
 ### Scores
@@ -986,7 +1026,7 @@ scores$BAIT_Videos <- (bait$VideosRealistic + (1 - bait$VideosIssues)) / 2
 scores$BAIT_Images <- (bait$ImagesRealistic + (1 - bait$ImagesIssues) + bait$ImitatingReality + bait$EnvironmentReal) / 4
 scores$BAIT_Text <- (bait$TextRealistic + (1 - bait$TextIssues)) / 2
 
-df <- full_join(df, scores, by="Participant")
+df <- merge(df, scores, by="Participant")
 ```
 
 
