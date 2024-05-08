@@ -5,22 +5,42 @@ ABSTRACT:
 KEYWORDS:  
 
 **1. Introduction**
-Imagine Alex. A month ago or so, Alex met Cal via an online dating app. They like each other, after some weeks of chatting they begin to "sext" (that is, to exchange intimate pictures). Alex likes Cal, and is aroused by the pictures. Alas, at some point, Cal confesses that the pictures are not photos: they are sophisticated AI-generated images.
-Now, imagine Sam. Sam owns a small start-up which sells eco-sustainable swimswears on the web. To promote them, Sam is looking for male and female models posing with them. Of course, the sexier the better. The obvious option would be to hire actual models and have them posing with the products. However, an other option is available: hiring a skilled graphic designer that creates virtual models. They would be indistinguishable from real ones, if not for the watermark that is mandatory when using virtual models in Sam's country.
-Until a few years ago, such scenario would be at best the plot of some sci-fi movie. Nowadays, they describe realistic real-life situations. Hence, it becomes pressing to be able to answer questions such as: _Would Alex still feel equally aroused by the images after having learnt they are not real?_ _And should Sam hire actual models or getting virtual ones in order to get the better ads?_ More generally, _does the belief that an image represents a real rather than a 'fake' person influences how sexually arousing it is found?_
-
-Beside the practical applications for the use
-
-
 [Pitch: grab the readers' attention to introduce the phenomenon on intuitive basis]
-[Statement: explain the hypothesis for explaining the phenomenon]
-[State of art: what does relevant literature say? And what does it not say, i.e. why should we run another experiment?]
+Imagine Alex. A month ago or so, Alex met Cal via an online dating app. They like each other, after some weeks of chatting they begin to "sext" (that is, to exchange intimate pictures). Alex likes Cal, and is aroused by the pictures. Alas, at some point, Cal confesses that the pictures are not photos: they are sophisticated AI-generated images.
+Now, imagine Sam. Sam owns a small start-up which sells eco-sustainable swimswears on the web. To promote them, Sam is looking for male and female models posing with them. Of course, the sexier the better. The obvious option would be to hire actual models and have them posing with the products. However, another option is available: hiring a skilled graphic designer that creates virtual models. They would be indistinguishable from real ones, if not for the watermark that is mandatory when using virtual models in Sam's country.
+Until a few years ago, such scenario would be at best the plot of some sci-fi movie. Nowadays, they describe realistic real-life situations. Hence, it becomes pressing to be able to answer questions such as: _Would Alex still feel equally aroused by the images after having learnt they are not real photos? Is it possible that the initial arousal impaired the recognition that Cal's alleged photos were actually AI-generated?_ _And should Sam hire actual models or getting virtual ones in order to get the better ads?_ More generally, _does the belief that an image represents a real rather than a 'fake' person influences how enticing, sexually arousing  and pleasant it is found? And conversely, does the arousal influences the belief that an image is a genuine photo rather than AI-generated?_
+
+This investigation has obvious practical implications for social network and dating apps policies (shall they enforce norm against presenting some else's semblances as their own? will it be easier/harder to be fooled by someone showing a sexy avatar?), models and sex workers' jobs (will virtual avatars steal their job?). However, it is also worth noting that sexual stimuli, far from being a 'niche' topic, are commonly employed in several popular stimuli databases for eliciting high arousal and positively valenced affective reactions, be them visual (Lang et al., 1997; Kurdi et al., 2017; Wierzba et al., 2015) or audio (Yang et al., 2018; Holz et al., 2022). Hence, investigating the question above may shed light on the broader theoretical issue of the relationship between beliefs of reality/fictionality and affective reactions. Extant studies comparing the affective reaction of a same stimulus presented as referring to either real facts or to fictions suggest that the fictional condition might dampen some dimension of the affective reaction (Mocaiber et al., 2010, 2011; Sperduti et al., 2016, 2017; Makowski et al., 2019). Interestingly, Sperduti and colleagues (2016, 2017; Makowski et al., 2019) suggest that this lower tone is mediated by an emotional (down-)regulation strategy called 'fictional reappraisal'[explain it a little].
+
+Among their many possible applications, state-of-art photorealistic AI-generated 'persons' have been proposed to play a role in scientific research due to the high possibility of experimental control they afford (Becker & Laycock, 2023). On the one hand, unlike virtual faces generated up to some years ago, whose processing differ in several repsect from actual human faces (Balas & Pacella, 2017), virtual faces generated by contemporary algorithms are indistinguishable by real ones (Nightingale & Farid, 2022; Miller et al., 2023). In fact, in some circumstances AI-generated faces are perceived as more trustworthy than real ones on average (Tucciarelli et al., 2022). On the other hand, believing that some face is AI-generated (even when it is not) modifies the observer's affective reaction. By presenting subjects several real faces presented as either real or AI-generated, researchers found that in the "allegedly artificial" condition the same face is reported as less trustworthy (Liefooghe et al., 2023) and that allegedly fake smiles evoke less corticoelectrical activity (Eiserbeck et al., 2023).
+A similar pattern can be found in recent works comparing the affective and aesthetic reponse of allegedly human-made with that of allegedly AI-generated artworks, the former being usually preferred than the latter (Chamberlain et al., 2018; Chiarella et al., 2022; Di Dio et al., 2023; Kirk et al., 2009; Ragot et al., 2020; Shank et al., 2023; Wu et al. 2020).
+
+[describe Marini et al. 2023 ] [non-consensual pornography]
+
 [The current experiments]
 
-2. Material & Methods
+**2. Material & Methods**
 ...
 
-3. Results
+**3. Results**
 ...
 
-4. Discussion
+**4. Discussion**
+
+**5. References**
+
+STILL TO BE INSERTED PROPERLY:
+Mocaiber et al., 2010, 2011; Sperduti et al., 2016, 2017; Makowski et al., 2019
+hamberlain et al., 2018; Chiarella et al., 2022; Di Dio et al., 2023; Kirk et al., 2009; Ragot et al., 2020; Shank et al., 2023; Wu et al. 2020
+
+Becker, C., & Laycock, R. (2023). Embracing deepfakes and AI‐generated images in neuroscience research. European journal of neuroscience, 58(3), 2657-2661.
+Eiserbeck, A., Maier, M., Baum, J., & Abdel Rahman, R. (2023). Deepfake smiles matter less—the psychological and neural impact of presumed AI-generated faces. Scientific Reports, 13(1), 16111.
+Holz, N., Larrouy-Maestri, P., & Poeppel, D. (2022). The variably intense vocalizations of affect and emotion (VIVAE) corpus prompts new perspective on nonspeech perception. Emotion, 22(1), 213.
+Kurdi, B., Lozano, S., & Banaji, M. R. (2017). Introducing the open affective standardized image set (OASIS). Behavior research methods, 49, 457-470.
+Lang, P. J., Bradley, M. M., & Cuthbert, B. N. (1997). International affective picture system (IAPS): Technical manual and affective ratings. NIMH Center for the Study of Emotion and Attention, 1(39-58), 3.
+Liefooghe, B., Oliveira, M., Leisten, L. M., Hoogers, E., Aarts, H., & Hortensius, R. (2023). Are Natural Faces Merely Labelled as Artificial Trusted Less?. Collabra: Psychology, 9(1), 73066.
+Miller, E. J., Steward, B. A., Witkower, Z., Sutherland, C. A., Krumhuber, E. G., & Dawel, A. (2023). AI Hyperrealism: Why AI Faces Are Perceived as More Real Than Human Ones. Psychological Science, 34(12), 1390-1403.
+Nightingale, S. J., & Farid, H. (2022). AI-synthesized faces are indistinguishable from real faces and more trustworthy. Proceedings of the National Academy of Sciences, 119(8), e2120481119. https://doi.org/10.1073/pnas.2120481119
+Tucciarelli, R., Vehar, N., Chandaria, S., & Tsakiris, M. (2022). On the realness of people who do not exist: The social processing of artificial faces. iScience, 25(12), 105441. https://doi.org/10.1016/j.isci.2022.105441
+Wierzba, M., Riegel, M., Pucz, A., Leśniewska, Z., Dragan, W. Ł., Gola, M., ... & Marchewka, A. (2015). Erotic subset for the Nencki Affective Picture System (NAPS ERO): cross-sexual comparison study. Frontiers in psychology, 6, 1336.
+Yang, W., Makita, K., Nakao, T., Kanayama, N., Machizawa, M. G., Sasaoka, T., ... & Miyatani, M. (2018). Affective auditory stimulus database: An expanded version of the International Affective Digitized Sounds (IADS-E). Behavior Research Methods, 50, 1415-1429.
