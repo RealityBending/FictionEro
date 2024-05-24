@@ -6,7 +6,7 @@
 # Options -----------------------------------------------------------------
 
 iter <- 1000
-cores <- parallel::detectCores()
+cores <- parallel::detectCores(logical = FALSE)
 
 options(mc.cores = cores,
         brms.backend = "cmdstanr",
@@ -53,16 +53,19 @@ f <- brms::bf(Arousal ~  0 + Intercept + Sex / Relevance +
                  (0 + Intercept + Relevance|Participant) +
                  (0 + Intercept + Relevance|Item))
 
-m_baseline_arousal_linear <- brms::brm(data=df,
-            algorithm="sampling",
-            init = 0,
-            seed=123,
-            refresh=0,
-            iter=200,
-            chains=cores)
+m_baseline_arousal_linear <- brms::brm(
+  f,
+  data=df,
+  algorithm="sampling",
+  init = 0,
+  seed=123,
+  refresh=0,
+  iter=200,
+  chains=cores)
 
 t1 <- Sys.time()
 
 log <- c(log, "m1" = TRUE)
 write.csv(as.data.frame(log), '/mnt/lustre/users/psych/dmm56/FictionEro/log.csv')
 save(m_baseline_arousal_linear, file="/mnt/lustre/users/psych/dmm56/FictionEro/m_baseline_arousal_linear.Rdata")
+rm(m_baseline_arousal_linear)
