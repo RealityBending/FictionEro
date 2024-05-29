@@ -6,7 +6,7 @@
 
 # Options -----------------------------------------------------------------
 
-iter <- 600
+iter <- 1000
 cores <- parallel::detectCores(logical = FALSE)
 
 options(mc.cores = cores,
@@ -44,33 +44,32 @@ log <- c(log, "Data" = TRUE)
 write.csv(as.data.frame(log), '/mnt/lustre/users/psych/dmm56/FictionEro/log.csv')
 
 
-
 # Baseline Models --------------------------------------------------------
 
 # Arousal
 
-# t0 <- Sys.time()
-#
-# f <- brms::bf(Arousal ~  0 + Intercept + Sex / Relevance +
-#                  (0 + Intercept + Relevance|Participant) +
-#                  (0 + Intercept + Relevance|Item))
-#
-# m_baseline_arousal_linear <- brms::brm(
-#   f,
-#   data=df,
-#   algorithm="sampling",
-#   init = 0,
-#   seed=123,
-#   refresh=0,
-#   iter=iter,
-#   chains=cores,
-#   cores=cores)
-#
-# t1 <- Sys.time()
-# log <- c(log, "m1" = as.numeric(difftime(t1, t0, units = "min")))
-# write.csv(as.data.frame(log), '/mnt/lustre/users/psych/dmm56/FictionEro/log.csv')
-# save(m_baseline_arousal_linear, file="/mnt/lustre/users/psych/dmm56/FictionEro/m_baseline_arousal_linear.Rdata")
-# rm(m_baseline_arousal_linear)
+t0 <- Sys.time()
+
+f <- brms::bf(Arousal ~  0 + Intercept + Sex / Relevance +
+                 (0 + Intercept + Relevance|Participant) +
+                 (0 + Intercept + Relevance|Item))
+
+m_baseline_arousal_linear <- brms::brm(
+  f,
+  data=df,
+  algorithm="sampling",
+  init = 0,
+  seed=123,
+  refresh=0,
+  iter=iter,
+  chains=cores,
+  cores=cores)
+
+t1 <- Sys.time()
+log <- c(log, "m1" = as.numeric(difftime(t1, t0, units = "min")))
+write.csv(as.data.frame(log), '/mnt/lustre/users/psych/dmm56/FictionEro/log.csv')
+save(m_baseline_arousal_linear, file="/mnt/lustre/users/psych/dmm56/FictionEro/m_baseline_arousal_linear.Rdata")
+rm(m_baseline_arousal_linear)
 
 
 
@@ -85,16 +84,31 @@ f <- brms::bf(Arousal ~  0 + Intercept + Sex / Relevance +
                family=brms::Beta)
 
 m_baseline_arousal_beta <- brms::brm(
+  f,
+  data=datawizard::rescale(df, select="Arousal", range=c(0, 1), to=c(0.001, 0.999)),
+  algorithm="sampling",
+  init = 0,
+  seed=123,
+  refresh=0,
+  chains=0)
+
+t1 <- Sys.time()
+log <- c(log, "m2_compile" = as.numeric(difftime(t1, t0, units = "min")))
+write.csv(as.data.frame(log), '/mnt/lustre/users/psych/dmm56/FictionEro/log.csv')
+
+t0 <- Sys.time()
+
+m_baseline_arousal_beta <- brms::brm(
     f,
     data=datawizard::rescale(df, select="Arousal", range=c(0, 1), to=c(0.001, 0.999)),
-    algorithm="meanfield",
+    algorithm="sampling",
     init = 0,
     seed=123,
     refresh=0,
-    iter=30000)
-    # iter=iter,
-    # chains=cores,
-    # cores=cores)
+    # iter=30000)
+    iter=iter,
+    chains=cores,
+    cores=cores)
 
 t1 <- Sys.time()
 log <- c(log, "m2" = as.numeric(difftime(t1, t0, units = "min")))
@@ -126,7 +140,6 @@ m_baseline_arousal_zoib <- brms::brm(
   algorithm="sampling",
   init = 0,
   seed=123,
-  refresh=0,
   iter=iter,
   chains=cores,
   cores=cores)
@@ -136,3 +149,41 @@ log <- c(log, "m3" = as.numeric(difftime(t1, t0, units = "min")))
 write.csv(as.data.frame(log), '/mnt/lustre/users/psych/dmm56/FictionEro/log.csv')
 save(m_baseline_arousal_zoib, file="/mnt/lustre/users/psych/dmm56/FictionEro/m_baseline_arousal_zoib.Rdata")
 rm(m_baseline_arousal_zoib)
+
+
+
+t0 <- Sys.time()
+
+# m_baseline_arousal_ordbeta <- ordbetareg::ordbetareg(Arousal ~  0 + Intercept + Sex / Relevance +
+#                                                        (Relevance|Participant) +
+#                                                        (Relevance|Item),
+#                                                      data=df,
+#                                                      phi_reg = "both",
+#                                                      algorithm="meanfield",
+#                                                      init = 0)
+
+
+ordbeta_mod <- ordbetareg:::.load_ordbetareg(formula=Arousal ~  0 + Intercept + Sex / Relevance,
+                                             phi_reg="both")
+
+f <- brms::bf(Arousal ~  0 + Intercept  + Sex / Relevance,
+              phi ~ 0 + Intercept + Sex / Relevance,
+              family=ordbeta_mod$family)
+
+m_baseline_arousal_ordbeta <- brms::brm(formula=f,
+                     data=df,
+                     stanvars=ordbeta_mod$stanvars,
+                     algorithm="sampling",
+                     init = 0,
+                     seed=123,
+                     iter=iter,
+                     chains=cores,
+                     cores=cores)
+
+# brms::get_prior(m_baseline_arousal_ordbeta)
+
+t1 <- Sys.time()
+log <- c(log, "m4" = as.numeric(difftime(t1, t0, units = "min")))
+write.csv(as.data.frame(log), '/mnt/lustre/users/psych/dmm56/FictionEro/log.csv')
+save(m_baseline_arousal_ordbeta, file="/mnt/lustre/users/psych/dmm56/FictionEro/m_baseline_arousal_ordbeta.Rdata")
+rm(m_baseline_arousal_ordbeta)
