@@ -166,8 +166,12 @@ t0 <- Sys.time()
 ordbeta_mod <- ordbetareg:::.load_ordbetareg(formula=Arousal ~  0 + Intercept + Sex / Relevance,
                                              phi_reg="both")
 
-f <- brms::bf(Arousal ~  0 + Intercept  + Sex / Relevance,
-              phi ~ 0 + Intercept + Sex / Relevance,
+f <- brms::bf(Arousal ~  0 + Intercept  + Sex / Relevance +
+                (Relevance|Participant) +
+                (Relevance|Item),
+              phi ~ 0 + Intercept + Sex / Relevance +
+                (Relevance|Participant) +
+                (Relevance|Item),
               family=ordbeta_mod$family)
 
 m_baseline_arousal_ordbeta <- brms::brm(formula=f,
