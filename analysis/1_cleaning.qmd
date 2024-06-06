@@ -6,7 +6,7 @@ editor_options:
 format:
   html:
     code-fold: true
-    self-contained: true
+    self-contained: false
     toc: true
 ---
 
@@ -29,9 +29,12 @@ library(ggside)
 df <- read.csv("../data/rawdata_participants.csv") |> 
   mutate(across(everything(), ~ifelse(.x == "", NA, .x))) |>
   mutate(Sample = case_when(
-    Language=="English" & str_detect(Experimenter, "reddit") ~ "Reddit",
-    Language=="English" & Experimenter %in% c("2discord1", "Experimenter2", "Experimenter1") ~ "Student",
-    Language=="English" & Experimenter %in% c("Unknown", "Readme (GitHub)", "website") ~ "Other",
+    Language=="English" & Experimenter %in% c("2discord1", "Experimenter2", "Experimenter1") ~ "Students (Non-incentivized)",
+    Language=="English" & Experimenter %in% c("Unknown", "Readme (GitHub)", "website", "reddit") ~ "General Population",
+    Experimenter %in% c("enter", "macre", "piaca", "unime", "classroom1") ~ "Students (Non-incentivized)",
+    Experimenter %in% c("SONA") ~ "Students (Incentivized)",
+    Experimenter %in% c("gacon", "mafas", "marmar", "mavio", "sobon", "RISC", "Snowball") ~ "General Population",
+    str_detect(Experimenter, "reddit") ~ "General Population",
     .default = Experimenter
   ))
 
@@ -104,7 +107,7 @@ plot_recruitement(df) +
 
 # Table
 table_recruitment <- function(df) {
-  summarize(df, N = n(), .by=c("Language", "Sample")) |> 
+  summarize(df, N = n(), .by=c("Language", "Experimenter")) |> 
     arrange(desc(N)) |> 
     gt::gt() |> 
     gt::opt_stylize() |> 
@@ -278,7 +281,7 @@ There were `r sum(df$Mobile=="True")` participants that used a mobile device.
 
 ```{r}
 # df <- filter(df, Mobile == "False")
-dftask <- filter(dftask, Participant %in% df$Participant)
+# dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
 ### Experiment Duration
@@ -566,7 +569,7 @@ We removed `r sum(df$Sex=="Other" | df$SexualOrientation=="Other")` participants
 ```{r}
 #| code-fold: false
 
-df <- filter(df, Sex != "Other" & SexualOrientation != "Other")
+df <- filter(df, !(Sex == "Other" | SexualOrientation == "Other"))
 dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
@@ -745,6 +748,7 @@ p_sex
 #### Sexual Profile
 
 
+
 ```{r p_demographics_sexprofile}
 #| fig-width: 14
 #| fig-height: 14
@@ -772,6 +776,22 @@ p_sexprofile <- df |>
   ) +
   facet_wrap(~name, scales = "free")
 p_sexprofile
+```
+
+```{r p_pornfactor}
+#| fig-width: 14
+#| fig-height: 14
+
+dat <- select(df, COPS_Duration_1, COPS_Frequency_2, SexualActivity) |> 
+    mutate(across(where(is.character), as.factor)) |> 
+    mutate(across(where(is.factor), as.numeric))
+
+r <- correlation::correlation(
+  dat) |> 
+  as.matrix()  
+
+r <- parameters::factor_analysis(dat, n = 1, rotation = "oblimin", cor = r)
+df$Porn <- get_scores(r)[, 1]
 ```
 
 
@@ -1119,6 +1139,18 @@ format(table) |>
 #### Corrrelation with GAAIS
 
 ```{r}
+n <- n_factors(select(df, starts_with("GAAIS")))
+n
+parameters::factor_analysis(
+  select(df, starts_with("GAAIS")), 
+  n=2, 
+  rotation="oblimin")
+
+df$GAAIS_Negative <- rowMeans(select(df, starts_with("GAAIS_Negative")))
+df$GAAIS_Positive <- rowMeans(select(df, starts_with("GAAIS_Positive")))
+```
+
+```{r}
 table <- correlation::correlation(
   select(df, all_of(names(raw_scores))), 
   select(df, starts_with("GAAIS")),
@@ -1223,15 +1255,35 @@ glm(Feedback_Boring ~ BAIT_Visual * AI_Knowledge,
   display(title="Predicting 'Boring'")
 ```
 
+```{r}
+glm(Feedback_AILessArousing ~ BAIT_Visual * AI_Knowledge, 
+    data=mutate(df, Feedback_AILessArousing = ifelse(Feedback_AILessArousing=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'AI was less arousing'")
+```
+
+```{r}
+glm(Feedback_AIMoreArousing ~ BAIT_Visual * AI_Knowledge, 
+    data=mutate(df, Feedback_AIMoreArousing = ifelse(Feedback_AIMoreArousing=="True", 1, 0)), 
+    family="binomial") |> 
+  parameters::parameters() |> 
+  display(title="Predicting 'AI was more arousing'")
+```
+
 
 
 :::
+
+
+
 
 ## Save 
 
 ```{r}
 #| code-fold: false
 
+setdiff(unique(df$Participant), unique(dftask$Participant))
 write.csv(df, "../data/data_participants.csv", row.names = FALSE)
 write.csv(dftask, "../data/data.csv", row.names = FALSE)
 ```
