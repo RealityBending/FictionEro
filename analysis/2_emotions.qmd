@@ -37,6 +37,7 @@ df <- read.csv("../data/data.csv") |>
     select(dfsub, Participant, Sample, Language, Mobile, starts_with("Feedback_"), 
            BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity, 
            GAAIS_Negative, GAAIS_Positive, Porn, COPS_Frequency_2,
+           Screen_Size,
            -Feedback_Comments),
     by = "Participant"
     ) |> 
@@ -70,12 +71,14 @@ results_table <- function(model, effects="fixed", filter=NULL) {
 
 ## Manipulation Check
 
-This section is about selecting the best model and performing the **manipulation check**: Neutral vs. Emotional
+This section is about selecting the best model and making a **manipulation check** to make sure that the emotional appraisal were sensitive to the main manipualtion (Neutral vs. Emotional).
 
 ::: {.panel-tabset}
 
 
 ### Arousal
+
+The *Arousal* data is composed of a mixture of extreme responses (0 and 1) and non-extreme responses between 0 and 1, lending itself to ordered beta model [(Kubinec, 2022)](https://doi.org/10.1017/pan.2022.20), designed explicitly for bounded data such as survey slider scales. It is a more parsimonious evolution of the zero-and-one inflated beta (ZOIB) regression model (see [this tutorial](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/)) that jointly models the probability of extreme responses, the probability of 1 vs. 0, and the mean and spread of the rest of the responses.
 
 
 ```{r}
@@ -92,7 +95,6 @@ df |>
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 ```
 
-The *Arousal* data is composed of a mixture of extreme responses (0 and 1) and non-extreme responses between 0 and 1, lending itself to ordered beta model [(Kubinec, 2022)](https://doi.org/10.1017/pan.2022.20), designed explicitly for data with upper and lower bounds, such as survey slider scales. It is a more parsimonious evolution of the zero-and-one inflated beta (ZOIB) regression model (see [this tutorial](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/)) that jointly models the probability of extreme responses, the probability of 1 vs. 0, and the mean and spread of the rest of the responses.
 
 ```{r}
 #| eval: false
@@ -156,6 +158,8 @@ estimate_relation(m) |>
 
 ### Enticement
 
+The same type of model seems warranted for enticement.
+
 ```{r}
 df |> 
   mutate(Enticement_Extreme = ifelse(Enticement %in% c(0, 1), "Extreme", "Not extreme")) |>
@@ -191,6 +195,8 @@ estimate_relation(m) |>
 
 ### Valence
 
+The same type of model seems warranted for valence.
+
 ```{r}
 df |> 
   mutate(Valence_Extreme = ifelse(Valence %in% c(0, 1), "Extreme", "Not extreme")) |>
@@ -204,6 +210,8 @@ df |>
   theme_abyss() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 ```
+
+
 
 ```{r}
 m <- glmmTMB::glmmTMB(Valence ~ Sex / Relevance + (Relevance | Participant) + (1|Item),
@@ -339,6 +347,15 @@ m <- glmmTMB::glmmTMB(Arousal ~ Mobile / Sex / Relevance / Condition + (Relevanc
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
 results_table(m, filter="Condition")
+```
+
+```{r}
+m <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance / (Condition * Screen_Size) + (Relevance | Participant) + (1|Item),
+                      data=standardize(df, select="Screen_Size"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Screen")
 ```
 
 :::
@@ -768,6 +785,10 @@ for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
 display(filter(moderator_believed, p < .1))
 ```
 
+## Summary
+
+- Believing erotic images to be AI-generated, regardless of its true nature, leads to a less pleasurable experience (i.e., a less intense and less positive emotion). While the effect is the most noticeable for men (who experience a stronger arousal when exposed to the images), it appears overall very small in magnitude. However, it becomes more pronounced for both genders when controlled for the belief in the images' nature, and is consistent with participants' feedback, suggesting an important meta-cognitive component (in the form of explicitly conscious beliefs).
+- The items developed (BAIT scale) seem to measure a different dimension to AI-expertise. 
 
 ## Figures
 
