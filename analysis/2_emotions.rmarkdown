@@ -1,0 +1,1044 @@
+---
+title: "FictionEro - Affective Impact of Fiction"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute: 
+  cache: true
+---
+
+
+## Data Preparation
+
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+library(glmmTMB)
+
+options(mc.cores = parallel::detectCores(),
+        brms.backend = "cmdstanr",
+        width = 300)
+```
+
+```{r}
+dfsub <- read.csv("../data/data_participants.csv")
+df <- read.csv("../data/data.csv") |> 
+  right_join(
+    select(dfsub, Participant, Sample, Language, Mobile, starts_with("Feedback_"), 
+           BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity, 
+           GAAIS_Negative, GAAIS_Positive, Porn, COPS_Frequency_2,
+           Screen_Size,
+           -Feedback_Comments),
+    by = "Participant"
+    ) |> 
+  datawizard::rescale(select=c("Valence"), range=c(-1, 1), to=c(0, 1)) |> 
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
+         Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "Non-erotic"),
+         Sex =  fct_relevel(Sex, "Male", "Female"),
+         PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
+         SexualActivity_num = as.numeric(as.factor(SexualActivity)),
+         ConditionBelief = case_when(
+           Condition == "Photograph" & Realness > 0.5 ~ "True",
+           Condition == "AI-Generated" & Realness < 0.5 ~ "True",
+           .default = "False"
+         )) |> 
+  mutate(across(starts_with("Feedback_"), function(x) {fct_relevel(x, "False", "True")}))
+
+results_table <- function(model, effects="fixed", filter=NULL) {
+  if("marginaleffects" %in% class(model)) {
+    model |> 
+      parameters::parameters() |> 
+      as.data.frame() |> 
+      select(-Parameter, -SE, -S, z=Statistic, -Predicted) |> 
+      insight::format_table() |> 
+      parameters::display()
+  } else {
+    display(parameters::parameters(model, effects=effects, keep=filter))
+  }
+}
+```
+
+
+
+## Manipulation Check
+
+This section is about selecting the best model and making a **manipulation check** to make sure that the emotional appraisal were sensitive to the main manipualtion (Neutral vs. Emotional).
+
+::: {.panel-tabset}
+
+
+### Arousal
+
+The *Arousal* data is composed of a mixture of extreme responses (0 and 1) and non-extreme responses between 0 and 1, lending itself to ordered beta model [(Kubinec, 2022)](https://doi.org/10.1017/pan.2022.20), designed explicitly for bounded data such as survey slider scales. It is a more parsimonious evolution of the zero-and-one inflated beta (ZOIB) regression model (see [this tutorial](https://www.andrewheiss.com/blog/2021/11/08/beta-regression-guide/)) that jointly models the probability of extreme responses, the probability of 1 vs. 0, and the mean and spread of the rest of the responses.
+
+
+
+```{r}
+df |> 
+  mutate(Arousal_Extreme = ifelse(Arousal %in% c(0, 1), "Extreme", "Not extreme")) |>
+  ggplot(aes(x=Arousal, fill=Relevance)) +
+  geom_histogram(aes(color=Arousal_Extreme), position = "identity", bins=80) +
+  facet_grid(Relevance~Sex, scales="free_y") +
+  scale_color_manual(values=c("red", "white"), guide="none") +
+  scale_fill_manual(values=c("Relevant"="#E91E63", "Irrelevant"="#FF9800", "Non-erotic"="#03A9F4"), guide="none") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  labs(title = "Arousal") +
+  theme_abyss() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+```
+
+```{r}
+#| eval: false
+
+# Get a sense of Random Factors
+m1 <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (1|Participant) + (1|Item), data=df)
+m2 <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (1+Relevance|Participant) + (1|Item), data=df)
+m3 <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (1|Participant) + (1+Sex|Item), data=df)
+m4 <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (1|Participant) + (1+Relevance|Item), data=df)
+m5 <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (1|Participant) + (1+Sex / Relevance|Item), data=df)
+m6 <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (1+Relevance|Participant) + (1+Sex|Item), data=df)
+m7 <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (1+Relevance|Participant) + (1+Relevance|Item), data=df)
+
+
+rbind(
+  mutate(performance::icc(m1, by_group=TRUE), Model = "m1"),
+  data.frame(Group = "Conditional R2", ICC = performance::r2(m1)$R2_conditional, Model = "m1"),
+  mutate(performance::icc(m2, by_group=TRUE), Model = "m2"),
+  data.frame(Group = "Conditional R2", ICC = performance::r2(m2)$R2_conditional, Model = "m2"),
+  mutate(performance::icc(m3, by_group=TRUE), Model = "m3"),
+  data.frame(Group = "Conditional R2", ICC = performance::r2(m3)$R2_conditional, Model = "m3"),
+  mutate(performance::icc(m4, by_group=TRUE), Model = "m4"),
+  data.frame(Group = "Conditional R2", ICC = performance::r2(m4)$R2_conditional, Model = "m4"),
+  mutate(performance::icc(m5, by_group=TRUE), Model = "m5"),
+  data.frame(Group = "Conditional R2", ICC = performance::r2(m5)$R2_conditional, Model = "m5"),
+  mutate(performance::icc(m6, by_group=TRUE), Model = "m6"),
+  data.frame(Group = "Conditional R2", ICC = performance::r2(m6)$R2_conditional, Model = "m6"),
+  mutate(performance::icc(m7, by_group=TRUE), Model = "m7"),
+  data.frame(Group = "Conditional R2", ICC = performance::r2(m7)$R2_conditional, Model = "m7")
+) |>
+  ggplot(aes(x = Model, y = ICC, color=Group)) +
+  geom_line(aes(group=Group))
+
+test_bf(m6, m1, m2, m3, m4, m5, m7)
+compare_performance(m2, m7)
+
+# It seems like the full model, with the effect of relevance on participants and items, is the best.
+```
+
+```{r}
+m <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance + (Relevance | Participant) + (1|Item),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+                      # control = glmmTMB::glmmTMBControl(optimizer=stats::optim, # nlminb, optim
+                      #                                   optArgs = list(method = "BFGS"),  #Nelder-Mead, BFGS, CG
+                      #                                   parallel = 8))
+```
+
+```{r}
+results_table(m)
+
+estimate_relation(m) |> 
+  ggplot(aes(x=Relevance, y=Predicted)) +
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color=Relevance), position=position_dodge(width=0.5)) +
+  scale_color_manual(values=c("Relevant"="#E91E63", "Irrelevant"="#FF9800", "Non-erotic"="#03A9F4"), guide="none") +
+  labs(y="Arousal") +
+  facet_wrap(~Sex) +
+  theme_abyss()
+```
+
+
+
+### Enticement
+
+The same type of model seems warranted for enticement.
+
+
+```{r}
+df |> 
+  mutate(Enticement_Extreme = ifelse(Enticement %in% c(0, 1), "Extreme", "Not extreme")) |>
+  ggplot(aes(x=Enticement, fill=Relevance)) +
+  geom_histogram(aes(color=Enticement_Extreme), position = "identity", bins=80) +
+  facet_grid(Relevance~Sex, scales="free_y") +
+  scale_color_manual(values=c("red", "white"), guide="none") +
+  scale_fill_manual(values=c("Relevant"="#E91E63", "Irrelevant"="#FF9800", "Non-erotic"="#03A9F4"), guide="none") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  labs(title = "Enticement") +
+  theme_abyss() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+```
+
+```{r}
+m <- glmmTMB::glmmTMB(Enticement ~ Sex / Relevance + (Relevance | Participant) + (1|Item),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+```
+
+```{r}
+results_table(m)
+
+estimate_relation(m) |> 
+  ggplot(aes(x=Relevance, y=Predicted)) +
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color=Relevance), position=position_dodge(width=0.5)) +
+  scale_color_manual(values=c("Relevant"="#E91E63", "Irrelevant"="#FF9800", "Non-erotic"="#03A9F4"), guide="none") +
+  labs(y="Enticement") +
+  facet_wrap(~Sex) +
+  theme_abyss()
+```
+
+
+### Valence
+
+The same type of model seems warranted for valence.
+
+
+```{r}
+df |> 
+  mutate(Valence_Extreme = ifelse(Valence %in% c(0, 1), "Extreme", "Not extreme")) |>
+  ggplot(aes(x=Valence, fill=Relevance)) +
+  geom_histogram(aes(color=Valence_Extreme), position = "identity", bins=80) +
+  facet_grid(Relevance~Sex, scales="free_y") +
+  scale_color_manual(values=c("red", "white"), guide="none") +
+  scale_fill_manual(values=c("Relevant"="#E91E63", "Irrelevant"="#FF9800", "Non-erotic"="#03A9F4"), guide="none") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  labs(title = "Valence") +
+  theme_abyss() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+```
+
+```{r}
+m <- glmmTMB::glmmTMB(Valence ~ Sex / Relevance + (Relevance | Participant) + (1|Item),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+```
+
+```{r}
+results_table(m)
+
+estimate_relation(m) |> 
+  ggplot(aes(x=Relevance, y=Predicted)) +
+  geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color=Relevance), position=position_dodge(width=0.5)) +
+  scale_color_manual(values=c("Relevant"="#E91E63", "Irrelevant"="#FF9800", "Non-erotic"="#03A9F4"), guide="none") +
+  labs(y="Enticement") +
+  facet_wrap(~Sex) +
+  theme_abyss()
+```
+
+
+:::
+
+## Arousal
+
+
+```{r}
+#| fig-height: 12
+#| fig-width: 7
+
+plot_descriptive <- function(df, target="Arousal") {
+  # By item
+  order <- df |>
+    mutate(.Item_Order = paste0(Relevance, "_", Sex, "_", Item)) |>
+    summarize(mean = mean(.data[[target]], na.rm=TRUE), .by=c("Condition", ".Item_Order")) |> 
+    arrange(.Item_Order, desc(Condition)) |> 
+    mutate(diff = sign(mean - lag(mean)),
+           Relevance = str_extract(.Item_Order, "^[^_]+"),
+           .Item_Order = str_extract(.Item_Order, "(?<=_).+")) |>
+    filter(Condition == "Photograph") |> 
+    arrange(Relevance, diff, mean)
+    
+  p1 <- df |>
+    mutate(.Item_Order = paste0(Sex, "_", Item)) |>
+    group_by(.Item_Order, Condition) |>
+    ggdist::mean_qi(.data[[target]], .width=0.95) |>
+    mutate(Sex = fct_rev(str_extract(.Item_Order, "^[^_]+"))) |>
+    left_join(order[c(".Item_Order", "diff")], by=".Item_Order") |>
+    mutate(.Item_Order = fct_relevel(.Item_Order, order$.Item_Order)) |>
+    # mutate(.average = mean(.data[[target]]), .by="Item") |>
+    # mutate(Item = fct_reorder(Item, .average)) |>
+    ggplot(aes(y = .Item_Order, x=.data[[target]])) +
+    geom_line(aes(color=as.factor(diff)), linewidth=1) +
+    geom_point(aes(color=Condition), size=2) +
+      
+    # ggdist::stat_slabinterval(aes(fill=Condition, color=Condition),
+    #                           .width=0.95, normalize="xy", slab_alpha=0.5) +
+    # ggdist::stat_histinterval(aes(fill=Condition, color=Condition),
+    #                           .width=0.95, normalize="xy", slab_alpha=0.5) +
+    scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336", "1"="#F44336", "-1"="#2196F3"),
+                       breaks = c('AI-Generated', 'Photograph')) +
+    # scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+    scale_y_discrete(labels = function(x) str_extract(x, "(?<=_).+")) +
+    theme_minimal() +
+    theme(panel.grid.minor.x = element_blank(),
+          # panel.grid.major.x = element_blank(),
+          panel.border = element_blank(),
+          axis.line.x = element_blank()) +
+    labs(title = paste0(target, " by Item"), color="Condition", y="Items") +
+    facet_wrap(~Sex, scales="free_y")
+
+  # By participant
+  p2 <- df |>
+    summarize(.average = mean(.data[[target]]),
+              .by=c("Sex", "Participant", "Condition")) |>
+    pivot_wider(names_from = Condition, values_from = .average) |>
+    mutate(.diff = Photograph - `AI-Generated`) |>
+    mutate(Participant = fct_reorder(Participant, .diff)) |>
+    ggplot(aes(x = .diff, y=Participant)) +
+    geom_bar(aes(fill=.diff), stat = "identity")  +
+    scale_fill_gradient2(guide="none", low="red", high="red", mid="blue") +
+    labs(title = paste0(target, " by Participant")) +
+    facet_wrap(~Sex, ncol=2, scales="free_y") +
+    theme_minimal() +
+    theme(panel.grid.major.y = element_blank(),
+          panel.border = element_blank(),
+          axis.line.x = element_blank(),
+          axis.text.y = element_blank()) +
+    labs(title = paste0(target, " by Participant"), x="Difference (Photograph - AI-Generated)", y="Participants")
+
+  p1 / p2 + plot_layout(heights = c(2, 1))
+}
+
+plot_descriptive(df, "Arousal")
+```
+
+
+
+### Whole Sample
+
+
+
+```{r}
+m_arousal <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance / Condition + 
+                                (Relevance | Participant) + (1|Item),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_arousal)
+
+marginaleffects::avg_slopes(m_arousal, variables="Condition", by="Sex", re.form=NA) |> 
+  results_table()
+```
+
+
+
+### Subsamples
+
+::: {.panel-tabset}
+
+#### Sample
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Arousal ~ Sample / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+
+
+#### Mobile
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Arousal ~ Mobile / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+```{r}
+m <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance / (Condition * Screen_Size) + (Relevance | Participant) + (1|Item),
+                      data=standardize(df, select="Screen_Size"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Screen")
+```
+
+
+:::
+
+### Moderators
+
+
+
+```{r}
+test_moderator <- function(df, outcome="Arousal", moderator="BAIT_Visual") {
+  f <- paste0(outcome, " ~ Sex / (Condition * ", moderator, ") + (Condition | Participant) + (1|Item)")
+  r <- glmmTMB::glmmTMB(as.formula(f),
+                      data=filter(df, Relevance == "Relevant"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8)) |>
+    parameters::parameters() |> 
+    as.data.frame() |> 
+    select(-df_error, -Effects, -Group, -Component, -SE)
+  r$Moderator <- moderator
+  r$Outcome <- outcome
+  insight::format_table(r[c(7, 8), ])
+}
+
+
+moderator_results <- data.frame()
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num")) {
+  moderator_results <- rbind(moderator_results,
+                             test_moderator(df, "Arousal", m))
+}
+
+display(moderator_results)
+```
+
+```{r}
+feedback_results <- data.frame()
+for(m in c("Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  feedback_results <- rbind(feedback_results,
+                            test_moderator(df, "Arousal", m))
+}
+display(feedback_results)
+```
+
+
+
+
+### Believed
+
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+moderator_believed <- data.frame()
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num", 
+           "Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  moderator_believed <- rbind(moderator_believed,
+                             test_moderator(filter(df, ConditionBelief == "True"), "Arousal", m))
+}
+
+display(filter(moderator_believed, p < .1))
+```
+
+
+
+## Enticement
+
+
+
+```{r}
+#| fig-height: 12
+#| fig-width: 7
+
+plot_descriptive(df, "Enticement")
+```
+
+
+
+### Whole Sample
+
+
+
+```{r}
+m_enticement <- glmmTMB::glmmTMB(Enticement ~ Sex / Relevance / Condition + 
+                                   (Relevance | Participant) + (1|Item),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_enticement)
+
+marginaleffects::avg_slopes(m_enticement, variables="Condition", by="Sex", re.form=NA) |> 
+  results_table()
+```
+
+
+
+
+### Subsamples
+
+::: {.panel-tabset}
+
+#### Sample
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Enticement ~ Sample / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+
+
+#### Mobile
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Enticement ~ Mobile / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+
+:::
+
+### Moderators
+
+
+
+```{r}
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num")) {
+  moderator_results <- rbind(moderator_results,
+                             test_moderator(df, "Enticement", m))
+}
+
+display(filter(moderator_results, Outcome == "Enticement"))
+```
+
+```{r}
+for(m in c("Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  feedback_results <- rbind(feedback_results,
+                            test_moderator(df, "Enticement", m))
+}
+display(filter(feedback_results, Outcome == "Enticement"))
+```
+
+```{r}
+m <- glmmTMB::glmmTMB(Arousal ~ Sex / (Condition * SexualActivity_num) + (Condition | Participant) + (1|Item),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+estimate_relation(m, length=20) |> 
+  ggplot(aes(x=SexualActivity_num, y=Predicted)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Condition), alpha=0.2) +
+  geom_line(aes(color=Condition)) +
+  facet_grid(~Sex)
+```
+
+
+
+### Believed
+
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Enticement ~ Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+moderator_believed <- data.frame()
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num", 
+           "Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  moderator_believed <- rbind(moderator_believed,
+                             test_moderator(filter(df, ConditionBelief == "True"), "Enticement", m))
+}
+
+display(filter(moderator_believed, p < .1))
+```
+
+
+
+
+## Valence
+
+
+
+```{r}
+#| fig-height: 12
+#| fig-width: 7
+
+plot_descriptive(df, "Valence")
+```
+
+
+
+### Whole Sample
+
+
+
+```{r}
+m_valence <- glmmTMB::glmmTMB(Valence ~ Sex / Relevance / Condition + 
+                                (Relevance | Participant) + (1|Item),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_valence)
+
+marginaleffects::avg_slopes(m_valence, variables="Condition", by="Sex", re.form=NA) |> 
+  results_table()
+```
+
+
+
+### Subsamples
+
+::: {.panel-tabset}
+
+#### Sample
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Valence ~ Sample / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+
+
+#### Mobile
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Valence ~ Mobile / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+
+
+:::
+
+### Moderators
+
+
+
+```{r}
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num")) {
+  moderator_results <- rbind(moderator_results,
+                             test_moderator(df, "Valence", m))
+}
+
+display(filter(moderator_results, Outcome == "Valence"))
+```
+
+```{r}
+for(m in c("Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  feedback_results <- rbind(feedback_results,
+                            test_moderator(df, "Valence", m))
+}
+display(filter(feedback_results, Outcome == "Valence"))
+```
+
+
+### Believed
+
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Valence ~ Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+moderator_believed <- data.frame()
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num", 
+           "Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  moderator_believed <- rbind(moderator_believed,
+                             test_moderator(filter(df, ConditionBelief == "True"), "Valence", m))
+}
+
+display(filter(moderator_believed, p < .1))
+```
+
+
+
+## Emotionality (Combined Factor)
+
+
+```{r}
+pca <- principal_components(df[c("Valence", "Arousal", "Enticement")], n = 2)
+pca
+df$Emotionality <- normalize(predict(pca)$PC1)
+
+df |> 
+  mutate(Emotionality_Extreme = ifelse(Emotionality %in% c(0, 1), "Extreme", "Not extreme")) |>
+  ggplot(aes(x=Emotionality, fill=Relevance)) +
+  geom_histogram(aes(color=Emotionality_Extreme), position = "identity", bins=80) +
+  facet_grid(Relevance~Sex, scales="free_y") +
+  scale_color_manual(values=c("red", "white"), guide="none") +
+  scale_fill_manual(values=c("Relevant"="#E91E63", "Irrelevant"="#FF9800", "Non-erotic"="#03A9F4"), guide="none") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  labs(title = "Emotionality") +
+  theme_abyss() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+```
+
+```{r}
+#| fig-height: 12
+#| fig-width: 7
+
+plot_descriptive(df, "Emotionality")
+```
+
+
+### Whole Sample
+
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Emotionality ~ Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+marginaleffects::avg_slopes(m, variables="Condition", by="Sex", re.form=NA) |> 
+  results_table()
+```
+
+
+### Subsamples
+
+::: {.panel-tabset}
+
+#### Sample
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Emotionality ~ Sample / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+
+
+#### Mobile
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Emotionality ~ Mobile / Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=df, 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m, filter="Condition")
+```
+
+
+
+:::
+
+### Moderators
+
+
+
+```{r}
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num")) {
+  moderator_results <- rbind(moderator_results,
+                             test_moderator(df, "Emotionality", m))
+}
+
+display(filter(moderator_results, Outcome == "Emotionality"))
+```
+
+```{r}
+for(m in c("Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  feedback_results <- rbind(feedback_results,
+                            test_moderator(df, "Emotionality", m))
+}
+display(filter(feedback_results, Outcome == "Emotionality"))
+```
+
+
+
+### Believed
+
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Emotionality ~ Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+moderator_believed <- data.frame()
+for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
+           "GAAIS_Positive", "GAAIS_Negative",
+           "Porn", "PornFrequency", "SexualActivity_num", 
+           "Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  moderator_believed <- rbind(moderator_believed,
+                             test_moderator(filter(df, ConditionBelief == "True"), "Emotionality", m))
+}
+
+display(filter(moderator_believed, p < .1))
+```
+
+
+## Summary
+
+- Believing erotic images to be AI-generated, regardless of its true nature, leads to a less pleasurable experience (i.e., a less intense and less positive emotion). While the effect is the most noticeable for men (who experience a stronger arousal when exposed to the images), it appears overall very small in magnitude. However, it becomes more pronounced for both genders when controlled for the belief in the images' nature, and is consistent with participants' feedback, suggesting an important meta-cognitive component (in the form of explicitly conscious beliefs).
+- The items developed (BAIT scale) seem to measure a different dimension to AI-expertise. 
+
+## Figures
+
+
+```{r}
+#| fig-height: 7
+#| fig-width: 7
+
+pred1 <- rbind(
+  marginaleffects::predictions(m_arousal, by=c("Sex", "Relevance", "Condition"), newdata = "marginalmeans", re.form=NA) |>
+  as.data.frame() |> 
+  mutate(Outcome="Arousal"),
+  marginaleffects::predictions(m_enticement, by=c("Sex", "Relevance", "Condition"), newdata = "marginalmeans", re.form=NA) |>
+  as.data.frame() |> 
+  mutate(Outcome="Enticement"),
+  marginaleffects::predictions(m_valence, by=c("Sex", "Relevance", "Condition"), newdata = "marginalmeans", re.form=NA) |>
+  as.data.frame() |> 
+  mutate(Outcome="Valence")
+)
+
+stars1 <- data.frame(label=c("***", "***", "*", "***"), 
+                    Sex=fct_relevel(c("Male", "Male", "Male", "Male"), "Male"), 
+                    Relevance=c("Relevant", "Relevant", "Non-erotic", "Relevant"), 
+                    Outcome=c("Arousal", "Enticement", "Enticement", "Valence"),
+                    y=c(0.75, 0.8, 0.2, 0.8))
+
+p1 <- pred1 |>
+  mutate(Sex = fct_relevel(Sex, "Male", "Female")) |> 
+  ggplot(aes(x=Relevance, y=estimate)) +
+  geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = conf.low, ymax=conf.high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  geom_rect(data=data.frame(Type="All trials", estimate=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+            aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
+  geom_rect(data=data.frame(Type="All trials", estimate=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+            aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(Outcome~Sex, switch="y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = ) +
+  labs(color="Images presented as:",
+       tag = "A")
+p1
+```
+
+```{r}
+m1 <- glmmTMB::glmmTMB(Arousal ~ Sex / Condition + (Condition | Participant) + (1|Item),
+                      data=filter(df, Relevance=="Relevant"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+m2 <- glmmTMB::glmmTMB(Arousal ~ Sex / Condition + (Condition | Participant) + (1|Item),
+                      data=filter(df, Relevance=="Relevant", ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+m3 <- glmmTMB::glmmTMB(Arousal ~ Sex / Condition  + (Condition | Participant) + (1|Item),
+                      data=filter(df, Relevance=="Relevant", ConditionBelief == "True", Feedback_AILessArousing=="True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+stars2 <- data.frame(label=c("***", "***", "***", "***", "*"), 
+                    Sex=fct_relevel(c("Male", "Male", "Male", "Female", "Female"), 
+                                    "Male", "Female"), 
+                    Type=c("All trials", "Believed trials", "'AI was less arousing'", "Believed trials", "'AI was less arousing'"), 
+                    y=c(0.76, 0.76, 0.76, 0.45, 0.45))
+
+pred2 <- rbind(
+  estimate_relation(m1) |> 
+    mutate(Type = "All trials"),
+  estimate_relation(m2) |> 
+    mutate(Type = "Believed trials"),
+  estimate_relation(m3) |> 
+    mutate(Type = "'AI was less arousing'")
+)
+
+p2 <- pred2 |> 
+  mutate(Type = fct_relevel(Type, "All trials", "Believed trials", "'AI was less arousing'")) |> 
+  ggplot(aes(x=Type, y=Predicted)) +
+  geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.1) +
+  geom_bar(stat="identity", aes(fill=Condition), position = position_dodge(width=0.2), width=0.2, alpha=0.6) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  geom_rect(data=data.frame(Type="All trials", Predicted=0.1, Sex=as.factor("Male")), 
+            aes(xmin=0.7, xmax=1.3, ymin=0.55, ymax=0.7), color="#8BC34A", alpha=0) +
+  geom_rect(data=data.frame(Type="All trials", Predicted=0.1, Sex=as.factor("Female")), 
+            aes(xmin=0.7, xmax=1.3, ymin=0.25, ymax=0.4), color="#8BC34A", alpha=0) +
+  geom_text(data=stars2, aes(y=y, label=label), hjust=0.5, size=3) +
+  facet_grid(~Sex) +
+  scale_y_continuous(labels=scales::percent) +
+  scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  labs(y="Arousal",
+       tag = "B") +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9),
+        axis.text.y = element_text(size = 8),
+        axis.title.y = element_text(size = 10),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        legend.position = "none")
+
+
+p1 | p2
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+
+m6 <- glm(Feedback_AILessArousing ~ Sex / BAIT_Visual, 
+    data=mutate(dfsub, Feedback_AILessArousing = ifelse(Feedback_AILessArousing=="True", 1, 0)), 
+    family="binomial")
+
+results_table(m6)
+
+pred3 <- estimate_relation(m6, length=50) 
+
+p3 <- pred3 |> 
+  mutate(Sex = fct_relevel(Sex, "Male", "Female")) |> 
+  ggplot(aes(x=BAIT_Visual, y=Predicted)) +
+  geom_hline(yintercept=0, color="darkgrey") +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high), alpha=0.3) + 
+  geom_line() +
+  geom_text(data=data.frame(Sex = as.factor("Male")), aes(x=0.65, y=0.25), label="**") +
+  facet_grid(~Sex) +
+  scale_y_continuous(labels=scales::percent, expand=c(0, 0)) +
+  scale_x_continuous(breaks = c(0.3, 0.5, 0.7, 0.9)) +
+  labs(y = "\nProbability of 'AI was less arousing' Feedback\n",
+       x = "\nBeliefs about Artificial Information Technology (BAIT)\n'AI algorithms can generate realistic images'",
+       tag = "C") +
+  theme_minimal() +
+  theme(strip.text = element_blank(),
+        axis.text.y = element_text(size = 8),
+        axis.title.y = element_text(size = 10),
+        axis.text.x = element_text(size = 8),
+        axis.title.x = element_text(size = 10))
+
+
+p4 <- patchwork::wrap_plots(p2 / p3 + plot_layout(heights = c(1, 1.6)))
+p <- patchwork::wrap_plots(p1 | p4, guides="collect")
+p
+ggsave("figures/figure1.png", p, width=10, height=8, dpi=300)
+```
+
+```{r}
+#| eval: false
+
+m4 <- glmmTMB::glmmTMB(Arousal ~ SexualActivity / Sex / Condition + (Condition | Participant) + (1|Item),
+                      data=filter(df, Relevance=="Relevant", ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+summary(m4)
+
+pred3 <- estimate_relation(m4) 
+pred3 |> 
+  mutate(xnum = as.numeric(as.factor(SexualActivity))) |>
+  ggplot(aes(x=SexualActivity, y=Predicted)) +
+  # geom_ribbon(aes(x=xnum, ymin=CI_low, ymax=CI_high, fill=Condition), alpha=0.5) +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2)) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2)) +
+  facet_grid(~Sex) 
+
+m5 <- glmmTMB::glmmTMB(Arousal ~ Sex / (Condition * GAAIS_Negative) + (Condition | Participant) + (1|Item),
+                      data=filter(df, Relevance=="Relevant", ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+summary(m5)
+
+pred4 <- estimate_relation(m5, length=30) 
+pred4 |> 
+  ggplot(aes(x=GAAIS_Negative, y=Predicted)) +
+  geom_line(aes(group=Condition, color=Condition)) +
+  facet_grid(~Sex) 
+``` 
+
+
+
+<!-- ## Realness -->
+
+<!-- ### Physical Characteristics -->
+
+<!-- ```{r} -->
+<!-- m <- glmmTMB::glmmTMB(Realness ~ Entropy + Complexity + Contrast + Luminance + (1|Participant) + (1|Item), data=df) -->
+<!-- results_table(m) -->
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+<!-- m <- glmmTMB::glmmTMB(Realness ~ Sex / (Relevance / Condition) + (1|Participant) + (1|Item), data=df, family=beta_family(link = "logit")) -->
+<!-- results_table(m) -->
+<!-- ``` -->
+
