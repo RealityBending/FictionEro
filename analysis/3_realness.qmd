@@ -96,7 +96,7 @@ df |>
 
 ## Physical Characteristics
 
-Here, we are examining the effect of different physical characteristics of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 ("RealnessBelief"), as indicated by the lack of significant effects. 
+Here, we are examining the effect of various physical characteristics of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 ("RealnessBelief"), as indicated by the lack of significant effects. 
 
 ```{r}
 #| warning: false
