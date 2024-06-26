@@ -3,6 +3,9 @@ import json
 import numpy as np
 import pandas as pd
 
+# Note: new data from FakeFace2 got saved in this repo during June 2024.
+# Make sure to use only files before.
+
 
 # Get files from OSF ======================================================
 def osf_listfiles(data_subproject="", token="", after_date=None):

@@ -1164,6 +1164,35 @@ format(table) |>
   gt::tab_options(column_labels.font.weight="bold")
 ```
 
+```{r}
+#| warning: false
+
+dat <- df |> 
+  select(starts_with("GAAIS"), starts_with("BAIT")) |> 
+  select(matches("[[:digit:]]"))
+
+ega <- EGAnet::EGA(
+        data = dat,
+        seed=123,
+        model="glasso",
+        algorithm="leiden",
+        plot.EGA=FALSE,
+        verbose=FALSE)
+
+plot(ega)
+
+plot(parameters::factor_analysis(dat, n=6, rotation="oblimin", sort=TRUE))
+```
+
+```{r}
+#| eval: false
+#| echo: false
+
+# Used for feedback screen in the new BAIT implementations
+mean(rowMeans(df[c("GAAIS_Positive_12", "GAAIS_Positive_17")]))
+```
+
+
 #### AI-Expertise
 
 ```{r}
