@@ -29,7 +29,6 @@ options(mc.cores = parallel::detectCores(),
         width = 300)
 ```
 
-
 ```{r}
 #| warning: false
 
@@ -73,9 +72,9 @@ results_table <- function(model, effects="fixed", filter=NULL) {
 
 ### Distribution
 
-Similar to the arousal data, the realness data contains a mixture of responses ranging from extreme values (0 and 1) to intermediate values between 0 and 1. Consequently, an ordered beta model was used for this data, as it is the most suitable for bounded data (e.g., survey sliders).For more information on these models see [(Kubinec, 2022)](https://doi.org/10.1017/pan.2022.20). 
+Similar to the arousal data, the realness data contains a mixture of responses ranging from extreme values (0 and 1) to intermediate values between 0 and 1. Consequently, an ordered beta model was used for this data, as it is the most suitable for bounded data (e.g., survey sliders).For more information on these models see [(Kubinec, 2022)](https://doi.org/10.1017/pan.2022.20).
 
-This graph highlights gender differences and similarities in the ratings of realness across different types of images, indicating a consistent tendency to rate images as highly real across both genders, particularity at the upper end of the realness scale. Both genders exhibit a tendency to rate images as more real as the realness rating increases, with a consistent spike at the highest rating of 1.0 across all image types. Males generally show higher counts of high realness ratings compared to females, especially for relevant images.The patterns for irrelevant and non-erotic images are quite similar between genders, with a uniform distribution and a spike at the highest rating.
+<!-- This graph highlights gender differences and similarities in the ratings of realness across different types of images, indicating a consistent tendency to rate images as highly real across both genders, particularity at the upper end of the realness scale. Both genders exhibit a tendency to rate images as more real as the realness rating increases, with a consistent spike at the highest rating of 1.0 across all image types. Males generally show higher counts of high realness ratings compared to females, especially for relevant images.The patterns for irrelevant and non-erotic images are quite similar between genders, with a uniform distribution and a spike at the highest rating. -->
 
 ```{r}
 #| warning: false
@@ -93,10 +92,10 @@ df |>
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 ```
 
-
 ## Physical Characteristics
 
 Here, we are examining the effect of various physical characteristics of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 ("RealnessBelief"), as indicated by the lack of significant effects. 
+
 
 ```{r}
 #| warning: false
@@ -122,7 +121,7 @@ m <- make_model("RealnessBelief ~ Luminance + (1|Participant) + (1|Item)", famil
 
 ## Manipulation Check
 
-This model examines the influence of sex, relevance, and condition on ratings of realness, incorporating random effects for participants and items. 
+This model examines the influence of sex, relevance, and condition on ratings of realness, incorporating random effects for participants and items.
 
 <!-- Key findings -->
 
@@ -130,7 +129,7 @@ Both genders significantly rate AI-generated images as less real than images lab
 
 For males, this reduction in realness is consistent across all relevance categories. Specifically, males rate irrelevant images as significantly less real compared to relevant images. Additionally, males rate relevant AI-generated images as significantly less real compared to relevant photographs and rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs.
 
-For females, while they also rate AI-generated images as less real, the reduction is smaller. Females rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs. 
+For females, while they also rate AI-generated images as less real, the reduction is smaller. Females rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs.
 
 Both genders rate non-erotic images as more real than relevant images, with this difference being significant for females. For non-erotic images, males rate AI-generated images as significantly less real than photographs, but for females, this difference is not significant.
 
@@ -141,21 +140,33 @@ Both genders rate non-erotic images as more real than relevant images, with this
 <!-- 1. **Intercept** - when all predictors are at their baseline images are significantly and positively rated as real -->
 
 <!-- 2. Impact of condition (AI vs Photograph) -->
+
 <!--     2.1. Both genders significantly rate AI-generated images as less real than images labeled as photographs across all relevance categories. -->
+
 <!--     2.2. The reduction in realness ratings for AI-generated images is larger for males than for females. -->
+
 <!--     2.3. For non-erotic images, this difference is significant for males but not for females. -->
 
 <!-- 3. **Impact of Relevance** (Relevant vs. Irrelevant and Non-Erotic) -->
+
 <!--     3.1. Males significantly rate irrelevant images as less real compared to relevant images. -->
+
 <!--     3.2. Females also rate irrelevant images as less real than relevant images, but this difference is not significant. -->
+
 <!--     3.3. Both genders rate non-erotic images as more real than relevant images.This difference is significant for females but not for males. -->
 
 <!-- 4. **Interaction terms** -->
+
 <!--     4.1. Males rate relevant AI-generated images as significantly less real compared to relevant photographs.  -->
+
 <!--     4.2. Females rate relevant AI-generated images as less real compared to relevant photographs, but the reduction is smaller than for males -->
+
 <!--     4.3. Males rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs -->
+
 <!--     4.4. Females rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs  -->
+
 <!--     4.5. For non-erotic images, males rate AI-generated images as significantly less real than photographs -->
+
 <!--     Females rate non-erotic AI-generated images as less real than photographs, but the difference is smaller and not significant.  -->
 
 ```{r}
@@ -183,11 +194,11 @@ predbeta |>
 
 ## Moderators
 
-Here we look at whether the findings above are moderated by AI-Attitudes, Porn usage, or feedback. 
+Here we look at whether the findings above are moderated by AI-Attitudes, Porn usage, or feedback.
 
 ### AI-Attitutes
 
-This model examines how ratings of realness, predicted by sex, condition, and relevance, are moderated by beliefs about AI's visual and textual capacities, self-reported knowledge of AI, as well as positive and negative attitudes towards AI (note that these results are relative to a baseline of male participants viewing relevant images labelled as photographs). Additionally, the model includes relevance and items as random effects. 
+This model examines how ratings of realness, predicted by sex, condition, and relevance, are moderated by beliefs about AI's visual and textual capacities, self-reported knowledge of AI, as well as positive and negative attitudes towards AI (note that these results are relative to a baseline of male participants viewing relevant images labelled as photographs). Additionally, the model includes relevance and items as random effects.
 
 <!-- Key findings -->
 
@@ -206,32 +217,40 @@ Attitudes towards AI, whether positive or negative, further moderated ratings of
 <!-- a) Bait-Visual -->
 
 <!-- 1. For both genders, as beliefs about AI visual capacity increase, realness ratings significantly increase compared to the baseline. -->
+
 <!-- 2. For males, increased beliefs about AI visual capacity significantly decrease realness ratings of irrelevant images compared to the baseline. -->
+
 <!-- 3. For females, increased beliefs about AI visual capacity significantly increase realness ratings for irrelevant images and non-erotic images compared to the baseline. -->
+
 <!-- 4. For females, increased beliefs about AI's visual abilities significantly decrease realness ratings, of irrelevant and AI-generated images, compared to the baseline. -->
 
 <!-- b) Bait-Text -->
 
 <!-- 1. For both genders, increased beliefs in the textual abilities of AI significantly increase realness ratings compared to the baseline. -->
+
 <!-- 2. For females, increased beliefs in AI textual abilities significantly decrease realness ratings of irrelevant and AI-generated images compared to the baseline. -->
+
 <!-- 3. For males, this effect occurs when they are presented with non-erotic images labeled as AI-generated compared to the baseline. -->
 
 <!-- c) AI_Knowledge -->
 
 <!-- 1. For males, increased self-reported beliefs about AI knowledge significantly decrease realness ratings only for non-erotic images compared to the baseline. -->
+
 <!-- 2. For females, increased self-reported beliefs about AI knowledge significantly increase realness ratings only for irrelevant images labeled as AI-generated compared to the baseline. -->
 
 <!-- d) GAIS Positive -->
 
 <!-- 1. Positive attitudes about AI significantly increase realness ratings for both genders compared to the baseline. -->
+
 <!-- 2. For males, the positive effect of positive attitudes towards AI significantly decreases for irrelevant and non-erotic images compared to the baseline. -->
+
 <!-- 3. This effect also occurs when males are presented with relevant images that are labelled AI. -->
 
 <!-- e) GAIS Negative -->
 
 <!-- 1. Negative attitudes about AI significantly decrease realness ratings for females compared to the baseline. -->
-<!-- 2. For females, negative attitudes towards AI increase realness ratings for relevant images labeled as AI-generated compared to the baseline. -->
 
+<!-- 2. For females, negative attitudes towards AI increase realness ratings for relevant images labeled as AI-generated compared to the baseline. -->
 
 ```{r}
 #| warning: false
@@ -259,7 +278,7 @@ for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
 display(filter(moderator, p < .05))
 ```
 
-This graph depicts differences in realness ratings based on beliefs about AI's visual abilities for both genders when presented with images labeled as photographs or AI-generated. Notably, images labeled as photographs consistently receive higher realness ratings compared to those labeled as AI-generated, even at lower levels of belief in AI's visual capacity. As beliefs in AI's ability to generate realistic images increase, both genders show higher realness scores. However, for females with strong beliefs in AI's visual capabilities, the difference in realness ratings between photographs and AI-generated labeled images becomes minimal. 
+This graph depicts differences in realness ratings based on beliefs about AI's visual abilities for both genders when presented with images labeled as photographs or AI-generated. Notably, images labeled as photographs consistently receive higher realness ratings compared to those labeled as AI-generated, even at lower levels of belief in AI's visual capacity. As beliefs in AI's ability to generate realistic images increase, both genders show higher realness scores. However, for females with strong beliefs in AI's visual capabilities, the difference in realness ratings between photographs and AI-generated labeled images becomes minimal.
 
 ```{r}
 #| warning: false
@@ -309,7 +328,7 @@ p1
 
 This model examines how ratings of realness, predicted by sex, condition, and relevance, are moderated by porn usage.
 
-Porn usage moderates the relationship between sex, relevance, condition, and realness ratings, but for males only. As porn usage increases, there is a significant decrease in realness ratings for non-erotic images labelled as AI-generated. 
+Porn usage moderates the relationship between sex, relevance, condition, and realness ratings, but for males only. As porn usage increases, there is a significant decrease in realness ratings for non-erotic images labelled as AI-generated.
 
 ```{r}
 #| warning: false
@@ -324,15 +343,15 @@ display(filter(moderator, p < .05))
 
 ### Feedback
 
-This model evaluates how ratings of realness, predicted by sex, condition, and relevance, are moderated by participants' feedback. 
+This model evaluates how ratings of realness, predicted by sex, condition, and relevance, are moderated by participants' feedback.
 
 <!-- Key findings  -->
 
-Self-reported capacity to discriminate or not discriminate AI-generated images moderated realness ratings. Females who reported being able to discriminate AI-generated images tended to rate non-erotic images and relevant images labeled as AI-generated as more real. 
+Self-reported capacity to discriminate or not discriminate AI-generated images moderated realness ratings. Females who reported being able to discriminate AI-generated images tended to rate non-erotic images and relevant images labeled as AI-generated as more real.
 
-In contrast, males who reported an inability to discriminate AI-generated images tended to rate images labeled as AI-generated as more real, regardless of the relevance of these images. Females who reported an inability to discriminate AI-generated images showed a different pattern, with realness ratings for images labeled as AI-generated decreasing for irrelevant images but increasing for relevant images. 
+In contrast, males who reported an inability to discriminate AI-generated images tended to rate images labeled as AI-generated as more real, regardless of the relevance of these images. Females who reported an inability to discriminate AI-generated images showed a different pattern, with realness ratings for images labeled as AI-generated decreasing for irrelevant images but increasing for relevant images.
 
-Additionally, arousal ratings of AI-generated images also moderated realness ratings. Both genders rated AI-generated images as less real when reporting AI-generated images as being less arousing, with males showing a stronger effect, especially for relevant AI-generated labeled images. 
+Additionally, arousal ratings of AI-generated images also moderated realness ratings. Both genders rated AI-generated images as less real when reporting AI-generated images as being less arousing, with males showing a stronger effect, especially for relevant AI-generated labeled images.
 
 Beliefs about the nature of labels as being reversed or incorrect also moderated realness ratings. Males' realness ratings were lower when they believed that the labels were incorrect and lower when they believed the labels were reversed for non-erotic images. For females, lower realness ratings for AI-generated images were associated with believing the labels were reversed for relevant images
 
@@ -343,23 +362,32 @@ Beliefs about the nature of labels as being reversed or incorrect also moderated
 <!-- a) Could discriminate  -->
 
 <!-- 1. Compared to baseline, females self-report capacity to discriminate AI-generated images was associated with a significant increase of realness ratings for non-erotic images.  -->
+
 <!-- 2. Compared to baseline, females self-report capacity to discriminate AI-generated images was associated with a significant increase of realness ratings for relevant images labelled as AI-generated.  -->
 
 <!-- b) Could not discriminate -->
+
 <!-- 1. Males and females self-report an inability to discriminate AI-generated images was associated with significantly increased realness ratings compared to the baseline -->
+
 <!-- 2. For males and females, incapacity to discriminate AI-generated images was associated with a significant increase in realness ratings for relevant images when labelled AI-generated, as compared to baseline.  -->
+
 <!-- 3. males showed increased realness ratings for irrelevant images labeled as AI-generated, whereas females exhibited decreased realness ratings compared to the baseline.  -->
+
 <!-- 4. For non-erotic images, reporting an incapacity to discriminate AI-generated images was associated with a increase in realness ratings only for males.  -->
 
 <!-- c) AI images are less arousing -->
+
 <!-- 1. For both genders, reporting that AI-generated images are less arousing was associated with a significant decrease in realness ratings, as compared to baseline.  -->
+
 <!-- 2. For males, reporting AI-images as less arousing was further associated with a significant decrease in realness ratings for relevant images labelled as AI-generated, a compared to baseline. -->
 
 <!-- d) Believing labels were not correct -->
-<!-- 1. Reporting that the labels were not always correct was associated with a significant decrease in realness ratings for males only, as compared to baseline.  -->
-<!-- 2. Reporting that the labels were reversed was associated with a significant decrease in realness for non-erotic images for males only, as compared to baseline.  -->
-<!-- 3. Reporting that the labels were reversed was associated with a significant decrease in realness ratings for relevant images labelled AI-generated for females only, as compared to baseline.  -->
 
+<!-- 1. Reporting that the labels were not always correct was associated with a significant decrease in realness ratings for males only, as compared to baseline.  -->
+
+<!-- 2. Reporting that the labels were reversed was associated with a significant decrease in realness for non-erotic images for males only, as compared to baseline.  -->
+
+<!-- 3. Reporting that the labels were reversed was associated with a significant decrease in realness ratings for relevant images labelled AI-generated for females only, as compared to baseline.  -->
 
 ```{r}
 #| warning: false
@@ -375,8 +403,8 @@ for(m in c("Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
 display(filter(moderator, p < .05))
 ```
 
-This graph depicts differences in realness ratings based on participants' self-reported capacity to discriminate between AI-generated and real images, for both genders when presented with images labeled as photographs or AI-generated. The ability to discriminate AI-generated images is associated with higher realness ratings for both genders. However, females generally rate the realness of images lower than males across all conditions. The distinction between photographs and AI-generated images remains clear, with photographs being perceived as more real than AI-generated images. This difference is less pronounced for females who report an ability to discriminate AI-generated images. 
-  
+This graph depicts differences in realness ratings based on participants' self-reported capacity to discriminate between AI-generated and real images, for both genders when presented with images labeled as photographs or AI-generated. The ability to discriminate AI-generated images is associated with higher realness ratings for both genders. However, females generally rate the realness of images lower than males across all conditions. The distinction between photographs and AI-generated images remains clear, with photographs being perceived as more real than AI-generated images. This difference is less pronounced for females who report an ability to discriminate AI-generated images.
+
 ```{r}
 #| warning: false
 
@@ -426,6 +454,16 @@ p2 <- pred2 |>
        tag = "B")
 p2
 ```
+
+## Summary
+
+-   Findings indicate a consistent perception across both genders that AI-generated images are perceived as less realistic compared to photographs. Interestingly, both genders rated non-erotic images as more realistic than relevant and irrelevant images.
+
+-   As beliefs in AI's ability to generate realistic images increases, both genders show higher realness scores.
+
+-   Porn usage moderated realness ratings, only for men presented with AI-generated non-erotic images.
+
+-   Males who reported an inability to discriminate AI-generated images perceived both relevant and irrelevant AI-generated images as more real, whereas females who reported this inability showed increased realness ratings only for relevant AI-generated images.
 
 ## Figures
 
