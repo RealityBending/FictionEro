@@ -449,7 +449,7 @@ p2 <- pred2 |>
         strip.text.y = element_text(size = 10),
         axis.text.x = element_text(size=9, color="black"),
         legend.text = element_text(size = 10)) +
-  labs(y="Realness\n", fill="Images presented as:", color="Images presented as:",
+  labs(y="Realness\n", fill="Erotic images presented as:", color="Erotic images presented as:",
        x = "\n'Could not discriminate AI-generated and real' Feedback",
        tag = "B")
 p2

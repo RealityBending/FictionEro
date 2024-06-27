@@ -1189,7 +1189,7 @@ plot(parameters::factor_analysis(dat, n=6, rotation="oblimin", sort=TRUE))
 #| echo: false
 
 # Used for feedback screen in the new BAIT implementations
-mean(rowMeans(df[c("GAAIS_Positive_12", "GAAIS_Positive_17")]))
+mean(rowMeans(df[c("GAAIS_Positive_12", "GAAIS_Positive_17")])) * 6
 ```
 
 
