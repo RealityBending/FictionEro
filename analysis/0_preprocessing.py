@@ -44,7 +44,7 @@ files = osf_listfiles(
 # Initialize empty dataframes
 alldata = pd.DataFrame()
 alldata_subs = pd.DataFrame()
-norm_data = pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv").rename(
+norm_data = pd.read_csv("../study1/stimuli_selection/stimuli_data.csv").rename(
     columns={
         "ID": "Item",
         "JPEG_size80": "Complexity",

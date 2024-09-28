@@ -82,7 +82,7 @@ var demographics_debriefing = {
 }
 
 var demographics_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/english.html"
+    link = "https://realitybending.github.io/FictionEro/study1/english.html"
 ) {
     return {
         type: jsPsychHtmlButtonResponse,

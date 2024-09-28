@@ -92,7 +92,7 @@ var text_debriefing =
     "<p>To complete your participation in this study, click on 'Continue' and <b>wait until your responses have been successfully saved</b> before closing the tab.</p> "
 
 var text_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/english?exp=snow&lang=en"
+    link = "https://realitybending.github.io/FictionEro/study1/english?exp=snow&lang=en"
 ) {
     return (
         "<h1>Thank you for participating</h1>" +
@@ -290,7 +290,8 @@ var consent_text = // Logo and title
     // "<p>Please note that various checks will be performed to ensure the validity of the data.<br>We reserve the right to return your participation or prorate reimbursement should we detect non-valid responses (e.g., random pattern of answers, instructions not read, ...).</p>"
     "<p align='left'>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (D.Makowski@sussex.ac.uk). This research has been approved (ER/MHHE20/2) by the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</p>"
 
-var consent_button = "I am more than 18 years old, and I read, understood, and consent to the above"
+var consent_button =
+    "I am more than 18 years old, and I read, understood, and consent to the above"
 
 var fullscreen_text =
     "<p>The experiment will switch to full screen mode when you press the button below</p>"
@@ -319,10 +320,26 @@ var demographics_p_eth = "e.g., Caucasian"
 var demographics_q_cou = "In which country do you currently live?"
 var demographics_p_cou = "e.g., UK, Spain"
 var demographics_q_lang = "<b>How would you rate your level of English?</b>"
-var demographics_c_lang = ["Beginner - 0", "1", "2", "3", "4", "5", "6 - Native"]
+var demographics_c_lang = [
+    "Beginner - 0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6 - Native",
+]
 var demographics_q_ai =
     "<b>How knowledgeable do you consider yourself about Artificial Intelligence (AI) technology?</b>"
-var demographics_c_ai = ["Not at all - 0", "1", "2", "3", "4", "5", "6 - Expert"]
+var demographics_c_ai = [
+    "Not at all - 0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6 - Expert",
+]
 var demographics_hormones_preamble =
     "<b>The following question is important to understand the role of potential biological factors in our study.</b><br>It is however optional, and you can skip it if you want."
 var demographics_q_hormones =

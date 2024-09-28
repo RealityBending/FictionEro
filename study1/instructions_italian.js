@@ -93,7 +93,7 @@ var text_debriefing =
     "<p>Per completare la tua partecipazione a questo studio, clicca su 'Continua' e <b>attendi finché le tue risposte sono state salvate</b> prima di chiudere la scheda.</p> "
 
 var text_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/english?exp=snow&lang=it" //*** OR NOT???
+    link = "https://realitybending.github.io/FictionEro/study1/english?exp=snow&lang=it" //*** OR NOT???
 ) {
     return (
         "<h1>Grazie per la tua partecipazione</h1>" +
@@ -288,7 +288,8 @@ var consent_text = // Logo and title
     "</ul></p>" +
     "<p align='left'>Per ulteriori informazioni su questa ricerca o se hai domande, contatta il Dr. Dominique Makowski (D.Makowski@sussex.ac.uk) e/o il Dr. Marco Viola dell'Università di Roma Tre (marco.viola@uniroma3.it). Questa ricerca è stata approvata (ER/MHHE20/2) dalla School of Psychology dell'Università del Sussex. L'Università di Sussex ha un'assicurazione in vigore per coprire le responsabilità legali relative a questo studio.</p>"
 
-var consent_button = "Ho più di 18 anni, ho letto, compreso e acconsento a quanto sopra"
+var consent_button =
+    "Ho più di 18 anni, ho letto, compreso e acconsento a quanto sopra"
 
 var fullscreen_text =
     "<p>L'esperimento passerà alla modalità a schermo intero appena premerai il pulsante qui sotto</p>"
@@ -298,10 +299,12 @@ var fullscreen_button = "Continua"
 var button_continue = "Continua"
 var button_end = "Fine"
 
-var demographics1_preamble = "<b>Per favore, rispondi alle seguenti domande:</b>"
+var demographics1_preamble =
+    "<b>Per favore, rispondi alle seguenti domande:</b>"
 var demographics_q_sex = "Qual è il tuo sesso biologico?"
 var demographics_c_sex = ["Maschio", "Femmina", "Altro"]
-var demographics_q_edu = "Qual è il titolo di studio più alto che hai conseguito?"
+var demographics_q_edu =
+    "Qual è il titolo di studio più alto che hai conseguito?"
 var demographics_c_edu = [
     "Università (dottorato)",
     "Università (laurea magistrale) o equivalente",
@@ -316,8 +319,17 @@ var demographics_q_eth = "Per favore immetti la tua entia"
 var demographics_p_eth = "per es. Caucasica"
 var demographics_q_cou = "In che paese risiedi attualmente?"
 var demographics_p_cou = "per es. Italia, UK"
-var demographics_q_lang = "<b>Come giudicheresti il tuo livello di Italiano?</b>"
-var demographics_c_lang = ["Principiante - 0", "1", "2", "3", "4", "5", "6 - Madrelingua"]
+var demographics_q_lang =
+    "<b>Come giudicheresti il tuo livello di Italiano?</b>"
+var demographics_c_lang = [
+    "Principiante - 0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6 - Madrelingua",
+]
 var demographics_q_ai =
     "<b>Quanta familiarità ritieni di avere con l'Intelligenza Artificiale? (IA)</b>"
 var demographics_c_ai = ["Nessuna - 0", "1", "2", "3", "4", "5", "6 - Molta"]

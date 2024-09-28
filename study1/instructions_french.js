@@ -56,11 +56,13 @@ var text_instructions_questionnaires =
 // Ratings ----------------------------------------------------------------
 var text_ticks = ["Pas du tout", "Beaucoup"]
 var text_ticks_valence = ["Désagréable", "Agréable"]
-var text_rating_appeal = "Dans quelle mesure cette image vous semble-t-elle <b>attrayante</b> ?"
+var text_rating_appeal =
+    "Dans quelle mesure cette image vous semble-t-elle <b>attrayante</b> ?"
 var text_rating_arousal =
     "Dans quelle mesure vous êtes-vous senti(e) <b>sexuellement excité(e)</b> ?"
 var text_rating_valence = "Le <b>ressenti</b> évoqué par l'image était..."
-var text_rating_realness = "Dans quelle mesure cette image est-elle <b>réaliste</b> ?"
+var text_rating_realness =
+    "Dans quelle mesure cette image est-elle <b>réaliste</b> ?"
 
 // -------------------------
 var text_feedback1 =
@@ -93,7 +95,7 @@ var text_debriefing =
     '<p>Pour terminer votre participation à cette étude, cliquez sur "Continuer" et <b>attendez que vos réponses aient été sauvegardées</b> avant de fermer l\'onglet.</p>'
 
 var text_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/french?exp=snow&lang=fr"
+    link = "https://realitybending.github.io/FictionEro/study1/french?exp=snow&lang=fr"
 ) {
     return (
         "<h1>Merci de votre participation</h1>" +
@@ -291,7 +293,8 @@ var consent_text = // Logo and title
     // "<p>Veuillez noter que divers contrôles seront effectués pour garantir la validité des données. <br>Nous nous réservons le droit d'exclure vos données si nous détectons des réponses non valides</br> (par exemple, des réponses aléatoires, des instructions non lues, ...).</p>"
     "<p align='left'>Pour plus d'informations sur cette recherche, ou si vous avez des questions, veuillez contacter le Dr Dominique Makowski (D.Makowski@sussex.ac.uk) et/ou le Dr Marco Sperduti (marco.sperduti@u-paris.fr). Cette recherche a été approuvée (ER/MHHE20/2) par la School of Psychology de l'Université du Sussex. L'Université du Sussex a souscrit une assurance pour couvrir ses responsabilités légales dans le cadre de cette étude.</p>"
 
-var consent_button = "J'ai plus de 18 ans et j'ai lu, compris et accepté ce qui précède."
+var consent_button =
+    "J'ai plus de 18 ans et j'ai lu, compris et accepté ce qui précède."
 
 var fullscreen_text =
     "<p>L'expérience passe en mode plein écran lorsque vous appuyez sur le bouton ci-dessous.</p>"
@@ -301,10 +304,12 @@ var fullscreen_button = "Continuer"
 var button_continue = "Continuer"
 var button_end = "Fin"
 
-var demographics1_preamble = "<b>Merci de répondre aux questions suivantes :</b>"
+var demographics1_preamble =
+    "<b>Merci de répondre aux questions suivantes :</b>"
 var demographics_q_sex = "Quel est votre sexe biologique ?"
 var demographics_c_sex = ["Masculin", "Féminin", "Autre"]
-var demographics_q_edu = "Quel est le cycle d'étude le plus élevé que vous ayez jamais completé ?"
+var demographics_q_edu =
+    "Quel est le cycle d'étude le plus élevé que vous ayez jamais completé ?"
 var demographics_c_edu = [
     "Université (doctorat)",
     "Université (master) <sub><sup>ou équivalent</sup></sub>",
@@ -319,11 +324,28 @@ var demographics_q_eth = "Veuillez indiquer votre appartenance ethnique"
 var demographics_p_eth = "e.g., Caucasien"
 var demographics_q_cou = "Dans quel pays vivez-vous actuellement ?"
 var demographics_p_cou = "e.g., UK, France"
-var demographics_q_lang = "<b>Comment évaluez-vous votre niveau de français ?</b>"
-var demographics_c_lang = ["Débutant - 0", "1", "2", "3", "4", "5", "6 - Langue maternelle"]
+var demographics_q_lang =
+    "<b>Comment évaluez-vous votre niveau de français ?</b>"
+var demographics_c_lang = [
+    "Débutant - 0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6 - Langue maternelle",
+]
 var demographics_q_ai =
     "<b>Dans quelle mesure considérez-vous que vous connaissez la technologie de l'intelligence artificielle (IA) ?</b>"
-var demographics_c_ai = ["Pas du tout - 0", "1", "2", "3", "4", "5", "6 - Expert"]
+var demographics_c_ai = [
+    "Pas du tout - 0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6 - Expert",
+]
 var demographics_hormones_preamble =
     "<b>La question suivante est importante pour comprendre le rôle des facteurs biologiques potentiels dans notre étude.</b><br>Elle est toutefois facultative et vous pouvez l'omettre si vous le souhaitez."
 var demographics_q_hormones =

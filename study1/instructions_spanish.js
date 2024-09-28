@@ -56,7 +56,8 @@ var text_instructions_questionnaires =
 // Ratings ----------------------------------------------------------------
 var text_ticks = ["En absoluto", "Mucho"]
 var text_ticks_valence = ["Desagradable", "Agradable"]
-var text_rating_appeal = "Que tan <b>atractiva/apetecible</b> consideras que es esta imagen?"
+var text_rating_appeal =
+    "Que tan <b>atractiva/apetecible</b> consideras que es esta imagen?"
 var text_rating_arousal = "En qué medida experimentas <b>activación sexual</b>?"
 var text_rating_valence = "La<b>sensación</b> generada por la imagen fue..."
 var text_rating_realness = "¿Que tan <b>realista</b> fue la imagen?"
@@ -91,7 +92,7 @@ var text_debriefing =
     "<p>Para completar tu participación en este estudio, haz clic en 'Continuar' y <b>espera hasta que tus respuestas hayan sido guardadas exitosamente</b> antes de cerrar la pestaña.</p> "
 
 var text_endscreen = function (
-    link = "https://realitybending.github.io/FictionEro/experiment/english?exp=snow&lang=en"
+    link = "https://realitybending.github.io/FictionEro/study1/english?exp=snow&lang=en"
 ) {
     return (
         "<h1>Gracias por participar</h1>" +
@@ -289,7 +290,8 @@ var consent_text = // Logo and title
     // "<p> Tenga en cuenta que se realizarán varias comprobaciones para garantizar la validez de los datos.<br>Nos reservamos el derecho de devolverle su participación o un reembolso prorrateado si detectamos respuestas no válidas (por ejemplo, patrón aleatorio de respuestas, instrucciones no leídas, . ..).</p>"
     "<p align='left'>Para obtener más información sobre esta investigación, o si tiene alguna inquietud, comuníquese con el Dr Antonio Olivera-La Rosa (antonio.oliverade@amigo.edu.co). Esta investigación ha sido aprobada (ER/MHHE20/2) por el consejo de ética. La Universidad de Sussex cuenta con un seguro para cubrir sus responsabilidades legales con respecto a este estudio.</p>"
 
-var consent_button = " Tengo más de 18 años y leo, entiendo y doy mi consentimiento a lo anterior."
+var consent_button =
+    " Tengo más de 18 años y leo, entiendo y doy mi consentimiento a lo anterior."
 
 var fullscreen_text =
     "<p> El experimento cambiará al modo de pantalla completa cuando presione el botón a continuación</p>"
@@ -299,7 +301,8 @@ var fullscreen_button = "Continúa"
 var button_continue = "Continúa"
 var button_end = "Fin"
 
-var demographics1_preamble = "<b>Por favor, contesta las siguientes preguntas:</b>"
+var demographics1_preamble =
+    "<b>Por favor, contesta las siguientes preguntas:</b>"
 var demographics_q_sex = "¿Cual es tu sexo biológico?"
 var demographics_c_sex = ["Masculino", "Femenino", "Otro"]
 var demographics_q_edu = "¿Cual es tu máximo nivel de estudios alcanzado?"
@@ -318,7 +321,15 @@ var demographics_p_eth = "p.e., caucásico"
 var demographics_q_cou = "¿En qué país vives?"
 var demographics_p_cou = "p.e., España"
 var demographics_q_lang = "<b>¿Cúal dirías que es tu nivel de castellano?</b>"
-var demographics_c_lang = ["Principiante - 0", "1", "2", "3", "4", "5", "6 - Nativo"]
+var demographics_c_lang = [
+    "Principiante - 0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6 - Nativo",
+]
 var demographics_q_ai =
     "<b>¿En qué medida te consideras conocedor sobre la tecnología de Inteligencia Artificial (IA)?</b>"
 var demographics_c_ai = ["Nada - 0", "1", "2", "3", "4", "5", "6 - Experto"]

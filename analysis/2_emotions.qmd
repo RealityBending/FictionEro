@@ -729,6 +729,8 @@ sex_act_plot
 
 ### Believed
 
+<!-- Effect becomes larger, more significant and goes in both directions for both genders -->
+
 ```{r}
 m <- glmmTMB::glmmTMB(Enticement ~ Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
                       data=filter(df, ConditionBelief == "True"), 

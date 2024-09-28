@@ -30,7 +30,8 @@ function assignCondition(stimuli_list) {
 
         // Assign half to "Reality" condition and half to "Fiction" condition
         for (let i = 0; i < cat_stimuli.length; i++) {
-            cat_stimuli[i].Condition = i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
+            cat_stimuli[i].Condition =
+                i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
         }
 
         // Add to new_stimuli_list
@@ -175,9 +176,15 @@ var fiction_trials = {
     timeline_variables: stimuli_list,
     randomize_order: true,
     timeline: [
-        fiction_fixationcross((duration = 750), (screen = "fiction_fixationcross1a")),
+        fiction_fixationcross(
+            (duration = 750),
+            (screen = "fiction_fixationcross1a")
+        ),
         fiction_cue((text_cue = text_cue), (duration = 1250)),
-        fiction_fixationcross((isi = 500), (screen = "fiction_fixationcross1b")),
+        fiction_fixationcross(
+            (isi = 500),
+            (screen = "fiction_fixationcross1b")
+        ),
         fiction_showimage((duration = 2500), (screen = "fiction_image1")),
         fiction_ratings,
     ],

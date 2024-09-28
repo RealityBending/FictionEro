@@ -19,7 +19,11 @@ var bait_dimensions = [
 
 // Questionnaires =================================================
 
-function format_questions_analog(items, dimensions, ticks = ["Inaccurate", "Accurate"]) {
+function format_questions_analog(
+    items,
+    dimensions,
+    ticks = ["Inaccurate", "Accurate"]
+) {
     var questions = []
     for (const [index, element] of items.entries()) {
         questions.push({
