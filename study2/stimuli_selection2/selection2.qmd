@@ -50,76 +50,53 @@ napsero2 <- readxl::read_excel("norms_napsero.XLSX", sheet = "Ratings") |>
 ### Select based on norms
 ```{r}
 men <- napsero2 |>
-  filter( Category != "Non-erotic") |>
+  filter(!Category %in% c("Non-erotic", "Male Couple", "Female Couple", "Male")) |>
   group_by(Category) |>
   slice_max(Hetero_Men_Arousal, n=8, with_ties = FALSE) |>
-  pull(ID) |> 
-  c(
-    napsero2 |>
-      filter( Category != "Non-erotic") |>
-      group_by(Category) |>
-      slice_min(Hetero_Men_Arousal, n=2, with_ties = FALSE) |>
-      pull(ID))
+  pull(ID)
 
 homo_men <- napsero2 |>
-  filter( Category != "Non-erotic") |>
+  filter(!Category %in% c("Non-erotic", "Female Couple", "Female", "Opposite-sex Couple")) |>
   group_by(Category) |>
   slice_max(Homo_Men_Arousal, n=8, with_ties = FALSE) |>
-  pull(ID) |> 
-  c(
-    napsero2 |>
-      filter( Category != "Non-erotic") |>
-      group_by(Category) |>
-      slice_min(Homo_Men_Arousal, n=2, with_ties = FALSE) |>
-      pull(ID))
+  pull(ID) 
 
 women <- napsero2 |>
-  filter(Category != "Non-erotic", !ID %in% men) |>
+  filter(!Category %in% c("Non-erotic", "Female Couple", "Male Couple", "Female"), !ID %in% men) |>
   group_by(Category) |>
   slice_max(Hetero_Women_Arousal, n=8, with_ties = FALSE) |>
-  pull(ID) |> 
-  c(
-    napsero2 |>
-      filter(Category != "Non-erotic", !ID %in% men) |>
-      group_by(Category) |>
-      slice_min(Hetero_Women_Arousal, n=2, with_ties = FALSE) |>
-      pull(ID)
-  )
+  pull(ID) 
 
 homo_women <- napsero2 |>
-  filter(Category != "Non-erotic", !ID %in% men) |>
+  filter(!Category %in% c("Non-erotic", "Male Couple", "Male", "Opposite-sex Couple"), !ID %in% men) |>
   group_by(Category) |>
   slice_max(Homo_Women_Arousal, n=8, with_ties = FALSE) |>
-  pull(ID) |> 
-  c(
-    napsero2 |>
-      filter(Category != "Non-erotic", !ID %in% men) |>
-      group_by(Category) |>
-      slice_min(Homo_Women_Arousal, n=2, with_ties = FALSE) |>
-      pull(ID)
-  )
+  pull(ID) 
+# 
+# neutral <-  napsero2|>
+#   filter(Category == "Non-erotic", !ID %in% c(men, women)) |>
+#   mutate(Arousal = (Hetero_Men_Arousal + Hetero_Women_Arousal + Homo_Men_Arousal + Homo_Women_Arousal ) / 4) |>
+#   slice_min(Arousal, n=10, with_ties = FALSE) |>
+#   pull(ID)
+# 
+# pos_arousing <-  napsero2 |>
+#   filter(Category == "Non-erotic", !ID %in% c(men, women, neutral)) |>
+#   mutate(Arousal = (Hetero_Men_Arousal + Hetero_Women_Arousal + Homo_Men_Arousal + Homo_Women_Arousal) / 4,
+#          Valence = (Hetero_Men_Valence + Hetero_Women_Valence + Homo_Men_Valence + Homo_Women_Valence) / 4) |>
+#   filter(Valence > 5) |>
+#   slice_max(Arousal, n=10, with_ties = FALSE) |>
+#   pull(ID)
 
-neutral <-  napsero2|>
-  filter(Category == "Non-erotic", !ID %in% c(men, women)) |>
-  mutate(Arousal = (Hetero_Men_Arousal + Hetero_Women_Arousal + Homo_Men_Arousal + Homo_Women_Arousal ) / 4) |>
-  slice_min(Arousal, n=10, with_ties = FALSE) |>
-  pull(ID)
+# selected2 <- unique(c(men, homo_men, women, homo_women, neutral, pos_arousing))
 
-pos_arousing <-  napsero2 |>
-  filter(Category == "Non-erotic", !ID %in% c(men, women, neutral)) |>
-  mutate(Arousal = (Hetero_Men_Arousal + Hetero_Women_Arousal + Homo_Men_Arousal + Homo_Women_Arousal) / 4,
-         Valence = (Hetero_Men_Valence + Hetero_Women_Valence + Homo_Men_Valence + Homo_Women_Valence) / 4) |>
-  filter(Valence > 5) |>
-  slice_max(Arousal, n=10, with_ties = FALSE) |>
-  pull(ID)
-
-selected2 <- unique(c(men, homo_men, women, homo_women, neutral, pos_arousing))
-selected_erotic_2 <- unique(c(men, homo_men, women, homo_women))
+#only has unique images 
+selected_erotic_2 <- c(men, women, homo_men,homo_women)
 
 cat(
-  paste0("N (men) = ", length(men), "\nN (homo_men) = ", length(homo_men),  "\nN (women) = ", length(women), "N (homo_women) = ", length(homo_women), "\nN (neutral) = ", length(neutral),  "\nN (arousing-positive) = ", length(pos_arousing),
-       "\nTotal = ", length(selected2))
+  paste0("N (men) = ", length(men), "\nN (homo_men) = ", length(homo_men),  "\nN (women) = ", length(women), "\nN (homo_women) = ", length(homo_women),
+       "\nTotal = ", length(selected_erotic_2))
 )
+
 ```
 
 ```{r}
@@ -143,23 +120,82 @@ dat2 <- napsero2 |>
   separate(name, into=c("Sexual_Orientation", "Target", "Variable")) |>
   pivot_wider(names_from=Variable, values_from=value)
 
+# dat2 |>
+#   filter(Category != "Non-erotic") |>
+#   ggplot(aes(x=Valence, y=Arousal)) +
+#   geom_point(aes(shape=Selected, color=Category), size=6, alpha=0.8) +
+#   ggside::geom_ysidedensity(data=filter(dat2, Selected), aes(color=Category), key_glyph = draw_key_blank) +
+#   ggside::geom_xsidedensity(data=filter(dat2, Selected), aes(color=Category), key_glyph = draw_key_blank) +
+#   # ggrepel::geom_label_repel(aes(label = label)) +
+#   scale_shape_manual(values=c("TRUE"=20, "FALSE"=4)) +
+#   scale_color_manual(values = c(
+#     "Opposite-sex Couple"="#673AB7", "Male Couple"= "#3F51B5", "Female Couple" = "#9C27B0",
+#     "Female" = "#E91E63", "Male"= "#2196F3")) +
+#   guides(shape = guide_legend(override.aes = list(color="white"))) +
+#   facet_grid(~Sexual_Orientation*Target) +
+#   theme_abyss() +
+#   theme(ggside.panel.grid.major = element_blank(), 
+#         ggside.axis.text = element_blank(),
+#         ggside.axis.line = element_blank())
+
 dat2 |>
   filter(Category != "Non-erotic") |>
-  ggplot(aes(x=Valence, y=Arousal)) +
-  geom_point(aes(shape=Selected, color=Category), size=6, alpha=0.8) +
-  ggside::geom_ysidedensity(data=filter(dat2, Selected), aes(color=Category), key_glyph = draw_key_blank) +
-  ggside::geom_xsidedensity(data=filter(dat2, Selected), aes(color=Category), key_glyph = draw_key_blank) +
-  # ggrepel::geom_label_repel(aes(label = label)) +
-  scale_shape_manual(values=c("TRUE"=20, "FALSE"=4)) +
+  ggplot(aes(x = Valence, y = Arousal)) +
+  geom_point(data = filter(dat2, Selected == FALSE),
+             aes(shape = Selected, color = Category), size = 4, alpha = 0.3) +
+  geom_point(data = filter(dat2, Sexual_Orientation == "Hetero", Target == "Men",
+                           Category %in% c("Opposite-sex Couple", "Female"), 
+                           ID %in% men | Selected == FALSE),
+             aes(shape = Selected, color = Category), size = 6, alpha = 0.8) +
+  geom_point(data = filter(dat2, Sexual_Orientation == "Hetero", Target == "Women",
+                           Category %in% c("Opposite-sex Couple", "Male"),
+                           ID %in% women | Selected == FALSE),
+             aes(shape = Selected, color = Category), size = 6, alpha = 0.8) +
+  geom_point(data = filter(dat2, Sexual_Orientation == "Homo", Target == "Men",
+                           Category %in% c("Male Couple", "Male"), 
+                           ID %in% homo_men | Selected == FALSE),
+             aes(shape = Selected, color = Category), size = 6, alpha = 0.8) +
+  geom_point(data = filter(dat2, Sexual_Orientation == "Homo", Target == "Women", 
+                           Category %in% c("Female Couple", "Female"), 
+                           ID %in% homo_women | Selected == FALSE),
+             aes(shape = Selected, color = Category), size = 6, alpha = 0.8) +
+  ggside::geom_ysidedensity(data = filter(dat2, Sexual_Orientation == "Hetero", Target == "Men",
+                           Category %in% c("Opposite-sex Couple", "Female")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  ggside::geom_xsidedensity(data = filter(dat2, Sexual_Orientation == "Hetero", Target == "Men",
+                           Category %in% c("Opposite-sex Couple", "Female")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  ggside::geom_ysidedensity(data = filter(dat2, Selected, Sexual_Orientation == "Hetero", Target == "Women", 
+                           Category %in% c("Opposite-sex Couple", "Male")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  ggside::geom_xsidedensity(data = filter(dat2, Selected, Sexual_Orientation == "Hetero", Target == "Women", 
+                           Category %in% c("Opposite-sex Couple", "Male")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  ggside::geom_ysidedensity(data = filter(dat2, Sexual_Orientation == "Homo", Target == "Men",
+                           Category %in% c("Male Couple", "Male")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  ggside::geom_xsidedensity(data = filter(dat2, Sexual_Orientation == "Homo", Target == "Men",
+                           Category %in% c("Male Couple", "Male")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  ggside::geom_ysidedensity(data = filter(dat2, Selected, Sexual_Orientation == "Homo", Target == "Women", 
+                           Category %in% c("Female Couple", "Female")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  ggside::geom_xsidedensity(data = filter(dat2, Selected, Sexual_Orientation == "Homo", Target == "Women", 
+                           Category %in% c("Female Couple", "Female")),
+                            aes(color = Category), key_glyph = draw_key_blank, alpha = 0.6) +
+  scale_shape_manual(values = c("TRUE" = 20, "FALSE" = 4)) +
   scale_color_manual(values = c(
-    "Opposite-sex Couple"="#673AB7", "Male Couple"= "#3F51B5", "Female Couple" = "#9C27B0",
-    "Female" = "#E91E63", "Male"= "#2196F3")) +
-  guides(shape = guide_legend(override.aes = list(color="white"))) +
-  facet_grid(~Sexual_Orientation*Target) +
+    "Opposite-sex Couple" = "#673AB7", "Male Couple" = "#3F51B5", "Female Couple" = "#9C27B0",
+    "Female" = "#E91E63", "Male" = "#2196F3")) +
+  guides(shape = guide_legend(override.aes = list(color = "white"))) +
+  facet_grid(~Sexual_Orientation * Target) +
   theme_abyss() +
   theme(ggside.panel.grid.major = element_blank(), 
         ggside.axis.text = element_blank(),
         ggside.axis.line = element_blank())
+
+
+
 
 ```
 
@@ -183,7 +219,7 @@ dat2 |>
 selection_erotic2 <- napsero2 |> 
   filter(ID %in% selected_erotic_2)
 
-write.csv(selection_erotic2, "stimuli_data_erotic2.csv", row.names=FALSE)
+write.csv(selection_erotic2, "stimuli_data2.csv", row.names=FALSE)
 knitr::kable(selection_erotic2)
 ```
 

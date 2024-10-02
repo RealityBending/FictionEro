@@ -156,6 +156,8 @@ dat |>
   theme(ggside.panel.grid.major = element_blank(), 
         ggside.axis.text = element_blank(),
         ggside.axis.line = element_blank())
+
+
 ```
 
 ## Final Selection
