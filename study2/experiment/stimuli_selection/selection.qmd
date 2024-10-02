@@ -1,0 +1,172 @@
+---
+title: "Stimuli Selection"
+format:
+  html:
+    embed-resources: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+#| include: false
+#| code-fold: true
+
+library(tidyverse)
+library(easystats)
+library(ggrepel)
+
+
+napsero <- readxl::read_excel("norms_napsero.XLSX", sheet = "Ratings") |>
+  full_join(readxl::read_excel("norms_napsero.XLSX", sheet = "Image parameters"), by = join_by("ID", "Category")) |>
+  select(-contains("_SD")) |>
+  rename(Orientation = `V/H`,
+         Hetero_Men_Valence = val_M_HeM,
+         Hetero_Women_Valence = val_M_HeF,
+         Homo_Men_Valence = val_M_HoM,
+         Homo_Women_Valence = val_M_HoF,
+         Hetero_Men_Arousal = aro_M_HeM,
+         Hetero_Women_Arousal = aro_M_HeF,
+         Homo_Men_Arousal = aro_M_HoM,
+         Homo_Women_Arousal = aro_M_HoF) |>
+  mutate(across(c("Luminance", "Contrast", "JPEG_size80", "LABL", "LABA", "LABB", "Entropy"), as.numeric),
+         Description = NA)
+```
+
+
+## Selection
+
+### Select based on norms
+```{r}
+men <- napsero |>
+  filter(Category %in% c("Female", "Opposite-sex Couple")) |>
+  group_by(Category) |>
+  slice_max(Hetero_Men_Arousal, n=25, with_ties = FALSE) |>
+  pull(ID)
+
+homo_men <- napsero |>
+  filter(Category %in% c("Male", "Male Couple")) |>
+  group_by(Category) |>
+  slice_max(Homo_Men_Arousal, n=25, with_ties = FALSE) |>
+  pull(ID) 
+
+women <- napsero |>
+  filter(Category %in% c("Male", "Opposite-sex Couple")) |> 
+  group_by(Category) |> 
+  slice_max(Hetero_Women_Arousal, n=25, with_ties = FALSE) |>
+  pull(ID) 
+
+homo_women <- napsero |>
+  filter(Category %in% c("Female", "Female Couple")) |>
+  group_by(Category) |>
+  slice_max(Homo_Women_Arousal, n=25, with_ties = FALSE) |>
+  pull(ID) 
+
+
+selected_erotic <- c(men, women, homo_men,homo_women)
+
+cat(
+  paste0("N (men) = ", length(men), "\nN (homo_men) = ", length(homo_men),  "\nN (women) = ", length(women), "\nN (homo_women) = ", length(homo_women))
+)
+```
+
+### Visualization
+
+```{r}
+#| fig.width: 10
+#| fig.height: 8
+#| dpi: 300
+#| message: false
+
+dat <- napsero |>
+  select(ID, Category, ends_with("_Arousal"), ends_with("_Valence")) |> 
+  pivot_longer(cols = c("Hetero_Men_Valence", "Hetero_Men_Arousal", "Hetero_Women_Valence", "Hetero_Women_Arousal", "Homo_Men_Valence", "Homo_Men_Arousal", "Homo_Women_Valence", "Homo_Women_Arousal")) |>
+  separate(name, into=c("Participant1", "Participant2", "Variable")) |>
+  mutate("Target" = paste0(Participant1, "_", Participant2)) |> 
+  select(-Participant1, -Participant2) |> 
+  pivot_wider(names_from=Variable, values_from=value) |> 
+  mutate(Selected = case_when(
+    Target == "Hetero_Men" & ID %in% men ~ TRUE,
+    Target == "Homo_Men" & ID %in% homo_men ~ TRUE,
+    Target == "Hetero_Women" & ID %in% women ~ TRUE,
+    Target == "Homo_Women" & ID %in% homo_women ~ TRUE,
+    .default = FALSE
+  ))
+
+
+
+dat |> 
+  ggplot(aes(x = Valence, y = Arousal)) +
+  geom_point(data=filter(dat, Selected==FALSE),
+             aes(shape = Selected, color = Category), size = 4, alpha = 0.3) +
+  geom_point(data=filter(dat, Selected==TRUE),
+             aes(shape = Selected, color = Category), size = 4, alpha = 0.8) +
+  facet_wrap(~Target) +
+  ggside::geom_ysidedensity(data=filter(dat, Selected==TRUE), 
+                            aes(color = Category),
+                            key_glyph = draw_key_blank, alpha = 0.0) +
+  ggside::geom_xsidedensity(data=filter(dat, Selected==TRUE), 
+                            aes(color = Category), 
+                            key_glyph = draw_key_blank, alpha = 0.0)  +
+  scale_shape_manual(values = c("TRUE" = 20, "FALSE" = 4)) +
+  scale_color_manual(values = c(
+    "Opposite-sex Couple" = "#673AB7", "Male Couple" = "#3F51B5", "Female Couple" = "#9C27B0",
+    "Female" = "#E91E63", "Male" = "#2196F3", "Non-erotic"="grey")) +
+  guides(shape = guide_legend(override.aes = list(color = "white"))) +
+  theme_abyss() +
+  theme(ggside.panel.grid.major = element_blank(), 
+        ggside.axis.text = element_blank(),
+        ggside.axis.line = element_blank())
+```
+
+
+## Final Selection
+
+- ID: picture category and number
+- V/H: vertical / horizontal
+- Av/Ap: avoidance - approach dimension
+- M: mean
+- SD: standard deviation
+- JPEG_size80: index of overall complexity
+- LABL: luminance in CIE L*a*b color space
+- LABA: the amount of red color CIE L*a*b color space
+- LABB: the amount of the green color CIE L*a*b color space
+- Entropy: the amount of complexity in gray scale. Images with high entropy are images that are more "noisy" and have a high degree of contrast.
+
+```{r}
+#| code-fold: true
+
+selection_erotic2 <- napsero2 |> 
+  filter(ID %in% selected_erotic_2)
+
+write.csv(selection_erotic2, "stimuli_data2.csv", row.names=FALSE)
+knitr::kable(selection_erotic2)
+```
+
+
+```{r}
+#| code-fold: true
+json <- selection2 |> 
+  select(stimulus=ID, Category, Orientation) |> 
+  jsonlite::toJSON()
+  
+write(paste("var stimuli_list2 = ", json), "stimuli_list2.js")
+```
+
+
+```{r}
+#| code-fold: true
+path_ero <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS_ERO/"
+path_naps <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS/"
+
+# Remove all current files
+unlink("../stimuli/*")
+
+# Copy each file
+for(file in selected) {
+  if(str_detect(file, "Male|Female")) {
+    file.copy(paste0(path_ero, file), "../stimuli/")
+  } else {
+    file.copy(paste0(path_naps, file), "../stimuli/")
+  }
+}
+```

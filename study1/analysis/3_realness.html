@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>FictionEro - Determinants of Reality Beliefs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="3_realness_files/libs/clipboard/clipboard.min.js"></script>
+<script src="3_realness_files/libs/quarto-html/quarto.js"></script>
+<script src="3_realness_files/libs/quarto-html/popper.min.js"></script>
+<script src="3_realness_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="3_realness_files/libs/quarto-html/anchor.min.js"></script>
+<link href="3_realness_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="3_realness_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="3_realness_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="3_realness_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="3_realness_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link active" data-scroll-target="#data-preparation">Data Preparation</a>
+  <ul class="collapse">
+  <li><a href="#distribution" id="toc-distribution" class="nav-link" data-scroll-target="#distribution">Distribution</a></li>
+  </ul></li>
+  <li><a href="#physical-characteristics" id="toc-physical-characteristics" class="nav-link" data-scroll-target="#physical-characteristics">Physical Characteristics</a></li>
+  <li><a href="#manipulation-check" id="toc-manipulation-check" class="nav-link" data-scroll-target="#manipulation-check">Manipulation Check</a></li>
+  <li><a href="#moderators" id="toc-moderators" class="nav-link" data-scroll-target="#moderators">Moderators</a>
+  <ul class="collapse">
+  <li><a href="#ai-attitutes" id="toc-ai-attitutes" class="nav-link" data-scroll-target="#ai-attitutes">AI-Attitutes</a></li>
+  <li><a href="#porn-usage" id="toc-porn-usage" class="nav-link" data-scroll-target="#porn-usage">Porn Usage</a></li>
+  <li><a href="#feedback" id="toc-feedback" class="nav-link" data-scroll-target="#feedback">Feedback</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">FictionEro - Determinants of Reality Beliefs</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggside)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmmTMB)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">mc.cores =</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>(),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">brms.backend =</span> <span class="st">"cmdstanr"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dfsub <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/data_participants.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/data.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(dfsub, Participant, Sample, Language, Mobile, <span class="fu">starts_with</span>(<span class="st">"Feedback_"</span>), </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>           BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>           GAAIS_Negative, GAAIS_Positive, Porn, COPS_Frequency_2,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>           <span class="sc">-</span>Feedback_Comments),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"Participant"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  datawizard<span class="sc">::</span><span class="fu">rescale</span>(<span class="at">select=</span><span class="fu">c</span>(<span class="st">"Valence"</span>), <span class="at">range=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">to=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Condition =</span> <span class="fu">fct_relevel</span>(Condition, <span class="st">"Photograph"</span>, <span class="st">"AI-Generated"</span>),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">Relevance =</span>  <span class="fu">fct_relevel</span>(Relevance, <span class="st">"Relevant"</span>, <span class="st">"Irrelevant"</span>, <span class="st">"Non-erotic"</span>),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">Sex =</span>  <span class="fu">fct_relevel</span>(Sex, <span class="st">"Male"</span>, <span class="st">"Female"</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">PornFrequency =</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(COPS_Frequency_2)),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">SexualActivity_num =</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(SexualActivity)),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">ConditionBelief =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"Photograph"</span> <span class="sc">&amp;</span> Realness <span class="sc">&gt;</span> <span class="fl">0.5</span> <span class="sc">~</span> <span class="st">"True"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>           Condition <span class="sc">==</span> <span class="st">"AI-Generated"</span> <span class="sc">&amp;</span> Realness <span class="sc">&lt;</span> <span class="fl">0.5</span> <span class="sc">~</span> <span class="st">"True"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">.default =</span> <span class="st">"False"</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>         ),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">RealnessBelief =</span> <span class="fu">ifelse</span>(Realness <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">starts_with</span>(<span class="st">"Feedback_"</span>), <span class="cf">function</span>(x) {<span class="fu">fct_relevel</span>(x, <span class="st">"False"</span>, <span class="st">"True"</span>)}))</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>results_table <span class="ot">&lt;-</span> <span class="cf">function</span>(model, <span class="at">effects=</span><span class="st">"fixed"</span>, <span class="at">filter=</span><span class="cn">NULL</span>) {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="st">"marginaleffects"</span> <span class="sc">%in%</span> <span class="fu">class</span>(model)) {</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    model <span class="sc">|&gt;</span> </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      parameters<span class="sc">::</span><span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="sc">-</span>Parameter, <span class="sc">-</span>SE, <span class="sc">-</span>S, <span class="at">z=</span>Statistic, <span class="sc">-</span>Predicted) <span class="sc">|&gt;</span> </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>      insight<span class="sc">::</span><span class="fu">format_table</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>      parameters<span class="sc">::</span><span class="fu">display</span>()</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">display</span>(parameters<span class="sc">::</span><span class="fu">parameters</span>(model, <span class="at">effects=</span>effects, <span class="at">keep=</span>filter))</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="distribution" class="level3">
+<h3 class="anchored" data-anchor-id="distribution">Distribution</h3>
+<p>Similar to the arousal data, the realness data contains a mixture of responses ranging from extreme values (0 and 1) to intermediate values between 0 and 1. Consequently, an ordered beta model was used for this data, as it is the most suitable for bounded data (e.g., survey sliders).For more information on these models see <a href="https://doi.org/10.1017/pan.2022.20">(Kubinec, 2022)</a>.</p>
+<!-- This graph highlights gender differences and similarities in the ratings of realness across different types of images, indicating a consistent tendency to rate images as highly real across both genders, particularity at the upper end of the realness scale. Both genders exhibit a tendency to rate images as more real as the realness rating increases, with a consistent spike at the highest rating of 1.0 across all image types. Males generally show higher counts of high realness ratings compared to females, especially for relevant images.The patterns for irrelevant and non-erotic images are quite similar between genders, with a uniform distribution and a spike at the highest rating. -->
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Realness_Extreme =</span> <span class="fu">ifelse</span>(Realness <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="st">"Extreme"</span>, <span class="st">"Not extreme"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Realness, <span class="at">fill=</span>Relevance)) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">color=</span>Realness_Extreme), <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">bins=</span><span class="dv">80</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Relevance<span class="sc">~</span>Sex, <span class="at">scales=</span><span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"white"</span>), <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"Relevant"</span><span class="ot">=</span><span class="st">"#E91E63"</span>, <span class="st">"Irrelevant"</span><span class="ot">=</span><span class="st">"#FF9800"</span>, <span class="st">"Non-erotic"</span><span class="ot">=</span><span class="st">"#03A9F4"</span>), <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Realness"</span>) <span class="sc">+</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_abyss</span>() <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_realness_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="physical-characteristics" class="level2">
+<h2 class="anchored" data-anchor-id="physical-characteristics">Physical Characteristics</h2>
+<p>Here, we are examining the effect of various physical characteristics of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 (“RealnessBelief”), as indicated by the lack of significant effects.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>make_model <span class="ot">&lt;-</span> <span class="cf">function</span>(f, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>()) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(<span class="fu">as.formula</span>(f), </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data=</span>df, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family=</span>family,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">results_table</span>(m))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  m</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"Realness ~ Entropy + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Coefficient |   SE |        95% CI |    z |     p |
+|:-----------|:-----------:|:----:|:-------------:|:----:|:-----:|
+|(Intercept) |        0.20 | 0.48 | (-0.74, 1.14) | 0.42 | 0.675 |
+|Entropy     |        0.10 | 0.07 | (-0.03, 0.23) | 1.54 | 0.123 |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"RealnessBelief ~ Entropy + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span><span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Log-Odds |   SE |        95% CI |    z |     p |
+|:-----------|:--------:|:----:|:-------------:|:----:|:-----:|
+|(Intercept) |     0.15 | 1.15 | (-2.11, 2.41) | 0.13 | 0.897 |
+|Entropy     |     0.24 | 0.16 | (-0.07, 0.55) | 1.53 | 0.126 |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"Realness ~ Complexity + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Coefficient | 95% CI |
+|:-----------|:-----------:|:------:|
+|(Intercept) |        0.71 |        |
+|Complexity  |    9.13e-07 |        |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"RealnessBelief ~ Complexity + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span><span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Log-Odds |       SE |                95% CI |    z |      p |
+|:-----------|:--------:|:--------:|:---------------------:|:----:|:------:|
+|(Intercept) |     1.43 |     0.31 |          (0.81, 2.04) | 4.55 | &lt; .001 |
+|Complexity  | 1.92e-06 | 1.16e-06 | (-3.54e-07, 4.19e-06) | 1.65 | 0.098  |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"Realness ~ Contrast + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Coefficient |       SE |            95% CI |    z |     p |
+|:-----------|:-----------:|:--------:|:-----------------:|:----:|:-----:|
+|(Intercept) |        0.71 |     0.23 |      (0.27, 1.15) | 3.14 | 0.002 |
+|Contrast    |    3.77e-03 | 3.60e-03 | (-3.30e-03, 0.01) | 1.04 | 0.296 |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"RealnessBelief ~ Contrast + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span><span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Log-Odds |       SE |            95% CI |    z |     p |
+|:-----------|:--------:|:--------:|:-----------------:|:----:|:-----:|
+|(Intercept) |     1.46 |     0.54 |      (0.40, 2.52) | 2.70 | 0.007 |
+|Contrast    | 7.36e-03 | 8.72e-03 | (-9.73e-03, 0.02) | 0.84 | 0.399 |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"Realness ~ Luminance + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Coefficient |       SE |                95% CI |    z |      p |
+|:-----------|:-----------:|:--------:|:---------------------:|:----:|:------:|
+|(Intercept) |        0.79 |     0.15 |          (0.49, 1.09) | 5.20 | &lt; .001 |
+|Luminance   |    3.07e-03 | 3.00e-03 | (-2.80e-03, 8.94e-03) | 1.02 | 0.306  |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"RealnessBelief ~ Luminance + (1|Participant) + (1|Item)"</span>, <span class="at">family=</span><span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter   | Log-Odds |       SE |            95% CI |    z |      p |
+|:-----------|:--------:|:--------:|:-----------------:|:----:|:------:|
+|(Intercept) |     1.63 |     0.36 |      (0.93, 2.34) | 4.52 | &lt; .001 |
+|Luminance   | 5.80e-03 | 7.25e-03 | (-8.41e-03, 0.02) | 0.80 | 0.424  |</code></pre>
+</div>
+</div>
+</section>
+<section id="manipulation-check" class="level2">
+<h2 class="anchored" data-anchor-id="manipulation-check">Manipulation Check</h2>
+<p>This model examines the influence of sex, relevance, and condition on ratings of realness, incorporating random effects for participants and items.</p>
+<!-- Key findings -->
+<p>Both genders significantly rate AI-generated images as less real than images labeled as photographs.</p>
+<p>For males, this reduction in realness is consistent across all relevance categories. Specifically, males rate irrelevant images as significantly less real compared to relevant images. Additionally, males rate relevant AI-generated images as significantly less real compared to relevant photographs and rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs.</p>
+<p>For females, while they also rate AI-generated images as less real, the reduction is smaller. Females rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs.</p>
+<p>Both genders rate non-erotic images as more real than relevant images, with this difference being significant for females. For non-erotic images, males rate AI-generated images as significantly less real than photographs, but for females, this difference is not significant.</p>
+<!-- All findings -->
+<!-- baseline: Male, Relevant, Photograph -->
+<!-- 1. **Intercept** - when all predictors are at their baseline images are significantly and positively rated as real -->
+<!-- 2. Impact of condition (AI vs Photograph) -->
+<!--     2.1. Both genders significantly rate AI-generated images as less real than images labeled as photographs across all relevance categories. -->
+<!--     2.2. The reduction in realness ratings for AI-generated images is larger for males than for females. -->
+<!--     2.3. For non-erotic images, this difference is significant for males but not for females. -->
+<!-- 3. **Impact of Relevance** (Relevant vs. Irrelevant and Non-Erotic) -->
+<!--     3.1. Males significantly rate irrelevant images as less real compared to relevant images. -->
+<!--     3.2. Females also rate irrelevant images as less real than relevant images, but this difference is not significant. -->
+<!--     3.3. Both genders rate non-erotic images as more real than relevant images.This difference is significant for females but not for males. -->
+<!-- 4. **Interaction terms** -->
+<!--     4.1. Males rate relevant AI-generated images as significantly less real compared to relevant photographs.  -->
+<!--     4.2. Females rate relevant AI-generated images as less real compared to relevant photographs, but the reduction is smaller than for males -->
+<!--     4.3. Males rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs -->
+<!--     4.4. Females rate irrelevant AI-generated images as significantly less real compared to irrelevant photographs  -->
+<!--     4.5. For non-erotic images, males rate AI-generated images as significantly less real than photographs -->
+<!--     Females rate non-erotic AI-generated images as less real than photographs, but the difference is smaller and not significant.  -->
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"Realness ~ Sex / (Relevance / Condition) + </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="st">                (Relevance|Participant) + (1|Item)"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter                                                  | Coefficient |   SE |         95% CI |      z |      p |
+|:----------------------------------------------------------|:-----------:|:----:|:--------------:|:------:|:------:|
+|(Intercept)                                                |        1.21 | 0.08 |   (1.06, 1.37) |  15.25 | &lt; .001 |
+|Sex (Female)                                               |       -0.50 | 0.12 | (-0.73, -0.26) |  -4.09 | &lt; .001 |
+|Sex (Male) × RelevanceIrrelevant                           |       -0.43 | 0.09 | (-0.60, -0.27) |  -5.07 | &lt; .001 |
+|Sex (Female) × RelevanceIrrelevant                         |       -0.03 | 0.09 |  (-0.20, 0.15) |  -0.29 | 0.768  |
+|Sex (Male) × RelevanceNon-erotic                           |        0.16 | 0.09 |  (-0.01, 0.33) |   1.80 | 0.071  |
+|Sex (Female) × RelevanceNon-erotic                         |        0.76 | 0.09 |   (0.57, 0.94) |   8.08 | &lt; .001 |
+|Sex (Male) × RelevanceRelevant × ConditionAI-Generated     |       -0.22 | 0.02 | (-0.26, -0.19) | -11.04 | &lt; .001 |
+|Sex (Female) × RelevanceRelevant × ConditionAI-Generated   |       -0.10 | 0.03 | (-0.15, -0.05) |  -3.99 | &lt; .001 |
+|Sex (Male) × RelevanceIrrelevant × ConditionAI-Generated   |       -0.17 | 0.02 | (-0.21, -0.13) |  -8.81 | &lt; .001 |
+|Sex (Female) × RelevanceIrrelevant × ConditionAI-Generated |       -0.09 | 0.03 | (-0.14, -0.04) |  -3.54 | &lt; .001 |
+|Sex (Male) × RelevanceNon-erotic × ConditionAI-Generated   |       -0.18 | 0.02 | (-0.22, -0.14) |  -8.78 | &lt; .001 |
+|Sex (Female) × RelevanceNon-erotic × ConditionAI-Generated |       -0.07 | 0.03 | (-0.12, -0.01) |  -2.41 | 0.016  |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>predbeta <span class="ot">&lt;-</span> <span class="fu">estimate_relation</span>(m, <span class="at">length=</span><span class="dv">20</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"RealnessBelief ~ Sex / (Relevance / Condition) + </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st">                (Relevance|Participant) + (1|Item)"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">family=</span><span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter                                                  | Log-Odds |   SE |         95% CI |     z |      p |
+|:----------------------------------------------------------|:--------:|:----:|:--------------:|:-----:|:------:|
+|(Intercept)                                                |     2.56 | 0.18 |   (2.21, 2.92) | 14.15 | &lt; .001 |
+|Sex (Female)                                               |    -1.09 | 0.26 | (-1.61, -0.57) | -4.14 | &lt; .001 |
+|Sex (Male) × RelevanceIrrelevant                           |    -0.93 | 0.22 | (-1.36, -0.49) | -4.20 | &lt; .001 |
+|Sex (Female) × RelevanceIrrelevant                         |    -0.11 | 0.22 |  (-0.55, 0.33) | -0.50 | 0.618  |
+|Sex (Male) × RelevanceNon-erotic                           |     0.40 | 0.23 |  (-0.05, 0.85) |  1.72 | 0.085  |
+|Sex (Female) × RelevanceNon-erotic                         |     1.56 | 0.24 |   (1.09, 2.04) |  6.48 | &lt; .001 |
+|Sex (Male) × RelevanceRelevant × ConditionAI-Generated     |    -0.59 | 0.07 | (-0.72, -0.46) | -8.78 | &lt; .001 |
+|Sex (Female) × RelevanceRelevant × ConditionAI-Generated   |    -0.25 | 0.08 | (-0.40, -0.10) | -3.35 | &lt; .001 |
+|Sex (Male) × RelevanceIrrelevant × ConditionAI-Generated   |    -0.45 | 0.06 | (-0.56, -0.33) | -7.68 | &lt; .001 |
+|Sex (Female) × RelevanceIrrelevant × ConditionAI-Generated |    -0.13 | 0.07 |  (-0.28, 0.01) | -1.78 | 0.075  |
+|Sex (Male) × RelevanceNon-erotic × ConditionAI-Generated   |    -0.59 | 0.07 | (-0.74, -0.45) | -8.12 | &lt; .001 |
+|Sex (Female) × RelevanceNon-erotic × ConditionAI-Generated |    -0.25 | 0.10 | (-0.45, -0.06) | -2.56 | 0.010  |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>predbin <span class="ot">&lt;-</span> <span class="fu">estimate_relation</span>(m, <span class="at">length=</span><span class="dv">20</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>predbeta <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Relevance, <span class="at">y=</span>Predicted)) <span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>CI_low, <span class="at">ymax=</span>CI_high, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>)) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Sex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_realness_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- TODO: Interpret likelihood model of rating images as real ? -->
+</section>
+<section id="moderators" class="level2">
+<h2 class="anchored" data-anchor-id="moderators">Moderators</h2>
+<p>Here we look at whether the findings above are moderated by AI-Attitudes, Porn usage, or feedback.</p>
+<section id="ai-attitutes" class="level3">
+<h3 class="anchored" data-anchor-id="ai-attitutes">AI-Attitutes</h3>
+<p>This model examines how ratings of realness, predicted by sex, condition, and relevance, are moderated by beliefs about AI’s visual and textual capacities, self-reported knowledge of AI, as well as positive and negative attitudes towards AI (note that these results are relative to a baseline of male participants viewing relevant images labelled as photographs). Additionally, the model includes relevance and items as random effects.</p>
+<!-- Key findings -->
+<p>Beliefs about AI’s visual capacity played a pivotal role in moderating realness ratings, showing nuanced effects across genders and image contexts. Both males and females generally rated images as more real as their beliefs in AI’s visual capabilities increased. However, this relationship varied significantly depending on the relevance of the images. For males, increased beliefs in AI’s visual capacity were associated with decreased realness ratings specifically when presented with irrelevant images. In contrast, females tended to rate both irrelevant and non-erotic images higher in realness as their beliefs in AI’s visual abilities increased. Notably, for females viewing irrelevant images labeled as AI-generated, higher beliefs in AI’s visual capacity led to decreased realness ratings, indicating a complex interaction.</p>
+<p>Beliefs in AI’s textual abilities also influenced realness ratings, but the effects differed between genders and image contexts. Females showed lower realness ratings for irrelevant images labeled as AI-generated as their beliefs in AI’s textual abilities increased. Conversely, males demonstrated increased realness ratings only for non-erotic images labeled as AI-generated with higher beliefs in AI’s textual capabilities.</p>
+<p>Self-reported knowledge of AI had distinct effects on realness ratings as well. Males rated non-erotic images lower in realness as their self-reported AI knowledge increased. In contrast, females rated irrelevant images labeled as AI-generated as more real with higher self-reported AI knowledge, suggesting divergent perceptions based on their understanding of AI.</p>
+<p>Attitudes towards AI, whether positive or negative, further moderated ratings of realness. Positive attitudes generally enhanced realness ratings across genders. However, this effect was notably diminished for males when viewing irrelevant or non-erotic images labeled as AI-generated. Conversely, negative attitudes towards AI tended to decrease realness ratings for females, except when they viewed relevant images labeled as AI-generated, where negative attitudes paradoxically increased perceptions of realness.</p>
+<!-- All findings -->
+<!-- Baseline: male, relevant, photograph -->
+<!-- a) Bait-Visual -->
+<!-- 1. For both genders, as beliefs about AI visual capacity increase, realness ratings significantly increase compared to the baseline. -->
+<!-- 2. For males, increased beliefs about AI visual capacity significantly decrease realness ratings of irrelevant images compared to the baseline. -->
+<!-- 3. For females, increased beliefs about AI visual capacity significantly increase realness ratings for irrelevant images and non-erotic images compared to the baseline. -->
+<!-- 4. For females, increased beliefs about AI's visual abilities significantly decrease realness ratings, of irrelevant and AI-generated images, compared to the baseline. -->
+<!-- b) Bait-Text -->
+<!-- 1. For both genders, increased beliefs in the textual abilities of AI significantly increase realness ratings compared to the baseline. -->
+<!-- 2. For females, increased beliefs in AI textual abilities significantly decrease realness ratings of irrelevant and AI-generated images compared to the baseline. -->
+<!-- 3. For males, this effect occurs when they are presented with non-erotic images labeled as AI-generated compared to the baseline. -->
+<!-- c) AI_Knowledge -->
+<!-- 1. For males, increased self-reported beliefs about AI knowledge significantly decrease realness ratings only for non-erotic images compared to the baseline. -->
+<!-- 2. For females, increased self-reported beliefs about AI knowledge significantly increase realness ratings only for irrelevant images labeled as AI-generated compared to the baseline. -->
+<!-- d) GAIS Positive -->
+<!-- 1. Positive attitudes about AI significantly increase realness ratings for both genders compared to the baseline. -->
+<!-- 2. For males, the positive effect of positive attitudes towards AI significantly decreases for irrelevant and non-erotic images compared to the baseline. -->
+<!-- 3. This effect also occurs when males are presented with relevant images that are labelled AI. -->
+<!-- e) GAIS Negative -->
+<!-- 1. Negative attitudes about AI significantly decrease realness ratings for females compared to the baseline. -->
+<!-- 2. For females, negative attitudes towards AI increase realness ratings for relevant images labeled as AI-generated compared to the baseline. -->
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>test_moderator <span class="ot">&lt;-</span> <span class="cf">function</span>(df, <span class="at">moderator=</span><span class="st">"BAIT_Visual"</span>) {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Realness ~ Sex / (Relevance / Condition * "</span>, moderator, <span class="st">") + (Relevance | Participant) + (1|Item)"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(<span class="fu">as.formula</span>(f),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>df, </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    parameters<span class="sc">::</span><span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span>df_error, <span class="sc">-</span>Effects, <span class="sc">-</span>Group, <span class="sc">-</span>Component, <span class="sc">-</span>SE)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  r<span class="sc">$</span>Moderator <span class="ot">&lt;-</span> moderator</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  insight<span class="sc">::</span><span class="fu">format_table</span>(<span class="fu">filter</span>(r, <span class="fu">str_detect</span>(Parameter, moderator)))</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>moderator <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(m <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"BAIT_Visual"</span>, <span class="st">"BAIT_Text"</span>, <span class="st">"AI_Knowledge"</span>,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">"GAAIS_Positive"</span>, <span class="st">"GAAIS_Negative"</span>)) {</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  moderator <span class="ot">&lt;-</span> <span class="fu">rbind</span>(moderator, <span class="fu">test_moderator</span>(df, m))</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(<span class="fu">filter</span>(moderator, p <span class="sc">&lt;</span> .<span class="dv">05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 57%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: left;">95% CI</th>
+<th style="text-align: right;">z</th>
+<th style="text-align: left;">p</th>
+<th style="text-align: right;">Moderator</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × BAIT Visual</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: left;">[ 1.50, 2.74]</td>
+<td style="text-align: right;">6.71</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">BAIT_Visual</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × BAIT Visual</td>
+<td style="text-align: right;">1.79</td>
+<td style="text-align: left;">[ 0.85, 2.73]</td>
+<td style="text-align: right;">3.73</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">BAIT_Visual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × RelevanceIrrelevant × BAIT Visual</td>
+<td style="text-align: right;">-0.57</td>
+<td style="text-align: left;">[-0.90, -0.23]</td>
+<td style="text-align: right;">-3.35</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">BAIT_Visual</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × RelevanceIrrelevant × BAIT Visual</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: left;">[ 0.04, 1.04]</td>
+<td style="text-align: right;">2.12</td>
+<td style="text-align: left;">0.034</td>
+<td style="text-align: right;">BAIT_Visual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Female] × RelevanceNon-erotic × BAIT Visual</td>
+<td style="text-align: right;">1.33</td>
+<td style="text-align: left;">[ 0.67, 2.00]</td>
+<td style="text-align: right;">3.94</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">BAIT_Visual</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × RelevanceIrrelevant × BAIT Visual × ConditionAI-Generated</td>
+<td style="text-align: right;">-0.55</td>
+<td style="text-align: left;">[-0.92, -0.19]</td>
+<td style="text-align: right;">-2.97</td>
+<td style="text-align: left;">0.003</td>
+<td style="text-align: right;">BAIT_Visual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × BAIT Text</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: left;">[ 0.23, 1.10]</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: left;">0.003</td>
+<td style="text-align: right;">BAIT_Text</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × BAIT Text</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: left;">[ 0.66, 1.95]</td>
+<td style="text-align: right;">3.95</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">BAIT_Text</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Female] × RelevanceIrrelevant × BAIT Text × ConditionAI-Generated</td>
+<td style="text-align: right;">-0.32</td>
+<td style="text-align: left;">[-0.57, -0.06]</td>
+<td style="text-align: right;">-2.44</td>
+<td style="text-align: left;">0.015</td>
+<td style="text-align: right;">BAIT_Text</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Male] × RelevanceNon-erotic × BAIT Text × ConditionAI-Generated</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: left;">[ 0.06, 0.40]</td>
+<td style="text-align: right;">2.65</td>
+<td style="text-align: left;">0.008</td>
+<td style="text-align: right;">BAIT_Text</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × RelevanceNon-erotic × AI Knowledge</td>
+<td style="text-align: right;">-0.10</td>
+<td style="text-align: left;">[-0.17, -0.04]</td>
+<td style="text-align: right;">-3.26</td>
+<td style="text-align: left;">0.001</td>
+<td style="text-align: right;">AI_Knowledge</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × RelevanceIrrelevant × AI Knowledge × ConditionAI-Generated</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: left;">[ 0.02, 0.10]</td>
+<td style="text-align: right;">3.03</td>
+<td style="text-align: left;">0.002</td>
+<td style="text-align: right;">AI_Knowledge</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × GAAIS Positive</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: left;">[ 0.74, 1.75]</td>
+<td style="text-align: right;">4.83</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">GAAIS_Positive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × GAAIS Positive</td>
+<td style="text-align: right;">1.26</td>
+<td style="text-align: left;">[ 0.54, 1.97]</td>
+<td style="text-align: right;">3.46</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">GAAIS_Positive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × RelevanceIrrelevant × GAAIS Positive</td>
+<td style="text-align: right;">-0.47</td>
+<td style="text-align: left;">[-0.73, -0.20]</td>
+<td style="text-align: right;">-3.48</td>
+<td style="text-align: left;">&lt; .001</td>
+<td style="text-align: right;">GAAIS_Positive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Male] × RelevanceNon-erotic × GAAIS Positive</td>
+<td style="text-align: right;">-0.38</td>
+<td style="text-align: left;">[-0.72, -0.03]</td>
+<td style="text-align: right;">-2.16</td>
+<td style="text-align: left;">0.031</td>
+<td style="text-align: right;">GAAIS_Positive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × RelevanceRelevant × GAAIS Positive × ConditionAI-Generated</td>
+<td style="text-align: right;">-0.20</td>
+<td style="text-align: left;">[-0.39, 0.00]</td>
+<td style="text-align: right;">-2.00</td>
+<td style="text-align: left;">0.046</td>
+<td style="text-align: right;">GAAIS_Positive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × GAAIS Negative</td>
+<td style="text-align: right;">-0.69</td>
+<td style="text-align: left;">[-1.37, -0.02]</td>
+<td style="text-align: right;">-2.01</td>
+<td style="text-align: left;">0.044</td>
+<td style="text-align: right;">GAAIS_Negative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Female] × RelevanceRelevant × GAAIS Negative × ConditionAI-Generated</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: left;">[ 0.07, 0.57]</td>
+<td style="text-align: right;">2.50</td>
+<td style="text-align: left;">0.012</td>
+<td style="text-align: right;">GAAIS_Negative</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This graph depicts differences in realness ratings based on beliefs about AI’s visual abilities for both genders when presented with images labeled as photographs or AI-generated. Notably, images labeled as photographs consistently receive higher realness ratings compared to those labeled as AI-generated, even at lower levels of belief in AI’s visual capacity. As beliefs in AI’s ability to generate realistic images increase, both genders show higher realness scores. However, for females with strong beliefs in AI’s visual capabilities, the difference in realness ratings between photographs and AI-generated labeled images becomes minimal.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Realness <span class="sc">~</span> Sex <span class="sc">/</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                        (Relevance <span class="sc">/</span> Condition <span class="sc">*</span>  BAIT_Visual) <span class="sc">+</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                        (Relevance <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Item),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>df, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: ordbeta  ( logit )
+Formula:          
+Realness ~ Sex/(Relevance/Condition * BAIT_Visual) + (Relevance |  
+    Participant) + (1 | Item)
+Data: df
+
+     AIC      BIC   logLik deviance df.resid 
+  8141.6   8433.4  -4036.8   8073.6    39386 
+
+Random effects:
+
+Conditional model:
+ Groups      Name                Variance Std.Dev. Corr        
+ Participant (Intercept)         1.0530   1.0262               
+             RelevanceIrrelevant 0.1405   0.3748   -0.24       
+             RelevanceNon-erotic 0.3496   0.5913   -0.18  0.17 
+ Item        (Intercept)         0.0648   0.2545               
+Number of obs: 39420, groups:  Participant, 657; Item, 60
+
+Dispersion parameter for ordbeta family (): 4.81 
+
+Conditional model:
+                                                                Estimate
+(Intercept)                                                     -0.22355
+SexFemale                                                       -0.29867
+SexMale:RelevanceIrrelevant                                     -0.05065
+SexFemale:RelevanceIrrelevant                                   -0.38887
+SexMale:RelevanceNon-erotic                                      0.36442
+SexFemale:RelevanceNon-erotic                                   -0.15166
+SexMale:BAIT_Visual                                              2.11866
+SexFemale:BAIT_Visual                                            1.78656
+SexMale:RelevanceRelevant:ConditionAI-Generated                 -0.20865
+SexFemale:RelevanceRelevant:ConditionAI-Generated               -0.29206
+SexMale:RelevanceIrrelevant:ConditionAI-Generated               -0.16327
+SexFemale:RelevanceIrrelevant:ConditionAI-Generated              0.28346
+SexMale:RelevanceNon-erotic:ConditionAI-Generated               -0.20461
+SexFemale:RelevanceNon-erotic:ConditionAI-Generated              0.09237
+SexMale:RelevanceIrrelevant:BAIT_Visual                         -0.56591
+SexFemale:RelevanceIrrelevant:BAIT_Visual                        0.53943
+SexMale:RelevanceNon-erotic:BAIT_Visual                         -0.30742
+SexFemale:RelevanceNon-erotic:BAIT_Visual                        1.33407
+SexMale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated     -0.02494
+SexFemale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated    0.28040
+SexMale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated   -0.01327
+SexFemale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated -0.55292
+SexMale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated    0.03468
+SexFemale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated -0.23838
+                                                                Std. Error
+(Intercept)                                                        0.22727
+SexFemale                                                          0.41071
+SexMale:RelevanceIrrelevant                                        0.14129
+SexFemale:RelevanceIrrelevant                                      0.19453
+SexMale:RelevanceNon-erotic                                        0.17254
+SexFemale:RelevanceNon-erotic                                      0.24859
+SexMale:BAIT_Visual                                                0.31594
+SexFemale:BAIT_Visual                                              0.47955
+SexMale:RelevanceRelevant:ConditionAI-Generated                    0.08548
+SexFemale:RelevanceRelevant:ConditionAI-Generated                  0.12782
+SexMale:RelevanceIrrelevant:ConditionAI-Generated                  0.08216
+SexFemale:RelevanceIrrelevant:ConditionAI-Generated                0.12880
+SexMale:RelevanceNon-erotic:ConditionAI-Generated                  0.08715
+SexFemale:RelevanceNon-erotic:ConditionAI-Generated                0.13938
+SexMale:RelevanceIrrelevant:BAIT_Visual                            0.16912
+SexFemale:RelevanceIrrelevant:BAIT_Visual                          0.25499
+SexMale:RelevanceNon-erotic:BAIT_Visual                            0.22146
+SexFemale:RelevanceNon-erotic:BAIT_Visual                          0.33893
+SexMale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated        0.12546
+SexFemale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated      0.18472
+SexMale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated      0.11950
+SexFemale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated    0.18648
+SexMale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated      0.12752
+SexFemale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated    0.20413
+                                                                z value
+(Intercept)                                                      -0.984
+SexFemale                                                        -0.727
+SexMale:RelevanceIrrelevant                                      -0.358
+SexFemale:RelevanceIrrelevant                                    -1.999
+SexMale:RelevanceNon-erotic                                       2.112
+SexFemale:RelevanceNon-erotic                                    -0.610
+SexMale:BAIT_Visual                                               6.706
+SexFemale:BAIT_Visual                                             3.726
+SexMale:RelevanceRelevant:ConditionAI-Generated                  -2.441
+SexFemale:RelevanceRelevant:ConditionAI-Generated                -2.285
+SexMale:RelevanceIrrelevant:ConditionAI-Generated                -1.987
+SexFemale:RelevanceIrrelevant:ConditionAI-Generated               2.201
+SexMale:RelevanceNon-erotic:ConditionAI-Generated                -2.348
+SexFemale:RelevanceNon-erotic:ConditionAI-Generated               0.663
+SexMale:RelevanceIrrelevant:BAIT_Visual                          -3.346
+SexFemale:RelevanceIrrelevant:BAIT_Visual                         2.115
+SexMale:RelevanceNon-erotic:BAIT_Visual                          -1.388
+SexFemale:RelevanceNon-erotic:BAIT_Visual                         3.936
+SexMale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated      -0.199
+SexFemale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated     1.518
+SexMale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated    -0.111
+SexFemale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated  -2.965
+SexMale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated     0.272
+SexFemale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated  -1.168
+                                                                Pr(&gt;|z|)    
+(Intercept)                                                     0.325294    
+SexFemale                                                       0.467104    
+SexMale:RelevanceIrrelevant                                     0.719979    
+SexFemale:RelevanceIrrelevant                                   0.045604 *  
+SexMale:RelevanceNon-erotic                                     0.034674 *  
+SexFemale:RelevanceNon-erotic                                   0.541802    
+SexMale:BAIT_Visual                                             2.00e-11 ***
+SexFemale:BAIT_Visual                                           0.000195 ***
+SexMale:RelevanceRelevant:ConditionAI-Generated                 0.014648 *  
+SexFemale:RelevanceRelevant:ConditionAI-Generated               0.022311 *  
+SexMale:RelevanceIrrelevant:ConditionAI-Generated               0.046900 *  
+SexFemale:RelevanceIrrelevant:ConditionAI-Generated             0.027755 *  
+SexMale:RelevanceNon-erotic:ConditionAI-Generated               0.018883 *  
+SexFemale:RelevanceNon-erotic:ConditionAI-Generated             0.507502    
+SexMale:RelevanceIrrelevant:BAIT_Visual                         0.000819 ***
+SexFemale:RelevanceIrrelevant:BAIT_Visual                       0.034388 *  
+SexMale:RelevanceNon-erotic:BAIT_Visual                         0.165096    
+SexFemale:RelevanceNon-erotic:BAIT_Visual                       8.28e-05 ***
+SexMale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated     0.842409    
+SexFemale:RelevanceRelevant:BAIT_Visual:ConditionAI-Generated   0.129016    
+SexMale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated   0.911565    
+SexFemale:RelevanceIrrelevant:BAIT_Visual:ConditionAI-Generated 0.003026 ** 
+SexMale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated   0.785688    
+SexFemale:RelevanceNon-erotic:BAIT_Visual:ConditionAI-Generated 0.242882    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>stars1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Sex =</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="st">"Female"</span>)), </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Condition=</span><span class="fu">c</span>(<span class="st">"Photograph"</span>, <span class="st">"AI-Generated"</span>, <span class="st">"Photograph"</span>, <span class="st">"AI-Generated"</span>), </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label=</span><span class="fu">c</span>(<span class="st">"***"</span>, <span class="st">"***"</span>, <span class="st">"***"</span>, <span class="st">"***"</span>),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span><span class="fu">c</span>(<span class="fl">0.6</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.65</span>),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.6</span>, <span class="fl">0.72</span>, <span class="fl">0.55</span>))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>pred1 <span class="ot">&lt;-</span> <span class="fu">estimate_relation</span>(m1)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> pred1 <span class="sc">|&gt;</span> </span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Relevance <span class="sc">==</span> <span class="st">"Relevant"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>BAIT_Visual, <span class="at">y=</span>Predicted)) <span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>CI_low, <span class="at">ymax=</span>CI_high, <span class="at">fill=</span>Condition), <span class="at">alpha=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color=</span>Condition), <span class="at">linewidth=</span><span class="dv">1</span>, <span class="at">key_glyph =</span> draw_key_rect) <span class="sc">+</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>stars1, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>Condition), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">Sex=</span><span class="fu">as.factor</span>(<span class="st">"Female"</span>), <span class="at">x=</span><span class="fl">0.65</span>, <span class="at">y=</span><span class="fl">0.638</span>, <span class="at">label=</span><span class="st">"**"</span>), <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"#424242"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Sex) <span class="sc">+</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>)) <span class="sc">+</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>), <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background.x =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="fu">c</span>(<span class="st">"lightgrey"</span>), <span class="at">color=</span><span class="cn">NA</span>),</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">color=</span><span class="st">"black"</span>),</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Realness</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">fill=</span><span class="st">"Images presented as:"</span>, <span class="at">color=</span><span class="st">"Images presented as:"</span>,</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">Beliefs about Artificial Information Technology (BAIT)</span><span class="sc">\n</span><span class="st">'AI algorithms can generate realistic images'"</span>,</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">tag =</span> <span class="st">"A"</span>)</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_realness_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="porn-usage" class="level3">
+<h3 class="anchored" data-anchor-id="porn-usage">Porn Usage</h3>
+<p>This model examines how ratings of realness, predicted by sex, condition, and relevance, are moderated by porn usage.</p>
+<p>Porn usage moderates the relationship between sex, relevance, condition, and realness ratings, but for males only. As porn usage increases, there is a significant decrease in realness ratings for non-erotic images labelled as AI-generated.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>moderator <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(m <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Porn"</span>, <span class="st">"PornFrequency"</span>, <span class="st">"SexualActivity_num"</span>)) {</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  moderator <span class="ot">&lt;-</span> <span class="fu">rbind</span>(moderator, <span class="fu">test_moderator</span>(df, m))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(<span class="fu">filter</span>(moderator, p <span class="sc">&lt;</span> .<span class="dv">05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 56%">
+<col style="width: 10%">
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: left;">95% CI</th>
+<th style="text-align: left;">z</th>
+<th style="text-align: left;">p</th>
+<th style="text-align: right;">Moderator</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × RelevanceNon-erotic × Porn × ConditionAI-Generated</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: left;">[-0.13, -0.01]</td>
+<td style="text-align: left;">-2.39</td>
+<td style="text-align: left;">0.017</td>
+<td style="text-align: right;">Porn</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="feedback" class="level3">
+<h3 class="anchored" data-anchor-id="feedback">Feedback</h3>
+<p>This model evaluates how ratings of realness, predicted by sex, condition, and relevance, are moderated by participants’ feedback.</p>
+<!-- Key findings  -->
+<p>Self-reported capacity to discriminate or not discriminate AI-generated images moderated realness ratings. Females who reported being able to discriminate AI-generated images tended to rate non-erotic images and relevant images labeled as AI-generated as more real.</p>
+<p>In contrast, males who reported an inability to discriminate AI-generated images tended to rate images labeled as AI-generated as more real, regardless of the relevance of these images. Females who reported an inability to discriminate AI-generated images showed a different pattern, with realness ratings for images labeled as AI-generated decreasing for irrelevant images but increasing for relevant images.</p>
+<p>Additionally, arousal ratings of AI-generated images also moderated realness ratings. Both genders rated AI-generated images as less real when reporting AI-generated images as being less arousing, with males showing a stronger effect, especially for relevant AI-generated labeled images.</p>
+<p>Beliefs about the nature of labels as being reversed or incorrect also moderated realness ratings. Males’ realness ratings were lower when they believed that the labels were incorrect and lower when they believed the labels were reversed for non-erotic images. For females, lower realness ratings for AI-generated images were associated with believing the labels were reversed for relevant images</p>
+<!-- All findings -->
+<!-- baseline: Male, Relevance, Photographs.  -->
+<!-- a) Could discriminate  -->
+<!-- 1. Compared to baseline, females self-report capacity to discriminate AI-generated images was associated with a significant increase of realness ratings for non-erotic images.  -->
+<!-- 2. Compared to baseline, females self-report capacity to discriminate AI-generated images was associated with a significant increase of realness ratings for relevant images labelled as AI-generated.  -->
+<!-- b) Could not discriminate -->
+<!-- 1. Males and females self-report an inability to discriminate AI-generated images was associated with significantly increased realness ratings compared to the baseline -->
+<!-- 2. For males and females, incapacity to discriminate AI-generated images was associated with a significant increase in realness ratings for relevant images when labelled AI-generated, as compared to baseline.  -->
+<!-- 3. males showed increased realness ratings for irrelevant images labeled as AI-generated, whereas females exhibited decreased realness ratings compared to the baseline.  -->
+<!-- 4. For non-erotic images, reporting an incapacity to discriminate AI-generated images was associated with a increase in realness ratings only for males.  -->
+<!-- c) AI images are less arousing -->
+<!-- 1. For both genders, reporting that AI-generated images are less arousing was associated with a significant decrease in realness ratings, as compared to baseline.  -->
+<!-- 2. For males, reporting AI-images as less arousing was further associated with a significant decrease in realness ratings for relevant images labelled as AI-generated, a compared to baseline. -->
+<!-- d) Believing labels were not correct -->
+<!-- 1. Reporting that the labels were not always correct was associated with a significant decrease in realness ratings for males only, as compared to baseline.  -->
+<!-- 2. Reporting that the labels were reversed was associated with a significant decrease in realness for non-erotic images for males only, as compared to baseline.  -->
+<!-- 3. Reporting that the labels were reversed was associated with a significant decrease in realness ratings for relevant images labelled AI-generated for females only, as compared to baseline.  -->
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>moderator <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(m <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Feedback_CouldDiscriminate"</span>, <span class="st">"Feedback_CouldNotDiscriminate"</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Feedback_AIMoreArousing"</span>, <span class="st">"Feedback_AILessArousing"</span>, </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Feedback_LabelsIncorrect"</span>, <span class="st">"Feedback_LabelsReversed"</span>)) {</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  moderator <span class="ot">&lt;-</span> <span class="fu">rbind</span>(moderator, <span class="fu">test_moderator</span>(df, m))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>(<span class="fu">filter</span>(moderator, p <span class="sc">&lt;</span> .<span class="dv">05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 57%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: right;">95% CI</th>
+<th style="text-align: right;">z</th>
+<th style="text-align: right;">p</th>
+<th style="text-align: right;">Moderator</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Sex [Female] × RelevanceNon-erotic × Feedback CouldDiscriminateTrue</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">[ 0.10, 0.84]</td>
+<td style="text-align: right;">2.49</td>
+<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">Feedback_CouldDiscriminate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × RelevanceRelevant × Feedback CouldDiscriminateTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">[ 0.06, 0.45]</td>
+<td style="text-align: right;">2.53</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">Feedback_CouldDiscriminate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × Feedback CouldNotDiscriminateTrue</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">[ 0.47, 0.90]</td>
+<td style="text-align: right;">6.31</td>
+<td style="text-align: right;">&lt; .001</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × Feedback CouldNotDiscriminateTrue</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">[ 0.26, 0.80]</td>
+<td style="text-align: right;">3.89</td>
+<td style="text-align: right;">&lt; .001</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Female] × RelevanceIrrelevant × Feedback CouldNotDiscriminateTrue</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">[ 0.03, 0.31]</td>
+<td style="text-align: right;">2.36</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Male] × RelevanceRelevant × Feedback CouldNotDiscriminateTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">[ 0.00, 0.17]</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Female] × RelevanceRelevant × Feedback CouldNotDiscriminateTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">[ 0.01, 0.21]</td>
+<td style="text-align: right;">2.20</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Male] × RelevanceIrrelevant × Feedback CouldNotDiscriminateTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">[ 0.10, 0.26]</td>
+<td style="text-align: right;">4.31</td>
+<td style="text-align: right;">&lt; .001</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Female] × RelevanceIrrelevant × Feedback CouldNotDiscriminateTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">-0.15</td>
+<td style="text-align: right;">[-0.26, -0.05]</td>
+<td style="text-align: right;">-2.99</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Male] × RelevanceNon-erotic × Feedback CouldNotDiscriminateTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">[ 0.00, 0.17]</td>
+<td style="text-align: right;">2.05</td>
+<td style="text-align: right;">0.040</td>
+<td style="text-align: right;">Feedback_CouldNotDiscriminate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × Feedback AILessArousingTrue</td>
+<td style="text-align: right;">-0.38</td>
+<td style="text-align: right;">[-0.73, -0.03]</td>
+<td style="text-align: right;">-2.11</td>
+<td style="text-align: right;">0.035</td>
+<td style="text-align: right;">Feedback_AILessArousing</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × Feedback AILessArousingTrue</td>
+<td style="text-align: right;">-0.52</td>
+<td style="text-align: right;">[-0.99, -0.05]</td>
+<td style="text-align: right;">-2.16</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">Feedback_AILessArousing</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × RelevanceRelevant × Feedback AILessArousingTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">[-0.29, -0.04]</td>
+<td style="text-align: right;">-2.63</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">Feedback_AILessArousing</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Male] × Feedback LabelsIncorrectTrue</td>
+<td style="text-align: right;">-0.24</td>
+<td style="text-align: right;">[-0.46, -0.03]</td>
+<td style="text-align: right;">-2.22</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">Feedback_LabelsIncorrect</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sex [Male] × RelevanceNon-erotic × Feedback LabelsReversedTrue</td>
+<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">[-0.67, -0.01]</td>
+<td style="text-align: right;">-2.03</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">Feedback_LabelsReversed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sex [Female] × RelevanceRelevant × Feedback LabelsReversedTrue × ConditionAI-Generated</td>
+<td style="text-align: right;">-0.21</td>
+<td style="text-align: right;">[-0.40, -0.03]</td>
+<td style="text-align: right;">-2.27</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">Feedback_LabelsReversed</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This graph depicts differences in realness ratings based on participants’ self-reported capacity to discriminate between AI-generated and real images, for both genders when presented with images labeled as photographs or AI-generated. The ability to discriminate AI-generated images is associated with higher realness ratings for both genders. However, females generally rate the realness of images lower than males across all conditions. The distinction between photographs and AI-generated images remains clear, with photographs being perceived as more real than AI-generated images. This difference is less pronounced for females who report an ability to discriminate AI-generated images.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Realness <span class="sc">~</span> Sex <span class="sc">/</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                        (Relevance <span class="sc">/</span> Feedback_CouldNotDiscriminate <span class="sc">/</span> Condition) <span class="sc">+</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                        (Relevance <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Item),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>df, </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Family: ordbeta  ( logit )
+Formula:          
+Realness ~ Sex/(Relevance/Feedback_CouldNotDiscriminate/Condition) +  
+    (Relevance | Participant) + (1 | Item)
+Data: df
+
+     AIC      BIC   logLik deviance df.resid 
+  8125.7   8417.4  -4028.8   8057.7    39386 
+
+Random effects:
+
+Conditional model:
+ Groups      Name                Variance Std.Dev. Corr        
+ Participant (Intercept)         1.04934  1.0244               
+             RelevanceIrrelevant 0.14611  0.3822   -0.28       
+             RelevanceNon-erotic 0.35515  0.5959   -0.15  0.19 
+ Item        (Intercept)         0.06477  0.2545               
+Number of obs: 39420, groups:  Participant, 657; Item, 60
+
+Dispersion parameter for ordbeta family (): 4.81 
+
+Conditional model:
+                                                                                       Estimate
+(Intercept)                                                                             0.94672
+SexFemale                                                                              -0.47840
+SexMale:RelevanceIrrelevant                                                            -0.40045
+SexFemale:RelevanceIrrelevant                                                          -0.10095
+SexMale:RelevanceNon-erotic                                                             0.16570
+SexFemale:RelevanceNon-erotic                                                           0.81817
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                             0.68671
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                           0.53291
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                           0.59987
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                         0.70389
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                           0.67440
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                         0.40260
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated     -0.25486
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated   -0.15271
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated   -0.23415
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated -0.02336
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated   -0.21248
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated -0.08268
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated      -0.16920
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    -0.03934
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    -0.05824
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated  -0.17789
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    -0.12311
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated  -0.04667
+                                                                                       Std. Error
+(Intercept)                                                                               0.08791
+SexFemale                                                                                 0.13997
+SexMale:RelevanceIrrelevant                                                               0.08776
+SexFemale:RelevanceIrrelevant                                                             0.09386
+SexMale:RelevanceNon-erotic                                                               0.09269
+SexFemale:RelevanceNon-erotic                                                             0.10308
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                               0.10879
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                             0.13700
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                             0.10443
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                           0.13237
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                             0.11732
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                           0.14884
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated        0.02520
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated      0.03438
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated      0.02429
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    0.03420
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated      0.02554
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    0.03694
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated         0.03452
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated       0.03835
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated       0.03278
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated     0.03882
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated       0.03523
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated     0.04202
+                                                                                       z value
+(Intercept)                                                                             10.770
+SexFemale                                                                               -3.418
+SexMale:RelevanceIrrelevant                                                             -4.563
+SexFemale:RelevanceIrrelevant                                                           -1.076
+SexMale:RelevanceNon-erotic                                                              1.788
+SexFemale:RelevanceNon-erotic                                                            7.937
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                              6.312
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                            3.890
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                            5.744
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                          5.318
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                            5.748
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                          2.705
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated     -10.113
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    -4.442
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    -9.641
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated  -0.683
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    -8.318
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated  -2.238
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated       -4.901
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated     -1.026
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated     -1.777
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated   -4.582
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated     -3.495
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated   -1.111
+                                                                                       Pr(&gt;|z|)
+(Intercept)                                                                             &lt; 2e-16
+SexFemale                                                                              0.000631
+SexMale:RelevanceIrrelevant                                                            5.05e-06
+SexFemale:RelevanceIrrelevant                                                          0.282137
+SexMale:RelevanceNon-erotic                                                            0.073816
+SexFemale:RelevanceNon-erotic                                                          2.07e-15
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                            2.75e-10
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                          0.000100
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                          9.23e-09
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                        1.05e-07
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                          9.01e-09
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                        0.006832
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated      &lt; 2e-16
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated   8.90e-06
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    &lt; 2e-16
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated 0.494515
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    &lt; 2e-16
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated 0.025202
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated      9.51e-07
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    0.305000
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    0.075598
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated  4.60e-06
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    0.000475
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated  0.266638
+                                                                                          
+(Intercept)                                                                            ***
+SexFemale                                                                              ***
+SexMale:RelevanceIrrelevant                                                            ***
+SexFemale:RelevanceIrrelevant                                                             
+SexMale:RelevanceNon-erotic                                                            .  
+SexFemale:RelevanceNon-erotic                                                          ***
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                            ***
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue                          ***
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                          ***
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue                        ***
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                          ***
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue                        ** 
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated     ***
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated   ***
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated   ***
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated    
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated   ***
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateFalse:ConditionAI-Generated *  
+SexMale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated      ***
+SexFemale:RelevanceRelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated       
+SexMale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    .  
+SexFemale:RelevanceIrrelevant:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated  ***
+SexMale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated    ***
+SexFemale:RelevanceNon-erotic:Feedback_CouldNotDiscriminateTrue:ConditionAI-Generated     
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>stars2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Sex =</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="st">"Female"</span>)), </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Condition=</span><span class="fu">c</span>(<span class="st">"Photograph"</span>, <span class="st">"AI-Generated"</span>, <span class="st">"Photograph"</span>, <span class="st">"AI-Generated"</span>), </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label=</span><span class="fu">c</span>(<span class="st">"***"</span>, <span class="st">"***"</span>, <span class="st">"***"</span>, <span class="st">"***"</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span><span class="fu">c</span>(<span class="fl">1.4</span>, <span class="fl">1.6</span>, <span class="fl">1.4</span>, <span class="fl">1.6</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.79</span>, <span class="fl">0.72</span>, <span class="fl">0.69</span>, <span class="fl">0.63</span>))</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>stars3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Sex =</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>)), </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">label=</span><span class="fu">c</span>(<span class="st">"***"</span>, <span class="st">"***"</span>, <span class="st">"***"</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">x=</span><span class="fu">c</span>(<span class="fl">1.1</span>, <span class="fl">1.8</span>, <span class="fl">1.15</span>),</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.71</span>, <span class="fl">0.80</span>, <span class="fl">0.615</span>))</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">estimate_relation</span>(m2)</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> pred2 <span class="sc">|&gt;</span> </span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Relevance <span class="sc">==</span> <span class="st">"Relevant"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Feedback_CouldNotDiscriminate, <span class="at">y=</span>Predicted)) <span class="sc">+</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color=</span>Condition, <span class="at">group=</span>Condition), <span class="at">linewidth=</span>.<span class="dv">3</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">key_glyph =</span> <span class="st">"path"</span>) <span class="sc">+</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>CI_low, <span class="at">ymax=</span>CI_high, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">size=</span><span class="fl">0.8</span>, <span class="at">linewidth=</span><span class="dv">1</span>, <span class="at">key_glyph =</span> <span class="st">"blank"</span>) <span class="sc">+</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>stars2, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>Condition), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">key_glyph =</span> <span class="st">"blank"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>stars3, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"#424242"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="fu">guide_legend</span>(<span class="at">override.aes =</span> <span class="fu">list</span>(<span class="at">linewidth =</span> <span class="fl">1.5</span>))) <span class="sc">+</span></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Sex) <span class="sc">+</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>)) <span class="sc">+</span></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background.x =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="fu">c</span>(<span class="st">"lightgrey"</span>), <span class="at">color=</span><span class="cn">NA</span>),</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>, <span class="at">color=</span><span class="st">"black"</span>),</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Realness</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">fill=</span><span class="st">"Images presented as:"</span>, <span class="at">color=</span><span class="st">"Images presented as:"</span>,</span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">'Could not discriminate AI-generated and real' Feedback"</span>,</span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">tag =</span> <span class="st">"B"</span>)</span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_realness_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li><p>Findings indicate a consistent perception across both genders that AI-generated images are perceived as less realistic compared to photographs. Interestingly, both genders rated non-erotic images as more realistic than relevant and irrelevant images.</p></li>
+<li><p>As beliefs in AI’s ability to generate realistic images increases, both genders show higher realness scores.</p></li>
+<li><p>Porn usage moderated realness ratings, only for men presented with AI-generated non-erotic images.</p></li>
+<li><p>Males who reported an inability to discriminate AI-generated images perceived both relevant and irrelevant AI-generated images as more real, whereas females who reported this inability showed increased realness ratings only for relevant AI-generated images.</p></li>
+</ul>
+</section>
+<section id="figures" class="level2">
+<h2 class="anchored" data-anchor-id="figures">Figures</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (p1 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)) <span class="sc">/</span> p2  <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/figure2.png"</span>, p, <span class="at">width=</span><span class="dv">8</span>, <span class="at">height=</span><span class="dv">8</span>, <span class="at">dpi=</span><span class="dv">300</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="3_realness_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

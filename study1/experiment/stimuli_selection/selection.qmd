@@ -1,0 +1,211 @@
+---
+title: "Stimuli Selection"
+format:
+  html:
+    embed-resources: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r}
+#| include: false
+#| code-fold: true
+library(tidyverse)
+library(easystats)
+library(ggrepel)
+
+
+naps <- readxl::read_excel("norms_naps.xls",  skip = 3,
+                           col_names = c("ID", "Category", "Nr", "Orientation", "Description",
+                                         "Women_Valence", "Women_Valence_SD", "Women_AvAp",
+                                         "Women_AvAp_SD", "Women_Arousal", "Women_Arousal_SD",
+                                         "Men_Valence", "Men_Valence_SD", "Men_AvAp", "Men_AvAp_SD",
+                                         "Men_Arousal", "Men_Arousal_SD", "All_Valence",
+                                         "All_Valence_SD", "All_AvAp", "All_AvAp_SD",
+                                         "All_Arousal", "All_Arousal_SD", "Width",
+                                         "Height", "Luminance", "Contrast",
+                                         "JPEG_size80", "LABL", "LABA", "LABB", "Entropy",
+                                         "Acronym", "X", "X2")) |>
+  select(-X, -X2, -Acronym, -ends_with("_SD")) |>
+  mutate(ID = paste0(ID, ".jpg"))
+
+napsero <- readxl::read_excel("norms_napsero.XLSX", sheet = "Ratings") |>
+  full_join(readxl::read_excel("norms_napsero.XLSX", sheet = "Image parameters"), by = join_by("ID", "Category")) |>
+  select(-contains("_SD"), -contains("HoF"), -contains("HoM")) |>
+  rename(Orientation = `V/H`,
+         Men_Valence = val_M_HeM,
+         Women_Valence = val_M_HeF,
+         Men_Arousal = aro_M_HeM,
+         Women_Arousal = aro_M_HeF) |>
+  mutate(across(c("Luminance", "Contrast", "JPEG_size80", "LABL", "LABA", "LABB", "Entropy"), as.numeric),
+         Description = NA)
+
+
+# Join
+naps <- filter(naps, ID %in% filter(napsero, Category == "Non-erotic")$ID)
+naps[c("Men_Arousal", "Men_Valence", "Women_Valence", "Women_Arousal", "Nr", "Orientation")] <- NA
+napsero[napsero$Category== "Non-erotic", "Category"] <- NA
+
+ids <- napsero[is.na(napsero$Category), ]$ID
+for(c in c("Category", "Height", "Width", "Luminance", "Contrast",
+           "JPEG_size80", "LABL", "LABA", "LABB", "Entropy", "Description")) {
+  napsero[napsero$ID == ids, c] <- naps[naps$ID == ids, c]
+}
+
+```
+
+
+## Selection
+
+### Remove couples
+
+```{r}
+df <- napsero |>
+  filter(Category %in% c("Male", "Female", "Faces", "People")) |>
+  mutate(Type = ifelse(Category %in% c("Female", "Male"), "Erotic", "Non-erotic"))
+```
+
+### Select based on norms
+```{r}
+men <- df |>
+  filter(Type == "Erotic") |>
+  group_by(Category) |>
+  slice_max(Men_Arousal, n=8, with_ties = FALSE) |>
+  pull(ID) |> 
+  c(
+    df |>
+      filter(Type == "Erotic") |>
+      group_by(Category) |>
+      slice_min(Men_Arousal, n=2, with_ties = FALSE) |>
+      pull(ID))
+
+women <- df |>
+  filter(Type == "Erotic", !ID %in% men) |>
+  group_by(Category) |>
+  slice_max(Women_Arousal, n=8, with_ties = FALSE) |>
+  pull(ID) |> 
+  c(
+    df |>
+      filter(Type == "Erotic", !ID %in% men) |>
+      group_by(Category) |>
+      slice_min(Women_Arousal, n=2, with_ties = FALSE) |>
+      pull(ID)
+  )
+
+neutral <- df |>
+  filter(Type == "Non-erotic", !ID %in% c(men, women)) |>
+  mutate(Arousal = (Men_Arousal + Women_Arousal) / 2) |>
+  slice_min(Arousal, n=10, with_ties = FALSE) |>
+  pull(ID)
+
+pos_arousing <- df |>
+  filter(Type == "Non-erotic", !ID %in% c(men, women, neutral)) |>
+  mutate(Arousal = (Men_Arousal + Women_Arousal) / 2,
+         Valence = (Men_Valence + Women_Valence) / 2) |>
+  filter(Valence > 5) |>
+  slice_max(Arousal, n=10, with_ties = FALSE) |>
+  pull(ID)
+
+selected <- unique(c(men, women, neutral, pos_arousing))
+
+cat(
+  paste0("N (men) = ", length(men), "\nN (women) = ", length(women),
+       "\nN (neutral) = ", length(neutral),  "\nN (arousing-positive) = ", length(pos_arousing),
+       "\nTotal = ", length(selected))
+)
+```
+
+```{r}
+selected
+```
+
+### Visualization
+
+
+```{r}
+#| out.width: 1\\textwidth
+#| fig.width: 10
+#| fig.height: 8
+#| dpi: 300
+#| message: false
+
+dat <- napsero |>
+  mutate(Selected = ifelse(ID %in% selected, TRUE, FALSE),
+         label = ifelse(Selected, str_remove(ID, ".jpg"), NA),
+         Type = ifelse(Category %in% c("Female", "Male"), "Erotic", "Non-erotic")) |>
+  pivot_longer(cols = c("Men_Valence", "Men_Arousal", "Women_Valence", "Women_Arousal")) |>
+  separate(name, into=c("Target", "Variable")) |>
+  pivot_wider(names_from=Variable, values_from=value)
+
+dat |>
+  ggplot(aes(x=Valence, y=Arousal)) +
+  geom_point(aes(shape=Selected, color=Category), size=6, alpha=0.8) +
+  ggside::geom_ysidedensity(data=filter(dat, Selected), aes(color=Category), key_glyph = draw_key_blank) +
+  ggside::geom_xsidedensity(data=filter(dat, Selected), aes(color=Category), key_glyph = draw_key_blank) +
+  # ggrepel::geom_label_repel(aes(label = label)) +
+  scale_shape_manual(values=c("TRUE"=20, "FALSE"=4)) +
+  scale_color_manual(values = c(
+    "Faces" = "#9E9E9E", "People" = "#795548",
+    "Opposite-sex Couple"="#673AB7", "Male Couple"= "#3F51B5", "Female Couple" = "#9C27B0",
+    "Female" = "#E91E63", "Male"= "#2196F3")) +
+  guides(shape = guide_legend(override.aes = list(color="white"))) +
+  facet_grid(~Target) +
+  theme_abyss() +
+  theme(ggside.panel.grid.major = element_blank(), 
+        ggside.axis.text = element_blank(),
+        ggside.axis.line = element_blank())
+
+
+```
+
+## Final Selection
+
+- ID: picture category and number
+- V/H: vertical / horizontal
+- Av/Ap: avoidance - approach dimension
+- M: mean
+- SD: standard deviation
+- JPEG_size80: index of overall complexity
+- LABL: luminance in CIE L*a*b color space
+- LABA: the amount of red color CIE L*a*b color space
+- LABB: the amount of the green color CIE L*a*b color space
+- Entropy: the amount of complexity in gray scale. Images with high entropy are images that are more "noisy" and have a high degree of contrast.
+
+```{r}
+#| code-fold: true
+
+selection <- df |> 
+  filter(ID %in% selected)
+
+write.csv(selection, "stimuli_data.csv", row.names=FALSE)
+knitr::kable(selection)
+```
+
+```{r}
+#| code-fold: true
+json <- selection |> 
+  select(stimulus=ID, Category, Orientation) |> 
+  jsonlite::toJSON()
+  
+write(paste("var stimuli_list = ", json), "stimuli_list.js")
+```
+
+```{r}
+#| code-fold: true
+path_ero <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS_ERO/"
+path_naps <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS/"
+
+# Remove all current files
+unlink("../stimuli/*")
+
+# Copy each file
+for(file in selected) {
+  if(str_detect(file, "Male|Female")) {
+    file.copy(paste0(path_ero, file), "../stimuli/")
+  } else {
+    file.copy(paste0(path_naps, file), "../stimuli/")
+  }
+}
+```
