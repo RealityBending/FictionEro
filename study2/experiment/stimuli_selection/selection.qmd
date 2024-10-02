@@ -135,21 +135,21 @@ dat |>
 ```{r}
 #| code-fold: true
 
-selection_erotic2 <- napsero2 |> 
-  filter(ID %in% selected_erotic_2)
+selection <- napsero |> 
+  filter(ID %in% selected_erotic)
 
-write.csv(selection_erotic2, "stimuli_data2.csv", row.names=FALSE)
-knitr::kable(selection_erotic2)
+write.csv(selection, "stimuli_data.csv", row.names=FALSE)
+knitr::kable(selection)
 ```
 
 
 ```{r}
 #| code-fold: true
-json <- selection2 |> 
+json <- selection |> 
   select(stimulus=ID, Category, Orientation) |> 
   jsonlite::toJSON()
   
-write(paste("var stimuli_list2 = ", json), "stimuli_list2.js")
+write(paste("var stimuli_list = ", json), "stimuli_list.js")
 ```
 
 
