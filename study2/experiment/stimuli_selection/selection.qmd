@@ -1,5 +1,5 @@
 ---
-title: "Stimuli Selection "
+title: "Stimuli Selection"
 format:
   html:
     embed-resources: true
@@ -36,11 +36,6 @@ napsero <- readxl::read_excel("norms_napsero.XLSX", sheet = "Ratings") |>
 ## Selection
 
 ### Select based on norms
-
-In this study, we select only the 25 most arousing items that align with the participants' sexual orientation. For example, homosexual men will be shown the 25 most arousing images of males and male couples. While this approach reduces variability in arousal levels, it is more appropriate for our categorical analysis to focus exclusively on high-arousal stimuli.
-
-Additionally, insights from our previous study suggest that introducing neutral images between arousing ones diminishes participants' ability to maintain arousal, given that arousal tends to build over time. Images that evoke aversion can further disrupt arousal, undermining participants' ability to remain aroused immediately afterward. 
-
 ```{r}
 men <- napsero |>
   filter(Category %in% c("Female", "Opposite-sex Couple")) |>
@@ -158,20 +153,20 @@ write(paste("var stimuli_list = ", json), "stimuli_list.js")
 ```
 
 
-<!-- ```{r} -->
-<!-- #| code-fold: true -->
-<!-- path_ero <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS_ERO/" -->
-<!-- path_naps <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS/" -->
+```{r}
+#| code-fold: true
+path_ero <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS_ERO/"
+path_naps <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS/"
 
-<!-- # Remove all current files -->
-<!-- unlink("../stimuli/*") -->
+# Remove all current files
+unlink("../stimuli/*")
 
-<!-- # Copy each file -->
-<!-- for(file in selected) { -->
-<!--   if(str_detect(file, "Male|Female")) { -->
-<!--     file.copy(paste0(path_ero, file), "../stimuli/") -->
-<!--   } else { -->
-<!--     file.copy(paste0(path_naps, file), "../stimuli/") -->
-<!--   } -->
-<!-- } -->
-<!-- ``` -->
+# Copy each file
+for(file in selected) {
+  if(str_detect(file, "Male|Female")) {
+    file.copy(paste0(path_ero, file), "../stimuli/")
+  } else {
+    file.copy(paste0(path_naps, file), "../stimuli/")
+  }
+}
+```
