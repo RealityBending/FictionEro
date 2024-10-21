@@ -62,7 +62,7 @@ homo_women <- napsero |>
   pull(ID) 
 
 
-selected_erotic <- c(men, women, homo_men,homo_women)
+selected<- c(men, women, homo_men,homo_women)
 
 cat(
   paste0("N (men) = ", length(men), "\nN (homo_men) = ", length(homo_men),  "\nN (women) = ", length(women), "\nN (homo_women) = ", length(homo_women))
@@ -155,18 +155,15 @@ write(paste("var stimuli_list = ", json), "stimuli_list.js")
 
 ```{r}
 #| code-fold: true
-path_ero <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS_ERO/"
-path_naps <- "C:/Dropbox/RECHERCHE/docs/Stimuli/NAPS/NAPS/"
+path_ero <- "C:/Users/asf25/OneDrive - University of Sussex/phd/data_base/naps/NAPS_ERO/"
+
 
 # Remove all current files
 unlink("../stimuli/*")
-
+# 
 # Copy each file
-for(file in selected) {
-  if(str_detect(file, "Male|Female")) {
-    file.copy(paste0(path_ero, file), "../stimuli/")
-  } else {
-    file.copy(paste0(path_naps, file), "../stimuli/")
-  }
+for (file in selected) {
+  file.copy(paste0(path_ero, file), "../stimuli/")
 }
+
 ```

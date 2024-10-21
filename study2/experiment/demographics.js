@@ -4,7 +4,7 @@ var fullscreen_text =
 var fullscreen_button = "Continue"
 
 var fullscreen_on = {
-    type: jsPsuchFullscreen,
+    type: jsPsychFullscreen,
     message: fullscreen_text,
     button_label: fullscreen_button,
     fullscreen_mode: true,
@@ -12,7 +12,7 @@ var fullscreen_on = {
 }
 
 var fullscreen_off = {
-    type: jsPsuchFullscreen,
+    type: jsPsychFullscreen,
     message: fullscreen_text,
     button_label: fullscreen_button,
     fullscreen_mode: false,

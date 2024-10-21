@@ -41,11 +41,11 @@
         <script src="https://unpkg.com/@jspsych/plugin-canvas-button-response"></script>
 
         <!-- Custom scripts -->
-        <script src="stimuli/stimuli.js"></script>
+        <script src="stimuli_selection/stimuli_list.js"></script>
         <script src="demographics.js"></script>
         <script src="fiction.js"></script>
         <script src="questionnaires.js"></script>
-        <script src="eyetracking.js"></script>
+        <script src="eye_tracking.js"></script>
 
         <!-- CSS -->
 
@@ -82,9 +82,7 @@
 
         // Questionnaires ===========================================================
         timeline.push(questionnaires_instructions0) // Instructions Questionnaires
-        timeline.push(questionnaire_hexaco18) // HexaCo-18 questionnaire
-        timeline.push(results_hexaco18)
-        timeline.push(questionnaire_bait)
+        timeline.push(questionnaire_bait) // Beliefs about AI technonology
         timeline.push(feedback_bait) // Attitudes towards AI
 
         // Eye-tracking ==============================================================
@@ -96,6 +94,7 @@
         timeline.push(fiction_phase1a)
         timeline.push(fiction_phase1_break)
         timeline.push(eyetracking_recalibration)
+        // this is where it stops working!!
         timeline.push(fiction_phase1b)
         timeline.push(fiction_feedback1)
 
