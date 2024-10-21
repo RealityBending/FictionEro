@@ -3,38 +3,66 @@ function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
         ;[array[i], array[j]] = [array[j], array[i]]
-    }
+    }assignCondition
     return array
 }
 
 function assignCondition(stimuli_list) {
-    new_stimuli_list = []
+    let new_stimuli_list = [];
+    
     // Loop through unique categories
-    for (let cat of [...new Set(stimuli_list.map((a) => a.Category))]) {
+    for (let cat of [...new Set(stimuli_list.map(a => a.Category))]) {
         // Get all stimuli of this category
-        var cat_stimuli = stimuli_list.filter((a) => a.Category == cat)
+        let cat_stimuli = stimuli_list.filter(a => a.Category === cat);
 
         // Shuffle cat_stimuli
-        cat_stimuli = shuffleArray(cat_stimuli) // Custom funciton defined above
+        cat_stimuli = shuffleArray(cat_stimuli); // Custom function defined above
 
         // Assign half to "Reality" condition and half to "Fiction" condition
         for (let i = 0; i < cat_stimuli.length; i++) {
-            cat_stimuli[i].Condition =
-                i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
+            cat_stimuli[i].Condition = i < cat_stimuli.length / 2 ? "Reality" : "Fiction";
         }
 
-        // Add to new_stimuli_list
-        new_stimuli_list.push(...cat_stimuli)
-    }
-    return shuffleArray(new_stimuli_list)
-}
+        // // Access demographic data
+        // let demographic_data = this.jsPsych.data.get().filter({ screen: "demographics_questions" }).values()[0];
+        // let Gender = demographic_data.response.Gender; 
+        // let Sexuality = demographic_data.response.SexualOrientation; 
+        
+        // if (Sexuality === 'Heterosexual' || Sexuality === 'Bisexual' || Sexuality === 'Other') {
+        //     if (Gender === 'Male' || Gender === 'Other') {
+        //         sstimuli_cat = ['Female', 'Opposite-sex Couple'];
+        //     } else if (Gender === 'Female') {
+        //         stimuli_cat = ['Male', 'Opposite-sex Couple'];
+        //     }
+        // } else if (Sexuality === 'Homosexual') {
+        //     if (Gender === 'Male') {
+        //         stimuli_cat = ['Male', 'Male Couple'];
+        //     } else if (Gender === 'Female') {
+        //         stimuli_cat = ['Female', 'Female Couple'];
+        //     }
+        // } else {
+        //     console.error("THIS IS NOT WORKING");
+        //     return [];
+        // }
 
+        // // Filter cat_stimuli based on the determined stimuli categories
+        // cat_stimuli = cat_stimuli.filter(stimulus => stimuliCategory.includes(stimulus.Category));
+
+
+        // Add to new_stimuli_list
+        new_stimuli_list.push(...cat_stimuli);
+    }
+    
+    return shuffleArray(new_stimuli_list);
+}
 // Variables ===================================================================
 var fiction_trialnumber = 1
 var color_cues = shuffleArray(["red", "blue", "green"])
 color_cues = { Reality: color_cues[0], Fiction: color_cues[1] }
 var text_cue = { Reality: "Photograph", Fiction: "AI-generated" }
 stimuli_list = assignCondition(stimuli_list)
+
+
 
 // Screens =====================================================================
 var fiction_instructions1 = {
@@ -506,4 +534,4 @@ var fiction_feedback1 = {
     data: {
         screen: "fiction_feedback1",
     },
-}
+} 

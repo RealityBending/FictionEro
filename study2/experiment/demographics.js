@@ -241,7 +241,7 @@ var demographics_questions = {
                         otherPlaceholder: "Please specify",
                         isRequired: true,
                         colCount: 1,
-                    },
+                    }, 
                     {
                         title: "I am currently...",
                         name: "SexualStatus",
