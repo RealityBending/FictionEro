@@ -12,7 +12,9 @@ An International Multilab Investigation on the Impact on Sexual Arousal of Belie
     -   [French](https://realitybending.github.io/FictionEro/study1/french?exp=readme&lang=fr)
     -   [Italian](https://realitybending.github.io/FictionEro/study1/italian?exp=readme&lang=it)
     -   [Spanish](https://realitybending.github.io/FictionEro/study1/spanish?exp=readme&lang=es)
--   [**Data preprocessing**](https://realitybending.github.io/FictionEro/analysis/1_cleaning.html)
+-   [**Data preprocessing**](https://realitybending.github.io/FictionEro/study1/analysis/1_cleaning.html)
+-   [**Results 1**](https://realitybending.github.io/FictionEro/study1/analysis/2_emotions.html)
+-   [**Results 2**](https://realitybending.github.io/FictionEro/study1/analysis/3_realness.html)
 
 ## Aim
 
