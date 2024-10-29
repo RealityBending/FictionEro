@@ -1,124 +1,119 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- Title shown in tab -->
-        <title>Experiment</title>
 
-        <!-- Load JsPsych -->
-        <script src="https://unpkg.com/jspsych@7.3.1"></script>
-        <link
-            href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css"
-            rel="stylesheet"
-            type="text/css"
-        />
+<head>
+    <!-- Title shown in tab -->
+    <title>Experiment</title>
 
-        <!-- Load plugins -->
-        <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.3"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.2.0"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.2.1"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-survey@1.0.1"></script>
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/@jspsych/plugin-survey@1.0.1/css/survey.css"
-        />
+    <!-- Load JsPsych -->
+    <script src="https://unpkg.com/jspsych@7.3.1"></script>
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
 
-        <!-- To save data via DataPipe (for online experiments) -->
-        <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.4.0"></script>
+    <!-- Load plugins -->
+    <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.2.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.2.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey@1.0.1"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@1.0.1/css/survey.css" />
 
-        <!-- Eye-tacking -->
-        <script src="https://cdn.jsdelivr.net/gh/jspsych/jspsych@jspsych@7.0.0/examples/js/webgazer/webgazer.js"></script>
-        <script src="https://unpkg.com/@jspsych/extension-webgazer@1.0.3"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-webgazer-init-camera@1.0.3"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@1.0.3"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-webgazer-validate@1.0.3"></script>
+    <!-- To save data via DataPipe (for online experiments) -->
+    <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.4.0"></script>
 
-        <!-- Plots -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://realitybending.github.io/JSmisc/misc/plots.js"></script>
-        <script src="https://unpkg.com/@jspsych/plugin-canvas-button-response"></script>
+    <!-- Eye-tacking -->
+    <script src="https://cdn.jsdelivr.net/gh/jspsych/jspsych@jspsych@7.0.0/examples/js/webgazer/webgazer.js"></script>
+    <script src="https://unpkg.com/@jspsych/extension-webgazer@1.0.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-webgazer-init-camera@1.0.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@1.0.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-webgazer-validate@1.0.3"></script>
 
-        <!-- Custom scripts -->
-        <script src="stimuli_selection/stimuli_list.js"></script>
-        <script src="demographics.js"></script>
-        <script src="fiction.js"></script>
-        <script src="questionnaires.js"></script>
-        <script src="eye_tracking.js"></script>
+    <!-- Plots -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://realitybending.github.io/JSmisc/misc/plots.js"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-canvas-button-response"></script>
 
-        <!-- CSS -->
+    <!-- Custom scripts -->
+    <script src="stimuli_selection/stimuli_list.js"></script>
+    <script src="demographics.js"></script>
+    <script src="fiction.js"></script>
+    <script src="questionnaires.js"></script>
+    <script src="eye_tracking.js"></script>
 
-        <style>
-            .narrow-text {
-                max-width: 50%;
-            }
-        </style>
-    </head>
+    <!-- CSS -->
 
-    <body></body>
+    <style>
+        .narrow-text {
+            max-width: 50%;
+        }
+    </style>
+</head>
 
-    <script>
-        // Initialize experiment =================================================
-        var jsPsych = initJsPsych({
-            show_progress_bar: true,
-            message_progress_bar: "Progress",
-            on_finish: function () {
-                //     jsPsych.data.displayData("json") // Display data in browser
-                window.location = "https://realitybending.github.io/" // Redirect to lab website
-            },
-            extensions: [{ type: jsPsychExtensionWebgazer }],
-        })
+<body></body>
 
-        // Initialize timeline
-        var timeline = []
+<script>
+    // Initialize experiment =================================================
+    var jsPsych = initJsPsych({
+        show_progress_bar: true,
+        message_progress_bar: "Progress",
+        on_finish: function () {
+            //     jsPsych.data.displayData("json") // Display data in browser
+            window.location = "https://realitybending.github.io/" // Redirect to lab website
+        },
+        extensions: [{ type: jsPsychExtensionWebgazer }],
+    })
 
-        // Demographics ===========================================================
-        timeline.push(fullscreen_on) // Enter fullscreen mode
-        timeline.push(demographics_browser_info)
-        timeline.push(demographics_consent)
-        timeline.push(fiction_preloadstims)
-        timeline.push(demographics_questions)
+    // Initialize timeline
+    var timeline = []
 
-        // Questionnaires ===========================================================
-        timeline.push(questionnaires_instructions0) // Instructions Questionnaires
-        timeline.push(questionnaire_bait) // Beliefs about AI technonology
-        timeline.push(feedback_bait) // Attitudes towards AI
+    // Demographics ===========================================================
+    // timeline.push(fullscreen_on) // Enter fullscreen mode
+    timeline.push(demographics_browser_info)
+    // timeline.push(demographics_consent)
+    timeline.push(demographics_questions)
+    timeline.push(fiction_preloadstims)
 
-        // Eye-tracking ==============================================================
-        timeline.push(eyetracking_consent)
-        timeline.push(eyetracking_calibration)
+    // Questionnaires ===========================================================
+    // timeline.push(questionnaires_instructions0) // Instructions Questionnaires
+    // timeline.push(questionnaire_bait) // Beliefs about AI technonology
+    // timeline.push(feedback_bait) // Attitudes towards AI
 
-        // Fiction stage 1 ===========================================================
-        timeline.push(fiction_instructions1)
-        timeline.push(fiction_phase1a)
-        timeline.push(fiction_phase1_break)
-        timeline.push(eyetracking_recalibration)
-        timeline.push(fiction_phase1b)
-        timeline.push(fiction_feedback1)
+    // // Eye-tracking ==============================================================
+    // timeline.push(eyetracking_consent)
+    // timeline.push(eyetracking_calibration)
 
-        // Fiction stage 2 ===========================================================
-        timeline.push(fiction_instructions2)
-        timeline.push(fiction_phase2)
-        timeline.push(experiment_feedback)
+    // Fiction stage 1 ===========================================================
+    timeline.push(fiction_instructions1)
+    timeline.push(fiction_phase1a)
+    // timeline.push(fiction_phase1_break)
+    // timeline.push(eyetracking_recalibration)
+    // timeline.push(fiction_phase1b)
+    // timeline.push(fiction_feedback1)
 
-        // End =======================================================================
-        timeline.push(demographics_debriefing)
+    // // Fiction stage 2 ===========================================================
+    // timeline.push(fiction_instructions2)
+    // timeline.push(fiction_phase2)
+    // timeline.push(experiment_feedback)
 
-        // Save data via DataPipe
-        timeline.push({
-            type: jsPsychPipe,
-            action: "save",
-            experiment_id: "nboDkVu5hx3y", // This in generated in the DataPipe interface
-            filename: `${jsPsych.randomization.randomID(10)}.csv`,
-            data_string: () => jsPsych.data.get().csv(),
-        })
+    // End =======================================================================
+    // timeline.push(demographics_debriefing)
 
-        // Exit fullscreen mode
-        timeline.push(fullscreen_off)
-        timeline.push(demographics_endscreen)
+    // // Save data via DataPipe
+    // timeline.push({
+    //     type: jsPsychPipe,
+    //     action: "save",
+    //     experiment_id: "nboDkVu5hx3y", // This in generated in the DataPipe interface
+    //     filename: `${jsPsych.randomization.randomID(10)}.csv`,
+    //     data_string: () => jsPsych.data.get().csv(),
+    // })
 
-        // Run the timeline -------------------------------------------------------
-        jsPsych.run(timeline)
-    </script>
+    // Exit fullscreen mode
+    // timeline.push(fullscreen_off)
+    timeline.push(demographics_endscreen)
+
+    // Run the timeline -------------------------------------------------------
+    jsPsych.run(timeline)
+</script>
+
 </html>
