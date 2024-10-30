@@ -69,7 +69,7 @@
 
     // Demographics ===========================================================
     // timeline.push(fullscreen_on) // Enter fullscreen mode
-    timeline.push(demographics_browser_info)
+    // timeline.push(demographics_browser_info)
     // timeline.push(demographics_consent)
     timeline.push(demographics_questions)
     timeline.push(fiction_preloadstims)
@@ -79,25 +79,25 @@
     // timeline.push(questionnaire_bait) // Beliefs about AI technonology
     // timeline.push(feedback_bait) // Attitudes towards AI
 
-    // // Eye-tracking ==============================================================
+    // Eye-tracking ==============================================================
     // timeline.push(eyetracking_consent)
     // timeline.push(eyetracking_calibration)
 
     // Fiction stage 1 ===========================================================
     timeline.push(fiction_instructions1)
     timeline.push(fiction_phase1a)
-    // timeline.push(fiction_phase1_break)
+    timeline.push(fiction_phase1_break)
     // timeline.push(eyetracking_recalibration)
-    // timeline.push(fiction_phase1b)
-    // timeline.push(fiction_feedback1)
+    timeline.push(fiction_phase1b)
+    timeline.push(fiction_feedback1)
 
     // // Fiction stage 2 ===========================================================
-    // timeline.push(fiction_instructions2)
-    // timeline.push(fiction_phase2)
-    // timeline.push(experiment_feedback)
+    timeline.push(fiction_instructions2)
+    timeline.push(fiction_phase2)
+    timeline.push(experiment_feedback)
 
     // End =======================================================================
-    // timeline.push(demographics_debriefing)
+    timeline.push(demographics_debriefing)
 
     // // Save data via DataPipe
     // timeline.push({
@@ -109,7 +109,7 @@
     // })
 
     // Exit fullscreen mode
-    // timeline.push(fullscreen_off)
+    timeline.push(fullscreen_off)
     timeline.push(demographics_endscreen)
 
     // Run the timeline -------------------------------------------------------

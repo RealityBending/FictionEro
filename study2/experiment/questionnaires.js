@@ -2,7 +2,7 @@
 var questionnaires_instructions0 = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
-        "<p>We will continue with a series of questionnaires about your personality.<br>It is important that you answer truthfully. Please read the statements carefully and answer according to what describe you the best.</p>",
+        "<p>We will continue with a series of questionnaires.<br>It is important that you answer truthfully. Please read the statements carefully and answer according to what describe you the best.</p>",
     choices: ["Continue"],
     data: { screen: "part2_instructions" },
 }
@@ -102,7 +102,7 @@ function bait_questions(
     // Randomize order
     for (let i = questions.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-        ;[questions[i], questions[j]] = [questions[j], questions[i]]
+            ;[questions[i], questions[j]] = [questions[j], questions[i]]
     }
 
     return [

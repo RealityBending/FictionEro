@@ -64,7 +64,6 @@ var color_cues = shuffleArray(["red", "blue", "green"])
 color_cues = { Reality: color_cues[0], Fiction: color_cues[1] }
 var text_cue = { Reality: "Photograph", Fiction: "AI-generated" }
 
-
 // Screens =====================================================================
 var fiction_instructions1 = {
     type: jsPsychHtmlButtonResponse,
@@ -80,22 +79,22 @@ var fiction_instructions1 = {
         color_cues["Reality"] +
         "'>Photograph</b>') taken from public picture databases, adjusted to be of similar dimension and aspect as the artificially-generated images.</p > " +
         // REPHRASE!
-        "<p>The images will be <b>briefly flashed on the screen</b>. Imagine that they belong to a real person or people (for example, it is the <b>profile picture</b> on someone's social media). After each image, you will be asked a series of questions:</p>" +
+        "<p >The images will be <b>briefly flashed on the screen</b>. Imagine that they belong to a real person or people (for example, it is the <b>profile picture</b> on someone's social media). After each image, you will be asked a series of questions:</p>" +
         // Arousal: embodied
-        "<li><b>Arousing</b>: How much do you find the image sexually arousing. This question is about your own <i>personal reaction</i> felt in your body when seeing the image.</li>" +
+        "<li  style='text-align: left; margin-left: 10%; margin-right: 10%;'><b>Arousing</b>: How much do you find the image sexually arousing. This question is about your own <i>personal reaction</i> felt in your body when seeing the image.</li>" +
         // Appeal: "objective"
-        "<li><b>Enticing</b>: How enticing and sexually appealing would you rate this image to be. Think of how much, in general, people similar to you in terms of gender and sexual orientation would like it.</li>" +
+        "<li  style='text-align: left; margin-left: 10%; margin-right: 10%;'><b>Enticing</b>: How enticing and sexually appealing would you rate this image to be. Think of how much, in general, people similar to you in terms of gender and sexual orientation would like it.</li>" +
         // Emotional Valence
-        "<li><b>Valence</b>: Did the image evoke a positive and pleasant (not necessarily sexual) feeling in you, or could it better characterized as negative and unpleasant? Think of how much you did enjoy (or not) looking at the image</li></ul>" +
+        "<li style='text-align: left; margin-left: 10%; margin-right: 10%;'><b>Valence</b>: Did the image evoke a positive and pleasant (not necessarily sexual) feeling in you, or could it better characterized as negative and unpleasant? Think of how much you did enjoy (or not) looking at the image</li></ul>" +
         // Contrasting explanation
-        "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'>While the answers to these scales can sometimes be very similar, they can also be different depending on the person, the image, and the context. For example, we can sometimes find ourselves aroused to a picture that would probably not be considered universally appealing. Conversely, an enticing and \"objectively\" sexy image can, for one reason or another, not evoke any reaction in our body.</p>" +
-        "<p style='text-align: left; margin-left: 30%; margin-right: 30%;'><b>Try to be attentive to what happens in your mind and body while watching the images to try to answer accurately based on your own feelings and reactions.</b></p>" +
+        "<p>While the answers to these scales can sometimes be very similar, they can also be different depending on the person, the image, and the context. For example, we can sometimes find ourselves aroused to a picture that would probably not be considered universally appealing. Conversely, an enticing and \"objectively\" sexy image can, for one reason or another, not evoke any reaction in our body.</p>" +
+        "<p><b>Try to be attentive to what happens in your mind and body while watching the images to try to answer accurately based on your own feelings and reactions.</b></p>" +
         "<p>Note that we are interested in your <b>first impression</b>, so please respond according to your gut feelings.</p>" +
         "<p>Below is an example of how the questions will appear after each image:</p>" +
         "<div style='text-align: center;'><img src='media/scales_phase1.png' height='400' style='border:5px solid #D3D3D3; padding:3px; margin:5px'></img></div>" +
         "<p style='text-align: center';>Press start once you are ready.</p>",
     choices: ["Start"],
-    data: { screen: "fiction_instructions1" },
+    data: { screen: "fiction_instructions1" }
 }
 
 var fiction_instructions2 = {
@@ -118,11 +117,11 @@ var fiction_instructions2 = {
 
 var fiction_preloadstims = {
     type: jsPsychPreload,
-    on_start: function () {
-        stimuli = assignCondition(stimuli_list)
-    },
-    images: stimuli.map((a) => "stimuli/" + a.stimulus),
     message: "Please wait while the experiment is being loaded (it can take a few seconds)",
+    images: stimuli_list.map((a) => "stimuli/" + a.stimulus),
+    on_finish: function () {
+        stimuli = assignCondition(stimuli_list)
+    }
 }
 
 var fiction_fixation1a = {
@@ -252,35 +251,35 @@ var fiction_ratings1 = {
                 elements: [
                     {
                         type: "rating",
-                        name: "Beauty",
-                        title: "This face is beautiful",
+                        name: "Arousal",
+                        title: "How much did you feel sexually aroused?",
                         isRequired: true,
                         rateMin: 0,
                         rateMax: 6,
-                        minRateDescription: "Disagree",
-                        maxRateDescription: "Agree",
+                        minRateDescription: "Not at all",
+                        maxRateDescription: "Very much",
                         displayMode: "buttons",
                     },
                     {
                         type: "rating",
-                        name: "Attractiveness",
-                        title: "I found this person attractive",
+                        name: "Enticing",
+                        title: "How enticing would you rate this image to be?",
                         isRequired: true,
                         rateMin: 0,
                         rateMax: 6,
-                        minRateDescription: "Disagree",
-                        maxRateDescription: "Agree",
+                        minRateDescription: "Not at all",
+                        maxRateDescription: "Very much",
                         displayMode: "buttons",
                     },
                     {
                         type: "rating",
-                        name: "Trustworthiness",
-                        title: "I found this person trustworthy",
+                        name: "Valence",
+                        title: "The feeling evoked by the image was...",
                         isRequired: true,
                         rateMin: 0,
                         rateMax: 6,
-                        minRateDescription: "Disagree",
-                        maxRateDescription: "Agree",
+                        minRateDescription: "Unpleasant",
+                        maxRateDescription: "Pleasant",
                         displayMode: "buttons",
                     },
                     // "This face is conventionally beautiful",
@@ -307,7 +306,7 @@ var fiction_ratings1 = {
 }
 
 var fiction_phase1a = {
-    timeline_variables: stimuli.slice(0, Math.ceil(stimuli.length / 2)), //.slice(0, 3), // TODO: remove this
+    timeline_variables: stimuli_list.slice(0, Math.ceil(stimuli_list.length / 2)).slice(0, 3), //.slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,
@@ -316,6 +315,7 @@ var fiction_phase1a = {
         fiction_ratings1,
     ],
 }
+
 
 var fiction_phase1_break = {
     type: jsPsychHtmlButtonResponse,
@@ -330,10 +330,7 @@ var fiction_phase1_break = {
 }
 
 var fiction_phase1b = {
-    timeline_variables: stimuli.slice(
-        Math.ceil(stimuli_list.length / 2),
-        stimuli_list.length
-    ), //.slice(0, 3), // TODO: remove this
+    timeline_variables: stimuli_list.slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length).slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,
@@ -463,7 +460,7 @@ var fiction_ratings2 = {
 }
 
 var fiction_phase2 = {
-    timeline_variables: shuffleArray(stimuli), // .slice(0, 3) TODO: remove this
+    timeline_variables: function () { return shuffleArray(stimuli) }, // .slice(0, 3) TODO: remove this
     timeline: [fiction_fixation2, fiction_showimage2, fiction_ratings2],
 }
 
