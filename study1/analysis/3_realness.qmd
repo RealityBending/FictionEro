@@ -196,7 +196,7 @@ predbeta |>
 
 Here we look at whether the findings above are moderated by AI-Attitudes, Porn usage, or feedback.
 
-### AI-Attitutes
+### AI-Attitudes
 
 This model examines how ratings of realness, predicted by sex, condition, and relevance, are moderated by beliefs about AI's visual and textual capacities, self-reported knowledge of AI, as well as positive and negative attitudes towards AI (note that these results are relative to a baseline of male participants viewing relevant images labelled as photographs). Additionally, the model includes relevance and items as random effects.
 
