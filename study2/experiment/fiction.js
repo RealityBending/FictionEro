@@ -2,8 +2,9 @@
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-            ;[array[i], array[j]] = [array[j], array[i]]
-    } assignCondition
+        ;[array[i], array[j]] = [array[j], array[i]]
+    }
+    assignCondition
     return array
 }
 
@@ -11,23 +12,30 @@ function assignCondition(stimuli_list) {
     let new_stimuli_list = []
 
     // Access demographic data
-    let demographic_data = jsPsych.data.get().filter({ screen: "demographic_questions" }).values()[0]
+    let demographic_data = jsPsych.data
+        .get()
+        .filter({ screen: "demographic_questions" })
+        .values()[0]
     let gender = demographic_data.response.Gender
     let sexuality = demographic_data.response.SexualOrientation
 
     // Define the stimuli categories based on Gender and Sexuality
     let stimuliCategory = []
-    if (sexuality === 'Heterosexual' || sexuality === 'Bisexual' || sexuality === 'Other') {
-        if (gender === 'Male' || gender === 'Other') {
-            stimuliCategory = ['Female', 'Opposite-sex Couple']
-        } else if (gender === 'Female') {
-            stimuliCategory = ['Male', 'Opposite-sex Couple']
+    if (
+        sexuality === "Heterosexual" ||
+        sexuality === "Bisexual" ||
+        sexuality === "Other"
+    ) {
+        if (gender === "Male" || gender === "Other") {
+            stimuliCategory = ["Female", "Opposite-sex Couple"]
+        } else if (gender === "Female") {
+            stimuliCategory = ["Male", "Opposite-sex Couple"]
         }
-    } else if (sexuality === 'Homosexual') {
-        if (gender === 'Male') {
-            stimuliCategory = ['Male', 'Male Couple']
-        } else if (gender === 'Female') {
-            stimuliCategory = ['Female', 'Female Couple']
+    } else if (sexuality === "Homosexual") {
+        if (gender === "Male") {
+            stimuliCategory = ["Male", "Male Couple"]
+        } else if (gender === "Female") {
+            stimuliCategory = ["Female", "Female Couple"]
         }
     } else {
         console.error("Unexpected demographic data.")
@@ -35,20 +43,23 @@ function assignCondition(stimuli_list) {
     }
 
     // Loop through unique categories in stimuli_list
-    for (let cat of [...new Set(stimuli_list.map(a => a.Category))]) {
+    for (let cat of [...new Set(stimuli_list.map((a) => a.Category))]) {
         // Get all stimuli of this category
-        let cat_stimuli = stimuli_list.filter(a => a.Category === cat)
+        let cat_stimuli = stimuli_list.filter((a) => a.Category === cat)
 
         // Shuffle cat_stimuli (assuming shuffleArray is defined elsewhere)
         cat_stimuli = shuffleArray(cat_stimuli)
 
         // Assign half to "Reality" condition and half to "Fiction" condition
         for (let i = 0; i < cat_stimuli.length; i++) {
-            cat_stimuli[i].Condition = i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
+            cat_stimuli[i].Condition =
+                i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
         }
 
         // Filter cat_stimuli based on the determined stimuli categories
-        cat_stimuli = cat_stimuli.filter(stimulus => stimuliCategory.includes(stimulus.Category))
+        cat_stimuli = cat_stimuli.filter((stimulus) =>
+            stimuliCategory.includes(stimulus.Category)
+        )
 
         // Add to new_stimuli_list
         new_stimuli_list.push(...cat_stimuli)
@@ -56,7 +67,6 @@ function assignCondition(stimuli_list) {
 
     return shuffleArray(new_stimuli_list)
 }
-
 
 // Variables ===================================================================
 var fiction_trialnumber = 1
@@ -88,14 +98,14 @@ var fiction_instructions1 = {
         // Emotional Valence
         "<li style='text-align: left; margin-left: 10%; margin-right: 10%;'><b>Valence</b>: Did the image evoke a positive and pleasant (not necessarily sexual) feeling in you, or could it better characterized as negative and unpleasant? Think of how much you did enjoy (or not) looking at the image</li></ul>" +
         // Contrasting explanation
-        "<p>While the answers to these scales can sometimes be very similar, they can also be different depending on the person, the image, and the context. For example, we can sometimes find ourselves aroused to a picture that would probably not be considered universally appealing. Conversely, an enticing and \"objectively\" sexy image can, for one reason or another, not evoke any reaction in our body.</p>" +
+        '<p>While the answers to these scales can sometimes be very similar, they can also be different depending on the person, the image, and the context. For example, we can sometimes find ourselves aroused to a picture that would probably not be considered universally appealing. Conversely, an enticing and "objectively" sexy image can, for one reason or another, not evoke any reaction in our body.</p>' +
         "<p><b>Try to be attentive to what happens in your mind and body while watching the images to try to answer accurately based on your own feelings and reactions.</b></p>" +
         "<p>Note that we are interested in your <b>first impression</b>, so please respond according to your gut feelings.</p>" +
         "<p>Below is an example of how the questions will appear after each image:</p>" +
         "<div style='text-align: center;'><img src='media/scales_phase1.png' height='400' style='border:5px solid #D3D3D3; padding:3px; margin:5px'></img></div>" +
         "<p style='text-align: center';>Press start once you are ready.</p>",
     choices: ["Start"],
-    data: { screen: "fiction_instructions1" }
+    data: { screen: "fiction_instructions1" },
 }
 
 var fiction_instructions2 = {
@@ -118,11 +128,12 @@ var fiction_instructions2 = {
 
 var fiction_preloadstims = {
     type: jsPsychPreload,
-    message: "Please wait while the experiment is being loaded (it can take a few seconds)",
+    message:
+        "Please wait while the experiment is being loaded (it can take a few seconds)",
     images: stimuli_list.map((a) => "stimuli/" + a.stimulus),
     on_load: function () {
         stimuli = assignCondition(stimuli_list)
-    }
+    },
 }
 
 var fiction_fixation1a = {
@@ -307,29 +318,18 @@ var fiction_ratings1 = {
 }
 
 var fiction_phase1a = {
-    timeline_variables: stimuli_list.slice(0, Math.ceil(stimuli_list.length / 2)).slice(0, 3), //.slice(0, 3), // TODO: remove this
-    // timeline_variables: stimuli_list, //.slice(0, 3), // TODO: remove this
+    timeline_variables: stimuli_list
+        .slice(0, Math.ceil(stimuli_list.length / 2))
+        .slice(0, 3), //.slice(0, 3), // TODO: remove this
+    // timeline_variables: stimuli, //.slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,
         fiction_fixation1b,
         fiction_showimage1,
-        fiction_ratings1,
+        // fiction_ratings1,
     ],
-    sample: {
-        type: 'custom',
-        fn: function (t) {
-
-            var idx = stimuli.map(subsetItem => {
-                return stimuli_list.findIndex(fullItem => {
-                    return fullItem.stimulus === subsetItem.stimulus
-                })
-            })
-            return idx
-        }
-    }
 }
-
 
 var fiction_phase1_break = {
     type: jsPsychHtmlButtonResponse,
@@ -344,7 +344,10 @@ var fiction_phase1_break = {
 }
 
 var fiction_phase1b = {
-    timeline_variables: stimuli_list.slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length), // TODO: remove this
+    timeline_variables: stimuli_list.slice(
+        Math.ceil(stimuli_list.length / 2),
+        stimuli_list.length
+    ), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,
@@ -353,17 +356,16 @@ var fiction_phase1b = {
         // fiction_ratings1,
     ],
     sample: {
-        type: 'custom',
+        type: "custom",
         fn: function (t) {
-
-            var idx = stimuli.map(subsetItem => {
-                return stimuli_list.findIndex(fullItem => {
+            var idx = stimuli.map((subsetItem) => {
+                return stimuli_list.findIndex((fullItem) => {
                     return fullItem.stimulus === subsetItem.stimulus
                 })
             })
             return idx
-        }
-    }
+        },
+    },
 }
 
 // Stage 2 loops and variables
@@ -487,7 +489,7 @@ var fiction_ratings2 = {
 
 var fiction_phase2 = {
     timeline_variables: stimuli_list, // .slice(0, 3) TODO: remove this
-    timeline: [fiction_fixation2, fiction_showimage2, fiction_ratings2]
+    timeline: [fiction_fixation2, fiction_showimage2, fiction_ratings2],
 }
 
 // Feedback ====================================================================
@@ -560,4 +562,4 @@ var fiction_feedback1 = {
     data: {
         screen: "fiction_feedback1",
     },
-} 
+}
