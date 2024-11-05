@@ -63,6 +63,7 @@ var fiction_trialnumber = 1
 var color_cues = shuffleArray(["red", "blue", "green"])
 color_cues = { Reality: color_cues[0], Fiction: color_cues[1] }
 var text_cue = { Reality: "Photograph", Fiction: "AI-generated" }
+var stimuli = []
 
 // Screens =====================================================================
 var fiction_instructions1 = {
@@ -119,7 +120,7 @@ var fiction_preloadstims = {
     type: jsPsychPreload,
     message: "Please wait while the experiment is being loaded (it can take a few seconds)",
     images: stimuli_list.map((a) => "stimuli/" + a.stimulus),
-    on_finish: function () {
+    on_load: function () {
         stimuli = assignCondition(stimuli_list)
     }
 }
@@ -307,6 +308,7 @@ var fiction_ratings1 = {
 
 var fiction_phase1a = {
     timeline_variables: stimuli_list.slice(0, Math.ceil(stimuli_list.length / 2)).slice(0, 3), //.slice(0, 3), // TODO: remove this
+    // timeline_variables: stimuli_list, //.slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,
@@ -314,6 +316,18 @@ var fiction_phase1a = {
         fiction_showimage1,
         fiction_ratings1,
     ],
+    sample: {
+        type: 'custom',
+        fn: function (t) {
+
+            var idx = stimuli.map(subsetItem => {
+                return stimuli_list.findIndex(fullItem => {
+                    return fullItem.stimulus === subsetItem.stimulus
+                })
+            })
+            return idx
+        }
+    }
 }
 
 
@@ -330,14 +344,26 @@ var fiction_phase1_break = {
 }
 
 var fiction_phase1b = {
-    timeline_variables: stimuli_list.slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length).slice(0, 3), // TODO: remove this
+    timeline_variables: stimuli_list.slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,
         fiction_fixation1b,
         fiction_showimage1,
-        fiction_ratings1,
+        // fiction_ratings1,
     ],
+    sample: {
+        type: 'custom',
+        fn: function (t) {
+
+            var idx = stimuli.map(subsetItem => {
+                return stimuli_list.findIndex(fullItem => {
+                    return fullItem.stimulus === subsetItem.stimulus
+                })
+            })
+            return idx
+        }
+    }
 }
 
 // Stage 2 loops and variables
@@ -460,8 +486,8 @@ var fiction_ratings2 = {
 }
 
 var fiction_phase2 = {
-    timeline_variables: function () { return shuffleArray(stimuli) }, // .slice(0, 3) TODO: remove this
-    timeline: [fiction_fixation2, fiction_showimage2, fiction_ratings2],
+    timeline_variables: stimuli_list, // .slice(0, 3) TODO: remove this
+    timeline: [fiction_fixation2, fiction_showimage2, fiction_ratings2]
 }
 
 // Feedback ====================================================================
