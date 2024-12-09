@@ -140,7 +140,7 @@ var fiction_fixation1a = {
     data: function () {
         return {
             screen: "fiction_fixation1a",
-            item: jsPsych.timelineVariable("stimulus"),
+            item: jsPsych.evaluateTimelineVariable("stimulus"),
         }
     },
 }
@@ -148,7 +148,7 @@ var fiction_fixation1a = {
 var fiction_cue = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
-        var cond = jsPsych.timelineVariable("Condition")
+        var cond = jsPsych.evaluateTimelineVariable("Condition")
         return (
             "<div style='font-size:450%; position:fixed; text-align: center; top:50%; bottom:50%; right:20%; left:20%; color: " +
             color_cues[cond] +
@@ -158,12 +158,12 @@ var fiction_cue = {
         )
     },
     data: function () {
-        var cond = jsPsych.timelineVariable("Condition")
+        var cond = jsPsych.evaluateTimelineVariable("Condition")
         return {
             screen: "fiction_cue",
             color: color_cues[cond],
             condition: cond,
-            item: jsPsych.timelineVariable("stimulus"),
+            item: jsPsych.evaluateTimelineVariable("stimulus"),
         }
     },
     choices: ["s"],
@@ -181,7 +181,7 @@ var fiction_fixation1b = {
     data: function () {
         return {
             screen: "fiction_fixation1b",
-            item: jsPsych.timelineVariable("stimulus"),
+            item: jsPsych.evaluateTimelineVariable("stimulus"),
         }
     },
     extensions: [
@@ -195,7 +195,7 @@ var fiction_fixation1b = {
 var fiction_showimage1 = {
     type: jsPsychImageKeyboardResponse,
     stimulus: function () {
-        return "stimuli/" + jsPsych.timelineVariable("stimulus")
+        return "stimuli/" + jsPsych.evaluateTimelineVariable("stimulus")
     },
     stimulus_height: function () {
         if (window.innerHeight < window.innerWidth) {
@@ -361,7 +361,7 @@ var fiction_fixation2 = {
 var fiction_showimage2 = {
     type: jsPsychImageKeyboardResponse,
     stimulus: function () {
-        return "stimuli/" + jsPsych.timelineVariable("stimulus")
+        return "stimuli/" + jsPsych.evaluateTimelineVariable("stimulus")
     },
     stimulus_height: function () {
         if (window.innerHeight < window.innerWidth) {
