@@ -2,7 +2,7 @@
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-            ;[array[i], array[j]] = [array[j], array[i]]
+        ;[array[i], array[j]] = [array[j], array[i]]
     }
     assignCondition
     return array
@@ -318,8 +318,8 @@ var fiction_ratings1 = {
 
 var fiction_phase1a = {
     timeline_variables: stimuli_list
-        .slice(0, Math.ceil(stimuli_list.length / 2)),
-    // .slice(0, 3), //.slice(0, 3), // TODO: remove this
+        .slice(0, Math.ceil(stimuli_list.length / 2))
+        .slice(0, 3), //.slice(0, 3), // TODO: remove this
     // timeline_variables: stimuli, //.slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
@@ -328,18 +328,18 @@ var fiction_phase1a = {
         fiction_showimage1,
         // fiction_ratings1,
     ],
-    sample: {
-        type: 'custom',
-        fn: function (t) {
+    // sample: {
+    //     type: 'custom',
+    //     fn: function (t) {
 
-            var idx = stimuli.map(subsetItem => {
-                return stimuli_list.findIndex(fullItem => {
-                    return fullItem.stimulus === subsetItem.stimulus
-                })
-            })
-            return idx
-        }
-    }
+    //         var idx = stimuli_list.map(subsetItem => {
+    //             return stimuli_list.findIndex(fullItem => {
+    //                 return fullItem.stimulus === subsetItem.stimulus
+    //             })
+    //         })
+    //         return idx
+    //     }
+    // }
 }
 
 var fiction_phase1_break = {
@@ -355,10 +355,9 @@ var fiction_phase1_break = {
 }
 
 var fiction_phase1b = {
-    timeline_variables: stimuli_list.slice(
-        Math.ceil(stimuli_list.length / 2),
-        stimuli_list.length
-    ), // TODO: remove this
+    timeline_variables: stimuli_list
+        .slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length)
+        .slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,
@@ -366,17 +365,17 @@ var fiction_phase1b = {
         fiction_showimage1,
         // fiction_ratings1,
     ],
-    sample: {
-        type: "custom",
-        fn: function (t) {
-            var idx = stimuli.map((subsetItem) => {
-                return stimuli_list.findIndex((fullItem) => {
-                    return fullItem.stimulus === subsetItem.stimulus
-                })
-            })
-            return idx
-        },
-    },
+    // sample: {
+    //     type: "custom",
+    //     fn: function (t) {
+    //         var idx = stimuli.map((subsetItem) => {
+    //             return stimuli_list.findIndex((fullItem) => {
+    //                 return fullItem.stimulus === subsetItem.stimulus
+    //             })
+    //         })
+    //         return idx
+    //     },
+    // },
 }
 
 // Stage 2 loops and variables
