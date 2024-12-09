@@ -21,11 +21,7 @@ function assignCondition(stimuli_list) {
 
     // Define the stimuli categories based on Gender and Sexuality
     let stimuliCategory = []
-    if (
-        sexuality === "Heterosexual" ||
-        sexuality === "Bisexual" ||
-        sexuality === "Other"
-    ) {
+    if (sexuality === "Heterosexual" || sexuality === "Bisexual" || sexuality === "Other") {
         if (gender === "Male" || gender === "Other") {
             stimuliCategory = ["Female", "Opposite-sex Couple"]
         } else if (gender === "Female") {
@@ -52,14 +48,11 @@ function assignCondition(stimuli_list) {
 
         // Assign half to "Reality" condition and half to "Fiction" condition
         for (let i = 0; i < cat_stimuli.length; i++) {
-            cat_stimuli[i].Condition =
-                i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
+            cat_stimuli[i].Condition = i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
         }
 
         // Filter cat_stimuli based on the determined stimuli categories
-        cat_stimuli = cat_stimuli.filter((stimulus) =>
-            stimuliCategory.includes(stimulus.Category)
-        )
+        cat_stimuli = cat_stimuli.filter((stimulus) => stimuliCategory.includes(stimulus.Category))
 
         // Add to new_stimuli_list
         new_stimuli_list.push(...cat_stimuli)
@@ -127,8 +120,7 @@ var fiction_instructions2 = {
 
 var fiction_preloadstims = {
     type: jsPsychPreload,
-    message:
-        "Please wait while the experiment is being loaded (it can take a few seconds)",
+    message: "Please wait while the experiment is being loaded (it can take a few seconds)",
     images: stimuli_list.map((a) => "stimuli/" + a.stimulus),
     on_load: function () {
         stimuli = assignCondition(stimuli_list)
@@ -251,9 +243,7 @@ var fiction_ratings1 = {
         showNavigationButtons: false,
         title: function () {
             return (
-                "Rating - " +
-                Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) +
-                "%"
+                "Rating - " + Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) + "%"
             )
         },
         description: "Think of the person that you just saw.",
@@ -317,9 +307,7 @@ var fiction_ratings1 = {
 }
 
 var fiction_phase1a = {
-    timeline_variables: stimuli_list
-        .slice(0, Math.ceil(stimuli_list.length / 2))
-        .slice(0, 3), //.slice(0, 3), // TODO: remove this
+    timeline_variables: stimuli_list.slice(0, Math.ceil(stimuli_list.length / 2)).slice(0, 3), //.slice(0, 3), // TODO: remove this
     // timeline_variables: stimuli, //.slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
@@ -328,18 +316,6 @@ var fiction_phase1a = {
         fiction_showimage1,
         // fiction_ratings1,
     ],
-    // sample: {
-    //     type: 'custom',
-    //     fn: function (t) {
-
-    //         var idx = stimuli_list.map(subsetItem => {
-    //             return stimuli_list.findIndex(fullItem => {
-    //                 return fullItem.stimulus === subsetItem.stimulus
-    //             })
-    //         })
-    //         return idx
-    //     }
-    // }
 }
 
 var fiction_phase1_break = {
@@ -365,17 +341,6 @@ var fiction_phase1b = {
         fiction_showimage1,
         // fiction_ratings1,
     ],
-    // sample: {
-    //     type: "custom",
-    //     fn: function (t) {
-    //         var idx = stimuli.map((subsetItem) => {
-    //             return stimuli_list.findIndex((fullItem) => {
-    //                 return fullItem.stimulus === subsetItem.stimulus
-    //             })
-    //         })
-    //         return idx
-    //     },
-    // },
 }
 
 // Stage 2 loops and variables
@@ -429,9 +394,7 @@ var fiction_ratings2 = {
         showNavigationButtons: false,
         title: function () {
             return (
-                "Rating - " +
-                Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) +
-                "%"
+                "Rating - " + Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) + "%"
             )
         },
         pages: [
@@ -441,8 +404,7 @@ var fiction_ratings2 = {
                         type: "rating",
                         name: "Realness",
                         title: "I think this face is...",
-                        description:
-                            "Indicate your confidence that the image is fake or real",
+                        description: "Indicate your confidence that the image is fake or real",
                         isRequired: true,
                         // rateValues: [
                         //     {
@@ -508,8 +470,7 @@ var fiction_feedback1 = {
     type: jsPsychSurvey,
     survey_json: {
         title: "Thank you!",
-        description:
-            "Before we start the second phase, we wanted to know your thoughts.",
+        description: "Before we start the second phase, we wanted to know your thoughts.",
         showQuestionNumbers: false,
         elements: [
             {
@@ -546,8 +507,7 @@ var fiction_feedback1 = {
                 showNoneItem: false,
             },
             {
-                visibleIf:
-                    "{Feedback_2} anyof ['I feel like all the images were photos']",
+                visibleIf: "{Feedback_2} anyof ['I feel like all the images were photos']",
                 title: "How certain are you that all images were photos?",
                 name: "Feedback_2_ConfidenceReal",
                 type: "rating",
@@ -557,8 +517,7 @@ var fiction_feedback1 = {
                 maxRateDescription: "Completely certain",
             },
             {
-                visibleIf:
-                    "{Feedback_2} anyof ['I feel like all the images were AI-generated']",
+                visibleIf: "{Feedback_2} anyof ['I feel like all the images were AI-generated']",
                 title: "How certain are you that all images were AI-generated?",
                 name: "Feedback_2_ConfidenceFake",
                 type: "rating",

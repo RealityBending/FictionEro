@@ -69,7 +69,7 @@ results_table <- function(model, effects="fixed", filter=NULL) {
 
 ## Manipulation Check
 
-This section is about selecting the best model and making a **manipulation check** to make sure that the emotional appraisal were sensitive to the main manipualtion (Neutral vs. Emotional).
+This section is about selecting the best model and making a **manipulation check** to make sure that the emotional appraisal were sensitive to the main manipulation (Neutral vs. Emotional).
 
 ::: panel-tabset
 ### Arousal
