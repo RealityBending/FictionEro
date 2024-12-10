@@ -313,7 +313,7 @@ var demographics_debriefing = {
         "Indeed, we want to test the hypothesis that believing that erotic images are fake would lead to a lower emotional arousal. " +
         "As we are primarily interested in your <i>beliefs</i> about reality, all images were in fact taken from an existing database of real images used in psychology research to study emotions. " +
         "We apologize for the necessary deception used in the instructions, and we hope that you understand its role in ensuring the validity of our experiment.</p>" +
-        "<p align='left'><b>Thank you again!</b> Your participation in this study will be kept completely confidential. If you have any questions or concerns about the project, please contact D.Makowski@sussex.ac.uk.</p>" +
+        "<p align='left'><b>Thank you again!</b> Your participation in this study will be kept completely confidential. If you have any questions or concerns about the project, please contact D.Makowski@sussex.ac.uk or A.Neves@sussex.ac.uk</p>" +
         "<p>To complete your participation in this study, click on 'Continue' and <b>wait until your responses have been successfully saved</b> before closing the tab.</p> ",
     choices: ["Continue"],
     data: { screen: "debriefing" },
