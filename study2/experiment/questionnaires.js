@@ -171,3 +171,24 @@ var feedback_bait = {
     choices: ["Continue"],
     data: { screen: "feedback_bait" },
 }
+
+// var questionnaire_cops = {
+//     type: jsPsychSurvey,
+//     survey_json:{
+//         title: "About Pornography...",
+//         description: "Given the nature of our study, we are interested in understanding your habits in terms of exposure to pornography. Please consider answering the questions below.",
+//         showQuestionNumbers: false,
+//         elements: [
+//             {
+//                 type: "checkbox",
+//                 name: "COPS_Frequency_1",
+//                 title: "How often have you viewed pornography in the past year?",
+//                 choices: [
+
+//                 ]
+
+//             }
+//         ]
+//     }
+// }
+
