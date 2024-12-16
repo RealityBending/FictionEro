@@ -2,7 +2,7 @@
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-            ;[array[i], array[j]] = [array[j], array[i]]
+        ;[array[i], array[j]] = [array[j], array[i]]
     }
     assignCondition
     return array
@@ -18,11 +18,23 @@ function assignCondition(stimuli_list) {
         .values()[0]
     let gender = demographic_data.response.Gender
     let sexuality = demographic_data.response.SexualOrientation
+    let choice = demographic_data.response.StimuliChoice
 
     // Define the stimuli categories based on Gender and Sexuality
+
     let stimuliCategory = []
-    if (sexuality === "Heterosexual" || sexuality === "Bisexual" || sexuality === "Other") {
-        if (gender === "Male" || gender === "Other") {
+    if (choice) {
+        if (choice === "Women (and heterosexual couples)") {
+            stimuliCategory = ["Female", "Opposite-sex Couple"]
+        } else if (choice === "Men (and heterosexual couples)") {
+            stimuliCategory = ["Male", "Opposite-sex Couple"]
+        } else if (choice === "Only women (and lesbian couples)") {
+            stimuliCategory = ["Female", "Female couple"]
+        } else if (choice === "Only men (and gay couples)") {
+            stimuliCategory = ["Male", "Male Couple"]
+        }
+    } else if (sexuality === "Heterosexual") {
+        if (gender === "Male") {
             stimuliCategory = ["Female", "Opposite-sex Couple"]
         } else if (gender === "Female") {
             stimuliCategory = ["Male", "Opposite-sex Couple"]
@@ -48,11 +60,14 @@ function assignCondition(stimuli_list) {
 
         // Assign half to "Reality" condition and half to "Fiction" condition
         for (let i = 0; i < cat_stimuli.length; i++) {
-            cat_stimuli[i].Condition = i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
+            cat_stimuli[i].Condition =
+                i < cat_stimuli.length / 2 ? "Reality" : "Fiction"
         }
 
         // Filter cat_stimuli based on the determined stimuli categories
-        cat_stimuli = cat_stimuli.filter((stimulus) => stimuliCategory.includes(stimulus.Category))
+        cat_stimuli = cat_stimuli.filter((stimulus) =>
+            stimuliCategory.includes(stimulus.Category)
+        )
 
         // Add to new_stimuli_list
         new_stimuli_list.push(...cat_stimuli)
@@ -120,7 +135,8 @@ var fiction_instructions2 = {
 
 var fiction_preloadstims = {
     type: jsPsychPreload,
-    message: "Please wait while the experiment is being loaded (it can take a few seconds)",
+    message:
+        "Please wait while the experiment is being loaded (it can take a few seconds)",
     images: stimuli_list.map((a) => "stimuli/" + a.stimulus),
     on_load: function () {
         stimuli = assignCondition(stimuli_list)
@@ -243,7 +259,9 @@ var fiction_ratings1 = {
         showNavigationButtons: false,
         title: function () {
             return (
-                "Rating - " + Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) + "%"
+                "Rating - " +
+                Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) +
+                "%"
             )
         },
         description: "Think of the person that you just saw.",
@@ -330,18 +348,18 @@ var fiction_phase1_break = {
     data: { screen: "fiction_phase1_break" },
 }
 
-// var fiction_phase1b = {
-//     timeline_variables: stimuli_list
-//         .slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length)
-//         .slice(0, 3), // TODO: remove this
-//     timeline: [
-//         fiction_fixation1a,
-//         fiction_cue,
-//         fiction_fixation1b,
-//         fiction_showimage1,
-//         // fiction_ratings1,
-//     ],
-// }
+var fiction_phase1b = {
+    timeline_variables: stimuli_list
+        .slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length)
+        .slice(0, 3), // TODO: remove this
+    timeline: [
+        fiction_fixation1a,
+        fiction_cue,
+        fiction_fixation1b,
+        fiction_showimage1,
+        // fiction_ratings1,
+    ],
+}
 
 // Stage 2 loops and variables
 
@@ -388,13 +406,16 @@ var fiction_showimage2 = {
 
 var fiction_ratings2 = {
     type: jsPsychSurvey,
+    css_classes: ["colored-scale"],
     survey_json: {
         goNextPageAutomatic: true,
         showQuestionNumbers: false,
         showNavigationButtons: false,
         title: function () {
             return (
-                "Rating - " + Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) + "%"
+                "Rating - " +
+                Math.round(((fiction_trialnumber - 1) / stimuli.length) * 100) +
+                "%"
             )
         },
         pages: [
@@ -404,7 +425,8 @@ var fiction_ratings2 = {
                         type: "rating",
                         name: "Realness",
                         title: "I think this face is...",
-                        description: "Indicate your confidence that the image is fake or real",
+                        description:
+                            "Do you think the image is AI-generated or Human-made?",
                         isRequired: true,
                         // rateValues: [
                         //     {
@@ -470,7 +492,8 @@ var fiction_feedback1 = {
     type: jsPsychSurvey,
     survey_json: {
         title: "Thank you!",
-        description: "Before we start the second phase, we wanted to know your thoughts.",
+        description:
+            "Before we start the second phase, we wanted to know your thoughts.",
         showQuestionNumbers: false,
         elements: [
             {
@@ -507,7 +530,8 @@ var fiction_feedback1 = {
                 showNoneItem: false,
             },
             {
-                visibleIf: "{Feedback_2} anyof ['I feel like all the images were photos']",
+                visibleIf:
+                    "{Feedback_2} anyof ['I feel like all the images were photos']",
                 title: "How certain are you that all images were photos?",
                 name: "Feedback_2_ConfidenceReal",
                 type: "rating",
@@ -517,7 +541,8 @@ var fiction_feedback1 = {
                 maxRateDescription: "Completely certain",
             },
             {
-                visibleIf: "{Feedback_2} anyof ['I feel like all the images were AI-generated']",
+                visibleIf:
+                    "{Feedback_2} anyof ['I feel like all the images were AI-generated']",
                 title: "How certain are you that all images were AI-generated?",
                 name: "Feedback_2_ConfidenceFake",
                 type: "rating",

@@ -73,14 +73,14 @@ var demographics_consent = {
             "The results of this research may be written into a scientific publication. Your anonymity will be ensured in the way described in the consent information below. <b>Please read this information carefully</b> and then, if you wish to take part, please acknowledge that you have fully understood this sheet, and that you consent to take part in the study as it is described here.</p>" +
             "<p align='left'><b>Consent</b><br></p>" +
             // Bullet points
-            "<li align='left'>I understand that by signing below I am agreeing to take part in the University of Sussex research described here, and that I have read and understood this information sheet</li>" +
-            "<li align='left'>I understand that my participation is entirely voluntary, that I can choose not to participate in part or all of the study, and that I can withdraw at any stage without having to give a reason and without being penalized in any way (e.g., if I am a student, my decision whether or not to take part will not affect my grades).</li>" +
-            "<li align='left'>I understand that since the study is anonymous, it will be impossible to withdraw my data once I have completed it.</li>" +
-            "<li align='left'>I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research.</li>" +
-            "<li align='left'>I understand that my collected data will be stored in a de-identified way. De-identified data may be made publicly available through secured scientific online data repositories.</li>" +
+            "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'> I understand that by signing below I am agreeing to take part in the University of Sussex research described here, and that I have read and understood this information sheet</li>" +
+            "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'> I understand that my participation is entirely voluntary, that I can choose not to participate in part or all of the study, and that I can withdraw at any stage. </li>" +
+            "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'> I understand that since the study is anonymous, it will be impossible to withdraw my data once I have completed it.</li>" +
+            "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'> I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research.</li>" +
+            "<li style = 'text-align: justify;padding-left: 20px; list-style-position: inside'> I understand that my collected data will be stored in a de-identified way. De-identified data may be made publicly available through secured scientific online data repositories.</li>" +
             // Incentive
-            "<li align='left'>Please note that various checks will be performed to ensure the validity of the data. We reserve the right to withhold credit awards or reimbursement should we detect non-valid responses (e.g., random patterns of answers, instructions not read, ...).</li>" +
-            "<li align='left'>By participating, you agree to follow the instructions and provide honest answers. If you do not wish to participate, simply close your browser.</li>" +
+            "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'>Please note that various checks will be performed to ensure the validity of the data. We reserve the right to withhold credit awards or reimbursement should we detect non-valid responses (e.g., random patterns of answers, instructions not read, ...).</li>" +
+            "<li style = 'text-align: justify;padding-left: 20px; list-style-position: inside'>By participating, you agree to follow the instructions and provide honest answers. If you do not wish to participate, simply close your browser.</li>" +
             "</p>" +
             "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (<i style='color:DodgerBlue;'>D.Makowski@sussex.ac.uk</i>) or Ana Neves (<i style='color:DodgerBlue;'>A.Neves@sussex.ac.uk</i>). This research has been approved (xx/xxx/xx) by the ethics board of the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</sup></sub></p>"
         // Add item about eye tracking and need for a workign camera
@@ -112,119 +112,119 @@ var demographics_questions = {
                         isRequired: true,
                         colCount: 0,
                     },
-                    {
-                        type: "text",
-                        title: "Please enter your age (in years)",
-                        name: "Age",
-                        isRequired: true,
-                        inputType: "number",
-                        min: 0,
-                        max: 100,
-                        placeholder: "e.g., 21",
-                    },
+                    // {
+                    //     type: "text",
+                    //     title: "Please enter your age (in years)",
+                    //     name: "Age",
+                    //     isRequired: true,
+                    //     inputType: "number",
+                    //     min: 0,
+                    //     max: 100,
+                    //     placeholder: "e.g., 21",
+                    // },
                 ],
             },
             {
                 elements: [
-                    {
-                        title: "What is your highest completed education level?",
-                        name: "Education",
-                        type: "radiogroup",
-                        choices: [
-                            {
-                                value: "Doctorate",
-                                text: "University (doctorate)",
-                            },
-                            {
-                                value: "Master",
-                                text: "University (master)", // "<sub><sup>or equivalent</sup></sub>",
-                            },
-                            {
-                                value: "Bachelor",
-                                text: "University (bachelor)", // "<sub><sup>or equivalent</sup></sub>",
-                            },
-                            {
-                                value: "High school",
-                                text: "High school",
-                            },
-                            {
-                                value: "Elementary school",
-                                text: "Elementary school",
-                            },
-                        ],
-                        showOtherItem: true,
-                        otherText: "Other",
-                        otherPlaceholder: "Please specify",
-                        isRequired: true,
-                        colCount: 1,
-                    },
-                    {
-                        visibleIf:
-                            "{Education} == 'Doctorate' || {Education} == 'Master' || {Education} == 'Bachelor'",
-                        title: "What is your discipline?",
-                        name: "Discipline",
-                        type: "radiogroup",
-                        choices: [
-                            "Arts and Humanities",
-                            "Literature, Languages",
-                            "History, Archaeology",
-                            "Sociology, Anthropology",
-                            "Political Science, Law",
-                            "Business, Economics",
-                            "Psychology, Neuroscience",
-                            "Medicine",
-                            "Biology, Chemistry, Physics",
-                            "Mathematics, Physics",
-                            "Engineering, Computer Science",
-                        ],
-                        showOtherItem: true,
-                        otherText: "Other",
-                        otherPlaceholder: "Please specify",
-                    },
-                    {
-                        visibleIf:
-                            "{Education} == 'High school' || {Education} == 'Master' || {Education} == 'Bachelor'",
-                        title: "Are you currently a student?",
-                        name: "Student",
-                        type: "boolean",
-                        swapOrder: true,
-                        isRequired: true,
-                    },
+                    // {
+                    //     title: "What is your highest completed education level?",
+                    //     name: "Education",
+                    //     type: "radiogroup",
+                    //     choices: [
+                    //         {
+                    //             value: "Doctorate",
+                    //             text: "University (doctorate)",
+                    //         },
+                    //         {
+                    //             value: "Master",
+                    //             text: "University (master)", // "<sub><sup>or equivalent</sup></sub>",
+                    //         },
+                    //         {
+                    //             value: "Bachelor",
+                    //             text: "University (bachelor)", // "<sub><sup>or equivalent</sup></sub>",
+                    //         },
+                    //         {
+                    //             value: "High school",
+                    //             text: "High school",
+                    //         },
+                    //         {
+                    //             value: "Elementary school",
+                    //             text: "Elementary school",
+                    //         },
+                    //     ],
+                    //     showOtherItem: true,
+                    //     otherText: "Other",
+                    //     otherPlaceholder: "Please specify",
+                    //     isRequired: true,
+                    //     colCount: 1,
+                    // },
+                    // {
+                    //     visibleIf:
+                    //         "{Education} == 'Doctorate' || {Education} == 'Master' || {Education} == 'Bachelor'",
+                    //     title: "What is your discipline?",
+                    //     name: "Discipline",
+                    //     type: "radiogroup",
+                    //     choices: [
+                    //         "Arts and Humanities",
+                    //         "Literature, Languages",
+                    //         "History, Archaeology",
+                    //         "Sociology, Anthropology",
+                    //         "Political Science, Law",
+                    //         "Business, Economics",
+                    //         "Psychology, Neuroscience",
+                    //         "Medicine",
+                    //         "Biology, Chemistry, Physics",
+                    //         "Mathematics, Physics",
+                    //         "Engineering, Computer Science",
+                    //     ],
+                    //     showOtherItem: true,
+                    //     otherText: "Other",
+                    //     otherPlaceholder: "Please specify",
+                    // },
+                    // {
+                    //     visibleIf:
+                    //         "{Education} == 'High school' || {Education} == 'Master' || {Education} == 'Bachelor'",
+                    //     title: "Are you currently a student?",
+                    //     name: "Student",
+                    //     type: "boolean",
+                    //     swapOrder: true,
+                    //     isRequired: true,
+                    // },
                 ],
             },
             {
                 elements: [
-                    {
-                        title: "How would you describe your ethnicity?",
-                        name: "Ethnicity",
-                        type: "radiogroup",
-                        choices: [
-                            "White",
-                            "Black",
-                            "Hispanic/Latino",
-                            "Middle Eastern/North African",
-                            "South Asian",
-                            "East Asian",
-                            "Southeast Asian",
-                            "Mixed",
-                            "Prefer not to say",
-                        ],
-                        showOtherItem: true,
-                        otherText: "Other",
-                        otherPlaceholder: "Please specify",
-                        isRequired: false,
-                        colCount: 1,
-                    },
-                    {
-                        title: "In which country are you currently living?",
-                        name: "Country",
-                        type: "dropdown",
-                        choicesByUrl: {
-                            url: "https://surveyjs.io/api/CountriesExample",
-                        },
-                        placeholder: "e.g., France",
-                        isRequired: false,
-                    },
+                    // {
+                    //     title: "How would you describe your ethnicity?",
+                    //     name: "Ethnicity",
+                    //     type: "radiogroup",
+                    //     choices: [
+                    //         "White",
+                    //         "Black",
+                    //         "Hispanic/Latino",
+                    //         "Middle Eastern/North African",
+                    //         "South Asian",
+                    //         "East Asian",
+                    //         "Southeast Asian",
+                    //         "Mixed",
+                    //         "Prefer not to say",
+                    //     ],
+                    //     showOtherItem: true,
+                    //     otherText: "Other",
+                    //     otherPlaceholder: "Please specify",
+                    //     isRequired: false,
+                    //     colCount: 1,
+                    // },
+                    // {
+                    //     title: "In which country are you currently living?",
+                    //     name: "Country",
+                    //     type: "dropdown",
+                    //     choicesByUrl: {
+                    //         url: "https://surveyjs.io/api/CountriesExample",
+                    //     },
+                    //     placeholder: "e.g., France",
+                    //     isRequired: false,
+                    // },
                 ],
             },
             {
@@ -239,6 +239,23 @@ var demographics_questions = {
                         showOtherItem: true,
                         otherText: "Other",
                         otherPlaceholder: "Please specify",
+                        isRequired: true,
+                        colCount: 1,
+                    },
+                    {
+                        visibleIf:
+                            "{Gender} == 'Other' || {SexualOrientation} == 'Bisexual' || {SexualOrientation} == 'Other'",
+                        title: "Which types of images do you find the most arousing?",
+                        description:
+                            "The following tasks will involve erotic images, please specify which category of images you would prefer to see.",
+                        name: "StimuliChoice",
+                        type: "radiogroup",
+                        choices: [
+                            "Women (and heterosexual couples)",
+                            "Men (and heterosexual couples)",
+                            "Only women (and lesbian couples)",
+                            "Only men (and gay couples)",
+                        ],
                         isRequired: true,
                         colCount: 1,
                     },

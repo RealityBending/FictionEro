@@ -77,7 +77,7 @@ var eyetracking_validation_run = {
     },
     time_to_saccade: 1000,
     validation_duration: 2000,
-    show_validation_data: false,
+    show_validation_data: true,
     data: {
         screen: "eyetracking_validation_run",
     },

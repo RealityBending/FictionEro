@@ -1,151 +1,183 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <!-- Title shown in tab -->
+        <title>Experiment</title>
 
-<head>
-    <!-- Title shown in tab -->
-    <title>Experiment</title>
+        <!-- Load JsPsych -->
+        <script src="https://unpkg.com/jspsych@8.1.0"></script>
+        <link
+            href="https://unpkg.com/jspsych@8.1.0/css/jspsych.css"
+            rel="stylesheet"
+            type="text/css"
+        />
 
-    <!-- Load JsPsych -->
-    <script src="https://unpkg.com/jspsych@8.1.0"></script>
-    <link href="https://unpkg.com/jspsych@8.1.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+        <!-- Load plugins -->
+        <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.3"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-fullscreen@2.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-survey@2.0.0"></script>
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/@jspsych/plugin-survey@2.0.0/css/survey.css"
+        />
 
-    <!-- Load plugins -->
-    <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.3"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-preload@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-survey@2.0.0"></script>
-    <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@2.0.0/css/survey.css" />
+        <!-- To save data via DataPipe (for online experiments) -->
+        <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.4.0"></script>
 
-    <!-- To save data via DataPipe (for online experiments) -->
-    <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.4.0"></script>
+        <!-- Eye-tacking -->
+        <script src="https://cdn.jsdelivr.net/gh/jspsych/jspsych@jspsych@8.1.0/examples/js/webgazer/webgazer.js"></script>
+        <script src="https://unpkg.com/@jspsych/extension-webgazer@1.1.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-webgazer-init-camera@2.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@2.0.0"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-webgazer-validate@2.0.0"></script>
 
-    <!-- Eye-tacking -->
-    <script src="https://cdn.jsdelivr.net/gh/jspsych/jspsych@jspsych@8.1.0/examples/js/webgazer/webgazer.js"></script>
-    <script src="https://unpkg.com/@jspsych/extension-webgazer@1.1.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-webgazer-init-camera@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@2.0.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-webgazer-validate@2.0.0"></script>
+        <!-- Plots -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://realitybending.github.io/JSmisc/misc/plots.js"></script>
+        <script src="https://unpkg.com/@jspsych/plugin-canvas-button-response"></script>
 
-    <!-- Plots -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://realitybending.github.io/JSmisc/misc/plots.js"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-canvas-button-response"></script>
+        <!-- Custom scripts -->
+        <script src="stimuli_selection/stimuli_list.js"></script>
+        <script src="demographics.js"></script>
+        <script src="fiction.js"></script>
+        <script src="questionnaires.js"></script>
+        <script src="eye_tracking.js"></script>
 
-    <!-- Custom scripts -->
-    <script src="stimuli_selection/stimuli_list.js"></script>
-    <script src="demographics.js"></script>
-    <script src="fiction.js"></script>
-    <script src="questionnaires.js"></script>
-    <script src="eye_tracking.js"></script>
+        <!-- CSS -->
+        <style>
+            .narrow-text {
+                max-width: 50%;
+            }
+            .colored-scale .sd-rating__item:nth-child(3) {
+                background-color: #ef9a9a;
+            }
+            .colored-scale .sd-rating__item:nth-child(4) {
+                background-color: #ffab91;
+            }
+            .colored-scale .sd-rating__item:nth-child(5) {
+                background-color: #ffe082;
+            }
+            .colored-scale .sd-rating__item:nth-child(6) {
+                background-color: #fff59d;
+            }
+            .colored-scale .sd-rating__item:nth-child(7) {
+                background-color: #e6ee9c;
+            }
+            .colored-scale .sd-rating__item:nth-child(8) {
+                background-color: #c5e1a5;
+            }
+            .colored-scale .sd-rating__item:nth-child(9) {
+                background-color: #a5d6a7;
+            }
+        </style>
+    </head>
 
-    <!-- CSS -->
+    <body></body>
 
-    <style>
-        .narrow-text {
-            max-width: 50%;
-        }
-    </style>
-</head>
+    <script>
+        // Initialize experiment =================================================
+        var jsPsych = initJsPsych({
+            show_progress_bar: true,
+            message_progress_bar: "Progress",
+            on_finish: function () {
+                //     jsPsych.data.displayData("json") // Display data in browser
+                window.location = "https://realitybending.github.io/" // Redirect to lab website
+            },
+            extensions: [{ type: jsPsychExtensionWebgazer }],
+        })
 
-<body></body>
+        // Initialize timeline
+        var timeline = []
 
-<script>
-    // Initialize experiment =================================================
-    var jsPsych = initJsPsych({
-        show_progress_bar: true,
-        message_progress_bar: "Progress",
-        on_finish: function () {
-            //     jsPsych.data.displayData("json") // Display data in browser
-            window.location = "https://realitybending.github.io/" // Redirect to lab website
-        },
-        extensions: [{ type: jsPsychExtensionWebgazer }],
-    })
+        // Demographics ===========================================================
+        // timeline.push(fullscreen_on) // Enter fullscreen mode
+        timeline.push(demographics_browser_info)
+        timeline.push(demographics_consent)
+        timeline.push(demographics_questions)
+        timeline.push(fiction_preloadstims)
 
-    // Initialize timeline
-    var timeline = []
+        // // // Eye-tracking ==============================================================
+        timeline.push(eyetracking_consent)
+        timeline.push(eyetracking_calibration)
 
-    // Demographics ===========================================================
-    timeline.push(fullscreen_on) // Enter fullscreen mode
-    timeline.push(demographics_browser_info)
-    timeline.push(demographics_consent)
-    timeline.push(demographics_questions)
-    timeline.push(fiction_preloadstims)
+        // Fiction stage 1 ===========================================================
 
-    // // Questionnaires ===========================================================
-    timeline.push(questionnaires_instructions0) // Instructions Questionnaires
-    timeline.push(questionnaire_bait) // Beliefs about AI technonology
-    timeline.push(feedback_bait) // Attitudes towards AI
+        timeline.push({
+            timeline: [fiction_instructions1],
+            on_finish() {
+                //Phase 1A -------------------------------------------------------------
+                timeline.push({
+                    timeline_variables: stimuli.slice(0, 3),
+                    timeline: [
+                        fiction_fixation1a,
+                        fiction_cue,
+                        fiction_fixation1b,
+                        fiction_showimage1,
+                        fiction_ratings1,
+                    ],
+                })
 
-    // // Eye-tracking ==============================================================
-    timeline.push(eyetracking_consent)
-    timeline.push(eyetracking_calibration)
+                // // Break ----------------------------------------------------------------
+                timeline.push(fiction_phase1_break)
+                timeline.push(eyetracking_recalibration)
+                // Phase 1B -------------------------------------------------------------
+                timeline.push({
+                    timeline_variables: stimuli
+                        .slice(
+                            Math.ceil(stimuli.length / 2),
+                            stimuli_list.length
+                        )
+                        .slice(0, 3),
+                    timeline: [
+                        fiction_fixation1a,
+                        fiction_cue,
+                        fiction_fixation1b,
+                        fiction_showimage1,
+                        fiction_ratings1,
+                    ],
+                })
+                timeline.push(fiction_feedback1)
 
-    // Fiction stage 1 ===========================================================
-    timeline.push(fiction_instructions1)
+                // // Questionnaires ===========================================================
+                timeline.push(questionnaires_instructions0) // Instructions Questionnaires
+                timeline.push(questionnaire_bait) // Beliefs about AI technonology
+                timeline.push(feedback_bait) // Attitudes towards AI
 
-    timeline.push({
-        timeline: [fiction_instructions1],
-        on_finish() {
-            // Phase 1A -------------------------------------------------------------
-            timeline.push({
-                timeline_variables: stimuli.slice(0, 3),
-                timeline: [
-                    fiction_fixation1a,
-                    fiction_cue,
-                    fiction_fixation1b,
-                    fiction_showimage1,
-                    fiction_ratings1,
-                ],
-            })
-            // // Break ----------------------------------------------------------------
-            timeline.push(fiction_phase1_break)
-            // timeline.push(eyetracking_recalibration)
-            // Phase 1B -------------------------------------------------------------
-            timeline.push({
-                timeline_variables: stimuli
-                    .slice(Math.ceil(stimuli.length / 2), stimuli_list.length)
-                    .slice(0, 3),
-                timeline: [
-                    fiction_fixation1a,
-                    fiction_cue,
-                    fiction_fixation1b,
-                    fiction_showimage1,
-                    fiction_ratings1,
-                ],
-            })
-            timeline.push(fiction_feedback1)
+                // Stage 2 ==============================================================
+                timeline.push(fiction_instructions2)
+                timeline.push({
+                    timeline_variables: stimuli.slice(0, 3),
+                    timeline: [
+                        fiction_fixation2,
+                        fiction_showimage2,
+                        fiction_ratings2,
+                    ],
+                })
+                timeline.push(experiment_feedback)
 
-            // Stage 2 ==============================================================
-            timeline.push(fiction_instructions2)
-            timeline.push({
-                timeline_variables: stimuli.slice(0, 3),
-                timeline: [fiction_fixation2, fiction_showimage2, fiction_ratings2],
-            })
-            timeline.push(experiment_feedback)
+                // End ===================================================================
+                timeline.push(demographics_debriefing)
 
-            // End ===================================================================
-            timeline.push(demographics_debriefing)
+                // Save data via DataPipe
+                // timeline.push({
+                //     type: jsPsychPipe,
+                //     action: "save",
+                //     experiment_id: "nboDkVu5hx3y", // This in generated in the DataPipe interface
+                //     filename: `${jsPsych.randomization.randomID(10)}.csv`,
+                //     data_string: () => jsPsych.data.get().csv(),
+                // })
 
-            // Save data via DataPipe
-            // timeline.push({
-            //     type: jsPsychPipe,
-            //     action: "save",
-            //     experiment_id: "nboDkVu5hx3y", // This in generated in the DataPipe interface
-            //     filename: `${jsPsych.randomization.randomID(10)}.csv`,
-            //     data_string: () => jsPsych.data.get().csv(),
-            // })
+                // Exit fullscreen mode
+                timeline.push(fullscreen_off)
+                timeline.push(demographics_endscreen)
+            },
+        })
 
-            // Exit fullscreen mode
-            timeline.push(fullscreen_off)
-            timeline.push(demographics_endscreen)
-        },
-    })
-
-    // Run the timeline -------------------------------------------------------
-    jsPsych.run(timeline)
-</script>
-
+        // Run the timeline -------------------------------------------------------
+        jsPsych.run(timeline)
+    </script>
 </html>
