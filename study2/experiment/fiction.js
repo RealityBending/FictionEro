@@ -350,8 +350,8 @@ var fiction_phase1_break = {
 
 var fiction_phase1b = {
     timeline_variables: stimuli_list
-        .slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length)
-        .slice(0, 3), // TODO: remove this
+        .slice(Math.ceil(stimuli_list.length / 2), stimuli_list.length),
+        // .slice(0, 3), // TODO: remove this
     timeline: [
         fiction_fixation1a,
         fiction_cue,

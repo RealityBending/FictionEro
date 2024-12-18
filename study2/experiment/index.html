@@ -130,8 +130,8 @@
                         .slice(
                             Math.ceil(stimuli.length / 2),
                             stimuli_list.length
-                        )
-                        .slice(0, 3),
+                        ),
+                        //.slice(0, 3),
                     timeline: [
                         fiction_fixation1a,
                         fiction_cue,
@@ -151,7 +151,8 @@
                 // Stage 2 ==============================================================
                 timeline.push(fiction_instructions2)
                 timeline.push({
-                    timeline_variables: stimuli.slice(0, 3),
+                    timeline_variables: stimuli,
+                    //.slice(0, 3),
                     timeline: [
                         fiction_fixation2,
                         fiction_showimage2,
