@@ -94,7 +94,7 @@
         var timeline = []
 
         // Demographics ===========================================================
-        // timeline.push(fullscreen_on) // Enter fullscreen mode
+        timeline.push(fullscreen_on) // Enter fullscreen mode
         timeline.push(demographics_browser_info)
         timeline.push(demographics_consent)
         timeline.push(demographics_questions)
@@ -137,12 +137,13 @@
                         fiction_cue,
                         fiction_fixation1b,
                         fiction_showimage1,
-                        fiction_ratings1,
+                        // fiction_ratings1,
                     ],
                 })
                 timeline.push(fiction_feedback1)
 
                 // // Questionnaires ===========================================================
+                timeline.push(questionnaire_cops) // sexual activity 
                 timeline.push(questionnaires_instructions0) // Instructions Questionnaires
                 timeline.push(questionnaire_bait) // Beliefs about AI technonology
                 timeline.push(feedback_bait) // Attitudes towards AI
@@ -163,13 +164,13 @@
                 timeline.push(demographics_debriefing)
 
                 // Save data via DataPipe
-                // timeline.push({
-                //     type: jsPsychPipe,
-                //     action: "save",
-                //     experiment_id: "nboDkVu5hx3y", // This in generated in the DataPipe interface
-                //     filename: `${jsPsych.randomization.randomID(10)}.csv`,
-                //     data_string: () => jsPsych.data.get().csv(),
-                // })
+                timeline.push({
+                    type: jsPsychPipe,
+                    action: "save",
+                    experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+                    filename: `${jsPsych.randomization.randomID(10)}.csv`,
+                    data_string: () => jsPsych.data.get().csv(),
+                })
 
                 // Exit fullscreen mode
                 timeline.push(fullscreen_off)

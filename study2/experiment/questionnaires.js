@@ -172,23 +172,50 @@ var feedback_bait = {
     data: { screen: "feedback_bait" },
 }
 
-// var questionnaire_cops = {
-//     type: jsPsychSurvey,
-//     survey_json:{
-//         title: "About Pornography...",
-//         description: "Given the nature of our study, we are interested in understanding your habits in terms of exposure to pornography. Please consider answering the questions below.",
-//         showQuestionNumbers: false,
-//         elements: [
-//             {
-//                 type: "checkbox",
-//                 name: "COPS_Frequency_1",
-//                 title: "How often have you viewed pornography in the past year?",
-//                 choices: [
+// COPS
+// Hatch, S. G., Esplin, C. R., Hatch, H. D., Halstead, A., Olsen, J., & Braithwaite, S. R. (2023). The consumption of pornography scale–general (COPS–G). Sexual and Relationship Therapy, 38(2), 194-218.
+var questionnaire_cops = {
+    type: jsPsychSurvey,
+    survey_json: {
+        title: "Sexual Activity",
+        completeText: "Continue",
+        showQuestionNumbers: false,
 
-//                 ]
-
-//             }
-//         ]
-//     }
-// }
-
+        elements:[
+            {
+                type: "radiogroup",
+                name: "COPS_Frequency",
+                title: "Porn Frequency",
+                description: "How often have you viewed pornography",
+                choices: [
+                    "I haven't watched pornography in the past 30 days",
+                    "I watched pornography once in the past 30 days",
+                    "I watched pornography twice in the past 30 days",
+                    "I watched pornography weekly",
+                    "I watched pornography multiple times a week",
+                    "I watched pornography daily",
+                    "I watched pornography multiple times a day",
+                ],
+                required: true,
+            },
+            {
+                type: "radiogroup",
+                name: "COPS_SexualActivity",
+                title: "Sexual Activity",
+                description: "When was the last time you engaged in any kind of sexual activity (intercourse or masturbation)?",
+                choices: [
+                    "Less than 24h ago",
+                    "Within the last 3 days",
+                    "Within the last week",
+                    "Within the last month",
+                    "Within the last year",
+                    "More than a year ago",
+                ],
+                required: true, 
+            },
+        ],
+    },
+    data: {
+        screen: "questionnaire_cops",
+    },
+}

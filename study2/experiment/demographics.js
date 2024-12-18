@@ -66,7 +66,7 @@ var demographics_consent = {
             "This study is being conducted by Dr Dominique Makowski, and his team, from the <b>University of Sussex</b>, who are happy to be contacted if you have any questions (see contact information below).</p>" +
             // Description
             "<p align='left'><b>Why have I been invited and what will I do?</b><br>" +
-            "The goal is to study how new technology can impact <b>human perception</b>. In this study, you will be shown images and asked to complete a few questionnaires and perform some tasks. " +
+            "The goal is to study how new technology can impact <b>human perception</b>. In this study, you will be shown <b>erotic images</b> and asked to complete a few questionnaires and perform some tasks. " +
             "The whole experiment will take you <b style='color:green;'>~35 min</b> to complete. Please make you sure that you are <b>attentive and in a quiet environment</b>, and that you have time to complete it in one go.</p>" +
             // Results and personal information
             "<p align='left'><b>What will happen to the results and my personal information?</b><br>" +
@@ -78,6 +78,7 @@ var demographics_consent = {
             "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'> I understand that since the study is anonymous, it will be impossible to withdraw my data once I have completed it.</li>" +
             "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'> I understand that my personal data will be used for the purposes of this research study and will be handled in accordance with Data Protection legislation. I understand that the University's Privacy Notice provides further information on how the University uses personal data in its research.</li>" +
             "<li style = 'text-align: justify;padding-left: 20px; list-style-position: inside'> I understand that my collected data will be stored in a de-identified way. De-identified data may be made publicly available through secured scientific online data repositories.</li>" +
+            "<li style = 'text-align: justify;padding-left: 20px; list-style-position: inside'> I understand that due to the explicit nature of the images, <b>I confirm that I am 18 years of age or older</b>.</li>" +
             // Incentive
             "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'>Please note that various checks will be performed to ensure the validity of the data. We reserve the right to withhold credit awards or reimbursement should we detect non-valid responses (e.g., random patterns of answers, instructions not read, ...).</li>" +
             "<li style = 'text-align: justify;padding-left: 20px; list-style-position: inside'>By participating, you agree to follow the instructions and provide honest answers. If you do not wish to participate, simply close your browser.</li>" +
