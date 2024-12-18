@@ -357,7 +357,7 @@ var fiction_phase1b = {
         fiction_cue,
         fiction_fixation1b,
         fiction_showimage1,
-        // fiction_ratings1,
+        fiction_ratings1,
     ],
 }
 
