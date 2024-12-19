@@ -111,7 +111,8 @@
             on_finish() {
                 //Phase 1A -------------------------------------------------------------
                 timeline.push({
-                    timeline_variables: stimuli.slice(0, 3),
+                    timeline_variables: stimuli,
+                    //.slice(0, 3),
                     timeline: [
                         fiction_fixation1a,
                         fiction_cue,
@@ -143,8 +144,8 @@
                 timeline.push(fiction_feedback1)
 
                 // // Questionnaires ===========================================================
-                timeline.push(questionnaire_cops) // sexual activity 
                 timeline.push(questionnaires_instructions0) // Instructions Questionnaires
+                timeline.push(questionnaire_cops) // sexual activity 
                 timeline.push(questionnaire_bait) // Beliefs about AI technonology
                 timeline.push(feedback_bait) // Attitudes towards AI
 
