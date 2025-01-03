@@ -87,7 +87,7 @@ var fiction_instructions1 = {
     type: jsPsychHtmlButtonResponse,
     css_classes: ["narrow-text"],
     stimulus:
-        "<h2>Task A </h2>" +
+        "<h2>Part 1/2</h2>" +
         "<p>This study stems out of an exciting new partnership between researchers from the <b>University of Sussex</b> and a young <b>AI startup</b> based in Brighton, UK, that specializes in making AI technology more ethical.</p>" +
         "<p>Our goal is to better understand how various people react to different images. For this, we will be using a new <b>image-generation algorithm</b> (based on a modified <i>Generative Adversarial Network</i>) trained on a carefully refined material to produce realistic high-quality images. " +
         "This allows us to manipulate the generation parameters and understand how they impact face perception.</p>" +
@@ -121,7 +121,7 @@ var fiction_instructions2 = {
     css_classes: ["narrow-text"],
     stimulus:
         "<div style='text-align: center;'><img src='media/phase2_img.png' height='350' align='right'></img></div>" +
-        "<h2>Task B</h2>" +
+        "<h2>Part 2/2</h2>" +
         "<p>Thank you! In this final phase, we would like to see if you found our <b>image generation algorithm convincing</b> and error-free.</p>" +
         "<p>But there is <b>something important</b> we need to tell you... In the previous phase, some images were <b style='color: orange'>intentionally mislabelled</b> (we told you it was a photograph when it was actually AI-generated and vice versa).</p>" +
         "<p>In this phase, we want you to tell us for each image <b>what you think is the true category</b>! " +
