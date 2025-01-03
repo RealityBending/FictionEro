@@ -112,7 +112,8 @@
         on_finish() {
             //Phase 1A -------------------------------------------------------------
             timeline.push({
-                timeline_variables: stimuli.slice(0, 1),
+                timeline_variables: stimuli,
+                //.slice(0, 1),
                 timeline: [
                     fiction_fixation1a,
                     fiction_cue,
@@ -130,7 +131,8 @@
                 timeline_variables: stimuli.slice(
                     Math.ceil(stimuli.length / 2),
                     stimuli.length
-                ).slice(0, 1),
+                ),
+                //.slice(0, 1),
                 timeline: [
                     fiction_fixation1a,
                     fiction_cue,
@@ -150,7 +152,8 @@
             // Stage 2 ==============================================================
             timeline.push(fiction_instructions2)
             timeline.push({
-                timeline_variables: stimuli.slice(0, 1),
+                timeline_variables: stimuli,
+                //.slice(0, 1),
                 timeline: [
                     fiction_fixation2,
                     fiction_showimage2,
