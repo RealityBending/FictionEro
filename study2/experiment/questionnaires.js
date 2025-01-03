@@ -2,6 +2,7 @@
 var questionnaires_instructions0 = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
+        "<h2>Questionnaires</h2>" +
         "<p>We will continue with a series of questionnaires.<br>It is important that you answer truthfully. Please read the statements carefully and answer according to what describe you the best.</p>",
     choices: ["Continue"],
     data: { screen: "part2_instructions" },
@@ -181,7 +182,7 @@ var questionnaire_cops = {
         completeText: "Continue",
         showQuestionNumbers: false,
 
-        elements:[
+        elements: [
             {
                 type: "radiogroup",
                 name: "COPS_Frequency",
@@ -211,7 +212,7 @@ var questionnaire_cops = {
                     "Within the last year",
                     "More than a year ago",
                 ],
-                required: true, 
+                required: true,
             },
         ],
     },
