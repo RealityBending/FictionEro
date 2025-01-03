@@ -328,7 +328,7 @@ var demographics_debriefing = {
     stimulus:
         "<h2>Debriefing</h2>" +
         "<p align='left'>The purpose of this study was actually to study the effect on sexual arousal of <i>believing</i> that the content is AI-generated. " +
-        "Indeed, we want to test the hypothesis that believing that erotic images are fake would lead to a lower emotional arousal. " +
+        "Indeed, we want to test the hypothesis that believing that erotic images are fake would lead to a lower sexual arousal. " +
         "As we are primarily interested in your <i>beliefs</i> about reality, all images were in fact taken from an existing database of real images used in psychology research to study emotions. " +
         "We apologize for the necessary deception used in the instructions, and we hope that you understand its role in ensuring the validity of our experiment.</p>" +
         "<p align='left'><b>Thank you again!</b> Your participation in this study will be kept completely confidential. If you have any questions or concerns about the project, please contact D.Makowski@sussex.ac.uk or A.Neves@sussex.ac.uk</p>" +
