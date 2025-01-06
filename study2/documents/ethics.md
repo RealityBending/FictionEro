@@ -60,14 +60,14 @@ A10: An experimental manipulation is in place, involving the use of deception th
 - B.5: No
 - B.6: Yes
 - B.7: Yes
-- B.8: N/A
+- B.8: Yes
 - B.9: Yes
 - B.10: Yes
 - B.11: Yes
-    B11a: survey is anonymous so name will not be collected
+    B11a: Survey is anonymous so names and IPS, will not be collected. Raw data will be saved in a private OSF account accessible only to the researcher and the supervisor, and the data made available on Github will be anonymised beforehand.
 - B.12: No
 - B.13: Yes
-- B.14: N/A
+- B.14: Yes
 - B.15: Yes
 - B.16: Yes
 - B.17: Participants will be asked to click a box informing consent for the study.

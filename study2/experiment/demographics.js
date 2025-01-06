@@ -83,7 +83,7 @@ var demographics_consent = {
             "<li style = 'text-align: justify; padding-left: 20px; list-style-position: inside'>Please note that various checks will be performed to ensure the validity of the data. We reserve the right to withhold credit awards or reimbursement should we detect non-valid responses (e.g., random patterns of answers, instructions not read, ...).</li>" +
             "<li style = 'text-align: justify;padding-left: 20px; list-style-position: inside'>By participating, you agree to follow the instructions and provide honest answers. If you do not wish to participate, simply close your browser.</li>" +
             "</p>" +
-            "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (<i style='color:DodgerBlue;'>D.Makowski@sussex.ac.uk</i>) or Ana Neves (<i style='color:DodgerBlue;'>A.Neves@sussex.ac.uk</i>). This research has been approved (xx/xxx/xx) by the ethics board of the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</sup></sub></p>"
+            "<p align='left'><br><sub><sup>For further information about this research, or if you have any concerns, please contact Dr Dominique Makowski (<i style='color:DodgerBlue;'>D.Makowski@sussex.ac.uk</i>), Ana Neves (<i style='color:DodgerBlue;'>A.Neves@sussex.ac.uk</i>) or Emma Benn (<i style='color:DodgerBlue;'>eb672@sussex.ac.uk</i>). This research has been approved (xx/xxx/xx) by the ethics board of the School of Psychology. The University of Sussex has insurance in place to cover its legal liabilities in respect of this study.</sup></sub></p>"
         // Add item about eye tracking and need for a workign camera
         return text
     },
@@ -331,7 +331,7 @@ var demographics_debriefing = {
         "Indeed, we want to test the hypothesis that believing that erotic images are fake would lead to a lower sexual arousal. " +
         "As we are primarily interested in your <i>beliefs</i> about reality, all images were in fact taken from an existing database of real images used in psychology research to study emotions. " +
         "We apologize for the necessary deception used in the instructions, and we hope that you understand its role in ensuring the validity of our experiment.</p>" +
-        "<p align='left'><b>Thank you again!</b> Your participation in this study will be kept completely confidential. If you have any questions or concerns about the project, please contact D.Makowski@sussex.ac.uk or A.Neves@sussex.ac.uk</p>" +
+        "<p align='left'><b>Thank you again!</b> Your participation in this study will be kept completely confidential. If you have any questions or concerns about the project, please contact <i style='color:DodgerBlue;'>D.Makowski@sussex.ac.uk</i>, <i style='color:DodgerBlue;'>A.Neves@sussex.ac.uk</i> or <i style='color:DodgerBlue;'>eb672@sussex.ac.uk</i></p>" +
         "<p>To complete your participation in this study, click on 'Continue' and <b>wait until your responses have been successfully saved</b> before closing the tab.</p> ",
     choices: ["Continue"],
     data: { screen: "debriefing" },
