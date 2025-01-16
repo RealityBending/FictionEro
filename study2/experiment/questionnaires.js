@@ -1,5 +1,5 @@
 // Questionnaires
-var questionnaires_instructions0 = {
+var questionnaires_instructions = {
     type: jsPsychHtmlButtonResponse,
     stimulus:
         "<h2>Questionnaires</h2>" +
