@@ -5,7 +5,8 @@ import pandas as pd
 
 import requests
 
-path = "C:/Users/domma/Box/Data/FakeFace2/"
+# path = "C:/Users/domma/Box/Data/FakeFace2/"
+path = "C:/Users/asf25/Box/FictionEro2/"
 files = os.listdir(path)
 
 
@@ -78,14 +79,7 @@ for i, file in enumerate(files):
             demo[item] = "Other_" + answer
             item = item.replace("-Comment", "")
         df[item] = "Prefer not to say" if demo[item] == None else demo[item]
-    # HEXACO ----------------------------------------------------------------
-    hexaco = data[data["screen"] == "questionnaire_hexaco18"].iloc[0]
-
-    df["Hexaco_Duration"] = hexaco["rt"] / 1000 / 60
-    hexaco = json.loads(hexaco["response"])
-    for item in hexaco:
-        df[item] = float(hexaco[item])
-
+    
     # BAIT ------------------------------------------------------------------
     bait = data[data["screen"] == "questionnaire_bait"].iloc[0]
 
@@ -93,6 +87,15 @@ for i, file in enumerate(files):
     bait = json.loads(bait["response"])
     for item in bait:
         df[item] = float(bait[item])
+
+    # COPS ------------------------------------------------------------------
+    cops = data[data["screen"] == "questionnaire_cops"].iloc[0]
+
+    df["COPS_Duration"] = cops["rt"] / 1000 / 60
+    cops = json.loads(cops["response"])
+    for item in cops:
+        df[item] = float(cops[item])
+
 
     # Feedback -------------------------------------------------------------
     f1 = data[data["screen"] == "fiction_feedback1"].iloc[0]
@@ -179,9 +182,9 @@ for i, file in enumerate(files):
     )
 
     ratings1 = [json.loads(k) for k in ratings1["response"]]
-    dftask["Beauty"] = [r["Beauty"] for r in ratings1]
-    dftask["Attractiveness"] = [r["Attractiveness"] for r in ratings1]
-    dftask["Trustworthiness"] = [r["Trustworthiness"] for r in ratings1]
+    dftask["Arousal"] = [r["Arousal"] for r in ratings1]
+    dftask["Enticing"] = [r["Enticing"] for r in ratings1]
+    dftask["Valence"] = [r["Valence"] for r in ratings1]
 
     # Phase 2
     stims2 = data[data["screen"] == "fiction_image2"].copy()
@@ -209,166 +212,166 @@ for i, file in enumerate(files):
 
     data_task = pd.concat([data_task, dftask], axis=0, ignore_index=True)
 
-    # Eye-tracking data --------------------------------------------------
-    if "eyetracking_validation_run" in data["screen"].values:
-        eye = data[data["screen"] == "eyetracking_validation_run"]
-        calib = [json.loads(k) for k in eye["percent_in_roi"]]
-        dist = [json.loads(k) for k in eye["average_offset"]]
+    # # Eye-tracking data --------------------------------------------------
+    # if "eyetracking_validation_run" in data["screen"].values:
+    #     eye = data[data["screen"] == "eyetracking_validation_run"]
+    #     calib = [json.loads(k) for k in eye["percent_in_roi"]]
+    #     dist = [json.loads(k) for k in eye["average_offset"]]
 
-        df["Eyetracking_Validation1_Mean"] = np.mean(calib[-2])
-        df["Eyetracking_Validation1_Max"] = np.max(calib[-2])
-        df["Eyetracking_Validation1_Min"] = np.min(calib[-2])
-        # The average x and y distance from each validation point, plus the median
-        # distance r of the points from this average offset.
-        df["Eyetracking_Validation1_Distance"] = np.mean([g["r"] for g in dist[-2]])
+    #     df["Eyetracking_Validation1_Mean"] = np.mean(calib[-2])
+    #     df["Eyetracking_Validation1_Max"] = np.max(calib[-2])
+    #     df["Eyetracking_Validation1_Min"] = np.min(calib[-2])
+    #     # The average x and y distance from each validation point, plus the median
+    #     # distance r of the points from this average offset.
+    #     df["Eyetracking_Validation1_Distance"] = np.mean([g["r"] for g in dist[-2]])
 
-        df["Eyetracking_Validation2_Mean"] = np.mean(calib[-1])
-        df["Eyetracking_Validation2_Max"] = np.max(calib[-1])
-        df["Eyetracking_Validation2_Min"] = np.min(calib[-1])
-        df["Eyetracking_Validation2_Distance"] = np.mean([g["r"] for g in dist[-1]])
+    #     df["Eyetracking_Validation2_Mean"] = np.mean(calib[-1])
+    #     df["Eyetracking_Validation2_Max"] = np.max(calib[-1])
+    #     df["Eyetracking_Validation2_Min"] = np.min(calib[-1])
+    #     df["Eyetracking_Validation2_Distance"] = np.mean([g["r"] for g in dist[-1]])
 
-        stims = data[data["screen"] == "fiction_image1"].copy().reset_index(drop=True)
-        for j, row in stims.iterrows():
-            item = row["stimulus"].replace("stimuli/AMFD/", "")
-            gaze = json.loads(row["webgazer_data"])
-            dfgaze = pd.DataFrame(
-                {
-                    "Participant": filename,
-                    "Stimulus": item.replace(".jpg", ""),
-                    "Trial": row["trial_number"],
-                    "Time": [g["t"] / 1000 for g in gaze],
-                    "Gaze_x": [g["x"] for g in gaze],
-                    "Gaze_y": [g["y"] for g in gaze],
-                    "Type": "Image",
-                }
-            )
+    #     stims = data[data["screen"] == "fiction_image1"].copy().reset_index(drop=True)
+    #     for j, row in stims.iterrows():
+    #         item = row["stimulus"].replace("stimuli/AMFD/", "")
+    #         gaze = json.loads(row["webgazer_data"])
+    #         dfgaze = pd.DataFrame(
+    #             {
+    #                 "Participant": filename,
+    #                 "Stimulus": item.replace(".jpg", ""),
+    #                 "Trial": row["trial_number"],
+    #                 "Time": [g["t"] / 1000 for g in gaze],
+    #                 "Gaze_x": [g["x"] for g in gaze],
+    #                 "Gaze_y": [g["y"] for g in gaze],
+    #                 "Type": "Image",
+    #             }
+    #         )
 
-            # Contain x and y properties specifying the top-left corner of the object, width and height values,
-            # plus top, bottom, left, and right parameters which specify the bounding rectangle of the element.
-            target = json.loads(row["webgazer_targets"])[
-                "#jspsych-image-keyboard-response-stimulus"
-            ]
-            dfgaze["Target_TopLeft_x"] = target["x"]
-            dfgaze["Target_TopLeft_y"] = target["y"]
-            dfgaze["Target_BottomRight_x"] = target["x"] + target["width"]
-            dfgaze["Target_BottomRight_y"] = target["y"] + target["height"]
+    #         # Contain x and y properties specifying the top-left corner of the object, width and height values,
+    #         # plus top, bottom, left, and right parameters which specify the bounding rectangle of the element.
+    #         target = json.loads(row["webgazer_targets"])[
+    #             "#jspsych-image-keyboard-response-stimulus"
+    #         ]
+    #         dfgaze["Target_TopLeft_x"] = target["x"]
+    #         dfgaze["Target_TopLeft_y"] = target["y"]
+    #         dfgaze["Target_BottomRight_x"] = target["x"] + target["width"]
+    #         dfgaze["Target_BottomRight_y"] = target["y"] + target["height"]
 
-            # Fixation cross
-            fixcross = data[
-                (data["screen"] == "fiction_fixation1b") & (data["item"] == item)
-            ]
+    #         # Fixation cross
+    #         fixcross = data[
+    #             (data["screen"] == "fiction_fixation1b") & (data["item"] == item)
+    #         ]
 
-            target = json.loads(fixcross["webgazer_targets"].values[0])[
-                "#jspsych-html-keyboard-response-stimulus"
-            ]
+    #         target = json.loads(fixcross["webgazer_targets"].values[0])[
+    #             "#jspsych-html-keyboard-response-stimulus"
+    #         ]
 
-            fixcross = json.loads(fixcross["webgazer_data"].values[0])
+    #         fixcross = json.loads(fixcross["webgazer_data"].values[0])
 
-            dfgazefixcross = pd.DataFrame(
-                {
-                    "Participant": filename,
-                    "Stimulus": item.replace(".jpg", ""),
-                    "Trial": row["trial_number"],
-                    "Time": [g["t"] / 1000 for g in fixcross],
-                    "Gaze_x": [g["x"] for g in fixcross],
-                    "Gaze_y": [g["y"] for g in fixcross],
-                    "Type": "Fixation Cross",
-                    "Target_TopLeft_x": target["x"],
-                    "Target_TopLeft_y": target["y"],
-                    "Target_BottomRight_x": target["x"] + target["width"],
-                    "Target_BottomRight_y": target["y"] + target["height"],
-                }
-            )
+    #         dfgazefixcross = pd.DataFrame(
+    #             {
+    #                 "Participant": filename,
+    #                 "Stimulus": item.replace(".jpg", ""),
+    #                 "Trial": row["trial_number"],
+    #                 "Time": [g["t"] / 1000 for g in fixcross],
+    #                 "Gaze_x": [g["x"] for g in fixcross],
+    #                 "Gaze_y": [g["y"] for g in fixcross],
+    #                 "Type": "Fixation Cross",
+    #                 "Target_TopLeft_x": target["x"],
+    #                 "Target_TopLeft_y": target["y"],
+    #                 "Target_BottomRight_x": target["x"] + target["width"],
+    #                 "Target_BottomRight_y": target["y"] + target["height"],
+    #             }
+    #         )
 
-            dfgaze = pd.concat([dfgazefixcross, dfgaze], axis=0, ignore_index=True)
-            data_eye = pd.concat([data_eye, dfgaze], axis=0, ignore_index=True)
+    #         dfgaze = pd.concat([dfgazefixcross, dfgaze], axis=0, ignore_index=True)
+    #         data_eye = pd.concat([data_eye, dfgaze], axis=0, ignore_index=True)
 
-    # Concatenate data ------------------------------------------------------
-    data_demo = pd.concat([data_demo, df], axis=0, ignore_index=True)
-
-
-# SONA ====================================================================
-sona = data_demo.loc[data_demo["Source"] == "SONA"].sort_values("SONA_ID")
-sona[["SONA_ID"]].astype(int)
-data_demo = data_demo.drop(columns=["SONA_ID"])
-
-# Reanonimize =============================================================
-data_demo = data_demo.sort_values(["Datetime"])
-ppt = {s: f"S{i+1:03d}" for i, s in enumerate(data_demo["Participant"].unique())}
-data_demo["Participant"] = [ppt[s] for s in data_demo["Participant"]]
-data_task["Participant"] = [ppt[s] for s in data_task["Participant"]]
-data_eye["Participant"] = [ppt[s] for s in data_eye["Participant"]]
-data_demo = data_demo.drop(columns=["Datetime"])
+    # # Concatenate data ------------------------------------------------------
+    # data_demo = pd.concat([data_demo, df], axis=0, ignore_index=True)
 
 
-# Manual clean-up =========================================================
-def replace_value(df, column, old, new):
-    df = df.copy()
-    df.loc[df[column] == old, column] = new
-    return df
+# # SONA ====================================================================
+# sona = data_demo.loc[data_demo["Source"] == "SONA"].sort_values("SONA_ID")
+# sona[["SONA_ID"]].astype(int)
+# data_demo = data_demo.drop(columns=["SONA_ID"])
+
+# # Reanonimize =============================================================
+# data_demo = data_demo.sort_values(["Datetime"])
+# ppt = {s: f"S{i+1:03d}" for i, s in enumerate(data_demo["Participant"].unique())}
+# data_demo["Participant"] = [ppt[s] for s in data_demo["Participant"]]
+# data_task["Participant"] = [ppt[s] for s in data_task["Participant"]]
+# data_eye["Participant"] = [ppt[s] for s in data_eye["Participant"]]
+# data_demo = data_demo.drop(columns=["Datetime"])
 
 
-# data_demo["Ethnicity"][data_demo["Ethnicity"].str.contains("Other_").values].values
-data_demo = replace_value(data_demo, "Ethnicity", "Other_White, Hispanic", "Mixed")
+# # Manual clean-up =========================================================
+# def replace_value(df, column, old, new):
+#     df = df.copy()
+#     df.loc[df[column] == old, column] = new
+#     return df
 
 
-# data_demo["Discipline"][data_demo["Discipline"].str.contains("Other_").values].values
-data_demo = replace_value(
-    data_demo, "Discipline", "Other_Business Psychology", "Psychology"
-)
-data_demo = replace_value(data_demo, "Discipline", "Other_Journalism", "Other")
-data_demo = replace_value(data_demo, "Discipline", "Other_Industrial Design", "Other")
-data_demo = replace_value(data_demo, "Discipline", "Other_pharmacy", "Other")
-data_demo = replace_value(data_demo, "Discipline", "Other_Geography", "Other")
-data_demo = replace_value(
-    data_demo, "Discipline", "Other_Health Sciences and Public Health", "Other"
-)
-data_demo = replace_value(data_demo, "Discipline", "Other_public health", "Other")
-data_demo = replace_value(
-    data_demo,
-    "Discipline",
-    "Other_Business: Human Resources and Industrial Relations\nEducation: Special Education",
-    "Other",
-)
-data_demo = replace_value(data_demo, "Discipline", "Other_Tourism", "Other")
-
-# data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Pansexual", "Other")
-data_demo = replace_value(
-    data_demo, "SexualOrientation", "Other_Mainly heterosexual", "Heterosexual"
-)
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Queer", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Demisexual", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Questioning", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Asexual", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_AroAce", "Other")
+# # data_demo["Ethnicity"][data_demo["Ethnicity"].str.contains("Other_").values].values
+# data_demo = replace_value(data_demo, "Ethnicity", "Other_White, Hispanic", "Mixed")
 
 
-# data_demo["SexualStatus"][data_demo["SexualStatus"].str.contains("Other_").values].values
-data_demo = replace_value(
-    data_demo,
-    "SexualStatus",
-    "Other_Married not open to dating",
-    "In a relationship and not open to dating",
-)
-data_demo = replace_value(
-    data_demo,
-    "SexualStatus",
-    "Other_Prefer not to say.",
-    np.nan,
-)
+# # data_demo["Discipline"][data_demo["Discipline"].str.contains("Other_").values].values
+# data_demo = replace_value(
+#     data_demo, "Discipline", "Other_Business Psychology", "Psychology"
+# )
+# data_demo = replace_value(data_demo, "Discipline", "Other_Journalism", "Other")
+# data_demo = replace_value(data_demo, "Discipline", "Other_Industrial Design", "Other")
+# data_demo = replace_value(data_demo, "Discipline", "Other_pharmacy", "Other")
+# data_demo = replace_value(data_demo, "Discipline", "Other_Geography", "Other")
+# data_demo = replace_value(
+#     data_demo, "Discipline", "Other_Health Sciences and Public Health", "Other"
+# )
+# data_demo = replace_value(data_demo, "Discipline", "Other_public health", "Other")
+# data_demo = replace_value(
+#     data_demo,
+#     "Discipline",
+#     "Other_Business: Human Resources and Industrial Relations\nEducation: Special Education",
+#     "Other",
+# )
+# data_demo = replace_value(data_demo, "Discipline", "Other_Tourism", "Other")
 
-# data_demo["Gender"][data_demo["Gender"].str.contains("Other_").values].values
-# data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
-# data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
-data_demo = replace_value(data_demo, "Education", "Other_Diploma in TEFL", "Other")
-data_demo = replace_value(data_demo, "Education", "Other_A level", "High school")
-data_demo = replace_value(data_demo, "Education", "Other_collage", "High school")
-data_demo = replace_value(
-    data_demo, "Education", "Other_A-Levels, college", "High school"
-)
-data_demo = replace_value(data_demo, "Education", "Other_Middle school", "Other")
-data_demo = replace_value(data_demo, "Education", "Other_Middle School", "Other")
+# # data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
+# data_demo = replace_value(data_demo, "SexualOrientation", "Other_Pansexual", "Other")
+# data_demo = replace_value(
+#     data_demo, "SexualOrientation", "Other_Mainly heterosexual", "Heterosexual"
+# )
+# data_demo = replace_value(data_demo, "SexualOrientation", "Other_Queer", "Other")
+# data_demo = replace_value(data_demo, "SexualOrientation", "Other_Demisexual", "Other")
+# data_demo = replace_value(data_demo, "SexualOrientation", "Other_Questioning", "Other")
+# data_demo = replace_value(data_demo, "SexualOrientation", "Other_Asexual", "Other")
+# data_demo = replace_value(data_demo, "SexualOrientation", "Other_AroAce", "Other")
+
+
+# # data_demo["SexualStatus"][data_demo["SexualStatus"].str.contains("Other_").values].values
+# data_demo = replace_value(
+#     data_demo,
+#     "SexualStatus",
+#     "Other_Married not open to dating",
+#     "In a relationship and not open to dating",
+# )
+# data_demo = replace_value(
+#     data_demo,
+#     "SexualStatus",
+#     "Other_Prefer not to say.",
+#     np.nan,
+# )
+
+# # data_demo["Gender"][data_demo["Gender"].str.contains("Other_").values].values
+# # data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
+# # data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
+# data_demo = replace_value(data_demo, "Education", "Other_Diploma in TEFL", "Other")
+# data_demo = replace_value(data_demo, "Education", "Other_A level", "High school")
+# data_demo = replace_value(data_demo, "Education", "Other_collage", "High school")
+# data_demo = replace_value(
+#     data_demo, "Education", "Other_A-Levels, college", "High school"
+# )
+# data_demo = replace_value(data_demo, "Education", "Other_Middle school", "Other")
+# data_demo = replace_value(data_demo, "Education", "Other_Middle School", "Other")
 
 # Save data ==============================================================
 
