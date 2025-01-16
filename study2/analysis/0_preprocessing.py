@@ -16,7 +16,7 @@ data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
-for i, file in enumerate(files):
+for i, file in enumerate(files[0:1]):
     print(f"File N°{i+1}/{len(files)}")  # Print progress
 
     # Skip if participant already in the dataset
@@ -25,6 +25,7 @@ for i, file in enumerate(files):
         "Participant" in data_demo.columns
         and filename in data_demo["Participant"].values
     ):
+        print(" - Error 1 - ")
         continue
 
     data = pd.read_csv(path + file)
@@ -34,6 +35,7 @@ for i, file in enumerate(files):
 
     # Browser info -------------------------------------------------------
     if "browser_info" not in data["screen"].values:
+        print(" - Error 2 - ")
         continue
     browser = data[data["screen"] == "browser_info"].iloc[0]
 
@@ -42,6 +44,7 @@ for i, file in enumerate(files):
         isinstance(browser["researcher"], str) is False
         or browser["researcher"] == "test"
     ):
+        print(" - Error 3 - ")
         continue
 
     df = pd.DataFrame(
@@ -63,7 +66,8 @@ for i, file in enumerate(files):
     df["Datetime"] = pd.to_datetime(
         df["Date"] + " " + df["Time"], format="%d/%m/%Y %H:%M:%S"
     )
-    if df["Datetime"].values[0] < pd.Timestamp("2024-07-20"):
+    if df["Datetime"].values[0] < pd.Timestamp("2025-01-16"):
+        print("- ERROR 3")
         continue
     if "sona_id" in browser.index and not pd.isnull(browser["sona_id"]):
         df["SONA_ID"] = int(browser["sona_id"])
@@ -205,7 +209,7 @@ for i, file in enumerate(files):
     # Merge and clean
     dftask = pd.merge(dftask, dftask2, on="Stimulus", how="left")
     dftask["Stimulus"] = dftask["Stimulus"].apply(
-        lambda x: x.replace("stimuli/AMFD/", "")
+        lambda x: x.replace("stimuli/", "")
     )
     dftask["Stimulus"] = dftask["Stimulus"].apply(lambda x: x.replace(".jpg", ""))
     dftask = dftask.reset_index(drop=True)
@@ -290,12 +294,12 @@ for i, file in enumerate(files):
     # data_demo = pd.concat([data_demo, df], axis=0, ignore_index=True)
 
 
-# # SONA ====================================================================
+# SONA ====================================================================
 # sona = data_demo.loc[data_demo["Source"] == "SONA"].sort_values("SONA_ID")
 # sona[["SONA_ID"]].astype(int)
 # data_demo = data_demo.drop(columns=["SONA_ID"])
 
-# # Reanonimize =============================================================
+# Reanonimize =============================================================
 # data_demo = data_demo.sort_values(["Datetime"])
 # ppt = {s: f"S{i+1:03d}" for i, s in enumerate(data_demo["Participant"].unique())}
 # data_demo["Participant"] = [ppt[s] for s in data_demo["Participant"]]
@@ -361,9 +365,9 @@ for i, file in enumerate(files):
 #     np.nan,
 # )
 
-# # data_demo["Gender"][data_demo["Gender"].str.contains("Other_").values].values
-# # data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
-# # data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
+# data_demo["Gender"][data_demo["Gender"].str.contains("Other_").values].values
+# data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
+# data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
 # data_demo = replace_value(data_demo, "Education", "Other_Diploma in TEFL", "Other")
 # data_demo = replace_value(data_demo, "Education", "Other_A level", "High school")
 # data_demo = replace_value(data_demo, "Education", "Other_collage", "High school")
