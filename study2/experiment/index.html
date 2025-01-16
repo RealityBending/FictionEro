@@ -153,7 +153,7 @@
             // Stage 2 ==============================================================
             timeline.push(fiction_instructions2)
             timeline.push({
-                timeline_variables: jsPsych.randomization.repeat(stimuli, 1),
+                timeline_variables: jsPsych.randomization.shuffleNoRepeats(stimuli),
                 timeline: [
                     fiction_fixation2,
                     fiction_showimage2,
