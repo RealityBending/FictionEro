@@ -100,13 +100,14 @@
     timeline.push(demographics_questions)
     timeline.push(fiction_preloadstims)
 
-    // // // Eye-tracking ==============================================================
+    // Eye-tracking ==============================================================
     timeline.push(eyetracking_consent)
-    timeline.push(fullscreen_on) // Enter fullscreen mode
-    timeline.push(eyetracking_calibration)
+    timeline.push(eyetracking_calibration) // include full-screen 
 
     // Fiction stage 1 ===========================================================
+    timeline.push(eyetracking_fullscreen) // full-screen if they don't consent
 
+    // Enter fullscreen mode
     timeline.push({
         timeline: [fiction_instructions1],
         on_finish() {

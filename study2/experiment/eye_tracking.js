@@ -91,6 +91,23 @@ var calibration_done = {
     choices: ["Understood"],
 }
 
+var eyetracking_fullscreen = {
+    timeline: [
+        fullscreen_on
+    ],
+    conditional_function: function () {
+        var consent = jsPsych.data
+            .get()
+            .filter({ screen: "eyetracking_consent" })["trials"][0]
+        if (consent["response"] == 0) {
+            return false
+        } else {
+            return true
+        }
+    }
+}
+
+
 // Recalibration ====================================================================
 var eyetracking_recalibrate_instructions = {
     type: jsPsychHtmlButtonResponse,
@@ -131,6 +148,7 @@ var eyetracking_recalibrate_process = {
 var eyetracking_calibration = {
     timeline: [
         eyetracking_webcam,
+        fullscreen_on,
         eyetracking_calibration_instructions,
         eyetracking_calibration_run,
         eyetracking_validation_instructions,
@@ -147,7 +165,7 @@ var eyetracking_calibration = {
         } else {
             return false
         }
-    },
+    }
 }
 
 var eyetracking_recalibration = {
