@@ -53,9 +53,9 @@ var demographics_consent = {
             "<img src='https://blogs.brighton.ac.uk/sussexwrites/files/2019/06/University-of-Sussex-logo-transparent.png' width='150px' align='right'/><br><br><br><br><br>" +
             "<h1>Informed Consent</h1>"
 
-        if (jsPsych.data.urlVariables()["exp"] == "surveyswap") {
+        if (jsPsych.data.urlVariables()["exp"] == "prolific") {
             text +=
-                "<p style='color:green;' align='left'><b>Note: You will receive a <i style='color:purple;'>SurveySwap.io</i> completion code at the end of the experiment.</b></p>"
+                "<p style='color:green;' align='left'><b>Note: You will receive information regarding your <i style='color:purple;'>Prolific</i> participation at the end of the experiment.</b></p>"
         }
 
         // Consent Form
