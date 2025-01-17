@@ -16,7 +16,7 @@ data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
-for i, file in enumerate(files[0:1]):
+for i, file in enumerate(files[1:2]):
     print(f"File N°{i+1}/{len(files)}")  # Print progress
 
     # Skip if participant already in the dataset
@@ -25,7 +25,7 @@ for i, file in enumerate(files[0:1]):
         "Participant" in data_demo.columns
         and filename in data_demo["Participant"].values
     ):
-        print(" - Error 1 - ")
+        print(" - ERROR 1")
         continue
 
     data = pd.read_csv(path + file)
@@ -35,7 +35,7 @@ for i, file in enumerate(files[0:1]):
 
     # Browser info -------------------------------------------------------
     if "browser_info" not in data["screen"].values:
-        print(" - Error 2 - ")
+        print(" - ERROR 2")
         continue
     browser = data[data["screen"] == "browser_info"].iloc[0]
 
@@ -44,7 +44,7 @@ for i, file in enumerate(files[0:1]):
         isinstance(browser["researcher"], str) is False
         or browser["researcher"] == "test"
     ):
-        print(" - Error 3 - ")
+        print(" - ERROR 3")
         continue
 
     df = pd.DataFrame(
@@ -67,7 +67,7 @@ for i, file in enumerate(files[0:1]):
         df["Date"] + " " + df["Time"], format="%d/%m/%Y %H:%M:%S"
     )
     if df["Datetime"].values[0] < pd.Timestamp("2025-01-16"):
-        print("- ERROR 3")
+        print("- ERROR 4")
         continue
     if "sona_id" in browser.index and not pd.isnull(browser["sona_id"]):
         df["SONA_ID"] = int(browser["sona_id"])
@@ -97,9 +97,45 @@ for i, file in enumerate(files[0:1]):
 
     df["COPS_Duration"] = cops["rt"] / 1000 / 60
     cops = json.loads(cops["response"])
-    for item in cops:
-        df[item] = float(cops[item])
 
+    sexactivity = cops["COPS_SexualActivity"].lower().rstrip()
+    sexactivity = "1. Less than 24h ago" if "1." in sexactivity else sexactivity
+    sexactivity = "2. Within the last 3 days" if "2." in sexactivity else sexactivity
+    sexactivity = "3. Within the last week" if "3." in sexactivity else sexactivity
+    sexactivity = "4. Within the last month" if "4." in sexactivity else sexactivity
+    sexactivity = "5. Within the last year" if "5." in sexactivity else sexactivity
+    sexactivity = "6. More than a year ago" if "6." in sexactivity else sexactivity
+    sexactivity = np.nan if sexactivity in [""] else sexactivity
+    df["SexualActivity"] = sexactivity
+
+    copsfreq = cops["COPS_Frequency"].rstrip()
+    copsfreq = (
+        "0. I haven't viewed pornography in the past 30 days"
+        if "0." in copsfreq
+        else copsfreq
+    )
+    copsfreq = (
+        "1. I viewed pornography once in the past 30 days"
+        if "1." in copsfreq
+        else copsfreq
+    )
+    copsfreq = (
+        "2. I viewed pornography twice in the past 30 days"
+        if "2." in copsfreq
+        else copsfreq
+    )
+    copsfreq = "3. I viewed pornography weekly" if "3." in copsfreq else copsfreq
+    copsfreq = (
+        "4. I viewed pornography multiple times a week"
+        if "4." in copsfreq
+        else copsfreq
+    )
+    copsfreq = "5. I viewed pornography daily" if "5." in copsfreq else copsfreq
+    copsfreq = (
+        "6. I viewed pornography multiple times a day" if "6." in copsfreq else copsfreq
+    )
+    copsfreq = np.nan if copsfreq in [""] else copsfreq
+    df["COPS_Frequency_2"] = copsfreq
 
     # Feedback -------------------------------------------------------------
     f1 = data[data["screen"] == "fiction_feedback1"].iloc[0]
