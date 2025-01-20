@@ -71,20 +71,7 @@ function shuffleObject(obj) {
 
 function bait_questions(items, required = true, ticks = ["Disagree", "Agree"]) { // In Schepman et al. (2022) they removed 'Strongly'    
     items = shuffleObject(items)
-    //AI Expertise
-    aiexpertise = [
-        {
-            title: "How knowledgeable do you consider yourself about Artificial Intelligence (AI) technology?",
-            name: "BAIT_AI_Knowledge",
-            type: "rating",
-            displayMode: "buttons",
-            isRequired: required,
-            minRateDescription: "Not at all",
-            maxRateDescription: "Expert",
-            rateValues: [0, 1, 2, 3, 4, 5, 6],
-        },
-    ]
-
+    
     //Make questions
     questions =[]
     for(const key of Object.keys(items)) {
@@ -101,7 +88,6 @@ function bait_questions(items, required = true, ticks = ["Disagree", "Agree"]) {
         questions.push(q)
     }
     return [
-        { elements: aiexpertise},
         {
             elements: questions,
             description:

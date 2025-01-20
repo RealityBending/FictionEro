@@ -16,7 +16,7 @@ data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
-for i, file in enumerate(files[1:2]):
+for i, file in enumerate(files[3:4]):
     print(f"File N°{i+1}/{len(files)}")  # Print progress
 
     # Skip if participant already in the dataset
