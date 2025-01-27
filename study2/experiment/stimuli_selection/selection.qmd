@@ -157,20 +157,20 @@ remove_image <- selection |>
   select(ID)
 
 # last selection 
-last_selection <- selection |>
+selection <- selection |>
   filter(!(Category == "Opposite-sex Couple" & total_arousal < 8.8)) |>
   filter(!(ID %in% remove_image))
 
   
 
-write.csv(last_selection, "stimuli_data.csv", row.names=FALSE)
+write.csv(selection, "stimuli_data.csv", row.names=FALSE)
 knitr::kable(selection)
 ```
 
 
 ```{r}
 #| code-fold: true
-json <- last_selection |> 
+json <- selection |> 
   select(stimulus=ID, Category, Orientation) |> 
   jsonlite::toJSON()
   
@@ -180,7 +180,7 @@ write(paste("var stimuli_list = ", json), "stimuli_list.js")
 
 ```{r}
 #| code-fold: true
-path_ero <- "C:/Users/asf25/OneDrive - University of Sussex/phd/data_base/naps/NAPS_ERO/"
+path_ero <- "C:/Users/asf25/Desktop/PhD/data_base/NAPS_ERO/"
 
 
 # Remove all current files
