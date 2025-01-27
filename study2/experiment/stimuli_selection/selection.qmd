@@ -138,14 +138,39 @@ dat |>
 selection <- napsero |> 
   filter(ID %in% selected_erotic)
 
-write.csv(selection, "stimuli_data.csv", row.names=FALSE)
+# Sum the arousal scores 
+selection <- selection |>
+  mutate(total_arousal = selection$Hetero_Men_Arousal + selection$Hetero_Women_Arousal,
+         total_valence = selection$Hetero_Men_Valence + selection$Hetero_Women_Valence)
+
+# arrange by the 25 highest scores of arousal and calculate the lowest arousal score
+selection |>
+  filter(Category == "Opposite-sex Couple") |>
+  arrange(desc(total_arousal)) |>
+  head(25) |>
+  summarize(min_arousal = min(total_arousal)) # 8.8 
+
+#check how many images have a score of 8.8 and the ID of the one with the lowest valance
+remove_image <- selection |> 
+  filter(total_arousal == 8.8) |> # 3 
+  filter(total_valence == min(total_valence)) |> 
+  select(ID)
+
+# last selection 
+last_selection <- selection |>
+  filter(!(Category == "Opposite-sex Couple" & total_arousal < 8.8)) |>
+  filter(!(ID %in% remove_image))
+
+  
+
+write.csv(last_selection, "stimuli_data.csv", row.names=FALSE)
 knitr::kable(selection)
 ```
 
 
 ```{r}
 #| code-fold: true
-json <- selection |> 
+json <- last_selection |> 
   select(stimulus=ID, Category, Orientation) |> 
   jsonlite::toJSON()
   
