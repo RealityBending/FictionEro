@@ -34,6 +34,12 @@ for i, file in enumerate(files):
     # Participant ----------------------------------------------------------
     # data["screen"].unique()
 
+    # Exclude files
+    if filename in ("zy6g0vfnxm", "gyfbuzmnxs"): 
+        # zy6g0vfnxm -> researcher = test
+        # gyfbuzmnxs -> calibration none type (skip for now)
+        continue
+
     # Browser info -------------------------------------------------------
     if "browser_info" not in data["screen"].values:
         print(" - ERROR 2")
@@ -432,6 +438,9 @@ correlations_df = pd.DataFrame(list(correlations.items()), columns=["Participant
 
 correlations_df['Correlation'].hist()
 
+# Median time 
+
+data_demo["Experiment_Duration"].median()
 
 # Save data ==============================================================
 
