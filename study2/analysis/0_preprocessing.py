@@ -5,9 +5,8 @@ import pandas as pd
 
 import requests
 
-# path = "C:/Users/domma/Box/Data/FakeFace2/"
 # path = "C:/Users/asf25/Box/FictionEro2/"
-path = "C:/Users/asf25/Desktop/PhD/data/FuctionEro/"
+path = "C:/Users/aneve/Box/FictionEro2/"
 files = os.listdir(path)
 
 
@@ -35,7 +34,7 @@ for i, file in enumerate(files):
     # data["screen"].unique()
 
     # Exclude files
-    if filename in ("zy6g0vfnxm", "gyfbuzmnxs"): 
+    if filename in ("zy6g0vfnxm"): 
         # zy6g0vfnxm -> researcher = test
         # gyfbuzmnxs -> calibration none type (skip for now)
         continue
@@ -56,6 +55,7 @@ for i, file in enumerate(files):
 
     df = pd.DataFrame(
         {
+            "Prolific_ID": browser["prolific_id"],
             "Participant": filename,
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
             "Date": browser["date"],
@@ -265,6 +265,9 @@ for i, file in enumerate(files):
         calib = [json.loads(k) for k in eye["percent_in_roi"]]
         dist = [json.loads(k) for k in eye["average_offset"]]
 
+        #Convert None to Nan
+        calib = [[np.nan if x is None else x for x in row] for row in calib]
+
         df["Eyetracking_Validation1_Mean"] = np.mean(calib[-2])
         df["Eyetracking_Validation1_Max"] = np.max(calib[-2])
         df["Eyetracking_Validation1_Min"] = np.min(calib[-2])
@@ -275,6 +278,13 @@ for i, file in enumerate(files):
         df["Eyetracking_Validation2_Mean"] = np.mean(calib[-1])
         df["Eyetracking_Validation2_Max"] = np.max(calib[-1])
         df["Eyetracking_Validation2_Min"] = np.min(calib[-1])
+
+        ## Convert None to NaN 
+        dist = [
+            [{k: (np.nan if v is None else v) for k, v in d.items()} for d in row]
+            for row in dist
+            ]
+        
         df["Eyetracking_Validation2_Distance"] = np.mean([g["r"] for g in dist[-1]])
 
         stims = data[data["screen"] == "fiction_image1"].copy().reset_index(drop=True)
@@ -443,6 +453,7 @@ correlations_df['Correlation'].hist()
 data_demo["Experiment_Duration"].median()
 
 # Save data ==============================================================
+data_demo = data_demo.drop(columns=["Prolific_ID"])
 
 data_demo.to_csv("../data/rawdata_participants.csv", index=False)
 data_task.to_csv("../data/rawdata_task.csv", index=False)
