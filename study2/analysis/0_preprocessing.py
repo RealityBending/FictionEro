@@ -5,8 +5,8 @@ import pandas as pd
 
 import requests
 
-# path = "C:/Users/asf25/Box/FictionEro2/"
-path = "C:/Users/aneve/Box/FictionEro2/"
+path = "C:/Users/asf25/Box/FictionEro2/"
+# path = "C:/Users/aneve/Box/FictionEro2/"
 files = os.listdir(path)
 
 
@@ -447,6 +447,7 @@ correlations_df = pd.DataFrame(list(correlations.items()), columns=["Participant
 # Compute distirbution based on correlations 
 
 correlations_df['Correlation'].hist()
+
 
 # Median time 
 
