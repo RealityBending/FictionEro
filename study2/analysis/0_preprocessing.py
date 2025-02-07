@@ -445,12 +445,12 @@ for participant, group in data_task.groupby("Participant"):
 correlations_df = pd.DataFrame(list(correlations.items()), columns=["Participant", "Correlation"])
 
 # Compute distirbution based on correlations 
-
 correlations_df['Correlation'].hist()
+
+# data_task[data_task["Participant"] == 'S025']
 
 
 # Median time 
-
 data_demo["Experiment_Duration"].median()
 
 # Save data ==============================================================
