@@ -447,11 +447,12 @@ correlations_df = pd.DataFrame(list(correlations.items()), columns=["Participant
 # Compute distirbution based on correlations 
 correlations_df['Correlation'].hist()
 
-# data_task[data_task["Participant"] == 'S025']
-
+data_task[data_task["Participant"] == 'S060']
 
 # Median time 
 data_demo["Experiment_Duration"].median()
+
+
 
 # Save data ==============================================================
 data_demo = data_demo.drop(columns=["Prolific_ID"])
