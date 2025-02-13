@@ -369,67 +369,34 @@ def replace_value(df, column, old, new):
 
 
 # data_demo["Ethnicity"][data_demo["Ethnicity"].str.contains("Other_").values].values
-data_demo = replace_value(data_demo, "Ethnicity", "Other_White, Hispanic", "Mixed")
+data_demo = replace_value(data_demo, "Ethnicity", "Other_Black African", "Black")
 
 
 # data_demo["Discipline"][data_demo["Discipline"].str.contains("Other_").values].values
-data_demo = replace_value(
-    data_demo, "Discipline", "Other_Business Psychology", "Psychology"
-)
-data_demo = replace_value(data_demo, "Discipline", "Other_Journalism", "Other")
-data_demo = replace_value(data_demo, "Discipline", "Other_Industrial Design", "Other")
-data_demo = replace_value(data_demo, "Discipline", "Other_pharmacy", "Other")
-data_demo = replace_value(data_demo, "Discipline", "Other_Geography", "Other")
-data_demo = replace_value(
-    data_demo, "Discipline", "Other_Health Sciences and Public Health", "Other"
-)
-data_demo = replace_value(data_demo, "Discipline", "Other_public health", "Other")
-data_demo = replace_value(
-    data_demo,
-    "Discipline",
-    "Other_Business: Human Resources and Industrial Relations\nEducation: Special Education",
-    "Other",
-)
-data_demo = replace_value(data_demo, "Discipline", "Other_Tourism", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Architecture", "Otther")
+data_demo = replace_value(data_demo, "Discipline", "Other_Film Production", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Marketing and Research", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Information Technology", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Finance", "Business, Economics")
+data_demo = replace_value(data_demo, "Discipline", "Other_Data analyst", "Engineering, Computer Science")
+
 
 # data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Pansexual", "Other")
-data_demo = replace_value(
-    data_demo, "SexualOrientation", "Other_Mainly heterosexual", "Heterosexual"
-)
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Queer", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Demisexual", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Questioning", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_Asexual", "Other")
-data_demo = replace_value(data_demo, "SexualOrientation", "Other_AroAce", "Other")
-
+data_demo = replace_value(data_demo, "SexualOrientation", "Other_Straight", "Heterosexual")
 
 # data_demo["SexualStatus"][data_demo["SexualStatus"].str.contains("Other_").values].values
-data_demo = replace_value(
-    data_demo,
-    "SexualStatus",
-    "Other_Married not open to dating",
-    "In a relationship and not open to dating",
-)
-data_demo = replace_value(
-    data_demo,
-    "SexualStatus",
-    "Other_Prefer not to say.",
-    np.nan,
-)
+data_demo = replace_value(data_demo, "SexualStatus", "Other_Separated", "Other")
+data_demo = replace_value(data_demo, "SexualStatus", "Other_Married", "In a relationship and not open to dating")
 
-data_demo["Gender"][data_demo["Gender"].str.contains("Other_").values].values
-data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
-data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
-data_demo = replace_value(data_demo, "Education", "Other_Diploma in TEFL", "Other")
-data_demo = replace_value(data_demo, "Education", "Other_A level", "High school")
-data_demo = replace_value(data_demo, "Education", "Other_collage", "High school")
-data_demo = replace_value(
-    data_demo, "Education", "Other_A-Levels, college", "High school"
-)
-data_demo = replace_value(data_demo, "Education", "Other_Middle school", "Other")
-data_demo = replace_value(data_demo, "Education", "Other_Middle School", "Other")
+# data_demo["Gender"][data_demo["Gender"].str.contains("Other_").values].values
 
+# data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
+
+# data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
+# data_demo[data_demo["Education"].str.contains("Other_")]["Country"] --> south africa college?
+data_demo = replace_value(data_demo, "Education", "Other_College", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_some college, short courses(not diploma nor degree)", "High school")
+data_demo = replace_value(data_demo, "Education", "Other_COLLEGE", "Other")
 
 # Compute the correlation for each participant for arousal and valence 
 correlations = {}
