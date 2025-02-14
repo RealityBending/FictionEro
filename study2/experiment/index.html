@@ -101,6 +101,8 @@
     // Initialize timeline
     var timeline = []
 
+    participant_ID = jsPsych.randomization.randomID(10)
+
     // Demographics ===========================================================
     timeline.push(demographics_browser_info)
     timeline.push(demographics_consent)
@@ -123,7 +125,7 @@
                 timeline_variables: stimuli.slice(
                     0,
                     Math.ceil(stimuli.length / 2)
-                ),
+                ).slice(0, 1),
                 timeline: [
                     fiction_fixation1a,
                     fiction_cue,
@@ -135,13 +137,13 @@
 
             // // Break ----------------------------------------------------------------
             timeline.push(fiction_phase1_break)
-            timeline.push(eyetracking_recalibration)
+            // timeline.push(eyetracking_recalibration)
             // Phase 1B -------------------------------------------------------------
             timeline.push({
                 timeline_variables: stimuli.slice(
                     Math.ceil(stimuli.length / 2),
                     stimuli.length
-                ),
+                ).slice(0, 1),
                 timeline: [
                     fiction_fixation1a,
                     fiction_cue,
@@ -153,15 +155,15 @@
             timeline.push(fiction_feedback1)
 
             // // Questionnaires ===========================================================
-            timeline.push(questionnaires_instructions) // Instructions Questionnaires
-            timeline.push(questionnaire_cops) // sexual activity
-            timeline.push(questionnaire_bait) // Beliefs about AI technonology
-            //timeline.push(feedback_bait) // Graph feedback
+            // timeline.push(questionnaires_instructions) // Instructions Questionnaires
+            // timeline.push(questionnaire_cops) // sexual activity
+            // timeline.push(questionnaire_bait) // Beliefs about AI technonology
+            // //timeline.push(feedback_bait) // Graph feedback
 
             // Stage 2 ==============================================================
             timeline.push(fiction_instructions2)
             timeline.push({
-                timeline_variables: jsPsych.randomization.shuffleNoRepeats(stimuli),
+                timeline_variables: jsPsych.randomization.shuffleNoRepeats(stimuli).slice(0, 1),
                 timeline: [
                     fiction_fixation2,
                     fiction_showimage2,
@@ -173,12 +175,25 @@
             // End ===================================================================
             timeline.push(demographics_debriefing)
 
-            // Save data via DataPipe
+            // Save data (without eyetracking) via DataPipe
             timeline.push({
                 type: jsPsychPipe,
                 action: "save",
                 experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
-                filename: `${jsPsych.randomization.randomID(10)}.csv`,
+                filename: `${participant_ID}.csv`,
+                data_string: () => {
+                    const filtered_data = jsPsych.data.get().filterCustom(function (trial) {
+                        return !(trial.screen && trial.screen.startsWith("eyetracking"))
+                    })
+                    return filtered_data.csv()
+                }
+            })
+            // Save all data via DataPipe
+            timeline.push({
+                type: jsPsychPipe,
+                action: "save",
+                experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+                filename: `${participant_ID}.csv`,
                 data_string: () => jsPsych.data.get().csv(),
             })
 

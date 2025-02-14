@@ -138,7 +138,7 @@ var eyetracking_recalibrate_process = {
         })
     },
     data: {
-        phase: "recalibration",
+        phase: "eyetracking_recalibration",
     },
 }
 
@@ -151,9 +151,9 @@ var eyetracking_calibration = {
         fullscreen_on,
         eyetracking_calibration_instructions,
         eyetracking_calibration_run,
-        eyetracking_validation_instructions,
-        eyetracking_validation_run,
-        eyetracking_recalibrate_process,
+        // eyetracking_validation_instructions,
+        // eyetracking_validation_run,
+        // eyetracking_recalibrate_process,
         calibration_done,
     ],
     conditional_function: function () {
