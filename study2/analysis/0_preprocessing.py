@@ -17,10 +17,17 @@ data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
 for i, file in enumerate(files):
-    print(f"File N°{i+1}/{len(files)}")  # Print progress
+    filename = file.replace(".csv", "")
+    full_file = f"{filename}_Full.csv"
+    
+ # Use full version if available
+    if full_file in files:
+        file = full_file  # Ensure file is updated
+        filename = full_file.replace(".csv", "")  # Update filename accordingly
+
+    print(f"File N°{i+1}/{len(files)} - Processing: {selected_file}")  # Print progress
 
     # Skip if participant already in the dataset
-    filename = file.replace(".csv", "")
     if (
         "Participant" in data_demo.columns
         and filename in data_demo["Participant"].values
@@ -28,7 +35,7 @@ for i, file in enumerate(files):
         print(" - ERROR 1")
         continue
 
-    data = pd.read_csv(path + file)
+    data = pd.read_csv(path + selected_file)
 
     # Participant ----------------------------------------------------------
     # data["screen"].unique()
