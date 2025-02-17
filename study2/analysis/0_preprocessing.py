@@ -20,12 +20,14 @@ for i, file in enumerate(files):
     filename = file.replace(".csv", "")
     full_file = f"{filename}_Full.csv"
     
- # Use full version if available
+     # Check if the full version exists
     if full_file in files:
-        file = full_file  # Ensure file is updated
-        filename = full_file.replace(".csv", "")  # Update filename accordingly
+        if file != full_file:  # Skip the non-full version if the full version exists
+            print(f"Skipping {file}, using {full_file} instead.")
+            continue
+        file = full_file  # Use the full version if available
 
-    print(f"File N°{i+1}/{len(files)} - Processing: {selected_file}")  # Print progress
+    print(f"File N°{i+1}/{len(files)} - Processing: {file}")  # Print progress
 
     # Skip if participant already in the dataset
     if (
@@ -35,7 +37,7 @@ for i, file in enumerate(files):
         print(" - ERROR 1")
         continue
 
-    data = pd.read_csv(path + selected_file)
+    data = pd.read_csv(path + file)
 
     # Participant ----------------------------------------------------------
     # data["screen"].unique()
