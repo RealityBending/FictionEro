@@ -388,7 +388,7 @@ data_demo = replace_value(data_demo, "Discipline", "Other_Marketing and Research
 data_demo = replace_value(data_demo, "Discipline", "Other_Information Technology", "Other")
 data_demo = replace_value(data_demo, "Discipline", "Other_Finance", "Business, Economics")
 data_demo = replace_value(data_demo, "Discipline", "Other_Data analyst", "Engineering, Computer Science")
-
+data_demo = replace_value(data_demo, "Discipline", "Other_Human Genetics", "Other")
 
 # data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "SexualOrientation", "Other_Straight", "Heterosexual")
@@ -402,10 +402,12 @@ data_demo = replace_value(data_demo, "SexualStatus", "Other_Married", "In a rela
 # data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
 
 # data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
-# data_demo[data_demo["Education"].str.contains("Other_")]["Country"] --> south africa college?
+# data_demo[data_demo["Education"].str.contains("Other_")]["Country"] //--> south africa college?
 data_demo = replace_value(data_demo, "Education", "Other_College", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_some college, short courses(not diploma nor degree)", "High school")
 data_demo = replace_value(data_demo, "Education", "Other_COLLEGE", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_College.", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_College (diploma)", "Other")
 
 # Compute the correlation for each participant for arousal and valence 
 correlations = {}
