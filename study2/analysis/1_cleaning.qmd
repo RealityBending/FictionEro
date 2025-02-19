@@ -9,3 +9,237 @@ format:
     self-contained: false
     toc: true
 ---
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+library(ggdist)
+
+
+```
+
+```{r}
+#| code-fold: false
+
+df <- read.csv("../data/rawdata_participants.csv") 
+
+dftask <- read.csv("../data/rawdata_task.csv") |>
+  full_join(
+    df[c("Participant", "Gender", "SexualOrientation")], # add Gneder and sexual orientation to this dataset
+    by = join_by(Participant)
+    )
+```
+
+The initial sample consisted of `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+
+## Feedback
+
+### Evaluation
+
+::: {.panel-tabset}
+
+### Experiment Enjoyment
+
+```{r}
+df |> 
+  summarise(n = n(), .by=c("Feedback_Enjoyment")) |>
+  filter(!is.na(Feedback_Enjoyment)) |> 
+  mutate(n = n / sum(n),
+         Feedback_Enjoyment = fct_rev(as.factor(Feedback_Enjoyment))) |>
+  ggplot(aes(y = n, x = 1, fill = Feedback_Enjoyment)) +
+  geom_bar(stat="identity", position="stack") +
+  scale_fill_manual(values=c("darkgreen", "yellowgreen",  "yellow", "orange", "red")) +
+  coord_flip() +
+  scale_x_continuous(expand=c(0, 0))  +
+  scale_y_continuous(labels = scales::percent)  +
+  labs(title="Experiment Enjoyment",
+       subtitle="Proportion of participants by condition") + 
+  guides(fill = guide_legend(reverse=TRUE)) +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    legend.position = "top",
+    legend.title = element_blank()) 
+```
+
+### Comments
+
+<!-- eventually create table with selected comments -->
+
+```{r}
+
+data.frame(Comments = df$Feedback_Text) |>
+  filter(!tolower(Comments) %in% c(NA, "no", "no comments", "nothing", "none", "")) |> 
+  gt::gt() |> 
+  gt::opt_stylize() |> 
+  gt::opt_interactive(use_compact_mode = TRUE) 
+
+```
+
+
+## Exclusion
+
+```{r}
+#| echo: true
+#| code-fold: false
+
+outliers <- list()
+```
+
+
+### Experiment Duration
+
+The experiment's median duration is `r insight::format_value(median(df$Experiment_Duration))` min (`r insight::format_ci(bayestestR::hdi(df$Experiment_Duration, ci=0.5))`).
+
+```{r}
+df |>
+  mutate(Participant = fct_reorder(Participant, Experiment_Duration),
+         Category = ifelse(Experiment_Duration > 60, "extra", "ok"),
+         Duration = ifelse(Experiment_Duration > 60, 60, Experiment_Duration),
+         Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |>
+  ggplot(aes(y = Participant, x = Duration)) +
+  geom_point(aes(color = Group, shape = Category)) +
+  geom_vline(xintercept = median(df$Experiment_Duration), color = "red", linetype = "dashed") +
+  geom_vline(xintercept = 15, color = "orange", linetype = "dotted") +
+  scale_shape_manual(values = c("extra" = 3, ok = 20)) +
+  scale_color_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  guides(color = "none", shape = "none") +
+  ggside::geom_xsidedensity(fill = "#4CAF50", color=NA) +
+  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
+  labs(
+    title = "Experiment Completion Time",
+    x = "Duration (in minutes)",
+    y = "Participants"
+  )  +
+  theme_modern() +
+  ggside::theme_ggside_void() +
+  theme(ggside.panel.scale = .3,
+        panel.border = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+
+
+```
+### BAIT Questionnaire Duration
+
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+df |>
+  mutate(Participant = fct_reorder(Participant, Bait_Duration),
+         Category = ifelse(Bait_Duration > 5, "extra", "ok"),
+         Duration = ifelse(Bait_Duration > 5, 5, Bait_Duration),
+         Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |>
+  ggplot(aes(y = Participant, x = Duration)) +
+  geom_point(aes(color = Group, shape = Category)) +
+  geom_vline(xintercept = median(df$Bait_Duration), color = "red", linetype = "dashed") +
+  geom_vline(xintercept = 0.5, color = "orange", linetype = "dotted") +
+  scale_shape_manual(values = c("extra" = 3, ok = 19)) +
+  scale_color_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  guides(color = "none", shape = "none") +
+  ggside::geom_xsidedensity(fill = "#9C27B0", color=NA) +
+  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
+  labs(
+    title = "Questionnaire Completion Time",
+    x = "Duration (in minutes)",
+    y = "Participant"
+  )  +
+  theme_modern() +
+  ggside::theme_ggside_void() +
+  theme(ggside.panel.scale = .3,
+        panel.border = element_blank(),
+        axis.ticks.y = element_blank(),
+          axis.text.y = element_blank()) 
+
+# min(df$Bait_Duration) 0.8084833
+# max(df$Bait_Duration) 20.37072
+```
+
+### Response to Erotic Stimuli
+
+```{r}
+# Single arousal response (0)
+outliers$novariability <- summarize(dftask, n = length(unique(Arousal)), .by="Participant") |> 
+  filter(n == 1) |> 
+  select(Participant) |> 
+  pull()
+```
+### Response Coherence
+
+```{r}
+dat <- dftask |> 
+  filter(!Participant %in% outliers) |> 
+  summarize(cor_ArVal = cor(Arousal, Valence),
+            cor_ArEnt = cor(Arousal, Enticing),
+            .by="Participant") 
+
+dat |>
+  mutate(Participant = fct_reorder(Participant, cor_ArVal)) |>
+  pivot_longer(starts_with("cor_")) |>
+  mutate(Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |> 
+  mutate(name = fct_relevel(name, "cor_ArVal", "cor_ArEnt"),
+         name = fct_recode(name, "Arousal - Valence" = "cor_ArVal", "Arousal - Enticement" = "cor_ArEnt")) |>
+  ggplot(aes(y = Participant, x = value)) +
+  geom_bar(stat =  "identity") +
+  # scale_fill_gradient2(low = "#3F51B5", mid = "#FF9800", high = "#4CAF50", midpoint = 0) +
+  # scale_fill_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  theme_bw() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank()) +
+  facet_wrap(~name, ncol=3, scales="free_x")
+
+outliers$emo_cor <- sort(as.character(dat[dat$cor_ArEnt < 0, ]$Participant))
+outliers$emo_aro <- sort(as.character(dat[dat$cor_ArVal < 0, ]$Participant))
+
+outliers$arousal <- intersect(outliers$emo_aro, outliers$emo_cor)
+
+
+```
+`r length(outliers$arousal)` participant has a negative correlation between arousal and enticement, and has a negative correlation between arousal and valance. 
+
+```{r}
+# df <- filter(df, !Participant %in% outliers$arousal)
+# dftask <- filter(dftask, !Participant %in% outliers$arousal)
+```
+
+### Sexual Profile 
+
+```{r}
+df |>
+  ggplot(aes(x = Gender)) +
+  geom_bar(aes(fill = SexualOrientation)) +
+  scale_y_continuous(expand = c(0, 0), breaks = scales::pretty_breaks()) +
+  labs(x = "Biological Sex", y = "Number of Participants", title = "Sex and Sexual Orientation", fill = "Sexual Orientation") +
+  theme_modern(axis.title.space = 15) +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1)),
+    axis.title.x = element_blank()
+  )
+```
+
+#### Stimuli Choice
+
+```{r}
+
+df |>
+  
+
+```
+
+
+
+
