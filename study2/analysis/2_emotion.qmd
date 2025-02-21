@@ -1,0 +1,11 @@
+---
+title: "FictionEro2 - Affective Impact of Fiction"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+---

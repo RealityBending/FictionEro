@@ -26,7 +26,6 @@ library(ggdist)
 ```
 
 ```{r}
-#| code-fold: false
 
 df <- read.csv("../data/rawdata_participants.csv") 
 
@@ -40,8 +39,6 @@ dftask <- read.csv("../data/rawdata_task.csv") |>
 The initial sample consisted of `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
 
 ## Feedback
-
-### Evaluation
 
 ::: {.panel-tabset}
 
@@ -79,7 +76,7 @@ df |>
 ```{r}
 
 data.frame(Comments = df$Feedback_Text) |>
-  filter(!tolower(Comments) %in% c(NA, "no", "no comments", "nothing", "none", "")) |> 
+  filter(!tolower(Comments) %in% c(NA, "no", "no comments", "nothing", "none", "", "no.")) |> 
   gt::gt() |> 
   gt::opt_stylize() |> 
   gt::opt_interactive(use_compact_mode = TRUE) 
@@ -166,15 +163,6 @@ df |>
 # max(df$Bait_Duration) 20.37072
 ```
 
-### Response to Erotic Stimuli
-
-```{r}
-# Single arousal response (0)
-outliers$novariability <- summarize(dftask, n = length(unique(Arousal)), .by="Participant") |> 
-  filter(n == 1) |> 
-  select(Participant) |> 
-  pull()
-```
 ### Response Coherence
 
 ```{r}
@@ -215,14 +203,15 @@ outliers$arousal <- intersect(outliers$emo_aro, outliers$emo_cor)
 # dftask <- filter(dftask, !Participant %in% outliers$arousal)
 ```
 
+:::
 
 ## Final Sample 
-
-::: {.panel-tabset}
 
 ### Summary
 
 The final sample includes `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+
+::: {.panel-tabset}
 
 ### Age and Gender
 
@@ -356,41 +345,7 @@ p_eth <- df |>
   )
     
 p_eth
-```
 
-:::
-
-
-### Expertise 
-
-```{r p_demographics_expertise}
-p_language <- df |>
-  ggplot(aes(x = Language_Level)) +
-  geom_bar() +
-  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
-  labs(x = "Level", y = "Number of Participants", title = "Language Level") +
-  theme_modern(axis.title.space = 15) +
-  theme(
-    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
-    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
-    axis.text.y = element_text(size = rel(1.1)),
-    axis.text.x = element_text(size = rel(1.1))
-  )
-
-p_expertise <- df |>
-  ggplot(aes(x = AI_Knowledge)) +
-  geom_bar() +
-  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
-  labs(x = "Level", y = "Number of Participants", title = "AI-Expertise") +
-  theme_modern(axis.title.space = 15) +
-  theme(
-    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
-    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
-    axis.text.y = element_text(size = rel(1.1)),
-    axis.text.x = element_text(size = rel(1.1))
-  )
-
-p_language | p_expertise
 ```
 
 ### System
@@ -412,461 +367,8 @@ df |>
   )
 ```
 
-
 :::
 
-```{r p_summary}
-#| fig-width: 15
-#| fig-height: 15
-
-p_country / 
-  (p_age + p_edu)
-```
-
-
-## Beliefs about Artificial Information Technology (BAIT)
-
-This section pertains to the validation of the BAIT scale measuring beliefs and expectations about artificial creations.
-
-::: {.panel-tabset}
-
-### Factor Analyis
-
-#### Exploratory Factor Analysis
-
-```{r}
-bait <- df |> 
-  select(starts_with("BAIT_"), -Bait_Duration) |> 
-  rename_with(function(x) gsub("BAIT_\\d_", "", x)) |> 
-  filter(!is.na(TextRealistic ))
-
-
-cor <- correlation::correlation(bait, redundant = TRUE) |> 
-  correlation::cor_sort() |> 
-  correlation::cor_lower()
-
-clean_labels <- function(x) {
-  x <- str_remove_all(x, "BAIT_") |> 
-    str_replace_all("_", " - ")
-}
-
-cor |> 
-  mutate(val = paste0(insight::format_value(r), format_p(p, stars_only=TRUE))) |>
-  mutate(Parameter2 = fct_rev(Parameter2)) |>
-  mutate(Parameter1 = fct_relabel(Parameter1, clean_labels),
-         Parameter2 = fct_relabel(Parameter2, clean_labels)) |> 
-  ggplot(aes(x=Parameter1, y=Parameter2)) +
-  geom_tile(aes(fill = r), color = "white") +
-  geom_text(aes(label = val), size = 3) +
-  labs(title = "Correlation Matrix",
-       subtitle = "Beliefs about Artificial Information Technology (BAIT)") +
-  scale_fill_gradient2(
-    low = "#2196F3",
-    mid = "white",
-    high = "#F44336",
-    breaks = c(-1, 0, 1),
-    guide = guide_colourbar(ticks=FALSE),
-    midpoint = 0,
-    na.value = "grey85",
-    limit = c(-1, 1))  + 
-  theme_minimal() +
-  theme(legend.title = element_blank(),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-```{r}
-#| message: false
-
-n <- parameters::n_factors(bait, package = "nFactors")
-plot(n)
-
-efa <- parameters::factor_analysis(bait, cor=cor(bait, use="pairwise.complete.obs"), n=3, rotation = "oblimin", 
-                                   sort=TRUE, scores="tenBerge", fm="ml")
-plot(efa)
-display(efa)
-```
-
-#### Confirmatory Factor Analysis
-
-```{r}
-m1 <- lavaan::cfa(
-  "G =~ ImitatingReality + EnvironmentReal + VideosIssues + TextIssues + VideosRealistic + ImagesRealistic + ImagesIssues + TextRealistic", 
-  data=bait)
-m2 <- lavaan::cfa(
-  "Images =~ ImitatingReality + EnvironmentReal + ImagesRealistic + ImagesIssues + VideosIssues + VideosRealistic
-  Text =~ TextIssues + TextRealistic", 
-  data=bait)
-m3 <- lavaan::cfa(
-  "Images =~ ImitatingReality + EnvironmentReal + ImagesRealistic + ImagesIssues
-  Videos =~ VideosIssues + VideosRealistic
-  Text =~ TextIssues + TextRealistic", 
-  data=bait)
-m4 <- lavaan::cfa(
-  "Environment =~ ImitatingReality + EnvironmentReal 
-  Images =~ ImagesRealistic + ImagesIssues
-  Videos =~ VideosIssues + VideosRealistic
-  Text =~ TextIssues + TextRealistic", 
-  data=bait)
-m5 <- lavaan::cfa(efa_to_cfa(efa, threshold="max"), data=bait)
-
-
-# bayestestR::bayesfactor_models(m1, m2)
-lavaan::anova(m1, m2, m3, m4, m5)
-```
-```{r}
-display(parameters::parameters(m4, standardize = TRUE))
-```
-
-```{r}
-m4b <- lavaan::sem(
-  "Environment =~ ImitatingReality + EnvironmentReal 
-  Images =~ ImagesRealistic + ImagesIssues
-  Videos =~ VideosIssues + VideosRealistic
-  Text =~ TextIssues + TextRealistic
-  G =~ Environment + Images + Videos + Text", 
-  data=bait)
-
-m4c <- lavaan::sem(
-  "Environment =~ ImitatingReality + EnvironmentReal 
-  Images =~ ImagesRealistic + ImagesIssues
-  Videos =~ VideosIssues + VideosRealistic
-  Text =~ TextIssues + TextRealistic
-  Visual =~ Environment + Images", 
-  data=bait)
-
-# bayestestR::bayesfactor_models(m1, m2)
-lavaan::anova(m4, m4b, m4c)
-```
-
-```{r}
-display(parameters::parameters(m4c, standardize = TRUE))
-```
-
-```{r}
-#| message: false
-#| warning: false
-
-library(ggraph)
-library(tidySEM)
-
-edges <- tidySEM::get_edges(m4c) |> 
-  mutate(sign = as.factor(sign(as.numeric(est_std))))
-
-tidygraph::tbl_graph(nodes = tidySEM::get_nodes(m4c), edges = edges) |> 
-  ggraph(layout = 'kk') + 
-  geom_edge_link(aes(filter=op=="=~", label=est_std, color=sign),
-                 angle_calc="along",
-                 label_dodge=unit(-0.015, "npc"),
-                 edge_width=1) + 
-  geom_edge_arc(aes(filter=op=="~~", label=est_std, color=sign), 
-                linetype="dashed", strength=0.1,
-                angle_calc="along",
-                label_dodge=unit(-0.015, "npc"),
-                edge_width=1) + 
-  geom_node_point(aes(shape=shape, color=shape), size=14, alpha=0.3) +
-  geom_node_text(aes(label = name)) + 
-  scale_edge_color_manual(values=c("1"="darkgreen", "-1"="red"), guide="none") +
-  scale_shape_manual(values=c("oval"="circle", "rect"="square"), guide="none") +
-  scale_color_manual(values=c("oval"="orange", "rect"="black"), guide="none") +
-  theme_void()
-```
-
-### Graph Analysis
-
-Exploratory Graph Analysis (EGA) is a recently developed framework for psychometric assessment, that can be used to estimate the number of dimensions in questionnaire data using network estimation methods and community detection algorithms, and assess the stability of dimensions and items using bootstrapping.
-
-#### Unique Variable Analysis (UVA)
-
-Unique Variable Analysis (Christensen, Garrido, & Golino, 2023) uses the weighted topological overlap measure (Nowick et al., 2009) on an estimated network. Values greater than 0.25 are determined to have considerable local dependence (i.e., redundancy) that should be handled (variables with the highest maximum weighted topological overlap to all other variables (other than the one it is redundant with) should be removed).
-
-
-```{r}
-uva <- EGAnet::UVA(data = bait, cut.off = 0.3)
-uva
-uva$keep_remove
-```
-
-#### Networks
-
-```{r ega}
-#| fig-height: 20
-#| fig-width: 12
-
-ega <- list()
-for(model in c("glasso", "TMFG")) {
-  for(algo in c("walktrap", "louvain")) {
-    for(type in c("ega", "ega.fit", "riEGA")) {  # "hierega"
-      if(type=="ega.fit" & algo=="louvain") next  # Too slow
-      ega[[paste0(model, "_", algo, "_", type)]] <- EGAnet::bootEGA(
-        data = bait,
-        seed=123,
-        model=model,
-        algorithm=algo,
-        EGA.type=type,
-        type="resampling",
-        plot.typicalStructure=FALSE,
-        verbose=FALSE)
-      }
-   }
-}
-
-EGAnet::compare.EGA.plots(
-  ega$glasso_walktrap_ega, ega$glasso_walktrap_ega.fit,
-  ega$glasso_louvain_ega, ega$TMFG_louvain_ega,
-  ega$glasso_louvain_riEGA, ega$glasso_walktrap_riEGA,
-  ega$TMFG_walktrap_ega, ega$TMFG_walktrap_ega.fit,
-  ega$TMFG_louvain_riEGA, ega$TMFG_walktrap_riEGA, 
-  labels=c("glasso_walktrap_ega", "glasso_walktrap_ega.fit",
-           "glasso_louvain_ega", "TMFG_louvain_ega",
-           "glasso_louvain_riEGA", "glasso_walktrap_riEGA",
-           "TMFG_walktrap_ega", "TMFG_walktrap_ega.fit",
-           "TMFG_louvain_riEGA", "TMFG_walktrap_riEGA"),
-  rows=5,
-  plot.all = FALSE)$all
-```
-
-#### Structure Stability
-
-Figures shows how often each variable is replicating in their empirical structure across bootstraps. 
-
-<!-- The summary statistics produced also relay this information as well as structural consistency. Structural consistency is defined as the extent to which each empirically derived dimension is exactly (i.e., identical variable composition) recovered from the replicate bootstrap samples (Christensen, Golino, & Silvia, 2020). In general, values of structural consistency and item stability greater than 0.70-0.75 reflect sufficient stability (Christensen & Golino, 2021). -->
-
-```{r}
-#| fig-height: 20
-#| fig-width: 12
-
-patchwork::wrap_plots(lapply(ega, plot), nrow = 4)
-```
-
-#### Final Model
-
-```{r}
-ega_final <- ega$glasso_walktrap_riEGA$EGA
-plot(ega_final)
-```
-
-### Scores
-
-```{r}
-#| code-fold: false
-
-# Merge with data
-ega_scores <-  EGAnet::net.scores(bait, ega_final)$scores$std.scores |> 
-  as.data.frame() |> 
-  setNames(c("BAIT_Text_EGA", "BAIT_Visual_EGA", "BAIT_Videos_EGA")) 
-
-sem_scores <- lavaan::predict(m4c) |> 
-  as.data.frame() |> 
-  datawizard::data_addprefix("BAIT_") |> 
-  datawizard::data_addsuffix("_SEM")
-
-raw_scores <- data.frame(
-  Participant = df[!is.na(df$BAIT_1_ImagesRealistic), ]$Participant,
-  BAIT_Videos = (bait$VideosRealistic + (1 - bait$VideosIssues)) / 2,
-  BAIT_Visual = (bait$ImagesRealistic + (1 - bait$ImagesIssues) + bait$ImitatingReality + bait$EnvironmentReal) / 4,
-  BAIT_Text = (bait$TextRealistic + (1 - bait$TextIssues)) / 2
-  )
-
-scores <- cbind(sem_scores, ega_scores, raw_scores) 
-df <- merge(df, raw_scores, by="Participant")
-```
-
-
-We computed two type of general scores for the BAIT scale, an **empirical** score based on the average of observed data (of the most loading items) and a **model-based** score as predicted by the structural model. The first one gives equal weight to all items (and keeps the same [0-1] range), while the second one is based on the factor loadings and the covariance structure.
-
-```{r}
-correlation::cor_test(scores, "BAIT_Visual", "BAIT_Visual_SEM") |> 
-  plot() +
-  ggside::geom_xsidedensity(aes(x=BAIT_Visual), color="grey", linewidth=1) +
-  ggside::geom_ysidedensity(aes(y=BAIT_Visual_SEM), color="grey", linewidth=1) +
-  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
-  ggside::scale_ysidex_continuous(expand = c(0, 0)) +
-  ggside::theme_ggside_void() +
-  theme(ggside.panel.scale = .1) 
-```
-
-While the two correlate substantially, they have different benefits. The empirical score has a more straightforward meaning and is more reproducible (as it is not based on a model fitted on a specific sample), the model-based score takes into account the relative importance of the contribution of each item to their factor.
-
-```{r}
-table <- correlation::correlation(scores) |> 
-  summary()
-
-format(table) |> 
-  datawizard::data_rename("Parameter", "Variables") |> 
-  gt::gt() |> 
-  gt::cols_align(align="center") |> 
-  gt::tab_options(column_labels.font.weight="bold")
-```
-
-### Validity
-
-#### Corrrelation with GAAIS
-
-```{r}
-n <- n_factors(select(df, starts_with("GAAIS")))
-n
-parameters::factor_analysis(
-  select(df, starts_with("GAAIS")), 
-  n=2, 
-  rotation="oblimin")
-
-df$GAAIS_Negative <- rowMeans(select(df, starts_with("GAAIS_Negative")))
-df$GAAIS_Positive <- rowMeans(select(df, starts_with("GAAIS_Positive")))
-```
-
-```{r}
-table <- correlation::correlation(
-  select(df, all_of(names(raw_scores))), 
-  select(df, starts_with("GAAIS")),
-  bayesian=TRUE) |> 
-  summary()
-
-format(table) |> 
-  datawizard::data_rename("Parameter", "Variables") |> 
-  gt::gt() |> 
-  gt::cols_align(align="center") |> 
-  gt::tab_options(column_labels.font.weight="bold")
-```
-
-```{r}
-#| warning: false
-
-dat <- df |> 
-  select(starts_with("GAAIS"), starts_with("BAIT")) |> 
-  select(matches("[[:digit:]]"))
-
-ega <- EGAnet::EGA(
-        data = dat,
-        seed=123,
-        model="glasso",
-        algorithm="leiden",
-        plot.EGA=FALSE,
-        verbose=FALSE)
-
-plot(ega)
-
-plot(parameters::factor_analysis(dat, n=6, rotation="oblimin", sort=TRUE))
-```
-
-```{r}
-#| eval: false
-#| echo: false
-
-# Used for feedback screen in the new BAIT implementations
-mean(rowMeans(df[c("GAAIS_Positive_12", "GAAIS_Positive_17")])) * 6
-```
-
-
-#### AI-Expertise
-
-```{r}
-df |> 
-  ggplot(aes(x=as.factor(AI_Knowledge), y=BAIT_Visual)) +
-  geom_boxplot()
-
-
-# m <- betareg::betareg(BAIT ~ AI_Knowledge, data=df)
-m <- lm(BAIT_Visual ~ poly(AI_Knowledge, 2), data=df)
-# m <- brms::brm(BAIT ~ mo(AI_Knowledge), data=df, algorithm = "meanfield")
-# m <- brms::brm(BAIT ~ AI_Knowledge, data=dfsub, algorithm = "meanfield")
-display(parameters::parameters(m))
-
-
-marginaleffects::predictions(m, by=c("AI_Knowledge"), newdata = "marginalmeans") |> 
-  as.data.frame() |> 
-  ggplot(aes(x=AI_Knowledge, y=estimate)) +
-  ggdist::stat_halfeye(data=df, aes(y=BAIT_Visual), geom="slab") +
-  # ggdist::stat_dots(data=df, aes(y=BAIT_Visual), side="left") +
-  # geom_boxplot(data=df, aes(y=BAIT_Visual, group=AI_Knowledge)) +
-  geom_point2(data=df, aes(x=AI_Knowledge-0.08, y=BAIT_Visual), alpha=0.2, position=position_jitter(width=0.06), size=2) +
-  geom_line(aes(group=1), position = position_dodge(width=0.2)) +
-  geom_pointrange(aes(ymin = conf.low, ymax=conf.high), position = position_dodge(width=0.2)) +
-  theme_minimal() +
-  labs(x = "AI-Knowledge", y="BAIT - Visual")
-```
-
-#### Gender and Age
-
-```{r}
-# m <- betareg::betareg(BAIT ~ Sex / Age, data=df, na.action=na.omit)
-m <- lm(BAIT_Visual ~ Sex / Age, data=df)
-display(parameters::parameters(m))
-```
-
-#### Belief in the Instructions
-
-
-```{r}
-glm(Feedback_LabelsIncorrect ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_LabelsIncorrect = ifelse(Feedback_LabelsIncorrect=="True", 1, 0)), 
-    family="binomial") |> 
-  parameters::parameters() |> 
-  display(title="Predicting 'Labels are Incorrect'")
-```
-
-```{r}
-glm(Feedback_LabelsReversed ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_LabelsReversed = ifelse(Feedback_LabelsReversed=="True", 1, 0)), 
-    family="binomial") |> 
-  parameters::parameters() |> 
-  display(title="Predicting 'Labels are reversed'")
-```
-
-```{r}
-glm(Feedback_CouldDiscriminate ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_CouldDiscriminate = ifelse(Feedback_CouldDiscriminate=="True", 1, 0)), 
-    family="binomial") |> 
-  parameters::parameters() |> 
-  display(title="Predicting 'Easy to discriminate'")
-```
-
-```{r}
-m <- glm(Feedback_CouldNotDiscriminate ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_CouldNotDiscriminate = ifelse(Feedback_CouldNotDiscriminate=="True", 1, 0)), 
-    family="binomial") 
-
-parameters::parameters(m) |> 
-  display(title="Predicting 'Hard to discriminate'")
-
-modelbased::estimate_relation(m, length=6) |> 
-  plot()
-```
-
-```{r}
-glm(Feedback_Fun ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_Fun = ifelse(Feedback_Fun=="True", 1, 0)), 
-    family="binomial") |> 
-  parameters::parameters() |> 
-  display(title="Predicting 'Fun'")
-```
-
-```{r}
-glm(Feedback_Boring ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_Boring = ifelse(Feedback_Boring=="True", 1, 0)), 
-    family="binomial") |> 
-  parameters::parameters() |> 
-  display(title="Predicting 'Boring'")
-```
-
-```{r}
-glm(Feedback_AILessArousing ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_AILessArousing = ifelse(Feedback_AILessArousing=="True", 1, 0)), 
-    family="binomial") |> 
-  parameters::parameters() |> 
-  display(title="Predicting 'AI was less arousing'")
-```
-
-```{r}
-glm(Feedback_AIMoreArousing ~ BAIT_Visual * AI_Knowledge, 
-    data=mutate(df, Feedback_AIMoreArousing = ifelse(Feedback_AIMoreArousing=="True", 1, 0)), 
-    family="binomial") |> 
-  parameters::parameters() |> 
-  display(title="Predicting 'AI was more arousing'")
-```
-
-:::
 
 
 
