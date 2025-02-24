@@ -22,11 +22,6 @@
     <!-- To save data via DataPipe (for online experiments) -->
     <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.4.0"></script>
 
-    <!-- To save data on pavlovia -->
-    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://lib.pavlovia.org/jspsych-pavlovia-3.0.0.js"></script>
-    <script src="utils/jspsych-pavlovia-3.0.0.js"></script> -->
-
     <!-- Eye-tacking -->
     <script src="https://cdn.jsdelivr.net/gh/jspsych/jspsych@jspsych@8.1.0/examples/js/webgazer/webgazer.js"></script>
     <script src="https://unpkg.com/@jspsych/extension-webgazer@1.1.0"></script>
@@ -90,20 +85,22 @@
         show_progress_bar: true,
         message_progress_bar: "Progress",
         on_finish: function () {
-            // jsPsych.data.displayData("json") // Display data in browser
-            window.location =
-                "https://realitybending.github.io/research/#participate" // Redirect to lab website
-
-            // If prolific and passed the attention check, redirect to prolific completion link
-            if (jsPsych.data.urlVariables()["exp"] == "prolific") {
+            if (finished_experiment) {
+                if (jsPsych.data.urlVariables()["exp"] == "prolific") {
                 window.location =
                     "https://app.prolific.com/submissions/complete?cc=CTHE3RFM"
             }
+            else {
+                window.location = "https://realitybending.github.io/research/#participate" // Redirect to lab website
+            }
+        }
         },
         extensions: [{ type: jsPsychExtensionWebgazer }],
     })
 
     // Initialize timeline
+    var finished_experiment = false 
+    
     var timeline = []
 
     participant_ID = jsPsych.randomization.randomID(10)
@@ -159,7 +156,7 @@
             })
             timeline.push(fiction_feedback1)
 
-            // // Questionnaires ===========================================================
+            // Questionnaires ===========================================================
             timeline.push(questionnaires_instructions) // Instructions Questionnaires
             timeline.push(questionnaire_cops) // sexual activity
             timeline.push(questionnaire_bait) // Beliefs about AI technonology
@@ -191,6 +188,9 @@
                         'validation_points', 'webgazer_data', 'webgazer_targets']) // fiction columns 
 
                     return filtered_data.csv()
+                },
+                on_finish: function () {
+                    finished_experiment = true
                 }
             })
             // Save all data via DataPipe
@@ -200,6 +200,9 @@
                 experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
                 filename: `${participant_ID}_Full.csv`,
                 data_string: () => jsPsych.data.get().csv(),
+                on_finish: function () {
+                    finished_experiment = true
+                }
             })
 
             // Exit fullscreen mode
