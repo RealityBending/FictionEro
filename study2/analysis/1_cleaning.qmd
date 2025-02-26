@@ -22,11 +22,6 @@ library(patchwork)
 library(ggside)
 library(ggdist)
 
-
-```
-
-```{r}
-
 df <- read.csv("../data/rawdata_participants.csv") 
 
 dftask <- read.csv("../data/rawdata_task.csv") |>
@@ -41,6 +36,68 @@ The initial sample consisted of `r report::report_participants(df, age="Age", se
 ## Feedback
 
 ::: {.panel-tabset}
+
+### Proportion
+
+
+```{r}
+df |> 
+  select(starts_with("Feedback"), -Feedback_Text, -Feedback_AllRealConfidence, -Feedback_AllFakeConfidence, -Feedback_DiffSubtle, -Feedback_Enjoyment) |>
+  pivot_longer(everything(), names_to = "Question", values_to = "Answer") |>
+  group_by(Question, Answer) |> 
+  summarise(prop = n()/nrow(df), .groups = 'drop') |> 
+  complete(Question, Answer, fill = list(prop = 0)) |> 
+  filter(Answer == "True") |> 
+  mutate(Question = str_remove(Question, "Feedback_"),
+         Question = str_replace(Question, "SomeFacesAttractive", "Some faces were attractive"),
+         Question = str_replace(Question, "NoFacesAttractive", "No faces were attractive"),
+         Question = str_replace(Question, "AILessAttractive", "AI = Less attractive"),
+         Question = str_replace(Question, "AIMoreAttractive", "AI = More attractive"),
+         # Question = str_replace(Question, "DiffSubtle", "Subtle differences between AI images and photos"),
+         Question = str_replace(Question, "DiffNone", "No difference between AI images and photos"),
+         Question = str_replace(Question, "LabelsIncorrect", "Labels were incorrect"),
+         Question = str_replace(Question, "AllReal", "All images were real"),
+         Question = str_replace(Question, "AllFake", "All images were AI-generated"),
+         Question = str_replace(Question, "DiffObvious", "Obvious differences between AI images and photos"),
+         Question = str_replace(Question, "LabelsReversed", "Labels were reversed")) |>
+  mutate(Question = fct_reorder(Question, desc(prop))) |> 
+  ggplot(aes(x = Question, y = prop)) +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks(), labels=scales::percent) +
+  labs(x="Feedback", y = "Participants", title = "Feedback") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1), angle = 55, hjust = 1),
+    axis.title.x = element_blank()
+  )
+```
+
+
+### Confidence
+
+```{r}
+
+df |>
+  select(Feedback_AllRealConfidence, Feedback_AllFakeConfidence) |>
+  pivot_longer(everything(), names_to = "Authenticity", values_to = "Confidence") |>
+  drop_na() |>
+  mutate(Authenticity = str_remove(Authenticity, "Feedback_"),
+         Authenticity = str_replace(Authenticity, "AllRealConfidence", "All images were real"),
+         Authenticity = str_replace(Authenticity, "AllFakeConfidence", "All images were fake")) |>
+  ggplot(aes(x = Confidence, fill= Authenticity)) +
+  geom_bar() +
+  labs(x="Confidence (0-5)", y = "Number of Participants", title = "Confidence on the authenticity of the images") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
+    plot.subtitle = element_text(size = rel(1.2), vjust = 7),
+    axis.text.y = element_text(size = rel(1.1)),
+    axis.title.x = element_blank())
+```
+
 
 ### Experiment Enjoyment
 
@@ -83,8 +140,12 @@ data.frame(Comments = df$Feedback_Text) |>
 
 ```
 
+:::
 
 ## Exclusion
+
+::: {.panel-tabset}
+
 
 ```{r}
 #| echo: true
@@ -93,6 +154,15 @@ data.frame(Comments = df$Feedback_Text) |>
 outliers <- list()
 ```
 
+### Mobile
+
+```{r}
+mobile <- table(df$Mobile)
+
+# outliers$Mobile <- sum(df$Mobile=="True")
+```
+
+There were `r sum(df$Mobile=="True")` participants that used a mobile device.
 
 ### Experiment Duration
 
@@ -127,41 +197,6 @@ df |>
 
 
 ```
-### BAIT Questionnaire Duration
-
-```{r}
-#| fig-width: 15
-#| fig-height: 15
-
-df |>
-  mutate(Participant = fct_reorder(Participant, Bait_Duration),
-         Category = ifelse(Bait_Duration > 5, "extra", "ok"),
-         Duration = ifelse(Bait_Duration > 5, 5, Bait_Duration),
-         Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |>
-  ggplot(aes(y = Participant, x = Duration)) +
-  geom_point(aes(color = Group, shape = Category)) +
-  geom_vline(xintercept = median(df$Bait_Duration), color = "red", linetype = "dashed") +
-  geom_vline(xintercept = 0.5, color = "orange", linetype = "dotted") +
-  scale_shape_manual(values = c("extra" = 3, ok = 19)) +
-  scale_color_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
-  guides(color = "none", shape = "none") +
-  ggside::geom_xsidedensity(fill = "#9C27B0", color=NA) +
-  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
-  labs(
-    title = "Questionnaire Completion Time",
-    x = "Duration (in minutes)",
-    y = "Participant"
-  )  +
-  theme_modern() +
-  ggside::theme_ggside_void() +
-  theme(ggside.panel.scale = .3,
-        panel.border = element_blank(),
-        axis.ticks.y = element_blank(),
-          axis.text.y = element_blank()) 
-
-# min(df$Bait_Duration) 0.8084833
-# max(df$Bait_Duration) 20.37072
-```
 
 ### Response Coherence
 
@@ -187,20 +222,17 @@ dat |>
         axis.ticks.y = element_blank()) +
   facet_wrap(~name, ncol=3, scales="free_x")
 
-outliers$emo_cor <- sort(as.character(dat[dat$cor_ArEnt < 0, ]$Participant))
+outliers$emo_ent <- sort(as.character(dat[dat$cor_ArEnt < 0, ]$Participant))
 outliers$emo_aro <- sort(as.character(dat[dat$cor_ArVal < 0, ]$Participant))
-
-outliers$arousal <- intersect(outliers$emo_aro, outliers$emo_cor)
+outliers$arousal <- intersect(outliers$emo_aro, outliers$emo_ent)
 
 ```
 
 `r length(outliers$arousal)` participant had a negative correlation between arousal and enticement, and had a negative correlation between arousal and valance. 
 
-**NOTE**: Remove?
 
 ```{r}
-# df <- filter(df, !Participant %in% outliers$arousal)
-# dftask <- filter(dftask, !Participant %in% outliers$arousal)
+
 ```
 
 :::
@@ -244,7 +276,7 @@ df |>
   ggplot(aes(x = Gender)) +
   geom_bar(aes(fill = SexualOrientation)) +
   scale_y_continuous(expand = c(0, 0), breaks = scales::pretty_breaks()) +
-  labs(x = "Biological Sex", y = "Number of Participants", title = "Sex and Sexual Orientation", fill = "Sexual Orientation") +
+  labs(x = "Biological Sex", y = "Number of Participants", title = "Gender and Sexual Orientation", fill = "Sexual Orientation") +
   theme_modern(axis.title.space = 15) +
   theme(
     plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
@@ -261,6 +293,7 @@ df |>
 ```{r}
 
 df |> 
+  group_by(Gender) |>
   filter(SexualOrientation == "Bisexual") |>
   ggplot(aes(x=Gender)) +
   geom_bar(aes(fill = StimuliChoice)) +
@@ -322,7 +355,7 @@ p_edu <- df |>
     plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
     plot.subtitle = element_text(size = rel(1.2), vjust = 7),
     axis.text.y = element_text(size = rel(1.1)),
-    axis.text.x = element_text(size = rel(1.1)),
+    axis.text.x = element_text(size = rel(1.1), angle = 45, hjust = 1),
     axis.title.x = element_blank()
   )
 p_edu
