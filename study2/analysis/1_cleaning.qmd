@@ -403,5 +403,14 @@ df |>
 :::
 
 
+## Save 
+
+```{r}
+#| code-fold: false
+
+setdiff(unique(df$Participant), unique(dftask$Participant))
+write.csv(df, "../data/data_participants.csv", row.names = FALSE)
+write.csv(dftask, "../data/data.csv", row.names = FALSE)
+```
 
 
