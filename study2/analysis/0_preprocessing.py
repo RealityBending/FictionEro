@@ -16,10 +16,23 @@ data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
+
+demo_files = []  # List to track demo files
+
+# Identify and collect demo files
+for file in files:
+    if file.endswith("_demo.csv"):
+        demo_files.append(file)
+        
+
 for i, file in enumerate(files):
+    #skip demo files
+    if file in demo_files:
+        print(f"Skipping demo file: {file}")
+        continue
+    
     filename = file.replace(".csv", "")
     full_file = f"{filename}_Full.csv"
-    
      # Check if the full version exists
     if full_file in files:
         if file != full_file:  # Skip the non-full version if the full version exists
@@ -388,7 +401,7 @@ data_demo = replace_value(data_demo, "Discipline", "Other_Marketing and Research
 data_demo = replace_value(data_demo, "Discipline", "Other_Information Technology", "Other")
 data_demo = replace_value(data_demo, "Discipline", "Other_Finance", "Business, Economics")
 data_demo = replace_value(data_demo, "Discipline", "Other_Data analyst", "Engineering, Computer Science")
-data_demo = replace_value(data_demo, "Discipline", "Other_Human Genetics", "Other")
+
 
 # data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "SexualOrientation", "Other_Straight", "Heterosexual")
@@ -402,12 +415,10 @@ data_demo = replace_value(data_demo, "SexualStatus", "Other_Married", "In a rela
 # data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
 
 # data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
-# data_demo[data_demo["Education"].str.contains("Other_")]["Country"] //--> south africa college?
+# data_demo[data_demo["Education"].str.contains("Other_")]["Country"] --> south africa college?
 data_demo = replace_value(data_demo, "Education", "Other_College", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_some college, short courses(not diploma nor degree)", "High school")
 data_demo = replace_value(data_demo, "Education", "Other_COLLEGE", "Other")
-data_demo = replace_value(data_demo, "Education", "Other_College.", "Other")
-data_demo = replace_value(data_demo, "Education", "Other_College (diploma)", "Other")
 
 # Compute the correlation for each participant for arousal and valence 
 correlations = {}
@@ -425,12 +436,26 @@ correlations_df = pd.DataFrame(list(correlations.items()), columns=["Participant
 # Compute distirbution based on correlations 
 correlations_df['Correlation'].hist()
 
-data_task[data_task["Participant"] == 'S060']
+# data_task[data_task["Participant"] == 'S060']
+
+# Compute the average rating time for each participant for phase 1
+rating_time = {}
+
+for participant, group in data_task.groupby("Participant"):
+    if len(group) > 1: 
+        rat = group["Rating_RT_Phase1"].median()  # Take median per participant
+    else:
+        rat = np.nan  # Not enough data to compute a reliable median
+    rating_time[participant] = rat
+
+# Convert the results to a DataFrame
+rating_time_df = pd.DataFrame(list(rating_time.items()), columns=["Participant", "Rating Time"])
+
+# Compute distirbution based on correlations 
+rating_time_df['Rating Time'].hist()
 
 # Median time 
 data_demo["Experiment_Duration"].median()
-
-
 
 # Save data ==============================================================
 data_demo = data_demo.drop(columns=["Prolific_ID"])
