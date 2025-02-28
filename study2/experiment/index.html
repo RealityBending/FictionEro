@@ -87,20 +87,20 @@
         on_finish: function () {
             if (finished_experiment) {
                 if (jsPsych.data.urlVariables()["exp"] == "prolific") {
-                window.location =
-                    "https://app.prolific.com/submissions/complete?cc=CTHE3RFM"
+                    window.location =
+                        "https://app.prolific.com/submissions/complete?cc=CTHE3RFM"
+                }
+                else {
+                    window.location = "https://realitybending.github.io/research/#participate" // Redirect to lab website
+                }
             }
-            else {
-                window.location = "https://realitybending.github.io/research/#participate" // Redirect to lab website
-            }
-        }
         },
         extensions: [{ type: jsPsychExtensionWebgazer }],
     })
 
     // Initialize timeline
-    var finished_experiment = false 
-    
+    var finished_experiment = false
+
     var timeline = []
 
     participant_ID = jsPsych.randomization.randomID(10)
@@ -110,6 +110,18 @@
     timeline.push(demographics_consent)
     timeline.push(demographics_questions)
     timeline.push(fiction_preloadstims)
+
+    //Save only demo data
+    timeline.push({
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+        filename: `${participant_ID}_demo.csv`,
+        data_string: () => jsPsych.data.get().csv(),
+        on_finish: function () {
+            finished_experiment = true
+        }
+    })
 
     // Eye-tracking ==============================================================
     timeline.push(eyetracking_consent)
@@ -193,6 +205,7 @@
                     finished_experiment = true
                 }
             })
+
             // Save all data via DataPipe
             timeline.push({
                 type: jsPsychPipe,

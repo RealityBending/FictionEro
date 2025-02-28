@@ -27,25 +27,29 @@ options(mc.cores = parallel::detectCores(),
         width = 300)
 ```
 
-**notes**: How about confidence on all AI and all photos
+**notes**: How about confidence on all AI and all photos.
 
 ```{r}
 dfsub <- read.csv("../data/data_participants.csv")
 df <- read.csv("../data/data.csv") |> 
   right_join(
-    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency_2, SexualActivity,
+    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency_2, GenderualActivity,
            -Feedback_Text),
     by = "Participant"
     ) |> 
   mutate(Condition = fct_relevel(Condition, "Reality", "Fiction"),
          Gender =  fct_relevel(Gender, "Male", "Female", "Other"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
-         GenderualActivity_num = as.numeric(as.factor(SexualActivity)),
+         GenderualActivity_num = as.numeric(as.factor(GenderualActivity)),
          ConditionBelief = case_when(
            Condition == "Reality" & Realness > 0.5 ~ "True",
            Condition == "AI-Fiction" & Realness < 0.5 ~ "True",
            .default = "False",
          )) |> 
+  mutate(Condition = case_when(
+    Condition == "Fiction" ~ "AI-Generated",
+    Condition == "Reality" ~ "Photograph"
+  )) |>
   mutate(across(starts_with("Feedback_")& !matches("Feedback_AllRealConfidence|Feedback_AllFakeConfidence|Feedback_Enjoyment"), function(x) {fct_relevel(x, "False", "True")}))
 
 results_table <- function(model, effects="fixed", filter=NULL) {
@@ -83,6 +87,24 @@ arousal <- df |>
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 
 arousal
+```
+
+```{r}
+
+df |> 
+  mutate(ConditionBelief = as.factor(ConditionBelief)) |> 
+  mutate(ConditionBelief = case_when(
+    ConditionBelief == "False" ~ "Not Believed",
+    ConditionBelief == "True" ~ "Believed",)) |>
+  ggplot(aes(x=Arousal, fill=Gender)) +
+  geom_histogram(position = "identity", binwidth = 0.5) +
+  facet_grid(Gender~ConditionBelief, scales="free_y") +
+  scale_color_manual(values=c("red", "white"), guide="none") +
+  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800", "Other" = "#03A9F4"), guide="none") +
+  # scale_y_sqrt(expand = c(0, 0)) +
+  labs(title = "Arousal to images believed or not to be AI-Gnerated") +
+  theme_abyss() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
 ```
 
 **Note**:  Model m3, which includes random intercepts and random slopes for Gender at the stimulus level, exhibits relatively high correlations between the random intercepts and slopes. This suggests that the random effects are strongly correlated, which could indicate overfitting.
@@ -142,6 +164,24 @@ valence <- df |>
 valence
 ```
 
+```{r}
+
+df |> 
+  mutate(ConditionBelief = as.factor(ConditionBelief)) |> 
+  mutate(ConditionBelief = case_when(
+    ConditionBelief == "False" ~ "Not Believed",
+    ConditionBelief == "True" ~ "Believed",)) |>
+  ggplot(aes(x=Enticing, fill=Gender)) +
+  geom_histogram(position = "identity", binwidth = 0.5) +
+  facet_grid(Gender~ConditionBelief, scales="free_y") +
+  scale_color_manual(values=c("red", "white"), guide="none") +
+  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800", "Other" = "#03A9F4"), guide="none") +
+  # scale_y_sqrt(expand = c(0, 0)) +
+  labs(title = "Enticiment to images believed or not to be AI-Gnerated") +
+  theme_abyss() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+```
+
 This model evaluate ths the effects of Gender on Enticement, accounting for random variability due to participants and the stimuli (i.e., random effects). Notably, all the stimuli is erotic. 
 
 The analysis revealed that on average **women rate erotic stimuli significantly lower in enticiment than men**, while participants identifying as 'other' rate on average erotic stimuli higher than men. However, these differences were not statistically significant.
@@ -174,7 +214,7 @@ valence <- df |>
   ggplot(aes(x=Valence)) +
   geom_histogram(fill="grey", position = "identity", binwidth = 0.5) +
   scale_y_sqrt(expand = c(0, 0)) +
-  scale_x_continuous(breaks = (0:6), labels = c("Unpleasant", "1", "2", "3", "4", "5", "Pleasa")) +
+  scale_x_continuous(breaks = (0:6), labels = c("Unpleasant", "1", "2", "3", "4", "5", "Pleasant")) +
   labs(title = "Valence") +
   theme_abyss() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"),
@@ -182,6 +222,25 @@ valence <- df |>
 
 valence
 ```
+
+```{r}
+
+df |> 
+  mutate(ConditionBelief = as.factor(ConditionBelief)) |> 
+  mutate(ConditionBelief = case_when(
+    ConditionBelief == "False" ~ "Not Believed",
+    ConditionBelief == "True" ~ "Believed",)) |>
+  ggplot(aes(x=Valence, fill=Gender)) +
+  geom_histogram(position = "identity", binwidth = 0.5) +
+  facet_grid(Gender~ConditionBelief, scales="free_y") +
+  scale_color_manual(values=c("red", "white"), guide="none") +
+  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800", "Other" = "#03A9F4"), guide="none") +
+  # scale_y_sqrt(expand = c(0, 0)) +
+  labs(title = "Valence to images believed or not to be AI-Gnerated") +
+  theme_abyss() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+```
+
 
 This model evaluate ths the effects of Gender on valence, accounting for random variability due to participants and the stimuli (i.e., random effects). Notably, all the stimuli is erotic. 
 
@@ -209,5 +268,89 @@ estimate_relation(m_e) |>
   theme_abyss()
 ```
 
+:::
+
+## Arousal 
+
+```{r}
+#| fig-height: 12
+#| fig-width: 7
 
 
+plot_descriptive <- function(df, target="Arousal") {
+  # By item
+  order <- df |>
+    mutate(.Item_Order = paste0(Gender, "_", Stimulus)) |>
+    summarize(mean = mean(.data[[target]], na.rm=TRUE), .by=c("Condition", ".Item_Order")) |> 
+    arrange(.Item_Order, desc(Condition)) |> 
+    mutate(diff = sign(mean - lag(mean)),
+           Relevance = str_extract(.Item_Order, "^[^_]+"),
+           .Item_Order = str_extract(.Item_Order, "(?<=_).+")) |>
+    filter(Condition == "Photograph") |> 
+    arrange(Relevance, diff, mean)
+    
+  p1 <- df |>
+    mutate(.Item_Order = paste0(Gender, "_", Stimulus)) |>
+    group_by(.Item_Order, Condition) |>
+    ggdist::mean_qi(.data[[target]], .width=0.95) |>
+    mutate(Gender = fct_rev(str_extract(.Item_Order, "^[^_]+"))) |>
+    left_join(order[c(".Item_Order", "diff")], by=".Item_Order") |>
+    mutate(.Item_Order = fct_relevel(.Item_Order, order$.Item_Order)) |>
+    # mutate(.average = mean(.data[[target]]), .by="Item") |>
+    # mutate(Item = fct_reorder(Item, .average)) |>
+    ggplot(aes(y = .Item_Order, x=.data[[target]])) +
+    geom_line(aes(color=as.factor(diff)), linewidth=1) +
+    geom_point(aes(color=Condition), size=2) +
+      
+    # ggdist::stat_slabinterval(aes(fill=Condition, color=Condition),
+    #                           .width=0.95, normalize="xy", slab_alpha=0.5) +
+    # ggdist::stat_histinterval(aes(fill=Condition, color=Condition),
+    #                           .width=0.95, normalize="xy", slab_alpha=0.5) +
+    scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336", "1"="#F44336", "-1"="#2196F3"),
+                       breaks = c('AI-Generated', 'Photograph')) +
+    # scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+    scale_y_discrete(labels = function(x) str_extract(x, "(?<=_).+")) +
+    theme_minimal() +
+    theme(panel.grid.minor.x = element_blank(),
+          # panel.grid.major.x = element_blank(),
+          panel.border = element_blank(),
+          axis.line.x = element_blank()) +
+    labs(title = paste0(target, " by Item"), color="Condition", y="Items") +
+    facet_wrap(~Gender, scales="free_y")
+
+  # By participant
+  p2 <- df |>
+    summarize(.average = mean(.data[[target]]),
+              .by=c("Gender", "Participant", "Condition")) |>
+    pivot_wider(names_from = Condition, values_from = .average) |>
+    mutate(.diff = Photograph - `AI-Generated`) |>
+    mutate(Participant = fct_reorder(Participant, .diff)) |>
+    ggplot(aes(x = .diff, y=Participant)) +
+    geom_bar(aes(fill=.diff), stat = "identity")  +
+    scale_fill_gradient2(guide="none", low="red", high="red", mid="blue") +
+    labs(title = paste0(target, " by Participant")) +
+    facet_wrap(~Gender, ncol=2, scales="free_y") +
+    theme_minimal() +
+    theme(panel.grid.major.y = element_blank(),
+          panel.border = element_blank(),
+          axis.line.x = element_blank(),
+          axis.text.y = element_blank()) +
+    labs(title = paste0(target, " by Participant"), x="Difference (Photograph - AI-Generated)", y="Participants")
+
+  p1 / p2 + plot_layout(heights = c(2, 1))
+}
+
+# remove other 
+arousal_desc <- df |> 
+  filter(Gender != "Other") |> 
+  plot_descriptive("Arousal")
+
+arousal_desc
+```
+
+### Whole Sample
+
+
+```{r}
+
+```
