@@ -10,20 +10,43 @@ path = "C:/Users/asf25/Box/FictionEro2/"
 files = os.listdir(path)
 
 
+# Demographic Data Only
+all_demo_data = []  # List to store browser info
+demo_files = [file for file in files if file.endswith("_demo.csv")] # only files ending in demo
+
+# Identify and collect demo files
+for file in demo_files:
+    full_path = os.path.join(path, file)
+    data = pd.read_csv(full_path) 
+    # browser data
+    browser_demo = data[data["screen"] == "browser_info"].iloc[0]
+
+    # Extract browser info
+    df_row = {
+        "Prolific_ID": browser_demo["prolific_id"],
+        "Participant": file,  
+        "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
+        "Date": browser_demo["date"],
+        "Time": browser_demo["time"],
+        "Browser": browser_demo["browser"],
+        "Mobile": browser_demo["mobile"],
+        "Platform": browser_demo["os"],
+        "Screen_Width": browser_demo["screen_width"],
+        "Screen_Height": browser_demo["screen_height"],
+        "Source": browser_demo["researcher"],
+    }
+
+    all_demo_data.append(df_row)
+
+demo_browser_df = pd.DataFrame(all_demo_data)
+
+
 # Loop through files ======================================================
 # Initialize empty dataframes
 data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
-
-demo_files = []  # List to track demo files
-
-# Identify and collect demo files
-for file in files:
-    if file.endswith("_demo.csv"):
-        demo_files.append(file)
-        
 
 for i, file in enumerate(files):
     #skip demo files
@@ -97,7 +120,6 @@ for i, file in enumerate(files):
     )
     if df["Datetime"].values[0] < pd.Timestamp("2025-01-16"):
         print("- ERROR 4")
-        continue
     if "sona_id" in browser.index and not pd.isnull(browser["sona_id"]):
         df["SONA_ID"] = int(browser["sona_id"])
 
