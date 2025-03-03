@@ -474,13 +474,13 @@ var fiction_feedback1 = {
             {
                 type: "checkbox",
                 name: "Feedback_1",
-                title: "Face Attractiveness",
+                title: "Image Arousal",
                 description: "Please select all that apply",
                 choices: [
-                    "Some faces were really attractive",
-                    "No face was particularly attractive",
-                    "AI-generated images were more attractive than the photos",
-                    "AI-generated images were less attractive than the photos",
+                    "Some images were really arousing",
+                    "No image was particularly arousing",
+                    "AI-generated images were more arousing than the photos",
+                    "AI-generated images were less arousing than the photos",
                 ],
                 showOtherItem: true,
                 showSelectAllItem: false,
