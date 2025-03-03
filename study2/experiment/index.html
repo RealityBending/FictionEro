@@ -149,9 +149,22 @@
                 ],
             })
 
-            // // Break ----------------------------------------------------------------
+            // Break ----------------------------------------------------------------
             timeline.push(fiction_phase1_break)
             timeline.push(eyetracking_recalibration)
+
+            //Save phase 1 before break data
+            timeline.push({
+                type: jsPsychPipe,
+                action: "save",
+                experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+                filename: `${participant_ID}_break.csv`,
+                data_string: () => jsPsych.data.get().csv(),
+                on_finish: function () {
+                    finished_experiment = true
+                }
+            })
+
             // Phase 1B -------------------------------------------------------------
             timeline.push({
                 timeline_variables: stimuli.slice(
@@ -168,10 +181,22 @@
             })
             timeline.push(fiction_feedback1)
 
+            //Save phase 1 after break data
+            timeline.push({
+                type: jsPsychPipe,
+                action: "save",
+                experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+                filename: `${participant_ID}_phase1.csv`,
+                data_string: () => jsPsych.data.get().csv(),
+                on_finish: function () {
+                    finished_experiment = true
+                }
+            })
+
             // Questionnaires ===========================================================
             timeline.push(questionnaires_instructions) // Instructions Questionnaires
             timeline.push(questionnaire_cops) // sexual activity
-            timeline.push(questionnaire_bait) // Beliefs about AI technonology
+            timeline.push(questionnaire_bait) // Beliefs about AI Technology
             //timeline.push(feedback_bait) // Graph feedback
 
             // Stage 2 ==============================================================
@@ -186,25 +211,25 @@
             })
             timeline.push(experiment_feedback)
 
-            // End ===================================================================
-            timeline.push(demographics_debriefing)
+            // // End ===================================================================
+            // timeline.push(demographics_debriefing)
 
-            // Save data (without eyetracking) via DataPipe
-            timeline.push({
-                type: jsPsychPipe,
-                action: "save",
-                experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
-                filename: `${participant_ID}.csv`,
-                data_string: () => {
-                    const filtered_data = jsPsych.data.get().ignore(['raw_gaze', 'percent_in_roi', 'average_offset', // calibration columns 
-                        'validation_points', 'webgazer_data', 'webgazer_targets']) // fiction columns 
+            // // Save data (without eyetracking) via DataPipe
+            // timeline.push({
+            //     type: jsPsychPipe,
+            //     action: "save",
+            //     experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+            //     filename: `${participant_ID}.csv`,
+            //     data_string: () => {
+            //         const filtered_data = jsPsych.data.get().ignore(['raw_gaze', 'percent_in_roi', 'average_offset', // calibration columns 
+            //             'validation_points', 'webgazer_data', 'webgazer_targets']) // fiction columns 
 
-                    return filtered_data.csv()
-                },
-                on_finish: function () {
-                    finished_experiment = true
-                }
-            })
+            //         return filtered_data.csv()
+            //     },
+            //     on_finish: function () {
+            //         finished_experiment = true
+            //     }
+            // })
 
             // Save all data via DataPipe
             timeline.push({
