@@ -47,9 +47,10 @@ data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
-# Other files
+#All other files
 break_files = [file for file in files if file.endswith("_break.csv")] # only files ending in break
 phase1_files = [file for file in files if file.endswith("_phase1.csv")] # only files ending in break
+full_files = {f.replace("_Full.csv", "") for f in files if f.endswith("_Full.csv")}
 
 
 for i, file in enumerate(files):
@@ -58,18 +59,21 @@ for i, file in enumerate(files):
         print(f"Skipping demo file: {file}")
         continue
     if file in break_files:
-print(f"Skipping demo file: {file}")
+        print(f"Skipping break file: {file}")
+        continue
+    if file in phase1_files:
+        print(f"Skipping phase1 file: {file}")
         continue
     
-    filename = file.replace(".csv", "")
-     # Check if the full version exists
-    if full_file in files:
-        if file != full_file:  # Skip the non-full version if the full version exists
-            print(f"Skipping {file}, using {full_file} instead.")
-            continue
-        file = full_file  # Use the full version if available
 
-    print(f"File N°{i+1}/{len(files)} - Processing: {file}")  # Print progress
+    filename = file.replace(".csv", "")
+    # Skip if the normal version exists but there's a _Full version
+    if filename in full_files and not file.endswith("_Full.csv"):
+        print(f"Skipping {filename}, using {filename}_Full instead.")
+        continue
+    
+    # Process the file
+    print(f"File N°{i+1}/{len(files)} - Processing: {filename}")
 
     # Skip if participant already in the dataset
     if (
