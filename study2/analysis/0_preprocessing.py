@@ -47,15 +47,21 @@ data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 
+# Other files
+break_files = [file for file in files if file.endswith("_break.csv")] # only files ending in break
+phase1_files = [file for file in files if file.endswith("_phase1.csv")] # only files ending in break
+
 
 for i, file in enumerate(files):
     #skip demo files
     if file in demo_files:
         print(f"Skipping demo file: {file}")
         continue
+    if file in break_files:
+print(f"Skipping demo file: {file}")
+        continue
     
     filename = file.replace(".csv", "")
-    full_file = f"{filename}_Full.csv"
      # Check if the full version exists
     if full_file in files:
         if file != full_file:  # Skip the non-full version if the full version exists
