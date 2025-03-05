@@ -69,7 +69,7 @@ for i, file in enumerate(files):
     filename = file.replace(".csv", "")
     # Skip if the normal version exists but there's a _Full version
     if filename in full_files and not file.endswith("_Full.csv"):
-        print(f"Skipping {filename}, using {filename}_Full instead.")
+        print(f"File N°{i+1}/{len(files)} - Skipping {filename}, using {filename}_Full instead.")
         continue
     
     # Process the file
@@ -424,6 +424,7 @@ def replace_value(df, column, old, new):
 
 # data_demo["Ethnicity"][data_demo["Ethnicity"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "Ethnicity", "Other_Black African", "Black")
+data_demo = replace_value(data_demo, "Ethnicity", "Other_Maori", "Other")
 
 
 # data_demo["Discipline"][data_demo["Discipline"].str.contains("Other_").values].values
@@ -433,6 +434,11 @@ data_demo = replace_value(data_demo, "Discipline", "Other_Marketing and Research
 data_demo = replace_value(data_demo, "Discipline", "Other_Information Technology", "Other")
 data_demo = replace_value(data_demo, "Discipline", "Other_Finance", "Business, Economics")
 data_demo = replace_value(data_demo, "Discipline", "Other_Data analyst", "Engineering, Computer Science")
+data_demo = replace_value(data_demo, "Discipline", "Other_Human Genetics", "Other")
+data_demo = replace_value(data_demo, "Discipline", "OOther_Agricultural foresty", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Sport science", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_nursing", "Medicine")
+data_demo = replace_value(data_demo, "Discipline", "Other_Education", "Other")
 
 
 # data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
@@ -451,6 +457,10 @@ data_demo = replace_value(data_demo, "SexualStatus", "Other_Married", "In a rela
 data_demo = replace_value(data_demo, "Education", "Other_College", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_some college, short courses(not diploma nor degree)", "High school")
 data_demo = replace_value(data_demo, "Education", "Other_COLLEGE", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_College (diploma)", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_Technical college", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_College.", "Other")
+
 
 # Compute the correlation for each participant for arousal and valence 
 correlations = {}
