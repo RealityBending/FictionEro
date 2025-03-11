@@ -9,8 +9,9 @@ path = "C:/Users/asf25/Box/FictionEro2/"
 # path = "C:/Users/aneve/Box/FictionEro2/"
 files = os.listdir(path)
 
+# ============================== IMCOMPLETE DATA SETS ===================================
 
-# Demographic Data Only
+# Demographic data =========================================
 all_demo_data = []  # List to store browser info
 demo_files = [file for file in files if file.endswith("_demo.csv")] # only files ending in demo
 
@@ -40,6 +41,67 @@ for file in demo_files:
 
 demo_browser_df = pd.DataFrame(all_demo_data)
 
+# Data till the Break of phase ===============================================
+all_break_data = []  # List to store browser info
+break_files = [file for file in files if file.endswith("_break.csv")] # only files ending in demo
+
+# Identify and collect demo files
+for file in break_files:
+    full_path = os.path.join(path, file)
+    data = pd.read_csv(full_path) 
+    # browser data
+    browser_demo = data[data["screen"] == "browser_info"].iloc[0]
+
+    # Extract browser info
+    df_row = {
+        "Prolific_ID": browser_demo["prolific_id"],
+        "Participant": file,  
+        "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
+        "Date": browser_demo["date"],
+        "Time": browser_demo["time"],
+        "Browser": browser_demo["browser"],
+        "Mobile": browser_demo["mobile"],
+        "Platform": browser_demo["os"],
+        "Screen_Width": browser_demo["screen_width"],
+        "Screen_Height": browser_demo["screen_height"],
+        "Source": browser_demo["researcher"],
+    }
+
+    all_break_data.append(df_row)
+
+demo_break_df = pd.DataFrame(all_break_data)
+
+# Data with phase 1 complete ============================================================
+all_phase1_data = []  # List to store browser info
+phase1_files = [file for file in files if file.endswith("_phase1.csv")] # only files ending in demo
+
+# Identify and collect demo files
+for file in phase1_files:
+    full_path = os.path.join(path, file)
+    data = pd.read_csv(full_path) 
+    # browser data
+    browser_demo = data[data["screen"] == "browser_info"].iloc[0]
+
+    # Extract browser info
+    df_row = {
+        "Prolific_ID": browser_demo["prolific_id"],
+        "Participant": file,  
+        "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
+        "Date": browser_demo["date"],
+        "Time": browser_demo["time"],
+        "Browser": browser_demo["browser"],
+        "Mobile": browser_demo["mobile"],
+        "Platform": browser_demo["os"],
+        "Screen_Width": browser_demo["screen_width"],
+        "Screen_Height": browser_demo["screen_height"],
+        "Source": browser_demo["researcher"],
+    }
+
+    all_phase1_data.append(df_row)
+
+demo_break_df = pd.DataFrame(all_phase1_data)
+
+# ================================= COMPLETE DATASETS ================================================
 
 # Loop through files ======================================================
 # Initialize empty dataframes
@@ -425,6 +487,7 @@ def replace_value(df, column, old, new):
 # data_demo["Ethnicity"][data_demo["Ethnicity"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "Ethnicity", "Other_Black African", "Black")
 data_demo = replace_value(data_demo, "Ethnicity", "Other_Maori", "Other")
+data_demo = replace_value(data_demo, "Ethnicity", "Other_Romanian", "White")
 
 
 # data_demo["Discipline"][data_demo["Discipline"].str.contains("Other_").values].values
@@ -435,10 +498,14 @@ data_demo = replace_value(data_demo, "Discipline", "Other_Information Technology
 data_demo = replace_value(data_demo, "Discipline", "Other_Finance", "Business, Economics")
 data_demo = replace_value(data_demo, "Discipline", "Other_Data analyst", "Engineering, Computer Science")
 data_demo = replace_value(data_demo, "Discipline", "Other_Human Genetics", "Other")
-data_demo = replace_value(data_demo, "Discipline", "OOther_Agricultural foresty", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Agricultural foresty", "Other")
 data_demo = replace_value(data_demo, "Discipline", "Other_Sport science", "Other")
 data_demo = replace_value(data_demo, "Discipline", "Other_nursing", "Medicine")
 data_demo = replace_value(data_demo, "Discipline", "Other_Education", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Geography and Primary Education", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Communications", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_education", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Veterinary medicine (behavioural)", "Other")
 
 
 # data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
@@ -453,13 +520,14 @@ data_demo = replace_value(data_demo, "SexualStatus", "Other_Married", "In a rela
 # data_demo["Country"][data_demo["Country"].str.contains("Other_").values].values
 
 # data_demo["Education"][data_demo["Education"].str.contains("Other_").values].values
-# data_demo[data_demo["Education"].str.contains("Other_")]["Country"] --> south africa college?
+# data_demo[data_demo["Education"].str.contains("Other_Nursing college")]["Country"] 
 data_demo = replace_value(data_demo, "Education", "Other_College", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_some college, short courses(not diploma nor degree)", "High school")
 data_demo = replace_value(data_demo, "Education", "Other_COLLEGE", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_College (diploma)", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_Technical college", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_College.", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_Nursing college", "Bachelor")
 
 
 # Compute the correlation for each participant for arousal and valence 
