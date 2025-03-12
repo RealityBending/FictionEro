@@ -231,7 +231,8 @@ for i, file in enumerate(files):
     sexactivity = np.nan if sexactivity in [""] else sexactivity
     df["SexualActivity"] = sexactivity
 
-    copsfreq = cops["COPS_Frequency"].rstrip()
+   copsfreq = cops["COPS_Frequency"]
+copsfreq = copsfreq.rstrip() if isinstance(copsfreq, str) else np.nan
     copsfreq = (
         "0. I haven't viewed pornography in the past 30 days"
         if "0." in copsfreq
@@ -257,7 +258,7 @@ for i, file in enumerate(files):
     copsfreq = (
         "6. I viewed pornography multiple times a day" if "6." in copsfreq else copsfreq
     )
-    copsfreq = np.nan if copsfreq in [""] else copsfreq
+    copsfreq = np.nan if not copsfreq else copsfreq
     df["COPS_Frequency_2"] = copsfreq
 
     # Feedback -------------------------------------------------------------
