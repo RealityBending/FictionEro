@@ -381,17 +381,19 @@ for i, file in enumerate(files):
         df["Eyetracking_Validation1_Min"] = np.min(calib[-2])
         # The average x and y distance from each validation point, plus the median
         # distance r of the points from this average offset.
-        df["Eyetracking_Validation1_Distance"] = np.mean([g["r"] for g in dist[-2]])
-
-        df["Eyetracking_Validation2_Mean"] = np.mean(calib[-1])
-        df["Eyetracking_Validation2_Max"] = np.max(calib[-1])
-        df["Eyetracking_Validation2_Min"] = np.min(calib[-1])
-
+        
         ## Convert None to NaN 
         dist = [
             [{k: (np.nan if v is None else v) for k, v in d.items()} for d in row]
             for row in dist
             ]
+        #dist = [[np.nan if x is None else x for x in row] for row in dist]
+
+        df["Eyetracking_Validation1_Distance"] = np.mean([g["r"] for g in dist[-2]])
+
+        df["Eyetracking_Validation2_Mean"] = np.mean(calib[-1])
+        df["Eyetracking_Validation2_Max"] = np.max(calib[-1])
+        df["Eyetracking_Validation2_Min"] = np.min(calib[-1])
         
         df["Eyetracking_Validation2_Distance"] = np.mean([g["r"] for g in dist[-1]])
 
@@ -498,7 +500,10 @@ data_demo = replace_value(data_demo, "Discipline", "Other_Geography and Primary 
 data_demo = replace_value(data_demo, "Discipline", "Other_Communications", "Other")
 data_demo = replace_value(data_demo, "Discipline", "Other_education", "Other")
 data_demo = replace_value(data_demo, "Discipline", "Other_Veterinary medicine (behavioural)", "Other")
-
+data_demo = replace_value(data_demo, "Discipline", "Other_policing", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_Health and Life Sciences", "Other")
+data_demo = replace_value(data_demo, "Discipline", "Other_cognitive behavioural psychotherapy", "Psychology, Neuroscience")
+data_demo = replace_value(data_demo, "Discipline", "Other_Design", "Other")
 
 # data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "SexualOrientation", "Other_Straight", "Heterosexual")
@@ -560,10 +565,10 @@ rating_time_df['Rating Time'].hist()
 data_demo["Experiment_Duration"].median()
 
 # # Save data ==============================================================
-# data_demo = data_demo.drop(columns=["Prolific_ID"])
+data_demo = data_demo.drop(columns=["Prolific_ID"])
 
-# data_demo.to_csv("../data/rawdata_participants.csv", index=False)
-# data_task.to_csv("../data/rawdata_task.csv", index=False)
-# data_eye.to_csv("../data/rawdata_eyetracking.csv", index=False)
+data_demo.to_csv("../data/rawdata_participants.csv", index=False)
+data_task.to_csv("../data/rawdata_task.csv", index=False)
+data_eye.to_csv("../data/rawdata_eyetracking.csv", index=False)
 
 
