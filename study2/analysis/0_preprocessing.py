@@ -230,35 +230,26 @@ for i, file in enumerate(files):
     sexactivity = "6. More than a year ago" if "6." in sexactivity else sexactivity
     sexactivity = np.nan if sexactivity in [""] else sexactivity
     df["SexualActivity"] = sexactivity
+    
+    copsfreq = cops.get("COPS_Frequency") or ""  # Ensures None is converted to ""
+    copsfreq = copsfreq.rstrip()  
 
-   copsfreq = cops["COPS_Frequency"]
-copsfreq = copsfreq.rstrip() if isinstance(copsfreq, str) else np.nan
-    copsfreq = (
-        "0. I haven't viewed pornography in the past 30 days"
-        if "0." in copsfreq
-        else copsfreq
-    )
-    copsfreq = (
-        "1. I viewed pornography once in the past 30 days"
-        if "1." in copsfreq
-        else copsfreq
-    )
-    copsfreq = (
-        "2. I viewed pornography twice in the past 30 days"
-        if "2." in copsfreq
-        else copsfreq
-    )
-    copsfreq = "3. I viewed pornography weekly" if "3." in copsfreq else copsfreq
-    copsfreq = (
-        "4. I viewed pornography multiple times a week"
-        if "4." in copsfreq
-        else copsfreq
-    )
-    copsfreq = "5. I viewed pornography daily" if "5." in copsfreq else copsfreq
-    copsfreq = (
-        "6. I viewed pornography multiple times a day" if "6." in copsfreq else copsfreq
-    )
-    copsfreq = np.nan if not copsfreq else copsfreq
+    if "0." in copsfreq:
+        copsfreq = "0. I haven't viewed pornography in the past 30 days"
+    elif "1." in copsfreq:
+        copsfreq = "1. I viewed pornography once in the past 30 days"
+    elif "2." in copsfreq:
+        copsfreq = "2. I viewed pornography twice in the past 30 days"
+    elif "3." in copsfreq:
+        copsfreq = "3. I viewed pornography weekly"
+    elif "4." in copsfreq:
+        copsfreq = "4. I viewed pornography multiple times a week"
+    elif "5." in copsfreq:
+        copsfreq = "5. I viewed pornography daily"
+    elif "6." in copsfreq:
+        copsfreq = "6. I viewed pornography multiple times a day"
+
+    copsfreq = np.nan if copsfreq == "" else copsfreq
     df["COPS_Frequency_2"] = copsfreq
 
     # Feedback -------------------------------------------------------------
@@ -568,11 +559,11 @@ rating_time_df['Rating Time'].hist()
 # Median time 
 data_demo["Experiment_Duration"].median()
 
-# Save data ==============================================================
-data_demo = data_demo.drop(columns=["Prolific_ID"])
+# # Save data ==============================================================
+# data_demo = data_demo.drop(columns=["Prolific_ID"])
 
-data_demo.to_csv("../data/rawdata_participants.csv", index=False)
-data_task.to_csv("../data/rawdata_task.csv", index=False)
-data_eye.to_csv("../data/rawdata_eyetracking.csv", index=False)
+# data_demo.to_csv("../data/rawdata_participants.csv", index=False)
+# data_task.to_csv("../data/rawdata_task.csv", index=False)
+# data_eye.to_csv("../data/rawdata_eyetracking.csv", index=False)
 
 
