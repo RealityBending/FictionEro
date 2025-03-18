@@ -107,8 +107,72 @@ editor_options:
   chunk_output_type: console
 ---
 
-<!-- Study 1  -->
+
+```{r}
+#| label: setup
+#| include: false
+library(conflicted)
+library(tidyverse)
+library(flextable)
+library(ftExtra)
+library(officer)
+library(knitr)
+
+conflicts_prefer(dplyr::filter, .quiet = TRUE)
+conflicts_prefer(flextable::separate_header, .quiet = TRUE)
+```
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+# options and parameters
+options(digits = 3)
+
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    dpi = 450,
+    fig.width = see::golden_ratio(9),
+    fig.height = 9,
+    fig.path = "images/"
+)
+
+cache <- TRUE
+```
+
+
+# Study 1
+
+## Methods
+
+**Participants**
+
+**Materials**
+
+**Procedure**
+
+```{r}
+#| message: false
+#| warning: false
+
+
+knitr::include_graphics("images/Paradigm.png")
+```
+
+
+**Ethics**
+
+**Data Analysis**
 
 
 
-<!-- Study 2 -->
+# Study 2
+
+## Methods
+
+**Participants**
+
+**Materials**
+
+**Procedure**
+
+**Ethics**
+
+**Data Analysis**
