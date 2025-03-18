@@ -31,25 +31,26 @@ options(mc.cores = parallel::detectCores(),
 
 ```{r}
 dfsub <- read.csv("../data/data_participants.csv")
+
 df <- read.csv("../data/data.csv") |> 
   right_join(
-    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency_2, GenderualActivity,
+    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency_2, SexualActivity,
            -Feedback_Text),
     by = "Participant"
     ) |> 
-  mutate(Condition = fct_relevel(Condition, "Reality", "Fiction"),
-         Gender =  fct_relevel(Gender, "Male", "Female", "Other"),
-         PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
-         GenderualActivity_num = as.numeric(as.factor(GenderualActivity)),
-         ConditionBelief = case_when(
-           Condition == "Reality" & Realness > 0.5 ~ "True",
-           Condition == "AI-Fiction" & Realness < 0.5 ~ "True",
-           .default = "False",
-         )) |> 
   mutate(Condition = case_when(
     Condition == "Fiction" ~ "AI-Generated",
     Condition == "Reality" ~ "Photograph"
   )) |>
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
+         Gender =  fct_relevel(Gender, "Male", "Female", "Other"),
+         PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
+         GenderualActivity_num = as.numeric(as.factor(SexualActivity)),
+         ConditionBelief = case_when(
+           Condition == "Photograph" & Realness > 0 ~ "True",
+           Condition == "AI-Generated" & Realness < 0 ~ "True",
+           .default = "False",
+         )) |>
   mutate(across(starts_with("Feedback_")& !matches("Feedback_AllRealConfidence|Feedback_AllFakeConfidence|Feedback_Enjoyment"), function(x) {fct_relevel(x, "False", "True")}))
 
 results_table <- function(model, effects="fixed", filter=NULL) {
@@ -70,11 +71,13 @@ results_table <- function(model, effects="fixed", filter=NULL) {
 
 This section is about selecting the best model. Notably, all the stimuli presented are of an erotic nature.
 
-**Note to dom** beta model does not make sense anymore, what else should we do?
-
 ::: panel-tabset
 
 ### Arousal
+
+Arousal ratings were relatively well-distributed across the scale, with the highest frequency for "Not at all" and a gradual decrease across higher ratings. 
+
+The pattern of arousal ratings was similar regardless of whether participants believed the images were AI-generated or real. Among male participants, arousal ratings were relatively evenly distributed but tended to cluster around the middle of the scale, independent of their belief about the images' origin. Female participants, on the other hand, showed a pronounced peak at the lowest arousal rating, irrespective of their perception of the images as AI-generated. Participants with other gender identities provided fewer responses overall, but their arousal ratings generally leaned toward moderate levels, particularly in the "Not Believed" condition.
 
 ```{r}
 arousal <- df |> 
@@ -121,16 +124,14 @@ m3 <- glmmTMB::glmmTMB(Arousal ~ Gender + (1|Participant) + (1+Gender|Stimulus )
 test_bf(m1,m2)
 compare_performance(m1, m2)
 
-# the model with participants and stimuli as random effecs seems to be the best
+# the model with participants only as random effecs seems to be the best
 ```
 
-This model evaluate ths the effects of Gender on Arousal, accounting for random variability due to participants and the stimuli (i.e., random effects). 
-
-The analysis revealed that on average **women rate erotic stimuli significantly lower in arousal than men**, while participants identifying as 'other' rate on average erotic stimuli higher than men, however this is not significant.
+This model evaluate ths the effects of Gender on Arousal, accounting for random variability due to participants (i.e., random effects). The analysis revealed that on average **women rate erotic stimuli significantly lower in arousal than men**, while participants identifying as 'other' rate on average erotic stimuli higher than men, however this is not significant.
 
 ```{r}
-m_a <- glmmTMB::glmmTMB(Arousal ~ Gender + (1|Participant) + (1|Stimulus ),
-                      data=df,
+m_a <- glmmTMB::glmmTMB(Arousal ~ Gender + (1|Participant),
+                      data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
                       # control = glmmTMB::glmmTMBControl(optimizer=stats::optim, # nlminb, optim
                       #                                   optArgs = list(method = "BFGS"),  #Nelder-Mead, BFGS, CG
@@ -150,18 +151,22 @@ estimate_relation(m_a) |>
 
 ### Enticement
 
+Enticement ratings were relatively well-distributed across the scale.
+
+Male participants predominantly provided responses in the mid-to-high enticement range across both conditions. Female participants showed a pronounced peak at the lowest enticement rating when they did not believe the image was AI-generated, with a similar but less pronounced pattern in the believed condition. Participants identifying as 'Other' responses were more concentrated around the middle of the scale.
+
 ```{r}
-valence <- df |> 
+enticement <- df |> 
   ggplot(aes(x=Enticing)) +
   geom_histogram(fill="grey", position = "identity", binwidth = 0.5) +
   scale_y_sqrt(expand = c(0, 0)) +
   scale_x_continuous(breaks = (0:6), labels = c("Not at all", "1", "2", "3", "4", "5", "Very much")) +
-  labs(title = "Valence") +
+  labs(title = "Enticement") +
   theme_abyss() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"),
         legend.position = "none")
 
-valence
+enticement
 ```
 
 ```{r}
@@ -187,7 +192,7 @@ This model evaluate ths the effects of Gender on Enticement, accounting for rand
 The analysis revealed that on average **women rate erotic stimuli significantly lower in enticiment than men**, while participants identifying as 'other' rate on average erotic stimuli higher than men. However, these differences were not statistically significant.
 
 ```{r}
-m_e <- glmmTMB::glmmTMB(Enticing ~ Gender + (1|Participant) + (1|Stimulus ),
+m_e <- glmmTMB::glmmTMB(Enticing ~ Gender + (1|Participant),
                       data=df,
                       control = glmmTMB::glmmTMBControl(parallel = 8))
                       # control = glmmTMB::glmmTMBControl(optimizer=stats::optim, # nlminb, optim
@@ -208,6 +213,11 @@ estimate_relation(m_e) |>
 
 
 ### Valence
+
+Valence ratings were concetrated more around the mid-to-high valence. 
+
+Participants showed the same pattern of results regardless of whether they believed the images to be Ai-generated or not. 
+Males tended to to have the majority of their responses concentrated in the mid-to-high valence range. Female majoity valence ratings were on on the lower (0) and midle end of the scale (3/4). 
 
 ```{r}
 valence <- df |> 
@@ -246,10 +256,10 @@ This model evaluate ths the effects of Gender on valence, accounting for random 
 
 <!-- Key Findings -->
 
-The analysis revealed that on average **women rate erotic stimuli significantly lower in arousal than men**, while participants identifying as 'other' rate on average erotic stimuli higher than men,. None of these differences were statistically significant.
+The analysis revealed that on average **women rate erotic stimuli significantly lower in valence than men**, while participants identifying as 'other' rate on average erotic stimuli higher in valence than men but these was not statistically significant.
 
 ```{r}
-m_v <- glmmTMB::glmmTMB(Valence ~ Gender + (1|Participant) + (1|Stimulus ),
+m_v <- glmmTMB::glmmTMB(Valence ~ Gender + (1|Participant),
                       data=df,
                       control = glmmTMB::glmmTMBControl(parallel = 8))
                       # control = glmmTMB::glmmTMBControl(optimizer=stats::optim, # nlminb, optim
@@ -271,6 +281,9 @@ estimate_relation(m_e) |>
 :::
 
 ## Arousal 
+
+In contrast to [study1](https://realitybending.github.io/FictionEro/study1/analysis/2_emotions.html) arousal ratings differ by whether the images were preceeded by 'photograph' or by 'ai-generated'. 
+
 
 ```{r}
 #| fig-height: 12
@@ -350,7 +363,20 @@ arousal_desc
 
 ### Whole Sample
 
+This model examines the effect of Gender and condition on Arousal, accounting for random variability due to participants and items (i.e., random effects).
+
+<!-- The intercept is Male and photograph.  -->
+Women rated 'photographs' significantly lower in arousal than men.
+Men rated 'photographs' significantly higher in arousal than 'AI-generated' images.
 
 ```{r}
+
+m_arousal <- glmmTMB::glmmTMB(Arousal ~ Gender/ Condition + 
+                                (1| Participant) + (1|Stimulus), data=df, control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_arousal)
+
+# marginaleffects::avg_slopes(m_arousal, variables="Condition", by="Gender", re.form=NA) |> 
+#   results_table()
 
 ```

@@ -89,6 +89,7 @@ df |>
          Authenticity = str_replace(Authenticity, "AllFakeConfidence", "All images were fake")) |>
   ggplot(aes(x = Confidence, fill= Authenticity)) +
   geom_bar() +
+  scale_x_continuous(n.breaks = 6) +
   labs(x="Confidence (0-5)", y = "Number of Participants", title = "Confidence on the authenticity of the images") +
   theme_minimal() +
   theme(
@@ -133,7 +134,7 @@ df |>
 ```{r}
 
 data.frame(Comments = df$Feedback_Text) |>
-  filter(!tolower(Comments) %in% c(NA, "no", "no comments", "nothing", "none", "", "no.")) |> 
+  filter(!tolower(Comments) %in% c(NA, "no", "no comments", "nothing", "none", "", "no.", "no. ", "n/a", "n/a - thanks", "thanks")) |> 
   gt::gt() |> 
   gt::opt_stylize() |> 
   gt::opt_interactive(use_compact_mode = TRUE) 
@@ -144,12 +145,9 @@ data.frame(Comments = df$Feedback_Text) |>
 
 ## Exclusion
 
-::: {.panel-tabset}
-
-
 ```{r}
 #| echo: true
-#| code-fold: false
+#| code-fold: true
 
 outliers <- list()
 ```
@@ -198,6 +196,60 @@ df |>
 
 ```
 
+
+### BAIT Questionnaire Duration
+#
+```{r}
+#| fig-width: 15
+#| fig-height: 15
+
+df |>
+  mutate(Participant = fct_reorder(Participant, Bait_Duration),
+         Category = ifelse(Bait_Duration > 5, "extra", "ok"),
+         Duration = ifelse(Bait_Duration > 5, 5, Bait_Duration),
+         Group = ifelse(Participant %in% outliers, "Outlier", "ok")) |>
+  ggplot(aes(y = Participant, x = Duration)) +
+  geom_point(aes(color = Group, shape = Category)) +
+  geom_vline(xintercept = median(df$Bait_Duration), color = "red", linetype = "dashed") +
+  geom_vline(xintercept = 0.5, color = "orange", linetype = "dotted") +
+  scale_shape_manual(values = c("extra" = 3, ok = 19)) +
+  scale_color_manual(values = c("Outlier" = "red", ok = "black"), guide="none") +
+  guides(color = "none", shape = "none") +
+  ggside::geom_xsidedensity(fill = "#9C27B0", color=NA) +
+  ggside::scale_xsidey_continuous(expand = c(0, 0)) +
+  labs(
+    title = "Questionnaire Completion Time",
+    x = "Duration (in minutes)",
+    y = "Participant"
+  )  +
+  theme_modern() +
+  ggside::theme_ggside_void() +
+  theme(ggside.panel.scale = .3,
+        panel.border = element_blank(),
+        axis.ticks.y = element_blank(),
+          axis.text.y = element_blank()) 
+
+outliers$bait_duration <- filter(df, Bait_Duration < 0.5)$Participant
+df[df$Participant %in% outliers$bait_duration, str_detect(names(df), "BAIT_\\d+")] <- NA
+```
+
+`r length(outliers$bait_duration)` participants completed the questionnaire in less than 30 seconds.
+
+### Response to Erotic Stimuli
+
+```{r}
+# Single arousal response (0)
+outliers$novariability <- summarize(dftask, n = length(unique(Arousal)), .by="Participant") |> 
+  filter(n == 1) |> 
+  select(Participant) |> 
+  pull()
+
+df <- filter(df, !Participant %in% outliers$novariability)
+dftask <- filter(dftask, !Participant %in% outliers$novariability)
+```
+
+`r length(outliers$novariability)` participants showed no variation in their arousal response (did not move the scales). 
+
 ### Response Coherence
 
 ```{r}
@@ -228,14 +280,13 @@ outliers$arousal <- intersect(outliers$emo_aro, outliers$emo_ent)
 
 ```
 
-`r length(outliers$arousal)` participant had a negative correlation between arousal and enticement, and had a negative correlation between arousal and valance. 
+`r length(outliers$arousal)` participant had a negative correlation between arousal and enticement, AND had a negative correlation between arousal and valance. 
 
 
 ```{r}
-
+df <- filter(df, !Participant %in% outliers$arousal)
+dftask <- filter(dftask, !Participant %in% outliers$arousal)
 ```
-
-:::
 
 ## Final Sample 
 
@@ -344,7 +395,7 @@ p_map
 
 ```{r}
 p_edu <- df |>
-  mutate(Education = fct_relevel(Education, "Other", "High School", "Bachelor", "Master", "Doctorate")) |> 
+  mutate(Education = fct_relevel(Education, "High school", "Bachelor", "Master", "Doctorate", "Other"))|> 
   ggplot(aes(x = Education)) +
   geom_bar(aes(fill = Education)) +
   scale_y_continuous(expand = c(0, 0), breaks= scales::pretty_breaks()) +
@@ -408,7 +459,8 @@ df |>
 ```{r}
 #| code-fold: false
 
-setdiff(unique(df$Participant), unique(dftask$Participant))
+
+# setdiff(unique(df$Participant), unique(dftask$Participant))
 write.csv(df, "../data/data_participants.csv", row.names = FALSE)
 write.csv(dftask, "../data/data.csv", row.names = FALSE)
 ```
