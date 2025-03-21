@@ -282,11 +282,16 @@ outliers$arousal <- intersect(outliers$emo_aro, outliers$emo_ent)
 
 `r length(outliers$arousal)` participant had a negative correlation between arousal and enticement, AND had a negative correlation between arousal and valance. 
 
+Only `r sum(df$Gender=="Other")` participants self-reported as neither female nor male, hence they were excluded from further analysis. 
+
 
 ```{r}
+df<- filter(df, !Gender=="Other")
 df <- filter(df, !Participant %in% outliers$arousal)
 dftask <- filter(dftask, !Participant %in% outliers$arousal)
 ```
+
+
 
 ## Final Sample 
 
@@ -458,7 +463,6 @@ df |>
 
 ```{r}
 #| code-fold: false
-
 
 # setdiff(unique(df$Participant), unique(dftask$Participant))
 write.csv(df, "../data/data_participants.csv", row.names = FALSE)

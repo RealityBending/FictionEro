@@ -30,6 +30,8 @@ options(mc.cores = parallel::detectCores(),
 **notes**: How about confidence on all AI and all photos.
 
 ```{r}
+#| warning: false
+#| 
 dfsub <- read.csv("../data/data_participants.csv")
 
 df <- read.csv("../data/data.csv") |> 
@@ -65,11 +67,22 @@ results_table <- function(model, effects="fixed", filter=NULL) {
     display(parameters::parameters(model, effects=effects, keep=filter))
   }
 }
+
+## re-scaled variables
+scale_values <- function(x){(x-min(x))/(max(x)-min(x))}
+
+
+df$Arousal <- scale_values(df$Arousal)
+df$Enticing <- scale_values(df$Enticing)
+df$Valence <- scale_values(df$Valence)
 ```
 
 ## Manipulation Check
 
 This section is about selecting the best model. Notably, all the stimuli presented are of an erotic nature.
+Note that variables were rescaled to [0,1] when fitting the models and that the stimuli presented to participants was assigned according to their self-rated sexuality, making all stimuli relevant to participants. 
+
+To summarise, women rate stimuli on average significantly lower in arousal, enticiment and valence than men. 
 
 ::: panel-tabset
 
@@ -82,10 +95,9 @@ The pattern of arousal ratings was similar regardless of whether participants be
 ```{r}
 arousal <- df |> 
   ggplot(aes(x=Arousal)) +
-  geom_histogram(fill="grey", position = "identity", binwidth = 0.5) +
+  geom_bar(fill="#03A9F4") +
   scale_y_sqrt(expand = c(0, 0)) +
-  scale_x_continuous(breaks = (0:6), labels = c("Not at all", "1", "2", "3", "4", "5", "Very much")) +
-  labs(title = "Arousal") +
+  labs(title = "Arousal", ) +
   theme_abyss() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 
@@ -100,10 +112,10 @@ df |>
     ConditionBelief == "False" ~ "Not Believed",
     ConditionBelief == "True" ~ "Believed",)) |>
   ggplot(aes(x=Arousal, fill=Gender)) +
-  geom_histogram(position = "identity", binwidth = 0.5) +
+  geom_bar(position = "identity") +
   facet_grid(Gender~ConditionBelief, scales="free_y") +
   scale_color_manual(values=c("red", "white"), guide="none") +
-  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800", "Other" = "#03A9F4"), guide="none") +
+  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800"), guide="none") +
   # scale_y_sqrt(expand = c(0, 0)) +
   labs(title = "Arousal to images believed or not to be AI-Gnerated") +
   theme_abyss() +
@@ -121,15 +133,16 @@ m2 <- glmmTMB::glmmTMB(Arousal ~ Gender + (1|Participant) + (1|Stimulus ), data=
 m3 <- glmmTMB::glmmTMB(Arousal ~ Gender + (1|Participant) + (1+Gender|Stimulus ), data=df)
 
 
-test_bf(m1,m2)
+test_bf(m1,m2, m3)
 compare_performance(m1, m2)
 
 # the model with participants only as random effecs seems to be the best
 ```
 
-This model evaluate ths the effects of Gender on Arousal, accounting for random variability due to participants (i.e., random effects). The analysis revealed that on average **women rate erotic stimuli significantly lower in arousal than men**, while participants identifying as 'other' rate on average erotic stimuli higher than men, however this is not significant.
+This model evaluate ths the effects of Gender on Arousal, accounting for random variability due to participants (i.e., random effects). The analysis revealed that on average **women rate erotic stimuli significantly lower in arousal than men**. 
 
 ```{r}
+
 m_a <- glmmTMB::glmmTMB(Arousal ~ Gender + (1|Participant),
                       data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
@@ -145,7 +158,7 @@ results_table(m_a)
 estimate_relation(m_a) |> 
   ggplot(aes(x=Gender, y=Predicted)) +
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color = Gender), position=position_dodge(width=0.5)) +
- scale_color_manual(values=c("Male"="#E91E63", "Female"="#FF9800","Other"="#03A9F4"), guide="none") +  labs(y="Arousal") +
+ scale_color_manual(values=c("Male"="#E91E63", "Female"="#FF9800"), guide="none") +  labs(y="Arousal") +
   theme_abyss()
 ```
 
@@ -156,17 +169,16 @@ Enticement ratings were relatively well-distributed across the scale.
 Male participants predominantly provided responses in the mid-to-high enticement range across both conditions. Female participants showed a pronounced peak at the lowest enticement rating when they did not believe the image was AI-generated, with a similar but less pronounced pattern in the believed condition. Participants identifying as 'Other' responses were more concentrated around the middle of the scale.
 
 ```{r}
-enticement <- df |> 
+enticiment <- df |> 
   ggplot(aes(x=Enticing)) +
-  geom_histogram(fill="grey", position = "identity", binwidth = 0.5) +
+  geom_bar(fill="#03A9F4") +
   scale_y_sqrt(expand = c(0, 0)) +
-  scale_x_continuous(breaks = (0:6), labels = c("Not at all", "1", "2", "3", "4", "5", "Very much")) +
-  labs(title = "Enticement") +
+  labs(title = "Enticement", ) +
   theme_abyss() +
-  theme(plot.title = element_text(hjust = 0.5, face="bold"),
-        legend.position = "none")
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
 
-enticement
+
+enticiment
 ```
 
 ```{r}
@@ -177,10 +189,10 @@ df |>
     ConditionBelief == "False" ~ "Not Believed",
     ConditionBelief == "True" ~ "Believed",)) |>
   ggplot(aes(x=Enticing, fill=Gender)) +
-  geom_histogram(position = "identity", binwidth = 0.5) +
+  geom_bar(position = "identity", binwidth = 0.5) +
   facet_grid(Gender~ConditionBelief, scales="free_y") +
   scale_color_manual(values=c("red", "white"), guide="none") +
-  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800", "Other" = "#03A9F4"), guide="none") +
+  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800"), guide="none") +
   # scale_y_sqrt(expand = c(0, 0)) +
   labs(title = "Enticiment to images believed or not to be AI-Gnerated") +
   theme_abyss() +
@@ -189,11 +201,11 @@ df |>
 
 This model evaluate ths the effects of Gender on Enticement, accounting for random variability due to participants and the stimuli (i.e., random effects). Notably, all the stimuli is erotic. 
 
-The analysis revealed that on average **women rate erotic stimuli significantly lower in enticiment than men**, while participants identifying as 'other' rate on average erotic stimuli higher than men. However, these differences were not statistically significant.
+The analysis revealed that on average **women rate erotic stimuli significantly lower in enticiment than men**. 
 
 ```{r}
 m_e <- glmmTMB::glmmTMB(Enticing ~ Gender + (1|Participant),
-                      data=df,
+                      data=df,family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
                       # control = glmmTMB::glmmTMBControl(optimizer=stats::optim, # nlminb, optim
                       #                                   optArgs = list(method = "BFGS"),  #Nelder-Mead, BFGS, CG
@@ -207,7 +219,7 @@ results_table(m_e)
 estimate_relation(m_e) |> 
   ggplot(aes(x=Gender, y=Predicted)) +
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color = Gender), position=position_dodge(width=0.5)) +
- scale_color_manual(values=c("Male"="#E91E63", "Female"="#FF9800","Other"="#03A9F4"), guide="none") +  labs(y="Arousal") +
+ scale_color_manual(values=c("Male"="#E91E63", "Female"="#FF9800"), guide="none") +  labs(y="Arousal") +
   theme_abyss()
 ```
 
@@ -222,13 +234,11 @@ Males tended to to have the majority of their responses concentrated in the mid-
 ```{r}
 valence <- df |> 
   ggplot(aes(x=Valence)) +
-  geom_histogram(fill="grey", position = "identity", binwidth = 0.5) +
+  geom_bar(fill="#03A9F4") +
   scale_y_sqrt(expand = c(0, 0)) +
-  scale_x_continuous(breaks = (0:6), labels = c("Unpleasant", "1", "2", "3", "4", "5", "Pleasant")) +
-  labs(title = "Valence") +
+  labs(title = "Valence", ) +
   theme_abyss() +
-  theme(plot.title = element_text(hjust = 0.5, face="bold"),
-        legend.position = "none")
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
 
 valence
 ```
@@ -241,10 +251,10 @@ df |>
     ConditionBelief == "False" ~ "Not Believed",
     ConditionBelief == "True" ~ "Believed",)) |>
   ggplot(aes(x=Valence, fill=Gender)) +
-  geom_histogram(position = "identity", binwidth = 0.5) +
+  geom_bar(position = "identity", binwidth = 0.5) +
   facet_grid(Gender~ConditionBelief, scales="free_y") +
   scale_color_manual(values=c("red", "white"), guide="none") +
-  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800", "Other" = "#03A9F4"), guide="none") +
+  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800"), guide="none") +
   # scale_y_sqrt(expand = c(0, 0)) +
   labs(title = "Valence to images believed or not to be AI-Gnerated") +
   theme_abyss() +
@@ -256,10 +266,10 @@ This model evaluate ths the effects of Gender on valence, accounting for random 
 
 <!-- Key Findings -->
 
-The analysis revealed that on average **women rate erotic stimuli significantly lower in valence than men**, while participants identifying as 'other' rate on average erotic stimuli higher in valence than men but these was not statistically significant.
+The analysis revealed that on average **women rate erotic stimuli significantly lower in valence than men**. 
 
 ```{r}
-m_v <- glmmTMB::glmmTMB(Valence ~ Gender + (1|Participant),
+m_v <- glmmTMB::glmmTMB(Valence ~ Gender + (1|Participant), family=glmmTMB::ordbeta(),
                       data=df,
                       control = glmmTMB::glmmTMBControl(parallel = 8))
                       # control = glmmTMB::glmmTMBControl(optimizer=stats::optim, # nlminb, optim
@@ -274,7 +284,7 @@ results_table(m_v)
 estimate_relation(m_e) |> 
   ggplot(aes(x=Gender, y=Predicted)) +
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color = Gender), position=position_dodge(width=0.5)) +
- scale_color_manual(values=c("Male"="#E91E63", "Female"="#FF9800","Other"="#03A9F4"), guide="none") +  labs(y="Arousal") +
+ scale_color_manual(values=c("Male"="#E91E63", "Female"="#FF9800"), guide="none") +  labs(y="Arousal") +
   theme_abyss()
 ```
 
@@ -372,11 +382,54 @@ Men rated 'photographs' significantly higher in arousal than 'AI-generated' imag
 ```{r}
 
 m_arousal <- glmmTMB::glmmTMB(Arousal ~ Gender/ Condition + 
-                                (1| Participant) + (1|Stimulus), data=df, control = glmmTMB::glmmTMBControl(parallel = 8))
+                                (1| Participant) + (1|Stimulus), family=glmmTMB::ordbeta(),
+                              data=df, control = glmmTMB::glmmTMBControl(parallel = 8))
 
 results_table(m_arousal)
 
-# marginaleffects::avg_slopes(m_arousal, variables="Condition", by="Gender", re.form=NA) |> 
+# marginaleffects::avg_slopes(m_arousal, variables="Condition", by="Gender") |>
 #   results_table()
 
+```
+
+### Moderators
+
+This model explores whether various factors such as **attitudes towards AI, knowledge about AI, frequency of porn consumption, and sexual activity** moderate the relationship between gender, image relevance (specifically AI-generated versus photographs), and arousal ratings.
+
+```{r}
+test_moderator <- function(df, outcome="Arousal", moderator="Bait_Visual") {
+  f <- paste0(outcome, " ~ Gender / (Condition * ", moderator, ") + (Condition | Participant) + (1|Stimulus)")
+  r <- glmmTMB::glmmTMB(as.formula(f),
+                      data = df,
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8)) |>
+    parameters::parameters() |> 
+    as.data.frame() |> 
+    select(-df_error, -Effects, -Group, -Component, -SE)
+  r$Moderator <- moderator
+  r$Outcome <- outcome
+  insight::format_table(r[c(7, 8), ])
+}
+
+
+moderator_results <- data.frame()
+for(m in c("BAIT_VideosRealistic", "BAIT_TextRealistic", "BAIT_ExpertAI", "PornFrequency", "SexualActivity")) {
+  moderator_results <- rbind(moderator_results,
+                             test_moderator(df, "Arousal", m))
+}
+
+display(moderator_results)
+```
+
+
+```{r}
+feedback_results <- data.frame()
+for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive", "Feedback_AIMoreAttractive", 
+           "Feedback_AILessAttractive", "Feedback_DiffObvious", "Feedback_DiffSubtle", "Feedback_DiffNone" ,
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed", "Feedback_AllReal", "Feedback_AllFake",
+           "Feedback_AllRealConfidence", "Feedback_AllFakeConfidence" ,  "Feedback_Enjoyment")){ 
+  feedback_results <- rbind(feedback_results,
+                            test_moderator(df, "Arousal", m))
+}
+display(feedback_results)
 ```
