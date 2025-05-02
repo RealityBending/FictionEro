@@ -37,6 +37,17 @@ The initial sample consisted of `r report::report_participants(df, age="Age", se
 
 ::: {.panel-tabset}
 
+### Old vs New feedback
+
+Due to a mistake in the study's implementation, some of the feedback was incorrect, e.g., "Some faces were attractive" and "AI-generated faces were less attractive" rather than "Some images were arousing" and "AI-generated images were less arousing". 
+
+
+```{r}
+
+table(df$version)
+  
+```  
+
 ### Proportion
 
 
@@ -53,6 +64,10 @@ df |>
          Question = str_replace(Question, "NoFacesAttractive", "No faces were attractive"),
          Question = str_replace(Question, "AILessAttractive", "AI = Less attractive"),
          Question = str_replace(Question, "AIMoreAttractive", "AI = More attractive"),
+         Question = str_replace(Question, "SomeImagesArousing", "Some images were arousing"),
+         Question = str_replace(Question, "NoImagesArousing", "No images were arousing"),
+         Question = str_replace(Question, "AILessArousing", "AI = Less arousing"),
+         Question = str_replace(Question, "AIMoreArousing", "AI = More arousing"),
          # Question = str_replace(Question, "DiffSubtle", "Subtle differences between AI images and photos"),
          Question = str_replace(Question, "DiffNone", "No difference between AI images and photos"),
          Question = str_replace(Question, "LabelsIncorrect", "Labels were incorrect"),

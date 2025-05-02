@@ -108,6 +108,8 @@ demo_break_df = pd.DataFrame(all_phase1_data)
 data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
+all_feedback = []  # to collect all feedback given that some participants had the wrong instructions
+
 
 #All other files
 break_files = [file for file in files if file.endswith("_break.csv")] # only files ending in break
@@ -231,7 +233,7 @@ for i, file in enumerate(files):
     sexactivity = np.nan if sexactivity in [""] else sexactivity
     df["SexualActivity"] = sexactivity
     
-    copsfreq = cops.get("COPS_Frequency") or ""  # Ensures None is converted to ""
+    copsfreq = cops.get("COPS_Frequency_2") or ""  # Ensures None is converted to ""
     copsfreq = copsfreq.rstrip()  
 
     if "0." in copsfreq:
@@ -250,7 +252,33 @@ for i, file in enumerate(files):
         copsfreq = "6. I viewed pornography multiple times a day"
 
     copsfreq = np.nan if copsfreq == "" else copsfreq
-    df["COPS_Frequency_2"] = copsfreq
+    df["COPS_Frequency"] = copsfreq
+
+    # check feedback version
+    feedback_df = data[data["screen"] == "fiction_feedback1"].copy()
+
+    def detect_version(response):
+        try:
+            parsed = json.loads(response)
+            response_text = json.dumps(parsed).lower()
+            if "attractive" in response_text:
+                return "old"
+            elif "arousing" in response_text:
+                return "new"
+            else:
+                return "unknown"
+        except Exception:
+            return "error"
+
+    if not feedback_df.empty:
+        feedback_df["Participant"] = filename
+        feedback_df["version"] = feedback_df["response"].apply(detect_version)
+        feedback_df["Datetime"] = df["Datetime"].values[0]  # Add timestamp to each feedback
+        all_feedback.append(feedback_df) 
+
+    # Count how many participants had each version
+    version_counts = feedback_df["version"].value_counts()
+    print(version_counts)
 
     # Feedback -------------------------------------------------------------
     f1 = data[data["screen"] == "fiction_feedback1"].iloc[0]
@@ -260,6 +288,10 @@ for i, file in enumerate(files):
     df["Feedback_SomeFacesAttractive"] = False
     df["Feedback_AIMoreAttractive"] = False
     df["Feedback_AILessAttractive"] = False
+    df["Feeback_NoImagesArousing"] = False
+    df["Feedback_SomeImagesArousing"] = False
+    df["Feedback_AIMoreArousing"] = False
+    df["Feedback_AILessArousing"] = False
     if f1["Feedback_1"] is not None:
         for f in f1["Feedback_1"]:
             if "No face" in f:
@@ -270,6 +302,14 @@ for i, file in enumerate(files):
                 df["Feedback_AIMoreAttractive"] = True
             if "less attractive" in f:
                 df["Feedback_AILessAttractive"] = True
+            if "no images" in f:
+                df["Feeback_NoImagesArousing"] = True
+            if "some images" in f: 
+                df["Feedback_SomeImagesArousing"] = True
+            if "more arousing" in f:
+                df["Feedback_AIMoreArousing"] = True
+            if "less arousing" in f:
+                df["Feedback_AILessArousing"] = True 
 
     df["Feedback_DiffObvious"] = False
     df["Feedback_DiffSubtle"] = False
@@ -310,6 +350,7 @@ for i, file in enumerate(files):
     f2 = json.loads(f2["response"])
     df["Feedback_Enjoyment"] = f2["Feedback_Enjoyment"]
     df["Feedback_Text"] = f2["Feedback_Text"]
+
 
     # Task data -----------------------------------------------------------
     df["Instruction_Duration1"] = (
@@ -455,6 +496,30 @@ for i, file in enumerate(files):
 
     # Concatenate data ------------------------------------------------------
     data_demo = pd.concat([data_demo, df], axis=0, ignore_index=True)
+
+
+# Combine feedback data
+feedback_all = pd.concat(all_feedback, ignore_index=True)
+
+# combine feedback data with demographic data
+data_demo = pd.merge(
+    data_demo,
+    feedback_all[["Participant", "version"]],
+    on="Participant",
+    how="left"
+)
+
+# Count how many participants got each version
+print("\n=== Version Counts ===")
+print(feedback_all["version"].value_counts())
+
+# Sort by time to find when the change happened
+print("\n=== Version Timeline ===")
+print(feedback_all.sort_values("Datetime")[["Participant", "version", "Datetime"]])
+
+# Optional: Find first use of "arousing"
+first_new = feedback_all[feedback_all["version"] == "new"]["Datetime"].min()
+print(f"\nFirst 'arousing' version appeared on: {first_new}")
 
 
 # SONA ====================================================================

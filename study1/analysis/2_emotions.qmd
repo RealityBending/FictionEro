@@ -622,7 +622,7 @@ enticement_desc
 
 ### Whole Sample
 
-This model examines how Sex, Relevance, and Condition influence Valence ratings, treating relevance within each participant and items as random effects.
+This model examines how Sex, Relevance, and Condition influence Enticement ratings, treating relevance within each participant and items as random effects.
 
 <!-- Key Findings: -->
 

@@ -36,8 +36,7 @@ dfsub <- read.csv("../data/data_participants.csv")
 
 df <- read.csv("../data/data.csv") |> 
   right_join(
-    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity, BAIT_Worry, BAIT_Dangerous, 
-           -Feedback_Text),
+    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
     by = "Participant"
     ) |> 
   mutate(Condition = case_when(
@@ -53,7 +52,11 @@ df <- read.csv("../data/data.csv") |>
            Condition == "AI-Generated" & Realness < 0 ~ "True",
            .default = "False",
          )) |>
-  mutate(across(starts_with("Feedback_")& !matches("Feedback_AllRealConfidence|Feedback_AllFakeConfidence|Feedback_Enjoyment"), function(x) {fct_relevel(x, "False", "True")}))
+  rename(AllRealConfidence = "Feedback_AllRealConfidence",
+         AllFakeConfidence = "Feedback_AllFakeConfidence",
+         Enjoyment = "Feedback_Enjoyment"
+         )|>
+  mutate(across(starts_with("Feedback_"), as.factor))
 
 results_table <- function(model, effects="fixed", filter=NULL) {
   if("marginaleffects" %in% class(model)) {
@@ -81,20 +84,17 @@ df$Valence <- scale_values(df$Valence)
 
 ```{r}
 
-bait <- df |> 
-  select(starts_with("BAIT_"), -Bait_Duration) |> 
-  rename_with(function(x) gsub("BAIT_\\d_", "", x)) |> 
-  filter(!is.na(BAIT_TextRealistic ))
+df$BAIT_Videos <- (df$BAIT_VideosRealistic + (1 - df$BAIT_VideosIssues)) / 2
 
-raw_scores <- data.frame(
-  Participant = df[!is.na(df$BAIT_ImagesRealistic), ]$Participant,
-  BAIT_Videos = (bait$BAIT_VideosRealistic + (1 - bait$BAIT_VideosIssues)) / 2,
-  BAIT_Visual = (bait$BAIT_ImagesRealistic + (1 - bait$BAIT_ImagesIssues) + bait$BAIT_ImitatingReality + bait$BAIT_EnvironmentReal) / 4,
-  BAIT_Text = (bait$BAIT_TextRealistic + (1 - bait$BAIT_TextIssues)) / 2
-  )
+df$BAIT_Visual = (df$BAIT_ImagesRealistic + (1 - df$BAIT_ImagesIssues) + df$BAIT_ImitatingReality + df$BAIT_EnvironmentReal) / 4
 
-df <- merge(df, raw_scores, by="Participant")
+df$BAIT_Text = (df$BAIT_TextRealistic + (1 - df$BAIT_TextIssues)) / 2
+
+df$BAIT_Negative <- (df$BAIT_Worry + df$BAIT_Dangerous)/2
+
+df$BAIT_Positive <- (df$BAIT_Exciting + df$BAIT_Benefit)/2
 ```
+
 
 ## Manipulation Check
 
@@ -398,6 +398,10 @@ This model examines the effect of Gender and condition on Arousal, accounting fo
 Women rated 'photographs' significantly lower in arousal than men.
 Men rated 'photographs' significantly higher in arousal than 'AI-generated' images.
 
+
+The analysis also examined the average marginal effect of the variable "Condition" (comparing AI-Generated to Photograph) separately for males and females. For males, the arousal is on average significantly lower (althoug only slighly) for AI-Generated images compared to Photograph images. For females, the arousal is on average slightly lower for AI-Generated images compared to Photograph images; however, this effect is not significant.
+
+
 ```{r}
 
 m_arousal <- glmmTMB::glmmTMB(Arousal ~ Gender/ Condition + 
@@ -406,7 +410,7 @@ m_arousal <- glmmTMB::glmmTMB(Arousal ~ Gender/ Condition +
 
 results_table(m_arousal)
 
-# marginaleffects::avg_slopes(m_arousal, variables="Condition", by="Gender") |>
+marginaleffects::avg_slopes(m_arousal, variables="Condition", by="Gender") 
 #   results_table()
 
 ```
@@ -414,6 +418,22 @@ results_table(m_arousal)
 ### Moderators
 
 This model explores whether various factors such as **attitudes towards AI, knowledge about AI, frequency of porn consumption, and sexual activity** moderate the relationship between gender, image relevance (specifically AI-generated versus photographs), and arousal ratings.
+
+The analysis revealed a significant interaction effect only for **positive attitudes towards AI** among females. Specifically, females with higher positive attitudes towards AI rated AI-generated images as more arousing, relative to when they viewed photographs 
+
+No other moderators showed statistically significant effects on arousal across the interactions of gender, condition (Ai-generated vs Photograph), and the respective moderators.
+
+We also examined whether **feedback** moderates the relationship between gender and condition on arousal. Findings suggest that feedback moderates this relationship only for men. Specifically, males who reported finding AI-generated images as less and more arousing had lower and higher, respectively, arousal ratings for those images.
+
+<!-- All significant findings for feedback  -->
+
+<!-- 1.For Males, giving feedback indicating that AI-generated images were less attractive, influenced arousal ratings for images labeled as AI-generated. Specifically, males who reported finding AI-generated images as less arousing had lower arousal ratings for those images. 
+
+
+<!-- 2. For Males, giving feedback indicating that AI-generated images were more attractive significantly influenced arousal ratings for images labeled as AI-generated. Specifically, males who reported finding AI-generated images more attractive had higher arousal ratings for these images.  -->
+
+
+<!-- Note: The feedback that the difference between the conditions was subtle only had one value - i.e., False.  The feedback that some AI images were arousing and that no AI images were arousing also only had one value - i.e., False -->
 
 
 ```{r}
@@ -433,7 +453,7 @@ test_moderator <- function(df, outcome="Arousal", moderator="BAIT_Visual") {
 
 
 moderator_results <- data.frame()
-for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI", "PornFrequency", "SexualActivity")) {
+for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI", "BAIT_Positive", "BAIT_Negative", "PornFrequency", "SexualActivity")) {
   moderator_results <- rbind(moderator_results,
                              test_moderator(df, "Arousal", m))
 }
@@ -444,10 +464,13 @@ display(moderator_results)
 
 ```{r}
 feedback_results <- data.frame()
-for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive", "Feedback_AIMoreAttractive", 
-           "Feedback_AILessAttractive", "Feedback_DiffObvious", "Feedback_DiffSubtle", "Feedback_DiffNone" ,
-           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed", "Feedback_AllReal", "Feedback_AllFake",
-           "Feedback_AllRealConfidence", "Feedback_AllFakeConfidence" ,  "Feedback_Enjoyment")){ 
+for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive", "Feedback_AIMoreAttractive", "Feedback_AILessAttractive", "Feedback_DiffObvious", "Feedback_DiffNone" ,
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed", "Feedback_AllReal", "Feedback_AllFake", "AllRealConfidence", "AllFakeConfidence" ,  "Enjoyment",
+           
+           ## New feedback
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing"
+           
+           )){ 
   feedback_results <- rbind(feedback_results,
                             test_moderator(df, "Arousal", m))
 }
@@ -456,8 +479,10 @@ display(feedback_results)
 
 ### Believed
 
+<!-- To DO -->
+
 ```{r}
-  m <- glmmTMB::glmmTMB(Arousal ~ Sex / Condition + (1|Participant) + (1|Item),
+  m <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition + (1|Participant) + (1|Stimulus),
                         data=filter(df, ConditionBelief == "True"), 
                         family=glmmTMB::ordbeta(),
                         control = glmmTMB::glmmTMBControl(parallel = 8))
@@ -468,11 +493,12 @@ display(feedback_results)
 ```{r}
 
  moderator_believed <- data.frame()
-  for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
-             "GAAIS_Positive", "GAAIS_Negative",
-             "Porn", "PornFrequency", "SexualActivity_num", 
+  for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
+             "BAIT_Positive", "BAIT_Negative",
+             "PornFrequency", "SexualActivity", 
              "Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
              "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
+             "Feedback_AIMoreAttractive", "Feedback_AILessAttractive",
              "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
     moderator_believed <- rbind(moderator_believed,
                                test_moderator(filter(df, ConditionBelief == "True"), "Arousal", m))
@@ -480,4 +506,90 @@ display(feedback_results)
   
   display(filter(moderator_believed, p < .1))
 
+```
+
+## Enticement 
+
+Enticment ratings differ by whether the images were preceeded by 'photograph' or by 'ai-generated'.
+
+
+```{r}
+#| fig-height: 12
+#| fig-width: 7
+
+enticement_desc <- plot_descriptive(df, "Enticing")
+enticement_desc
+```
+
+
+### Whole Sample
+
+This model examines how Gender and Condition influence enticement ratings, treating participant and items as random effects.
+
+<!-- Key Findings: -->
+
+There was a significant interaction between gender and image condition, whereby men were less enticed by AI-generated images, whereas women showed no significant difference in enticement based on image condition. Across both conditions, women rated the images as less enticing overall than men.
+
+We also analyzed the average marginal effect of the variable “Condition” (comparing AI-Generated to Photograph) separately for males and females.
+
+For males, enticement ratings are significantly lower on average for AI-Generated images compared to Photograph images. For females, enticement ratings are slightly lower on average for AI-Generated images compared to Photograph images, although this difference is not statistically significant.
+
+**Note**. 'Other' was removed due to the very small percentage of individuals identifying as such. 
+
+```{r}
+m_enticement <- glmmTMB::glmmTMB(Enticing ~ Gender / Condition + 
+                                   (1 | Participant) + (1|Stimulus),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_enticement)
+
+marginaleffects::avg_slopes(m_enticement, variables="Condition", by="Gender", re.form=NA)
+```
+
+### Moderators
+
+We examined whether **attitudes towards AI, porn frequency, and sexual activity** moderated the relationship between the predictors (sex, relevance, condition) and enticement ratings. 
+
+Looking at **feedback as a moderator**, the results showed that enticement ratings for images labeled AI-generated were moderated by the feedback reporting attitudes towards AI, but this was only significant for women. Specifically, women who reported that having more positive and negative attitudes towards AI, rated these images higher, and lower, in enticement compared to images labeled as photographs.
+
+```{r}
+for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
+           "BAIT_Positive", "BAIT_Negative",
+           "PornFrequency", "SexualActivity")) {
+  moderator_results <- rbind(moderator_results,
+                             test_moderator(df, "Enticing", m))
+}
+
+display(filter(moderator_results, Outcome == "Enticing"))
+```
+
+
+```{r}
+for(m in c("Feedback_CouldDiscriminate", "Feedback_CouldNotDiscriminate",
+           "Feedback_AIMoreArousing", "Feedback_AILessArousing",
+           "Feedback_AIMoreAttractive", "Feedback_LessArousing",
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
+  feedback_results <- rbind(feedback_results,
+                            test_moderator(df, "Enticing", m))
+}
+display(filter(feedback_results, Outcome == "Enticing"))
+```
+
+
+```{r}
+m <- glmmTMB::glmmTMB(Enticing ~ Gender / (Condition * SexualActivity) + (Condition | Participant) + (1|Stimulus),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+sex_act_plot<- estimate_relation(m, length=20) |> 
+  ggplot(aes(x=SexualActivity_num, y=Predicted)) +
+  geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Condition), alpha=0.2) +
+  geom_line(aes(color=Condition)) +
+  facet_grid(~Sex)
+
+sex_act_plot
 ```
