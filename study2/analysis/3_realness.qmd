@@ -1,0 +1,13 @@
+---
+title: "FictionEro2 - Determinants of Reality Beliefs"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute: 
+  cache: true
+---

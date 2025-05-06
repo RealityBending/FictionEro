@@ -233,25 +233,25 @@ for i, file in enumerate(files):
     sexactivity = np.nan if sexactivity in [""] else sexactivity
     df["SexualActivity"] = sexactivity
     
-    copsfreq = cops.get("COPS_Frequency_2") or ""  # Ensures None is converted to ""
-    copsfreq = copsfreq.rstrip()  
+    copsfreq = (cops.get("COPS_Frequency") or "").rstrip()
 
-    if "0." in copsfreq:
+    if copsfreq == "I haven't watched pornography in the past 30 days":
         copsfreq = "0. I haven't viewed pornography in the past 30 days"
-    elif "1." in copsfreq:
+    elif copsfreq == "I watched pornography once in the past 30 days":
         copsfreq = "1. I viewed pornography once in the past 30 days"
-    elif "2." in copsfreq:
+    elif copsfreq == "I watched pornography twice in the past 30 days":
         copsfreq = "2. I viewed pornography twice in the past 30 days"
-    elif "3." in copsfreq:
+    elif copsfreq == "I watched pornography weekly":
         copsfreq = "3. I viewed pornography weekly"
-    elif "4." in copsfreq:
+    elif copsfreq == "I watched pornography multiple times a week":
         copsfreq = "4. I viewed pornography multiple times a week"
-    elif "5." in copsfreq:
+    elif copsfreq == "I watched pornography daily":
         copsfreq = "5. I viewed pornography daily"
-    elif "6." in copsfreq:
+    elif copsfreq == "I watched pornography multiple times a day":
         copsfreq = "6. I viewed pornography multiple times a day"
+    elif copsfreq == "":
+        copsfreq = np.nan
 
-    copsfreq = np.nan if copsfreq == "" else copsfreq
     df["COPS_Frequency"] = copsfreq
 
     # check feedback version
@@ -288,7 +288,7 @@ for i, file in enumerate(files):
     df["Feedback_SomeFacesAttractive"] = False
     df["Feedback_AIMoreAttractive"] = False
     df["Feedback_AILessAttractive"] = False
-    df["Feeback_NoImagesArousing"] = False
+    df["Feedback_NoImagesArousing"] = False
     df["Feedback_SomeImagesArousing"] = False
     df["Feedback_AIMoreArousing"] = False
     df["Feedback_AILessArousing"] = False
@@ -302,8 +302,8 @@ for i, file in enumerate(files):
                 df["Feedback_AIMoreAttractive"] = True
             if "less attractive" in f:
                 df["Feedback_AILessAttractive"] = True
-            if "no images" in f:
-                df["Feeback_NoImagesArousing"] = True
+            if "no image" in f:
+                df["Feedback_NoImagesArousing"] = True
             if "some images" in f: 
                 df["Feedback_SomeImagesArousing"] = True
             if "more arousing" in f:

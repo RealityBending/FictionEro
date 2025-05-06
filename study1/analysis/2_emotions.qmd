@@ -685,7 +685,7 @@ We examined whether **attitudes towards AI, porn usage and frequency, and sexual
 
 Looking at **feedback as a moderator**, the results showed that enticement ratings for images labeled AI-generated were moderated by the feedback that AI is more arousing, but this was only significant for women. Specifically, women who reported that AI-generated images as more arousing rated these images higher in enticement compared to images labeled as photographs.
 
-Lastly, the interaction between sexual activity and condition on arousal, suggests that for females, the effect of AI-Generated condition on arousal ratings varies with different levels of sexual activity.
+Lastly, the interaction between sexual activity and condition on enticement, suggests that for females, the effect of AI-Generated condition on enticing ratings varies with different levels of sexual activity.
 
 ```{r}
 for(m in c("BAIT_Visual", "BAIT_Text", "AI_Knowledge",
