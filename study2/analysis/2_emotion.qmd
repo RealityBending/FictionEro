@@ -36,13 +36,13 @@ dfsub <- read.csv("../data/data_participants.csv")
 
 df <- read.csv("../data/data.csv") |> 
   right_join(
-    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
+    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,-Feedback_Text),
     by = "Participant"
     ) |> 
+  datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |>
   mutate(Condition = case_when(
     Condition == "Fiction" ~ "AI-Generated",
-    Condition == "Reality
-    " ~ "Photograph"
+    Condition == "Reality" ~ "Photograph"
   )) |>
   mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
          Gender =  fct_relevel(Gender, "Male", "Female"),
@@ -71,15 +71,8 @@ results_table <- function(model, effects="fixed", filter=NULL) {
     display(parameters::parameters(model, effects=effects, keep=filter))
   }
 }
-
-## re-scaled variables
-scale_values <- function(x){(x-min(x))/(max(x)-min(x))}
-
-
-df$Arousal <- scale_values(df$Arousal)
-df$Enticing <- scale_values(df$Enticing)
-df$Valence <- scale_values(df$Valence)
 ```
+
 
 **Note**: [These calculations are based on the validation of the BAIT scale](https://realitybending.github.io/FictionEro/study1/analysis/1_cleaning.html)
 
@@ -95,7 +88,6 @@ df$BAIT_Negative <- (df$BAIT_Worry + df$BAIT_Dangerous)/2
 
 df$BAIT_Positive <- (df$BAIT_Exciting + df$BAIT_Benefit)/2
 ```
-
 
 ## Manipulation Check
 
@@ -318,7 +310,6 @@ In contrast to [study1](https://realitybending.github.io/FictionEro/study1/analy
 ```{r}
 #| fig-height: 12
 #| fig-width: 7
-
 
 plot_descriptive <- function(df, target="Arousal") {
   # By item
@@ -641,11 +632,11 @@ results_table(m)
 
 moderator_believed <- data.frame()
 for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
-           "BAIT_Positive", "BAIT_Negative", "PornFrequency", "SexualActivity", 
-           
+           "BAIT_Positive", "BAIT_Negative", "PornFrequency",
+           "SexualActivity",
            "Feedback_DiffObvious", "Feedback_DiffNone",
            "Feedback_AIMoreArousing", "Feedback_AILessArousing",
-           "Feedback_AIMoreAttractive", "Feedback_LessArousing",
+           "Feedback_AIMoreAttractive", "Feedback_AILessArousing",
            "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
   moderator_believed <- rbind(moderator_believed,
                              test_moderator(filter(df, ConditionBelief == "True"), "Enticing", m))
@@ -733,13 +724,14 @@ results_table(m)
 ```
 
 ```{r}
-for(m in c("Feedback_DiffObvious", "Feedback_DiffNone","Feedback_DiffSubtle", 
-           
+moderator_believed <- data.frame()
+for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
+           "BAIT_Positive", "BAIT_Negative", "PornFrequency",
+           "SexualActivity", 
+           "Feedback_DiffObvious", "Feedback_DiffNone",
            "Feedback_AIMoreArousing", "Feedback_AILessArousing",
-           "Feedback_AIMoreAttractive", "Feedback_LessArousing",
-           
-           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed",
-           "Feedback_AllReal", "Feedback_AllFake")) {
+           "Feedback_AIMoreAttractive", "Feedback_AILessArousing",
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
   moderator_believed <- rbind(moderator_believed,
                              test_moderator(filter(df, ConditionBelief == "True"), "Valence", m))
 }
@@ -847,13 +839,14 @@ results_table(m)
 ```
 
 ```{r}
-for(m in c("Feedback_DiffObvious", "Feedback_DiffNone","Feedback_DiffSubtle", 
-           
+moderator_believed <- data.frame()
+for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
+           "BAIT_Positive", "BAIT_Negative", "PornFrequency",
+           "SexualActivity", 
+           "Feedback_DiffObvious", "Feedback_DiffNone",
            "Feedback_AIMoreArousing", "Feedback_AILessArousing",
-           "Feedback_AIMoreAttractive", "Feedback_LessArousing",
-           
-           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed",
-           "Feedback_AllReal", "Feedback_AllFake")) {
+           "Feedback_AIMoreAttractive", "Feedback_AILessArousing",
+           "Feedback_LabelsIncorrect", "Feedback_LabelsReversed")) {
   moderator_believed <- rbind(moderator_believed,
                              test_moderator(filter(df, ConditionBelief == "True"), "Emotionality", m))
 }
