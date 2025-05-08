@@ -109,7 +109,16 @@ data_demo = pd.DataFrame()
 data_task = pd.DataFrame()
 data_eye = pd.DataFrame()
 all_feedback = []  # to collect all feedback given that some participants had the wrong instructions
-
+norm_data =  pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv").rename(
+    columns={
+        "ID": "Item",
+        "JPEG_size80": "Complexity",
+        "LABA": "Red",
+        "LABB": "Green",
+        "Luminance": "Luminance2",
+        "LABL": "Luminance",
+    }
+)
 
 #All other files
 break_files = [file for file in files if file.endswith("_break.csv")] # only files ending in break
@@ -351,7 +360,6 @@ for i, file in enumerate(files):
     df["Feedback_Enjoyment"] = f2["Feedback_Enjoyment"]
     df["Feedback_Text"] = f2["Feedback_Text"]
 
-
     # Task data -----------------------------------------------------------
     df["Instruction_Duration1"] = (
         data[data["screen"] == "fiction_instructions1"].iloc[0]["rt"] / 1000
@@ -407,6 +415,47 @@ for i, file in enumerate(files):
     dftask = dftask.reset_index(drop=True)
 
     data_task = pd.concat([data_task, dftask], axis=0, ignore_index=True)
+
+    
+    # Merge with validation data
+    if demo["SexualOrientation"] == "Heterosexual":
+        norms = norm_data.copy().rename(
+            columns={"total_valence": "Norms_Valence_Heterosexual", "total_arousal": "Norms_Arousal_Heterosexual"}
+    )
+    elif demo["SexualOrientation"] == "Homosexual":
+        norms = norm_data.copy().rename(
+            columns={"total_valence": "Norms_Valence_Homosexual", "total_arousal": "Norms_Arousal_Homosexual"}
+    )
+    else:
+        norms = norm_data.copy().rename(
+        columns={"total_valence": "Norms_Valence_Other", "total_arousal": "Norms_Arousal_Other"}
+    )
+        
+    # rename column 'item' to 'stimulus'
+    norms = norms.rename(columns={"Item": "Stimulus"})
+
+    norms = norms[
+        [
+            "Stimulus",
+            "Category",
+            "Orientation",
+            "Norms_Valence_Heterosexual",
+            "Norms_Arousal_Heterosexual",
+            "Norms_Valence_Homosexual",
+            "Norms_Arousal_Homosexual",
+            "Norms_Valence_Other",
+            "Norms_Arousal_Other",
+            # These variables below are fairly uncorrelated (good)
+            "Luminance",
+            "Contrast",
+            "Entropy",  # Greyscale entropy
+            "Complexity",  # Overall complexity
+            "Red",
+            "Green"
+        ]
+    ]
+
+    data_task = pd.merge(data_task, norms, on="Stimulus", how="left")
 
     # Eye-tracking data --------------------------------------------------
     if "eyetracking_validation_run" in data["screen"].values:
