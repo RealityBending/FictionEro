@@ -415,45 +415,27 @@ for i, file in enumerate(files):
     dftask = dftask.reset_index(drop=True)
 
     data_task = pd.concat([data_task, dftask], axis=0, ignore_index=True)
-
-    
-    # Merge with validation data
-    if demo["SexualOrientation"] == "Heterosexual":
-        norms = norm_data.copy().rename(
-            columns={"total_valence": "Norms_Valence_Heterosexual", "total_arousal": "Norms_Arousal_Heterosexual"}
-    )
-    elif demo["SexualOrientation"] == "Homosexual":
-        norms = norm_data.copy().rename(
-            columns={"total_valence": "Norms_Valence_Homosexual", "total_arousal": "Norms_Arousal_Homosexual"}
-    )
-    else:
-        norms = norm_data.copy().rename(
-        columns={"total_valence": "Norms_Valence_Other", "total_arousal": "Norms_Arousal_Other"}
-    )
         
-    # rename column 'item' to 'stimulus'
-    norms = norms.rename(columns={"Item": "Stimulus"})
-
-    norms = norms[
+    # Merge with validation data (norms)
+    # Now select the relevant columns
+    norms = norm_data[
         [
-            "Stimulus",
+            "Item",
             "Category",
             "Orientation",
-            "Norms_Valence_Heterosexual",
-            "Norms_Arousal_Heterosexual",
-            "Norms_Valence_Homosexual",
-            "Norms_Arousal_Homosexual",
-            "Norms_Valence_Other",
-            "Norms_Arousal_Other",
-            # These variables below are fairly uncorrelated (good)
             "Luminance",
             "Contrast",
             "Entropy",  # Greyscale entropy
             "Complexity",  # Overall complexity
             "Red",
-            "Green"
+            "Green",
+            "total_valence",
+            "total_arousal"
         ]
     ]
+
+    norms = norms.rename(columns={"Item": "Stimulus"})
+    norms["Stimulus"] = norms["Stimulus"].str.replace(".jpg", "", regex=False).str.strip()
 
     data_task = pd.merge(data_task, norms, on="Stimulus", how="left")
 
