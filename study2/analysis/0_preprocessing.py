@@ -396,6 +396,7 @@ for i, file in enumerate(files):
 
     dftask2 = pd.DataFrame(
         {
+            "Participant": filename,
             "Stimulus": stims2["stimulus"],
             "Trial_Order_Phase2": stims2["trial_number"],
             "Trial_Duration_Phase2": stims2["trial_duration"] / 1000,
@@ -407,14 +408,12 @@ for i, file in enumerate(files):
     dftask2["Realness"] = [r["Realness"] for r in ratings2]
 
     # Merge and clean
-    dftask = pd.merge(dftask, dftask2, on="Stimulus", how="left")
+    dftask = pd.merge(dftask, dftask2, on=["Participant","Stimulus"], how="left")
     dftask["Stimulus"] = dftask["Stimulus"].apply(
         lambda x: x.replace("stimuli/", "")
     )
     dftask["Stimulus"] = dftask["Stimulus"].apply(lambda x: x.replace(".jpg", ""))
     dftask = dftask.reset_index(drop=True)
-
-    data_task = pd.concat([data_task, dftask], axis=0, ignore_index=True)
         
     # Merge with validation data (norms)
     # Now select the relevant columns
@@ -434,10 +433,20 @@ for i, file in enumerate(files):
         ]
     ]
 
-    norms = norms.rename(columns={"Item": "Stimulus"})
+   # norms = norms.rename(columns={"Item": "Stimulus"})
+   # Rename for clarity and consistency
+    norms = norms.rename(columns={
+        "Item": "Stimulus",  # Match column name in data_task
+        "total_valence": "Norms_Valence",
+        "total_arousal": "Norms_Arousal"
+    })
+
     norms["Stimulus"] = norms["Stimulus"].str.replace(".jpg", "", regex=False).str.strip()
 
-    data_task = pd.merge(data_task, norms, on="Stimulus", how="left")
+    dftask = pd.merge(dftask, norms, on="Stimulus")
+
+    # Save data ----------------------------------------------------------
+    data_task = pd.concat([data_task, dftask], axis=0, ignore_index=True)
 
     # Eye-tracking data --------------------------------------------------
     if "eyetracking_validation_run" in data["screen"].values:
