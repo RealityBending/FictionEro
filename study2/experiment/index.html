@@ -107,25 +107,25 @@
 
     // Demographics ===========================================================
     timeline.push(demographics_browser_info)
-    timeline.push(demographics_consent)
+    // timeline.push(demographics_consent)
     timeline.push(demographics_questions)
-    timeline.push(fiction_preloadstims)
+    // timeline.push(fiction_preloadstims)
 
     //Save only demo data
-    timeline.push({
-        type: jsPsychPipe,
-        action: "save",
-        experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
-        filename: `${participant_ID}_demo.csv`,
-        data_string: () => jsPsych.data.get().csv(),
-        on_finish: function () {
-            finished_experiment = true
-        }
-    })
+    // timeline.push({
+    //     type: jsPsychPipe,
+    //     action: "save",
+    //     experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+    //     filename: `${participant_ID}_demo.csv`,
+    //     data_string: () => jsPsych.data.get().csv(),
+    //     on_finish: function () {
+    //         finished_experiment = true
+    //     }
+    // })
 
     // Eye-tracking ==============================================================
-    timeline.push(eyetracking_consent)
-    timeline.push(eyetracking_calibration) // include full-screen 
+    // timeline.push(eyetracking_consent)
+    // timeline.push(eyetracking_calibration) // include full-screen 
 
     // Fiction stage 1 ===========================================================
     // timeline.push(eyetracking_fullscreen) // full-screen if they don't consent

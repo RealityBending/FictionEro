@@ -105,6 +105,9 @@ df |>
   mutate(Realness_Extreme = ifelse(Realness %in% c(0, 1), "Extreme", "Not extreme")) |>
   ggplot(aes(x=Realness, fill = Gender)) +
   geom_histogram(aes(color=Realness_Extreme), position = "identity", bins=15) +
+  scale_x_continuous(
+    breaks = c(0, 1),
+    labels = c("AI","Real")) +
   facet_grid(Gender ~ ConditionBelief, scales="free_y") +
   scale_color_manual(values=c("red", "white"), guide="none") +
   scale_fill_manual(values=c("Female"="#FF9800", "Male"="#03A9F4"), guide="none") +
@@ -116,7 +119,7 @@ df |>
 
 ## Physical Characteristics
 
-Here, we are examining the effect of various physical characteristics of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 ("RealnessBelief"), as indicated by the lack of significant effects. 
+Here, we are examining the effect of various **physical characteristics** of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 ("RealnessBelief"), as indicated by the lack of significant effects. 
 
 
 ```{r}
@@ -143,9 +146,7 @@ m <- make_model("RealnessBelief ~ Luminance + (1|Participant) + (1|Stimulus)", f
 
 ## Manipulation Check
 
-This model examines the influence gender and condition on ratings of realness, incorporating random intercepts for participants and items.
-
-<!-- Intercept: Male and Photograph -->
+This model examines the influence **Gender and Condition** on ratings of realness, incorporating random intercepts for participants and items.
 
 For males the realness ratings were lower for images labelled AI-Generated compared to real photographs. For females they also rated images labelled as AI-Generated as less Real, altough this effect was not significant. 
 
@@ -177,9 +178,7 @@ Here we look at whether the findings above are moderated by **AI-Generated, Porn
 
 ### AI-Attitudes
 
-This model looks at whether realness ratings are moderated by attitudes towards AI. 
-
-Looking at the results, the influence of Gender and Condition on Realness scores was not moderated by attidues towards AI.
+This model looks at whether realness ratings are moderated by attitudes towards AI.  Looking at the results, the influence of Gender and Condition on Realness scores was not moderated by attidues towards AI.
 
 ```{r}
 #| warning: false
@@ -209,9 +208,7 @@ display(filter(moderator, p < .05))
 
 ### Porn + Sexual Activity
 
-This model evaluates how ratings of realness, predicted by Gender and Condition, are moderated by participants' report of how often they engaged in sexual activity and how often they view pornography. 
-
-Looking at porn frequency and sexual activity, the influence of Gender and Condition on Realness scores was not moderated by these variables.
+This model evaluates how ratings of realness, predicted by Gender and Condition, are moderated by participants' report of how often they engaged in sexual activity and how often they view pornography. Looking at porn frequency and sexual activity, the influence of Gender and Condition on Realness scores was not moderated by these variables.
 
 ```{r}
 #| warning: false
@@ -348,9 +345,9 @@ p2
 
 ## Summary
 
-- For males the realness ratings were lower for images labelled AI-Generated compared to real photographs. For females they also rated images labelled as AI-Generated as less Real, altough this effect was not significant. 
-- Looking at moderators, attitudes towards AI, participants reports of how often they engaged in sexual activity and how often they view pornography, did not moderate realness ratings
-- Looking at the feedback as a moderator for realness ratings, for males, feedback that AI-generated images were less arousing increased realness ratings for those images, and believing all images were real raised realness ratings across all images. For females, the belief that no faces were attractive raised realness ratings for the images.
+- For **males** the **realness ratings were lower for images labelled AI-Generated** compared to real photographs. For females they also rated images labelled as AI-Generated as less Real, altough this effect was not significant. 
+- Looking at moderators, **attitudes towards AI**, participants reports of **how often they engaged in sexual activity** and **how often they view pornography**, did **not moderate realness ratings**
+- Looking at the **feedback as a moderator** for realness ratings, for **males**, feedback that **AI-generated images were less arousing increased realness ratings for those images**, and believing all images were real raised realness ratings across all images. For females, the **reporting that no faces were attractive increased realness ratings** for the images.
 
 
 ## Figures
