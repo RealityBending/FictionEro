@@ -962,11 +962,15 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 ## Summary
 
 **Gender Differences**
-- Women rate stimuli on average significantly lower in arousal, enticiment and valence than men, however this difference was not significant for valence.
 
--Males rated AI-generated images significantly lower than photographs in arousal, valence, and enticement. Females showed no significant difference in ratings between AI-generated and photographic images across all outcomes.
+- Main manipulation worked for men only - i.e., reality manipulation on the nature of the stimuli on subjective ratings
+
+- Males rated AI-generated images significantly lower than photographs in arousal, valence, and enticement. Females showed no significant difference in ratings between AI-generated and photographic images across all outcomes.
+
+- Women rate stimuli on average significantly lower in arousal, enticement and valence than men, however this difference was not significant for valence.
 
 **Moderators**
+
 - For women, **positive attitudes towards AI** moderated arousal, enticement, and valence ratings, resulting in **more favorable evaluations of AI-generated images**. Negative attitudes moderated valence ratings, leading to less favorable evaluations.
 
 - For men, negative attitudes towards AI moderated only enticement ratings, with more negative views leading to less enticing ratings of AI-generated images.
