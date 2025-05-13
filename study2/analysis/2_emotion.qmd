@@ -261,8 +261,8 @@ valence <- df |>
   scale_y_sqrt(expand = c(0, 0)) +
   scale_x_continuous(
     breaks = c(0, 1),
-    labels = c("Not at all","Very much")) +
-  scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800"), guide="none") +
+    labels = c("Unplesant","Pleasant")) +
+  scale_fill_manual(values=c("Male"="#E91E63", "Female"="#FF9800"), guide="none") +
   labs(title = "Valence", ) +
     facet_wrap(~Gender) +
   theme_abyss() +
@@ -282,7 +282,7 @@ df |>
   geom_bar(position = "identity", binwidth = 0.5) +
   scale_x_continuous(
     breaks = c(0, 1),
-    labels = c("Not at all","Very much")) +
+    labels = c("Unplesant","Pleasant")) +
   facet_grid(Gender~ConditionBelief, scales="free_y") +
   scale_fill_manual(values=c("Female"="#E91E63", "Male"="#FF9800"), guide="none") +
   # scale_y_sqrt(expand = c(0, 0)) +

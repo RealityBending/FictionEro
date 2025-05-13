@@ -37,12 +37,6 @@ The initial sample consisted of `r report::report_participants(df, age="Age", se
 
 ::: {.panel-tabset}
 
-### Old vs New feedback
-
-Due to a mistake in the study's implementation, some of the feedback was incorrect, e.g., "Some faces were attractive" and "AI-generated faces were less attractive" rather than "Some images were arousing" and "AI-generated images were less arousing". 
-
-`r sum(df$version=="old")` participants had the old version of the feedback and `r sum(df$version=="new")` had the newer version.
-
 ### Proportion
 
 
@@ -167,7 +161,10 @@ outliers <- list()
 ```{r}
 mobile <- table(df$Mobile)
 
-# outliers$Mobile <- sum(df$Mobile=="True")
+outliers$Mobile <- sum(df$Mobile=="True")
+
+df <- filter(df, Mobile == "False")
+dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
 There were `r sum(df$Mobile=="True")` participants that used a mobile device.
@@ -208,7 +205,7 @@ df |>
 
 
 ### BAIT Questionnaire Duration
-#
+
 ```{r}
 #| fig-width: 15
 #| fig-height: 15
@@ -294,7 +291,6 @@ outliers$arousal <- intersect(outliers$emo_aro, outliers$emo_ent)
 
 Only `r sum(df$Gender=="Other")` participants self-reported as neither female nor male, hence they were excluded from further analysis. 
 
-
 ```{r}
 df<- filter(df, !Gender=="Other")
 df <- filter(df, !Participant %in% outliers$arousal)
@@ -302,12 +298,16 @@ dftask <- filter(dftask, !Participant %in% outliers$arousal)
 ```
 
 
-
 ## Final Sample 
 
 ### Summary
 
 The final sample includes `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
+
+
+**NOTE** that due to a mistake in the study's implementation, some of the feedback was incorrect, e.g., "Some faces were attractive" and "AI-generated faces were less attractive" rather than "Some images were arousing" and "AI-generated images were less arousing". 
+
+`r sum(df$version=="old")` participants had the old version of the feedback and `r sum(df$version=="new")` had the newer version.
 
 ::: {.panel-tabset}
 
