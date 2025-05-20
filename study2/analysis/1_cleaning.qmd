@@ -37,8 +37,7 @@ The initial sample consisted of `r report::report_participants(df, age="Age", se
 
 ::: {.panel-tabset}
 
-### Proportion
-
+### Proportion 
 
 ```{r}
 df |> 
@@ -74,7 +73,7 @@ df |>
     plot.title = element_text(size = rel(1.2), face = "bold", hjust = 0),
     plot.subtitle = element_text(size = rel(1.2), vjust = 7),
     axis.text.y = element_text(size = rel(1.1)),
-    axis.text.x = element_text(size = rel(1.1), angle = 55, hjust = 1),
+    axis.text.x = element_text(size = rel(1.1), angle = 75, hjust = 1),
     axis.title.x = element_blank()
   )
 ```
@@ -118,8 +117,7 @@ df |>
   coord_flip() +
   scale_x_continuous(expand=c(0, 0))  +
   scale_y_continuous(labels = scales::percent)  +
-  labs(title="Experiment Enjoyment",
-       subtitle="Proportion of participants by condition") + 
+  labs(title="Experiment Enjoyment")+
   guides(fill = guide_legend(reverse=TRUE)) +
   theme_minimal() +
   theme(
@@ -297,6 +295,42 @@ df <- filter(df, !Participant %in% outliers$arousal)
 dftask <- filter(dftask, !Participant %in% outliers$arousal)
 ```
 
+### Innapropriate Stimuli
+
+```{r}
+
+femalehetero_malecouple <- dftask |> 
+  filter(Gender == "Female" & SexualOrientation == "Heterosexual", str_detect(Stimulus, "^Male_couple")) |> 
+  select(Participant, Gender, SexualOrientation, Stimulus) |> 
+  distinct()
+
+malehetero_femalecouple <- dftask |> 
+  filter(Gender == "Male" & SexualOrientation == "Heterosexual", str_detect(Stimulus, "^Female_couple")) |> 
+  select(Participant, Gender, SexualOrientation, Stimulus) |> 
+  distinct()
+
+femalehomo_male <- dftask |> 
+  filter(Gender == "Female" & SexualOrientation == "Homosexual", str_detect(Stimulus, "^Male")) |> 
+  select(Participant, Gender, SexualOrientation, Stimulus) |> 
+  distinct()
+
+malehomo_female <- dftask |> 
+  filter(Gender == "Male" & SexualOrientation == "Homosexual", str_detect(Stimulus, "^Female")) |> 
+  select(Participant, Gender, SexualOrientation, Stimulus) |> 
+  distinct()
+
+outliers$IrrStimuli <- unique(filter(femalehetero_malecouple)$Participant)
+
+```
+
+We removed `r sum(df$Participant=="S030")` from the rest of the analysis considering their stimuli choice was not relevant to their sexual orientation - i.e., self-assigned as Heterosexual and choosing male-couples as stimuli.
+
+```{r}
+df<- filter(df, !Participant=="S030")
+df <- filter(df, !Participant %in% outliers$IrrStimuli)
+dftask <- filter(dftask, !Participant %in% outliers$IrrStimuli)
+
+```
 
 ## Final Sample 
 
@@ -375,7 +409,6 @@ df |>
   
 
 ```
-
 
 ### Origin
 

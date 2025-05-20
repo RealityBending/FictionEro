@@ -610,7 +610,7 @@ data_demo = replace_value(data_demo, "Discipline", "Other_Health and Life Scienc
 data_demo = replace_value(data_demo, "Discipline", "Other_cognitive behavioural psychotherapy", "Psychology, Neuroscience")
 data_demo = replace_value(data_demo, "Discipline", "Other_Design", "Other")
 
-# data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
+data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "SexualOrientation", "Other_Straight", "Heterosexual")
 
 # data_demo["SexualStatus"][data_demo["SexualStatus"].str.contains("Other_").values].values

@@ -56,7 +56,8 @@ df <- read.csv("../data/data.csv") |>
          AllFakeConfidence = "Feedback_AllFakeConfidence",
          Enjoyment = "Feedback_Enjoyment"
          )|>
-  mutate(across(starts_with("Feedback_"), as.factor))
+  mutate(across(starts_with("Feedback_"), as.factor)) |>
+  mutate(ConditionBelief = as.factor(ConditionBelief))
 
 results_table <- function(model, effects="fixed", filter=NULL) {
   if("marginaleffects" %in% class(model)) {
@@ -319,7 +320,6 @@ estimate_relation(m_v) |>
 
 In contrast to [study1](https://realitybending.github.io/FictionEro/study1/analysis/2_emotions.html) arousal ratings for some images differ by whether the images were preceeded by 'photograph' or by 'AI-generated'. 
 
-
 ```{r Arousal Desc}
 #| fig-height: 12
 #| fig-width: 7
@@ -335,7 +335,7 @@ plot_descriptive <- function(df, target="Arousal") {
            Relevance = str_extract(.Item_Order, "^[^_]+"),
            .Item_Order = str_extract(.Item_Order, "(?<=_).+")) |>
     filter(Condition == "Photograph") |> 
-    arrange(Relevance, diff, mean)
+    arrange(diff, mean)
     
   p1 <- df |>
     mutate(.Item_Order = paste0(Gender, "_", Stimulus)) |>
@@ -343,7 +343,7 @@ plot_descriptive <- function(df, target="Arousal") {
     ggdist::mean_qi(.data[[target]], .width=0.95) |>
     mutate(Gender = fct_rev(str_extract(.Item_Order, "^[^_]+"))) |>
     left_join(order[c(".Item_Order", "diff")], by=".Item_Order") |>
-    mutate(.Item_Order = fct_relevel(.Item_Order, order$.Item_Order)) |>
+mutate(.Item_Order = fct_relevel(.Item_Order, intersect(order$.Item_Order, unique(.Item_Order)))) |>
     # mutate(.average = mean(.data[[target]]), .by="Item") |>
     # mutate(Item = fct_reorder(Item, .average)) |>
     ggplot(aes(y = .Item_Order, x=.data[[target]])) +
@@ -509,12 +509,12 @@ sex_act_plot
 ### Believed
 
 ```{r Arousal Believed}
-  m <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition + (1|Participant) + (1|Stimulus),
+m <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition + (1|Participant) + (1|Stimulus),
                         data=filter(df, ConditionBelief == "True"), 
                         family=glmmTMB::ordbeta(),
                         control = glmmTMB::glmmTMBControl(parallel = 8))
   
-  results_table(m)
+results_table(m)
 ```
 
 ```{r Arousal Believed2}
@@ -593,7 +593,6 @@ display(filter(moderator_results, Outcome == "Enticing"))
 
 
 ```{r Enticement Moderator Feedback}
-feedback_results <- data.frame()
 for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive",
            "Feedback_AIMoreAttractive", "Feedback_AILessAttractive",
            "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
@@ -618,13 +617,13 @@ m <- glmmTMB::glmmTMB(Enticing ~ Gender / (Condition * SexualActivity_num) + (Co
 
 results_table(m)
 
-sex_act_plot<- estimate_relation(m, length=20) |> 
+sex_act_plot_ent<- estimate_relation(m, length=20) |> 
   ggplot(aes(x=SexualActivity_num, y=Predicted)) +
   geom_ribbon(aes(ymin=CI_low, ymax=CI_high, fill=Condition), alpha=0.2) +
   geom_line(aes(color=Condition)) +
   facet_grid(~Gender)
 
-sex_act_plot
+sex_act_plot_ent
 ```
 
 ### Believed
@@ -641,8 +640,6 @@ results_table(m)
 ```
 
 ```{r Enticement Believed2}
-
-moderator_believed <- data.frame()
 for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
            "BAIT_Positive", "BAIT_Negative", "PornFrequency", "SexualActivity", 
            
@@ -704,7 +701,6 @@ display(filter(moderator_results, Outcome == "Valence"))
 ```
 
 ```{r Valence Moderator Feedback}
-feedback_results <- data.frame()
 for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive",
            "Feedback_AIMoreAttractive", "Feedback_AILessAttractive",
            "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
@@ -735,7 +731,6 @@ results_table(m)
 ```
 
 ```{r Valence Beleived2}
-moderator_believed <- data.frame()
 for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
            "BAIT_Positive", "BAIT_Negative", "PornFrequency", "SexualActivity", 
            
@@ -819,7 +814,6 @@ display(filter(moderator_results, Outcome == "Emotionality"))
 
 
 ```{r Emotionality Moderator Feedback}
-feedback_results <- data.frame()
 for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive",
            "Feedback_AIMoreAttractive", "Feedback_AILessAttractive",
            "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
@@ -850,7 +844,6 @@ results_table(m)
 ```
 
 ```{r Emotionality2}
-moderator_believed <- data.frame()
 for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
            "BAIT_Positive", "BAIT_Negative", "PornFrequency", "SexualActivity", 
            
@@ -894,5 +887,6 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 1. 'Other' was removed due to the very small percentage of individuals identifying as such.
 2. 'Porn' factor was not computed, instead sexual activity and frequency of watching porn were treated seperate. 
 3. Missing final figures and interpretation of belief as influencing emotional ratings of images
+
 
 

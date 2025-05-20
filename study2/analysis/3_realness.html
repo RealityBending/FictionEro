@@ -209,13 +209,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Realness_Extreme =</span> <span class="fu">ifelse</span>(Realness <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="st">"Extreme"</span>, <span class="st">"Not extreme"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Realness, <span class="at">fill =</span> Gender)) <span class="sc">+</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">color=</span>Realness_Extreme), <span class="at">position =</span> <span class="st">"identity"</span>, <span class="at">bins=</span><span class="dv">15</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Gender <span class="sc">~</span> ConditionBelief, <span class="at">scales=</span><span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"white"</span>), <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"Female"</span><span class="ot">=</span><span class="st">"#FF9800"</span>, <span class="st">"Male"</span><span class="ot">=</span><span class="st">"#03A9F4"</span>), <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Realness"</span>) <span class="sc">+</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_abyss</span>() <span class="sc">+</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"AI"</span>,<span class="st">"Real"</span>)) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Gender <span class="sc">~</span> ConditionBelief, <span class="at">scales=</span><span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"white"</span>), <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"Female"</span><span class="ot">=</span><span class="st">"#FF9800"</span>, <span class="st">"Male"</span><span class="ot">=</span><span class="st">"#03A9F4"</span>), <span class="at">guide=</span><span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_sqrt</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Realness"</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_abyss</span>() <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face=</span><span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -229,7 +232,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="physical-characteristics" class="level2">
 <h2 class="anchored" data-anchor-id="physical-characteristics">Physical Characteristics</h2>
-<p>Here, we are examining the effect of various physical characteristics of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 (“RealnessBelief”), as indicated by the lack of significant effects.</p>
+<p>Here, we are examining the effect of various <strong>physical characteristics</strong> of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 (“RealnessBelief”), as indicated by the lack of significant effects.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -356,8 +359,7 @@ Table: Fixed Effects
 </section>
 <section id="manipulation-check" class="level2">
 <h2 class="anchored" data-anchor-id="manipulation-check">Manipulation Check</h2>
-<p>This model examines the influence gender and condition on ratings of realness, incorporating random intercepts for participants and items.</p>
-<!-- Intercept: Male and Photograph -->
+<p>This model examines the influence <strong>Gender and Condition</strong> on ratings of realness, incorporating random intercepts for participants and items.</p>
 <p>For males the realness ratings were lower for images labelled AI-Generated compared to real photographs. For females they also rated images labelled as AI-Generated as less Real, altough this effect was not significant.</p>
 <div class="cell">
 <details class="code-fold">
@@ -422,8 +424,7 @@ Table: Fixed Effects
 <p>Here we look at whether the findings above are moderated by <strong>AI-Generated, Porn frequency and sexual activity or feedback</strong></p>
 <section id="ai-attitudes" class="level3">
 <h3 class="anchored" data-anchor-id="ai-attitudes">AI-Attitudes</h3>
-<p>This model looks at whether realness ratings are moderated by attitudes towards AI.</p>
-<p>Looking at the results, the influence of Gender and Condition on Realness scores was not moderated by attidues towards AI.</p>
+<p>This model looks at whether realness ratings are moderated by attitudes towards AI. Looking at the results, the influence of Gender and Condition on Realness scores was not moderated by attidues towards AI.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -456,8 +457,7 @@ Table: Fixed Effects
 </section>
 <section id="porn-sexual-activity" class="level3">
 <h3 class="anchored" data-anchor-id="porn-sexual-activity">Porn + Sexual Activity</h3>
-<p>This model evaluates how ratings of realness, predicted by Gender and Condition, are moderated by participants’ report of how often they engaged in sexual activity and how often they view pornography.</p>
-<p>Looking at porn frequency and sexual activity, the influence of Gender and Condition on Realness scores was not moderated by these variables.</p>
+<p>This model evaluates how ratings of realness, predicted by Gender and Condition, are moderated by participants’ report of how often they engaged in sexual activity and how often they view pornography. Looking at porn frequency and sexual activity, the influence of Gender and Condition on Realness scores was not moderated by these variables.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -720,9 +720,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ul>
-<li>For males the realness ratings were lower for images labelled AI-Generated compared to real photographs. For females they also rated images labelled as AI-Generated as less Real, altough this effect was not significant.</li>
-<li>Looking at moderators, attitudes towards AI, participants reports of how often they engaged in sexual activity and how often they view pornography, did not moderate realness ratings</li>
-<li>Looking at the feedback as a moderator for realness ratings, for males, feedback that AI-generated images were less arousing increased realness ratings for those images, and believing all images were real raised realness ratings across all images. For females, the belief that no faces were attractive raised realness ratings for the images.</li>
+<li>For <strong>males</strong> the <strong>realness ratings were lower for images labelled AI-Generated</strong> compared to real photographs. For females they also rated images labelled as AI-Generated as less Real, altough this effect was not significant.</li>
+<li>Looking at moderators, <strong>attitudes towards AI</strong>, participants reports of <strong>how often they engaged in sexual activity</strong> and <strong>how often they view pornography</strong>, did <strong>not moderate realness ratings</strong></li>
+<li>Looking at the <strong>feedback as a moderator</strong> for realness ratings, for <strong>males</strong>, feedback that <strong>AI-generated images were less arousing increased realness ratings for those images</strong>, and believing all images were real raised realness ratings across all images. For females, the <strong>reporting that no faces were attractive increased realness ratings</strong> for the images.</li>
 </ul>
 </section>
 <section id="figures" class="level2">
