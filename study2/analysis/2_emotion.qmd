@@ -881,6 +881,61 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 
 ## Figures
 
+<!-- predictions(): unit-level (conditional) estimates. -->
+
+<!-- avg_predictions(): average (marginal) estimates. -->
+
+```{r}
+
+pred1 <- rbind(
+  marginaleffects::avg_predictions(m_arousal, by=c("Gender", "Condition"), newdata = "mean", re.form=NA) |>
+  as.data.frame() |> 
+  mutate(Outcome="Arousal"),
+  marginaleffects::avg_predictions(m_enticement, by=c("Gender", "Condition"), newdata = "mean", re.form=NA) |>
+  as.data.frame() |> 
+  mutate(Outcome="Enticement"),
+  marginaleffects::avg_predictions(m_valence, by=c("Gender", "Condition"), newdata = "mean", re.form=NA) |>
+  as.data.frame() |> 
+  mutate(Outcome="Valence")
+)
+
+stars1 <- data.frame(label=c("**", "***", "***", "*"),
+                    Gender=fct_relevel(c("Male", "Male", "Male", "Female"), "Male"),
+                    Outcome=c("Arousal", "Enticement", "Valence", "Valence"),
+                    y=c(0.55, 0.58, 0.62, 0.6))
+
+p1 <- pred1 |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=Outcome, y=estimate)) +
+  geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = conf.low, ymax=conf.high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  geom_rect(data=data.frame(Type="All trials", estimate=0.1, Gender=as.factor("Male"), Outcome="Arousal"),
+            aes(xmin=0.8, xmax=1.2, ymin=0.35, ymax=0.6), color="#8BC34A", alpha=0) +
+  geom_rect(data=data.frame(Type="All trials", estimate=0.1, Gender=as.factor("Female"), Outcome="Arousal"),
+            aes(xmin=0.8, xmax=1.2, ymin=0.3, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(~Gender, switch="y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = ) +
+  labs(color="Images presented as:",
+       tag = "A")
+
+p1
+
+```
+
 
 ## Notes/ Questions
 
