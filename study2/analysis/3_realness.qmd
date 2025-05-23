@@ -44,6 +44,7 @@ df <- read.csv("../data/data.csv") |>
     Condition == "Reality" ~ "Photograph"
   )) |>
   mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
+         SexualOrientation = fct_relevel(SexualOrientation,"Heterosexual", "Homosexual", "Bisexual"),
          Gender =  fct_relevel(Gender, "Male", "Female"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
@@ -112,11 +113,17 @@ df |>
   scale_color_manual(values=c("red", "white"), guide="none") +
   scale_fill_manual(values=c("Female"="#FF9800", "Male"="#03A9F4"), guide="none") +
   scale_y_sqrt(expand = c(0, 0)) +
+  facet_wrap(Gender~SexualOrientation) +
   labs(title = "Realness") +
   theme_abyss() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 ```
 
+```{r}
+
+df <- df|>
+  filter(SexualOrientation == "Heterosexual")
+```
 ## Physical Characteristics
 
 Here, we are examining the effect of various **physical characteristics** of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 ("RealnessBelief"), as indicated by the lack of significant effects. 
@@ -174,7 +181,7 @@ predbeta |>
 
 ## Moderators
 
-Here we look at whether the findings above are moderated by **AI-Generated, Porn frequency and sexual activity or feedback**
+Here we look at whether the findings above are moderated by **AI-Generated, Porn frequency and sexual activity or feedback**. Note that the focus solely on heterosexaul individuals (N = `r sum(dfsub$SexualOrientation == "Heterosexual")`)
 
 ### AI-Attitudes
 
@@ -239,8 +246,9 @@ for(m in c("Feedback_DiffObvious", "Feedback_DiffNone",
            "Feedback_AIMoreArousing", "Feedback_AILessArousing", 
            "Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive", 
            "Feedback_LabelsIncorrect", "Feedback_LabelsReversed",
-           "Feedback_AllReal",
-           "Feedback_AllFake")) {
+           "Feedback_AllReal", "Feedback_AllFake",
+           "AllRealConfidence","AllFakeConfidence" ,
+           "Enjoyment")) {
   moderator <- rbind(moderator, test_moderator(df, m))
 }
 
@@ -253,19 +261,22 @@ display(filter(moderator, p < .05))
 
 m2 <- glmmTMB::glmmTMB(Realness ~ Gender /
                          (Feedback_AILessArousing / Condition) + 
-                        (1 | Participant) + (1|Stimulus),
+                        (1|Participant) + (1|Stimulus),
                       data=df, 
                       family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
 summary(m2)
 
-# stars1 <- data.frame(Gender = as.factor("Male"),
-#                      Condition = "AI-Generated",
-#                      label = "***",
-#                      x = 1.5, 
-#                      y = 0.55)
-# 
+stars2 <- data.frame(Gender = as.factor(c("Male")),
+                     feedback = as.factor("Feedback_AILessArousing"),
+                    label=c("***"),
+                    x=c(1.03),
+                    y=c(0.58))
+# stars3 <- data.frame(Sex = as.factor(c("Male", "Male", "Female")), 
+#                      label=c("***", "***", "***"),
+#                      x=c(1.1, 1.8, 1.15),
+#                      y=c(0.71, 0.80, 0.615))
 
 pred1 <- estimate_relation(m2)
 
@@ -274,7 +285,7 @@ p1 <- pred1 |>
   geom_line(aes(color=Condition, group=Condition), linewidth=.3, position = position_dodge(width=0.2), key_glyph = "path") +
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.8, linewidth=1, key_glyph = "blank") +
   # geom_text(data=stars2, aes(x=x, y=y, label=label, color=Condition), hjust=0.5, key_glyph = "blank", size=3) +
-  # geom_text(data=stars1, aes(x=x, y=y, label=label), hjust=0.5, color="#424242", size=3) +
+  geom_text(data=stars2, aes(x=x, y=y, label=label), hjust=0.5, color="#424242", size=3) +
   guides(color=guide_legend(override.aes = list(linewidth = 1.5))) +
   facet_grid(~Gender) +
   scale_y_continuous(labels=scales::percent) +
