@@ -995,10 +995,10 @@ m4 <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition  + (Condition | Participant)
                       family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
-stars2 <- data.frame(label=c("**", "*"),
-                    Gender=fct_relevel(c("Male", "Male")),
-                    Type=c("All trials", "'AI was more attractive'"),
-                    y=c(0.52, 0.65))
+stars2 <- data.frame(label=c("**", "***", "*"),
+                    Gender=fct_relevel(c("Male", "Male", "Male")),
+                    Type=c("All trials", "Believed trials" ,"'AI was more attractive'"),
+                    y=c(0.52, 0.56, 0.66))
 
 pred2 <- rbind(
   estimate_relation(m1) |> 

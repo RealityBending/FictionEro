@@ -4119,10 +4119,10 @@ Comparison: AI-Generated - Photograph</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>stars2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label=</span><span class="fu">c</span>(<span class="st">"**"</span>, <span class="st">"*"</span>),</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Gender=</span><span class="fu">fct_relevel</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>)),</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Type=</span><span class="fu">c</span>(<span class="st">"All trials"</span>, <span class="st">"'AI was more attractive'"</span>),</span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.52</span>, <span class="fl">0.65</span>))</span>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>stars2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label=</span><span class="fu">c</span>(<span class="st">"**"</span>, <span class="st">"***"</span>, <span class="st">"*"</span>),</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Gender=</span><span class="fu">fct_relevel</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Male"</span>)),</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Type=</span><span class="fu">c</span>(<span class="st">"All trials"</span>, <span class="st">"Believed trials"</span> ,<span class="st">"'AI was more attractive'"</span>),</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.52</span>, <span class="fl">0.56</span>, <span class="fl">0.66</span>))</span>
 <span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
 <span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m1) <span class="sc">|&gt;</span> </span>

@@ -136,7 +136,7 @@ dat |>
 #| code-fold: true
 
 selection <- napsero |> 
-  filter(ID %in% selected_erotic)
+  filter(ID %in% selected)
 
 # Sum the arousal scores 
 selection <- selection |>
@@ -180,7 +180,8 @@ write(paste("var stimuli_list = ", json), "stimuli_list.js")
 
 ```{r}
 #| code-fold: true
-path_ero <- "C:/Users/asf25/Desktop/PhD/data_base/NAPS_ERO/"
+#| warning: false
+path_ero <- ""
 
 
 # Remove all current files
