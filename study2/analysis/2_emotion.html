@@ -293,7 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>m6 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender<span class="sc">/</span>SexualOrientation <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">+</span>Gender<span class="sc">|</span>Stimulus ), <span class="at">data=</span>df)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">test_bf</span>(m1,m2, m3, m4, m5,)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">test_bf</span>(m1,m2, m3, m4, m5,m6)</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(m1, m2, m3, m4, m5, m6)</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Model m3, which includes random intercepts for Participants and both random intercepts and slopes for Gender at the Stimulus level, seems to be the best</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3298,7 +3298,7 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Emotionality <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">normalize</span>(<span class="fu">predict</span>(pca)<span class="sc">$</span>PC1))</span>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Emotionality <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">normalize</span>(<span class="sc">-</span><span class="fu">predict</span>(pca)<span class="sc">$</span>PC1))</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>emotionality <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Emotionality_Extreme =</span> <span class="fu">ifelse</span>(Emotionality <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="st">"Extreme"</span>, <span class="st">"Not extreme"</span>)) <span class="sc">|&gt;</span></span>
@@ -3339,7 +3339,7 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <section id="whole-sample-3" class="level3">
 <h3 class="anchored" data-anchor-id="whole-sample-3">Whole Sample</h3>
 <p>This model looks at the effect of <strong>Gender and Condition on Emotionality</strong>, accounting for random variability due to participants and items (i.e., random intercepts).</p>
-<p>The results show that females consistently rate photographs as higher in emotionality compared to males. Additonally, males rate AI-Generated images higher in emotionality compared to photographs.</p>
+<p>The results show males rate AI-Generated images lower in emotionality compared to photographs.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3356,7 +3356,7 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <col style="width: 44%">
 <col style="width: 14%">
 <col style="width: 6%">
-<col style="width: 16%">
+<col style="width: 17%">
 <col style="width: 7%">
 <col style="width: 8%">
 </colgroup>
@@ -3373,34 +3373,34 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: center;">-0.03</td>
+<td style="text-align: center;">0.03</td>
 <td style="text-align: center;">0.10</td>
-<td style="text-align: center;">(-0.22, 0.16)</td>
-<td style="text-align: center;">-0.33</td>
+<td style="text-align: center;">(-0.16, 0.22)</td>
+<td style="text-align: center;">0.33</td>
 <td style="text-align: center;">0.744</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender (Female)</td>
-<td style="text-align: center;">0.13</td>
+<td style="text-align: center;">-0.13</td>
 <td style="text-align: center;">0.11</td>
-<td style="text-align: center;">(-0.08, 0.35)</td>
-<td style="text-align: center;">1.22</td>
+<td style="text-align: center;">(-0.35, 0.08)</td>
+<td style="text-align: center;">-1.22</td>
 <td style="text-align: center;">0.222</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender (Male) × ConditionAI-Generated</td>
-<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">-0.09</td>
 <td style="text-align: center;">0.02</td>
-<td style="text-align: center;">(0.04, 0.13)</td>
-<td style="text-align: center;">3.76</td>
+<td style="text-align: center;">(-0.13, -0.04)</td>
+<td style="text-align: center;">-3.76</td>
 <td style="text-align: center;">&lt; .001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender (Female) × ConditionAI-Generated</td>
-<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">-0.01</td>
 <td style="text-align: center;">0.03</td>
-<td style="text-align: center;">(-0.04, 0.06)</td>
-<td style="text-align: center;">0.58</td>
+<td style="text-align: center;">(-0.06, 0.04)</td>
+<td style="text-align: center;">-0.58</td>
 <td style="text-align: center;">0.559</td>
 </tr>
 </tbody>
@@ -3412,9 +3412,9 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
- Gender Estimate Std. Error     z Pr(&gt;|z|)    S    2.5 % 97.5 %
- Male     0.0215    0.00571 3.763   &lt;0.001 12.5  0.01030 0.0327
- Female   0.0037    0.00634 0.584    0.559  0.8 -0.00873 0.0161
+ Gender Estimate Std. Error      z Pr(&gt;|z|)    S   2.5 %   97.5 %
+ Male    -0.0215    0.00571 -3.763   &lt;0.001 12.5 -0.0327 -0.01030
+ Female  -0.0037    0.00634 -0.584    0.559  0.8 -0.0161  0.00873
 
 Term: Condition
 Type:  response 
@@ -3424,9 +3424,8 @@ Comparison: AI-Generated - Photograph</code></pre>
 </section>
 <section id="moderators-3" class="level3">
 <h3 class="anchored" data-anchor-id="moderators-3">Moderators</h3>
-<p>Looking at <strong>AI-attitudes, porn frequency and sexual activity</strong>, and feedback as moderators, we can see that for females, emotionality ratings for AI-generated images are negatively moderated by positive attitudes towards AI, meaning that females with more positive AI attitudes rate the images as less emotional. For males, emotionality ratings are positively moderated by negative attitudes towards AI, meaning that males with more negative AI attitudes rate the images as more emotional.</p>
-<p>Looking at <strong>feedback</strong> as a moderator, the results show that emotionality ratings for AI-generated images were significantly moderated only by positive attitudes toward AI in females and negative attitudes toward AI in males.</p>
-<p>Interestingly, for females, higher positive attitudes (BAIT Positive) were associated with lower emotionality ratings of AI-generated images. For males, higher negative attitudes (BAIT Negative) were associated with higher emotionality ratings.</p>
+<p>Looking at <strong>AI-attitudes, porn frequency and sexual activity</strong>, and feedback as moderators, we can see that for males reporting higher expertise in AI led to an increase of emotionality ratings for images labelled as AI-Generated. Additionally, males who reported having more negative attitiudes towards AI, rated AI-Generated images lower in emotionality compared to fotographs. While for feamles, those with more positive AI attitudes rate AI-generated images higher in emotionality.</p>
+<p>Looking at <strong>feedback</strong> as a moderator, the results show that for males who reported finidng AI-generated images as more attractive rated these images higher in emotionality.Conversely, males who reported finding AI-generated images as less attractive rated these images lower in emotionality.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -3454,7 +3453,7 @@ Comparison: AI-Generated - Photograph</code></pre>
 <th style="text-align: left;">Parameter</th>
 <th style="text-align: right;">Coefficient</th>
 <th style="text-align: right;">95% CI</th>
-<th style="text-align: left;">z</th>
+<th style="text-align: right;">z</th>
 <th style="text-align: left;">p</th>
 <th style="text-align: right;">Moderator</th>
 <th style="text-align: left;">Outcome</th>
@@ -3463,126 +3462,126 @@ Comparison: AI-Generated - Photograph</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × BAIT Visual</td>
-<td style="text-align: right;">-0.05</td>
-<td style="text-align: right;">[-0.11, 0.00]</td>
-<td style="text-align: left;">-1.82</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">[ 0.00, 0.11]</td>
+<td style="text-align: right;">1.82</td>
 <td style="text-align: left;">0.069</td>
 <td style="text-align: right;">BAIT_Visual</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × BAIT Visual</td>
-<td style="text-align: right;">-5.41e-03</td>
-<td style="text-align: right;">[-0.06, 0.05]</td>
-<td style="text-align: left;">-0.18</td>
+<td style="text-align: right;">5.41e-03</td>
+<td style="text-align: right;">[-0.05, 0.06]</td>
+<td style="text-align: right;">0.18</td>
 <td style="text-align: left;">0.854</td>
 <td style="text-align: right;">BAIT_Visual</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × BAIT Text</td>
-<td style="text-align: right;">3.70e-03</td>
-<td style="text-align: right;">[-0.04, 0.05]</td>
-<td style="text-align: left;">0.16</td>
+<td style="text-align: right;">-3.70e-03</td>
+<td style="text-align: right;">[-0.05, 0.04]</td>
+<td style="text-align: right;">-0.16</td>
 <td style="text-align: left;">0.872</td>
 <td style="text-align: right;">BAIT_Text</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × BAIT Text</td>
-<td style="text-align: right;">-0.01</td>
-<td style="text-align: right;">[-0.06, 0.04]</td>
-<td style="text-align: left;">-0.53</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">[-0.04, 0.06]</td>
+<td style="text-align: right;">0.53</td>
 <td style="text-align: left;">0.595</td>
 <td style="text-align: right;">BAIT_Text</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × BAIT ExpertAI</td>
-<td style="text-align: right;">-0.04</td>
-<td style="text-align: right;">[-0.07, 0.00]</td>
-<td style="text-align: left;">-2.11</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">[ 0.00, 0.07]</td>
+<td style="text-align: right;">2.11</td>
 <td style="text-align: left;">0.035</td>
 <td style="text-align: right;">BAIT_ExpertAI</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × BAIT ExpertAI</td>
-<td style="text-align: right;">-0.03</td>
-<td style="text-align: right;">[-0.07, 0.01]</td>
-<td style="text-align: left;">-1.39</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">[-0.01, 0.07]</td>
+<td style="text-align: right;">1.39</td>
 <td style="text-align: left;">0.166</td>
 <td style="text-align: right;">BAIT_ExpertAI</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × BAIT Positive</td>
-<td style="text-align: right;">-0.03</td>
-<td style="text-align: right;">[-0.08, 0.02]</td>
-<td style="text-align: left;">-1.08</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">[-0.02, 0.08]</td>
+<td style="text-align: right;">1.08</td>
 <td style="text-align: left;">0.282</td>
 <td style="text-align: right;">BAIT_Positive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × BAIT Positive</td>
-<td style="text-align: right;">-0.05</td>
-<td style="text-align: right;">[-0.09, 0.00]</td>
-<td style="text-align: left;">-2.06</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">[ 0.00, 0.09]</td>
+<td style="text-align: right;">2.06</td>
 <td style="text-align: left;">0.039</td>
 <td style="text-align: right;">BAIT_Positive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × BAIT Negative</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: right;">[ 0.01, 0.07]</td>
-<td style="text-align: left;">2.55</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">[-0.07, -0.01]</td>
+<td style="text-align: right;">-2.55</td>
 <td style="text-align: left;">0.011</td>
 <td style="text-align: right;">BAIT_Negative</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × BAIT Negative</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">[-0.02, 0.06]</td>
-<td style="text-align: left;">0.83</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">[-0.06, 0.02]</td>
+<td style="text-align: right;">-0.83</td>
 <td style="text-align: left;">0.404</td>
 <td style="text-align: right;">BAIT_Negative</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × PornFrequency</td>
-<td style="text-align: right;">-5.80e-03</td>
-<td style="text-align: right;">[-0.04, 0.03]</td>
-<td style="text-align: left;">-0.34</td>
+<td style="text-align: right;">5.80e-03</td>
+<td style="text-align: right;">[-0.03, 0.04]</td>
+<td style="text-align: right;">0.34</td>
 <td style="text-align: left;">0.732</td>
 <td style="text-align: right;">PornFrequency</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × PornFrequency</td>
-<td style="text-align: right;">1.34e-03</td>
+<td style="text-align: right;">-1.34e-03</td>
 <td style="text-align: right;">[-0.04, 0.04]</td>
-<td style="text-align: left;">0.06</td>
+<td style="text-align: right;">-0.06</td>
 <td style="text-align: left;">0.950</td>
 <td style="text-align: right;">PornFrequency</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × SexualActivity num</td>
-<td style="text-align: right;">0.03</td>
-<td style="text-align: right;">[-0.01, 0.06]</td>
-<td style="text-align: left;">1.48</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">[-0.06, 0.01]</td>
+<td style="text-align: right;">-1.48</td>
 <td style="text-align: left;">0.140</td>
 <td style="text-align: right;">SexualActivity_num</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × SexualActivity num</td>
-<td style="text-align: right;">0.03</td>
-<td style="text-align: right;">[-0.01, 0.07]</td>
-<td style="text-align: left;">1.54</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">[-0.07, 0.01]</td>
+<td style="text-align: right;">-1.54</td>
 <td style="text-align: left;">0.123</td>
 <td style="text-align: right;">SexualActivity_num</td>
 <td style="text-align: left;">Emotionality</td>
@@ -3619,10 +3618,10 @@ Comparison: AI-Generated - Photograph</code></pre>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 47%">
+<col style="width: 46%">
 <col style="width: 7%">
 <col style="width: 9%">
-<col style="width: 5%">
+<col style="width: 6%">
 <col style="width: 3%">
 <col style="width: 18%">
 <col style="width: 8%">
@@ -3641,270 +3640,270 @@ Comparison: AI-Generated - Photograph</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback NoFacesAttractiveTrue</td>
-<td style="text-align: right;">6.16e-03</td>
-<td style="text-align: right;">[-0.26, 0.27]</td>
-<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">-6.16e-03</td>
+<td style="text-align: right;">[-0.27, 0.26]</td>
+<td style="text-align: right;">-0.05</td>
 <td style="text-align: left;">0.964</td>
 <td style="text-align: right;">Feedback_NoFacesAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback NoFacesAttractiveTrue</td>
-<td style="text-align: right;">0.09</td>
-<td style="text-align: right;">[-0.15, 0.32]</td>
-<td style="text-align: right;">0.72</td>
+<td style="text-align: right;">-0.09</td>
+<td style="text-align: right;">[-0.32, 0.15]</td>
+<td style="text-align: right;">-0.72</td>
 <td style="text-align: left;">0.470</td>
 <td style="text-align: right;">Feedback_NoFacesAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback SomeFacesAttractiveTrue</td>
-<td style="text-align: right;">-0.02</td>
-<td style="text-align: right;">[-0.13, 0.09]</td>
-<td style="text-align: right;">-0.38</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">[-0.09, 0.13]</td>
+<td style="text-align: right;">0.38</td>
 <td style="text-align: left;">0.707</td>
 <td style="text-align: right;">Feedback_SomeFacesAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback SomeFacesAttractiveTrue</td>
-<td style="text-align: right;">-0.05</td>
-<td style="text-align: right;">[-0.18, 0.07]</td>
-<td style="text-align: right;">-0.85</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">[-0.07, 0.18]</td>
+<td style="text-align: right;">0.85</td>
 <td style="text-align: left;">0.393</td>
 <td style="text-align: right;">Feedback_SomeFacesAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback AIMoreAttractiveTrue</td>
-<td style="text-align: right;">-0.17</td>
-<td style="text-align: right;">[-0.30, -0.03]</td>
-<td style="text-align: right;">-2.43</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">[ 0.03, 0.30]</td>
+<td style="text-align: right;">2.43</td>
 <td style="text-align: left;">0.015</td>
 <td style="text-align: right;">Feedback_AIMoreAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback AIMoreAttractiveTrue</td>
-<td style="text-align: right;">-0.09</td>
-<td style="text-align: right;">[-0.22, 0.05]</td>
-<td style="text-align: right;">-1.23</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">[-0.05, 0.22]</td>
+<td style="text-align: right;">1.23</td>
 <td style="text-align: left;">0.220</td>
 <td style="text-align: right;">Feedback_AIMoreAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback AILessAttractiveTrue</td>
-<td style="text-align: right;">0.19</td>
-<td style="text-align: right;">[ 0.00, 0.38]</td>
-<td style="text-align: right;">2.01</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">[-0.38, 0.00]</td>
+<td style="text-align: right;">-2.01</td>
 <td style="text-align: left;">0.045</td>
 <td style="text-align: right;">Feedback_AILessAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback AILessAttractiveTrue</td>
-<td style="text-align: right;">-0.03</td>
-<td style="text-align: right;">[-0.22, 0.17]</td>
-<td style="text-align: right;">-0.26</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">[-0.17, 0.22]</td>
+<td style="text-align: right;">0.26</td>
 <td style="text-align: left;">0.796</td>
 <td style="text-align: right;">Feedback_AILessAttractive</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback AIMoreArousingTrue</td>
-<td style="text-align: right;">0.03</td>
-<td style="text-align: right;">[-0.18, 0.23]</td>
-<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">[-0.23, 0.18]</td>
+<td style="text-align: right;">-0.25</td>
 <td style="text-align: left;">0.803</td>
 <td style="text-align: right;">Feedback_AIMoreArousing</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback AIMoreArousingTrue</td>
-<td style="text-align: right;">0.19</td>
-<td style="text-align: right;">[-0.14, 0.52]</td>
-<td style="text-align: right;">1.13</td>
+<td style="text-align: right;">-0.19</td>
+<td style="text-align: right;">[-0.52, 0.14]</td>
+<td style="text-align: right;">-1.13</td>
 <td style="text-align: left;">0.258</td>
 <td style="text-align: right;">Feedback_AIMoreArousing</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback AILessArousingTrue</td>
-<td style="text-align: right;">-0.03</td>
-<td style="text-align: right;">[-0.24, 0.19]</td>
-<td style="text-align: right;">-0.22</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">[-0.19, 0.24]</td>
+<td style="text-align: right;">0.22</td>
 <td style="text-align: left;">0.823</td>
 <td style="text-align: right;">Feedback_AILessArousing</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback AILessArousingTrue</td>
-<td style="text-align: right;">-0.04</td>
-<td style="text-align: right;">[-0.27, 0.19]</td>
-<td style="text-align: right;">-0.34</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">[-0.19, 0.27]</td>
+<td style="text-align: right;">0.34</td>
 <td style="text-align: left;">0.735</td>
 <td style="text-align: right;">Feedback_AILessArousing</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback DiffObviousTrue</td>
-<td style="text-align: right;">0.11</td>
-<td style="text-align: right;">[-0.13, 0.34]</td>
-<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">-0.11</td>
+<td style="text-align: right;">[-0.34, 0.13]</td>
+<td style="text-align: right;">-0.88</td>
 <td style="text-align: left;">0.380</td>
 <td style="text-align: right;">Feedback_DiffObvious</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback DiffObviousTrue</td>
-<td style="text-align: right;">0.07</td>
-<td style="text-align: right;">[-0.21, 0.35]</td>
-<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">[-0.35, 0.21]</td>
+<td style="text-align: right;">-0.50</td>
 <td style="text-align: left;">0.615</td>
 <td style="text-align: right;">Feedback_DiffObvious</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback DiffNoneTrue</td>
-<td style="text-align: right;">-0.04</td>
-<td style="text-align: right;">[-0.15, 0.07]</td>
-<td style="text-align: right;">-0.66</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">[-0.07, 0.15]</td>
+<td style="text-align: right;">0.66</td>
 <td style="text-align: left;">0.509</td>
 <td style="text-align: right;">Feedback_DiffNone</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback DiffNoneTrue</td>
-<td style="text-align: right;">-0.03</td>
-<td style="text-align: right;">[-0.15, 0.10]</td>
-<td style="text-align: right;">-0.42</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">[-0.10, 0.15]</td>
+<td style="text-align: right;">0.42</td>
 <td style="text-align: left;">0.677</td>
 <td style="text-align: right;">Feedback_DiffNone</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback LabelsIncorrectTrue</td>
-<td style="text-align: right;">0.09</td>
-<td style="text-align: right;">[-0.04, 0.22]</td>
-<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">-0.09</td>
+<td style="text-align: right;">[-0.22, 0.04]</td>
+<td style="text-align: right;">-1.32</td>
 <td style="text-align: left;">0.188</td>
 <td style="text-align: right;">Feedback_LabelsIncorrect</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback LabelsIncorrectTrue</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">[-0.12, 0.15]</td>
-<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">[-0.15, 0.12]</td>
+<td style="text-align: right;">-0.25</td>
 <td style="text-align: left;">0.804</td>
 <td style="text-align: right;">Feedback_LabelsIncorrect</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback LabelsReversedTrue</td>
-<td style="text-align: right;">-0.20</td>
-<td style="text-align: right;">[-0.47, 0.07]</td>
-<td style="text-align: right;">-1.46</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">[-0.07, 0.47]</td>
+<td style="text-align: right;">1.46</td>
 <td style="text-align: left;">0.144</td>
 <td style="text-align: right;">Feedback_LabelsReversed</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback LabelsReversedTrue</td>
-<td style="text-align: right;">0.04</td>
-<td style="text-align: right;">[-0.26, 0.34]</td>
-<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">[-0.34, 0.26]</td>
+<td style="text-align: right;">-0.27</td>
 <td style="text-align: left;">0.789</td>
 <td style="text-align: right;">Feedback_LabelsReversed</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback AllRealTrue</td>
-<td style="text-align: right;">-0.02</td>
-<td style="text-align: right;">[-0.14, 0.09]</td>
-<td style="text-align: right;">-0.38</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">[-0.09, 0.14]</td>
+<td style="text-align: right;">0.38</td>
 <td style="text-align: left;">0.701</td>
 <td style="text-align: right;">Feedback_AllReal</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback AllRealTrue</td>
-<td style="text-align: right;">-0.06</td>
-<td style="text-align: right;">[-0.18, 0.06]</td>
-<td style="text-align: right;">-0.95</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">[-0.06, 0.18]</td>
+<td style="text-align: right;">0.95</td>
 <td style="text-align: left;">0.342</td>
 <td style="text-align: right;">Feedback_AllReal</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Feedback AllFakeTrue</td>
-<td style="text-align: right;">-0.22</td>
-<td style="text-align: right;">[-0.45, 0.02]</td>
-<td style="text-align: right;">-1.82</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">[-0.02, 0.45]</td>
+<td style="text-align: right;">1.82</td>
 <td style="text-align: left;">0.068</td>
 <td style="text-align: right;">Feedback_AllFake</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Feedback AllFakeTrue</td>
-<td style="text-align: right;">0.03</td>
-<td style="text-align: right;">[-0.24, 0.31]</td>
-<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">[-0.31, 0.24]</td>
+<td style="text-align: right;">-0.23</td>
 <td style="text-align: left;">0.815</td>
 <td style="text-align: right;">Feedback_AllFake</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × AllRealConfidence</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">[-0.03, 0.08]</td>
-<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">[-0.08, 0.03]</td>
+<td style="text-align: right;">-0.79</td>
 <td style="text-align: left;">0.427</td>
 <td style="text-align: right;">AllRealConfidence</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × AllRealConfidence</td>
-<td style="text-align: right;">-6.01e-03</td>
-<td style="text-align: right;">[-0.08, 0.06]</td>
-<td style="text-align: right;">-0.17</td>
+<td style="text-align: right;">6.01e-03</td>
+<td style="text-align: right;">[-0.06, 0.08]</td>
+<td style="text-align: right;">0.17</td>
 <td style="text-align: left;">0.866</td>
 <td style="text-align: right;">AllRealConfidence</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × AllFakeConfidence</td>
-<td style="text-align: right;">2.85e-04</td>
+<td style="text-align: right;">-2.85e-04</td>
 <td style="text-align: right;">[-0.27, 0.27]</td>
-<td style="text-align: right;">2.08e-03</td>
+<td style="text-align: right;">-2.08e-03</td>
 <td style="text-align: left;">0.998</td>
 <td style="text-align: right;">AllFakeConfidence</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × AllFakeConfidence</td>
-<td style="text-align: right;">-0.09</td>
-<td style="text-align: right;">[-0.43, 0.25]</td>
-<td style="text-align: right;">-0.54</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">[-0.25, 0.43]</td>
+<td style="text-align: right;">0.54</td>
 <td style="text-align: left;">0.592</td>
 <td style="text-align: right;">AllFakeConfidence</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender [Male] × ConditionAI-Generated × Enjoyment</td>
-<td style="text-align: right;">-0.06</td>
-<td style="text-align: right;">[-0.15, 0.04]</td>
-<td style="text-align: right;">-1.20</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">[-0.04, 0.15]</td>
+<td style="text-align: right;">1.20</td>
 <td style="text-align: left;">0.229</td>
 <td style="text-align: right;">Enjoyment</td>
 <td style="text-align: left;">Emotionality</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender [Female] × ConditionAI-Generated × Enjoyment</td>
-<td style="text-align: right;">-0.02</td>
-<td style="text-align: right;">[-0.08, 0.04]</td>
-<td style="text-align: right;">-0.72</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">[-0.04, 0.08]</td>
+<td style="text-align: right;">0.72</td>
 <td style="text-align: left;">0.469</td>
 <td style="text-align: right;">Enjoyment</td>
 <td style="text-align: left;">Emotionality</td>
@@ -3933,7 +3932,7 @@ Comparison: AI-Generated - Photograph</code></pre>
 <col style="width: 44%">
 <col style="width: 14%">
 <col style="width: 6%">
-<col style="width: 16%">
+<col style="width: 17%">
 <col style="width: 7%">
 <col style="width: 8%">
 </colgroup>
@@ -3950,34 +3949,34 @@ Comparison: AI-Generated - Photograph</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: center;">-0.13</td>
+<td style="text-align: center;">0.13</td>
 <td style="text-align: center;">0.10</td>
-<td style="text-align: center;">(-0.32, 0.06)</td>
-<td style="text-align: center;">-1.30</td>
+<td style="text-align: center;">(-0.06, 0.32)</td>
+<td style="text-align: center;">1.30</td>
 <td style="text-align: center;">0.194</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender (Female)</td>
-<td style="text-align: center;">0.16</td>
+<td style="text-align: center;">-0.16</td>
 <td style="text-align: center;">0.11</td>
-<td style="text-align: center;">(-0.06, 0.37)</td>
-<td style="text-align: center;">1.44</td>
+<td style="text-align: center;">(-0.37, 0.06)</td>
+<td style="text-align: center;">-1.44</td>
 <td style="text-align: center;">0.149</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender (Male) × ConditionAI-Generated</td>
-<td style="text-align: center;">0.33</td>
+<td style="text-align: center;">-0.33</td>
 <td style="text-align: center;">0.04</td>
-<td style="text-align: center;">(0.25, 0.40)</td>
-<td style="text-align: center;">8.93</td>
+<td style="text-align: center;">(-0.40, -0.25)</td>
+<td style="text-align: center;">-8.93</td>
 <td style="text-align: center;">&lt; .001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender (Female) × ConditionAI-Generated</td>
-<td style="text-align: center;">0.14</td>
+<td style="text-align: center;">-0.14</td>
 <td style="text-align: center;">0.04</td>
-<td style="text-align: center;">(0.06, 0.22)</td>
-<td style="text-align: center;">3.43</td>
+<td style="text-align: center;">(-0.22, -0.06)</td>
+<td style="text-align: center;">-3.43</td>
 <td style="text-align: center;">&lt; .001</td>
 </tr>
 </tbody>
@@ -4010,7 +4009,7 @@ Comparison: AI-Generated - Photograph</code></pre>
 836              Gender [Female] × SexualActivitywithin the last 3 days        0.37  [ 0.05, 0.70]      2.23  0.026          SexualActivity      Valence
 740 Gender [Male] × ConditionAI-Generated × Feedback AILessArousingTrue   -1.30e-04  [-0.33, 0.33] -7.79e-04 &gt; .999 Feedback_AILessArousing      Valence
 742 Gender [Male] × ConditionAI-Generated × Feedback AILessArousingTrue   -1.30e-04  [-0.33, 0.33] -7.79e-04 &gt; .999 Feedback_AILessArousing      Valence
-851              Gender [Female] × SexualActivitywithin the last 3 days       -0.55 [-0.97, -0.13]     -2.56  0.011          SexualActivity Emotionality</code></pre>
+851              Gender [Female] × SexualActivitywithin the last 3 days        0.55  [ 0.13, 0.97]      2.56  0.011          SexualActivity Emotionality</code></pre>
 </div>
 </div>
 </section>

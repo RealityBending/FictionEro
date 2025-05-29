@@ -90,6 +90,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ai-attitudes" id="toc-ai-attitudes" class="nav-link" data-scroll-target="#ai-attitudes">AI-Attitudes</a></li>
   <li><a href="#porn-sexual-activity" id="toc-porn-sexual-activity" class="nav-link" data-scroll-target="#porn-sexual-activity">Porn + Sexual Activity</a></li>
   <li><a href="#feedback" id="toc-feedback" class="nav-link" data-scroll-target="#feedback">Feedback</a></li>
+  <li><a href="#association-betwen-emotional-responses-and-realness-ratings" id="toc-association-betwen-emotional-responses-and-realness-ratings" class="nav-link" data-scroll-target="#association-betwen-emotional-responses-and-realness-ratings">Association betwen Emotional responses and Realness Ratings</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#figures" id="toc-figures" class="nav-link" data-scroll-target="#figures">Figures</a></li>
@@ -799,6 +800,135 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
+<section id="association-betwen-emotional-responses-and-realness-ratings" class="level3">
+<h3 class="anchored" data-anchor-id="association-betwen-emotional-responses-and-realness-ratings">Association betwen Emotional responses and Realness Ratings</h3>
+<p><strong>Realness</strong> ratings were positively correlated with <strong>Arousal</strong>, <strong>Enticement</strong>, and <strong>Valence.</strong></p>
+<p>To examine the unique role of <strong>Arousal</strong> in predicting <strong>perceived realness</strong>, a model was tested including both linear and quadratic effects of Arousal, along with its interactions with Gender and Condition (AI-generated vs.&nbsp;real images), modeling participants and images as random intercepts. To assess whether a non-linear (quadratic) component improved the model, a comparison was conducted between a model including a quadratic term for Arousal and one without. The model excluding the quadratic term was decisively favored, with Bayes Factors indicating that the data were over 1000 times more likely under the simpler linear model. This strongly supports the adequacy of a linear relationship between Arousal and Realness in this context. The following findings were seen in the simpler model:</p>
+<ul>
+<li><p><strong>Arousal</strong> had a strong positive linear effect on Realness, indicating that higher arousal was <strong>associated</strong> with <strong>increased perceptions of realness</strong>.</p></li>
+<li><p>For <strong>female</strong> participants, the positive <strong>effect of Arousal on Realness</strong> is significantly <strong>weaker</strong> than for <strong>males</strong>. This suggests that women are less influenced by Arousal when making realness judgments.</p></li>
+<li><p>Among <strong>males</strong>, the effect of <strong>Arousal, on realness ratings</strong>, is significantly <strong>weaker</strong> when judging images previous labelled as <strong>AI-generated</strong> compared to real ones.</p></li>
+</ul>
+<p>These results suggest a gender-specific modulation in how emotional arousal shapes beliefs about what is real, particularly when distinguishing between real and synthetic faces.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Gender, Arousal, Enticing, Valence, RealnessBelief, Realness) <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  correlation<span class="sc">::</span><span class="fu">correlation</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># Correlation Matrix (pearson-method)
+
+Group  |     Parameter1 |     Parameter2 |    r |       95% CI |      t |   df |         p
+------------------------------------------------------------------------------------------
+Male   |        Arousal |       Enticing | 0.81 | [0.80, 0.82] |  93.10 | 4498 | &lt; .001***
+Male   |        Arousal |        Valence | 0.68 | [0.66, 0.69] |  61.71 | 4498 | &lt; .001***
+Male   |        Arousal | RealnessBelief | 0.13 | [0.10, 0.16] |   8.72 | 4498 | &lt; .001***
+Male   |        Arousal |       Realness | 0.14 | [0.11, 0.17] |   9.52 | 4498 | &lt; .001***
+Male   |       Enticing |        Valence | 0.77 | [0.76, 0.78] |  80.59 | 4498 | &lt; .001***
+Male   |       Enticing | RealnessBelief | 0.15 | [0.12, 0.18] |  10.21 | 4498 | &lt; .001***
+Male   |       Enticing |       Realness | 0.16 | [0.13, 0.19] |  10.95 | 4498 | &lt; .001***
+Male   |        Valence | RealnessBelief | 0.15 | [0.12, 0.18] |   9.95 | 4498 | &lt; .001***
+Male   |        Valence |       Realness | 0.17 | [0.14, 0.20] |  11.68 | 4498 | &lt; .001***
+Male   | RealnessBelief |       Realness | 0.90 | [0.90, 0.91] | 141.75 | 4498 | &lt; .001***
+Female |        Arousal |       Enticing | 0.79 | [0.78, 0.80] |  84.60 | 4298 | &lt; .001***
+Female |        Arousal |        Valence | 0.62 | [0.60, 0.64] |  51.77 | 4298 | &lt; .001***
+Female |        Arousal | RealnessBelief | 0.10 | [0.07, 0.13] |   6.31 | 4298 | &lt; .001***
+Female |        Arousal |       Realness | 0.11 | [0.08, 0.14] |   7.16 | 4298 | &lt; .001***
+Female |       Enticing |        Valence | 0.76 | [0.75, 0.78] |  77.39 | 4298 | &lt; .001***
+Female |       Enticing | RealnessBelief | 0.10 | [0.07, 0.13] |   6.59 | 4298 | &lt; .001***
+Female |       Enticing |       Realness | 0.12 | [0.09, 0.15] |   7.83 | 4298 | &lt; .001***
+Female |        Valence | RealnessBelief | 0.11 | [0.08, 0.14] |   7.48 | 4298 | &lt; .001***
+Female |        Valence |       Realness | 0.13 | [0.10, 0.16] |   8.57 | 4298 | &lt; .001***
+Female | RealnessBelief |       Realness | 0.90 | [0.89, 0.90] | 132.54 | 4298 | &lt; .001***
+
+p-value adjustment method: Holm (1979)
+Observations: 4300-4500</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>p_a <span class="ot">&lt;-</span> <span class="fu">plot</span>(<span class="fu">cor_test</span>(df, <span class="st">"Arousal"</span>, <span class="st">"Realness"</span>)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender) <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_bw</span>()</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>p_e <span class="ot">&lt;-</span> <span class="fu">plot</span>(<span class="fu">cor_test</span>(df, <span class="st">"Enticing"</span>, <span class="st">"Realness"</span>)) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender) <span class="sc">+</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_bw</span>()</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>p_v <span class="ot">&lt;-</span> <span class="fu">plot</span>(<span class="fu">cor_test</span>(df, <span class="st">"Valence"</span>, <span class="st">"Realness"</span>)) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>Gender) <span class="sc">+</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_bw</span>()</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>p_sub <span class="ot">&lt;-</span> p_a<span class="sc">/</span> p_e<span class="sc">/</span> p_v </span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>m1_dir <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"Realness ~ Arousal / Gender/ Condition + (1 | Participant) + (1|Stimulus)"</span>, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter                                      | Coefficient |   SE |         95% CI |     z |      p |
+|:----------------------------------------------|:-----------:|:----:|:--------------:|:-----:|:------:|
+|(Intercept)                                    |   -2.44e-03 | 0.05 |  (-0.10, 0.10) | -0.05 | 0.961  |
+|Arousal                                        |        0.64 | 0.07 |   (0.51, 0.77) |  9.57 | &lt; .001 |
+|Arousal × GenderFemale                         |       -0.29 | 0.09 | (-0.47, -0.11) | -3.18 | 0.001  |
+|Arousal × GenderMale × ConditionAI-Generated   |       -0.12 | 0.05 | (-0.23, -0.01) | -2.22 | 0.026  |
+|Arousal × GenderFemale × ConditionAI-Generated |        0.01 | 0.07 |  (-0.13, 0.16) |  0.17 | 0.865  |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>m2_dir <span class="ot">&lt;-</span> <span class="fu">make_model</span>(<span class="st">"Realness ~ poly(Arousal, 2) / Gender/ Condition + (1 | Participant) + (1|Stimulus)"</span>, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+
+Table: Fixed Effects
+
+|Parameter                                                   | Coefficient |   SE |          95% CI |        z |      p |
+|:-----------------------------------------------------------|:-----------:|:----:|:---------------:|:--------:|:------:|
+|(Intercept)                                                 |        0.18 | 0.05 |    (0.08, 0.27) |     3.77 | &lt; .001 |
+|Arousal (1st degree)                                        |       18.67 | 2.47 |  (13.84, 23.50) |     7.57 | &lt; .001 |
+|Arousal (2nd degree)                                        |        1.32 | 2.19 |   (-2.97, 5.62) |     0.60 | 0.546  |
+|Arousal (1st degree) × GenderFemale                         |      -11.27 | 3.50 | (-18.12, -4.42) |    -3.22 | 0.001  |
+|Arousal (2nd degree) × GenderFemale                         |       -1.07 | 3.26 |   (-7.45, 5.31) |    -0.33 | 0.743  |
+|Arousal (1st degree) × GenderMale × ConditionAI-Generated   |        0.66 | 3.00 |   (-5.21, 6.54) |     0.22 | 0.825  |
+|Arousal (2nd degree) × GenderMale × ConditionAI-Generated   |    2.97e-03 | 2.96 |   (-5.80, 5.80) | 1.00e-03 | &gt; .999 |
+|Arousal (1st degree) × GenderFemale × ConditionAI-Generated |        5.56 | 3.18 |  (-0.67, 11.79) |     1.75 | 0.080  |
+|Arousal (2nd degree) × GenderFemale × ConditionAI-Generated |        4.58 | 3.24 |  (-1.77, 10.92) |     1.41 | 0.158  |</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(m1_dir, m2_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># Comparison of Model Performance Indices
+
+Name   |   Model |   AIC (weights) |  AICc (weights) |   BIC (weights)
+----------------------------------------------------------------------
+m1_dir | glmmTMB | 13308.7 (0.816) | 13308.7 (0.818) | 13379.5 (&gt;.999)
+m2_dir | glmmTMB | 13311.6 (0.184) | 13311.7 (0.182) | 13410.8 (&lt;.001)
+
+Name   | R2 (cond.) | R2 (marg.) |   ICC |  RMSE | Sigma
+--------------------------------------------------------
+m1_dir |      1.000 |      0.110 | 1.000 | 0.319 | 3.762
+m2_dir |      1.000 |      0.100 | 1.000 | 0.319 | 3.762</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_performance</span>(m1_dir, m2_dir)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Name   |   Model |      BF
+--------------------------
+m1_dir | glmmTMB |        
+m2_dir | glmmTMB | &lt; 0.001
+Each model is compared to m1_dir.</code></pre>
+</div>
+</div>
+</section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
@@ -813,13 +943,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (p1 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)) <span class="sc">/</span> p2  <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> (p1 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)) <span class="sc">/</span> p2  <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="3_realness_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="3_realness_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
