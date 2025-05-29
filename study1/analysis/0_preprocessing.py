@@ -1,4 +1,5 @@
 import json
+import os
 
 import numpy as np
 import pandas as pd
@@ -6,45 +7,43 @@ import pandas as pd
 # Note: new data from FakeFace2 got saved in this repo during June 2024.
 # Make sure to use only files before.
 
+# # Get files from OSF ======================================================
+# def osf_listfiles(data_subproject="", token="", after_date=None):
+#     try:
+#         import osfclient
+#     except ImportError:
+#         raise ImportError("Please install 'osfclient' (`pip install osfclient`)")
+#     osf = osfclient.OSF(token=token).project(data_subproject)  # Connect to project
+#     storage = [s for s in osf.storages][0]  # Access storage component
+#     files = [
+#         {
+#             "name": file.name.replace(".csv", ""),
+#             "date": pd.to_datetime(file.date_created),
+#             "url": file._download_url,
+#             "size": file.size,
+#             "file": file,
+#         }
+#         for file in storage.files
+#     ]
 
-# Get files from OSF ======================================================
-def osf_listfiles(data_subproject="", token="", after_date=None):
-    try:
-        import osfclient
-    except ImportError:
-        raise ImportError("Please install 'osfclient' (`pip install osfclient`)")
-    osf = osfclient.OSF(token=token).project(data_subproject)  # Connect to project
-    storage = [s for s in osf.storages][0]  # Access storage component
-    files = [
-        {
-            "name": file.name.replace(".csv", ""),
-            "date": pd.to_datetime(file.date_created),
-            "url": file._download_url,
-            "size": file.size,
-            "file": file,
-        }
-        for file in storage.files
-    ]
-
-    if after_date is not None:
-        date = pd.to_datetime(after_date, format="%d/%m/%Y", utc=True)
-        files = [f for f, d in zip(files, [f["date"] > date for f in files]) if d]
-    return files
+#     if after_date is not None:
+#         date = pd.to_datetime(after_date, format="%d/%m/%Y", utc=True)
+#         files = [f for f, d in zip(files, [f["date"] > date for f in files]) if d]
+#     return files
 
 
-token = ""  # Paste OSF token here to access private repositories
-files = osf_listfiles(
-    token=token,
-    data_subproject="sm4jc",  # Data subproject ID
-    after_date="19/01/2024",
-)
-
+# token = "zYboMoukFI8HKabenQ35DH6tESHJo6oZll5BvOPma6Dppjqc2jnIB6sPCERCuaqO0UrHAa"  # Paste OSF token here to access private repositories
+# files = osf_listfiles(
+#     token=token,
+#     data_subproject="sm4jc",  # Data subproject ID
+#     after_date="19/01/2024",
+# )
 
 # Loop through files ======================================================
 # Initialize empty dataframes
 alldata = pd.DataFrame()
 alldata_subs = pd.DataFrame()
-norm_data = pd.read_csv("../study1/stimuli_selection/stimuli_data.csv").rename(
+norm_data = pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv").rename(
     columns={
         "ID": "Item",
         "JPEG_size80": "Complexity",
@@ -55,21 +54,48 @@ norm_data = pd.read_csv("../study1/stimuli_selection/stimuli_data.csv").rename(
     }
 )
 
+# Get files from local directory ==========================================
+path = "C:/Users/asf25/Box/FictionEro1/"
+files = os.listdir(path)
+cutoff_date = pd.to_datetime("2024-06-01")  
+skipped_files_date = []
+skipped_files_debriefing = []
 
 for i, file in enumerate(files):
-    print(f"File N°{i+1}/{len(files)}")
+    print(f"File N°{i+1}/{len(files)}") 
+
+    data = pd.read_csv(path + file)
+    filename = file.replace(".csv", "")
+
+    # Extract the date from the rows where screen == browser_info
+    date_series = data.loc[data["screen"] == "browser_info", "date"] 
+    # Parse dates (if not already datetime)
+    dates = pd.to_datetime(date_series, format="%d/%m/%Y", errors='coerce')
+    max_date = dates.dropna().max()
+
+    # Check if any date is after cutoff
+    if max_date > cutoff_date:
+        print(f"Skipping {filename}: contains data after cutoff date")
+        skipped_files_date.append({"filename": filename, "date": max_date})
+        continue
+
+    # check if file contains all necessary information
+    if "debriefing" not in data["screen"].values:
+        print(f"Skipping {filename}: no debriefing screen = did not complete study")
+        skipped_files_debriefing.append({"filename": filename})
+        continue
 
     if (
         "Participant" in alldata_subs.columns
-        and file["name"] in alldata_subs["Participant"].values
+        and filename in alldata_subs["Participant"].values
     ):
         continue
 
-    download_ok = False
-    while download_ok == False:
-        data = pd.read_csv(file["file"]._get(file["url"], stream=True).raw)
-        if len(data) > 0:
-            download_ok = True
+    # download_ok = False
+    # while download_ok == False:
+    #     data = pd.read_csv(file["file"]._get(file["url"], stream=True).raw)
+    #     if len(data) > 0:
+    #         download_ok = True
 
     # Participant ========================================================
     # data["screen"].unique()
@@ -103,11 +129,11 @@ for i, file in enumerate(files):
 
     df = pd.DataFrame(
         {
-            "Participant": file["name"],
+            "Participant": filename,
             "Experimenter": experimenter,
             "Experiment_Duration": data["time_elapsed"].max() / 1000 / 60,
             "Language": lang,
-            "Date_OSF": file["date"],
+            # "Date_OSF": file["date"],
             "Date": browser["date"],
             "Time": browser["time"],
             "Browser": browser["browser"],
@@ -533,7 +559,7 @@ for i, file in enumerate(files):
 
     # FICTION ------------------------------------------------------------
     fiction1 = data[data["screen"] == "fiction_ratings1"]
-    fiction = pd.DataFrame({"Participant": [file["name"]] * len(fiction1)})
+    fiction = pd.DataFrame({"Participant": [filename] * len(fiction1)})
     assert len(fiction1) == 60
 
     fiction["Item"] = fiction1["stimulus"].values
@@ -816,7 +842,7 @@ alldata_subs = alldata_subs.sort_values(by=["d"]).reset_index(drop=True)
 correspondance = {j: f"S{i+1:03}" for i, j in enumerate(alldata_subs["Participant"])}
 alldata_subs["Participant"] = [correspondance[i] for i in alldata_subs["Participant"]]
 alldata["Participant"] = [correspondance[i] for i in alldata["Participant"]]
-alldata_subs = alldata_subs.drop(columns=["Date_OSF", "d"])  # Drop OSf column
+# alldata_subs = alldata_subs.drop(columns=["Date_OSF", "d"])  # Drop OSf column
 alldata_subs = alldata_subs.sort_values(by=["Participant"])
 alldata = alldata.sort_values(by=["Participant", "Order1"])
 

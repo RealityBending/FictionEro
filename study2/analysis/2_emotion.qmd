@@ -166,7 +166,7 @@ m5 <- glmmTMB::glmmTMB(Arousal ~ Gender/SexualOrientation + (1|Participant) + (1
 m6 <- glmmTMB::glmmTMB(Arousal ~ Gender/SexualOrientation + (1|Participant) + (1+Gender|Stimulus ), data=df)
 
 
-test_bf(m1,m2, m3, m4, m5,)
+test_bf(m1,m2, m3, m4, m5,m6)
 compare_performance(m1, m2, m3, m4, m5, m6)
 
 # Model m3, which includes random intercepts for Participants and both random intercepts and slopes for Gender at the Stimulus level, seems to be the best
@@ -793,7 +793,7 @@ pca
 ```
 
 ```{r EMotionality Plot}
-df$Emotionality <- as.numeric(normalize(predict(pca)$PC1))
+df$Emotionality <- as.numeric(normalize(-predict(pca)$PC1))
 
 emotionality <- df |> 
   mutate(Emotionality_Extreme = ifelse(Emotionality %in% c(0, 1), "Extreme", "Not extreme")) |>
@@ -819,7 +819,7 @@ emotionality_desc
 
 This model looks at the effect of **Gender and Condition on Emotionality**, accounting for random variability due to participants and items (i.e., random intercepts).
 
-The results show that females consistently rate photographs as higher in emotionality compared to males. Additonally, males rate AI-Generated images higher in emotionality compared to photographs. 
+The results show males rate AI-Generated images lower in emotionality compared to photographs. 
 
 ```{r Emotionality Model}
 m <- glmmTMB::glmmTMB(Emotionality ~ Gender / Condition + (1| Participant) + (1|Stimulus),
@@ -833,11 +833,9 @@ marginaleffects::avg_slopes(m, variables="Condition", by="Gender", re.form=NA)
 
 ### Moderators
 
-Looking at **AI-attitudes, porn frequency and sexual activity**, and feedback as moderators, we can see that for females, emotionality ratings for AI-generated images are negatively moderated by positive attitudes towards AI, meaning that females with more positive AI attitudes rate the images as less emotional. For males, emotionality ratings are positively moderated by negative attitudes towards AI, meaning that males with more negative AI attitudes rate the images as more emotional.
+Looking at **AI-attitudes, porn frequency and sexual activity**, and feedback as moderators, we can see that for males reporting higher expertise in AI led to an increase of emotionality ratings for images labelled as AI-Generated. Additionally, males who reported having more negative attitiudes towards AI, rated AI-Generated images lower in emotionality compared to fotographs. While for feamles, those with more positive AI attitudes rate AI-generated images higher in emotionality. 
 
-Looking at **feedback** as a moderator, the results show that emotionality ratings for AI-generated images were significantly moderated only by positive attitudes toward AI in females and negative attitudes toward AI in males.
-
-Interestingly, for females, higher positive attitudes (BAIT Positive) were associated with lower emotionality ratings of AI-generated images. For males, higher negative attitudes (BAIT Negative) were associated with higher emotionality ratings.
+Looking at **feedback** as a moderator, the results show that for males who reported finidng AI-generated images as more attractive rated these images higher in emotionality.Conversely, males who reported finding AI-generated images as less attractive rated these images lower in emotionality. 
 
 
 ```{r Emotionality Moderator}

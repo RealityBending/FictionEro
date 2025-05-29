@@ -124,6 +124,8 @@ df |>
 df <- df|>
   filter(SexualOrientation == "Heterosexual")
 ```
+
+
 ## Physical Characteristics
 
 Here, we are examining the effect of various **physical characteristics** of the images to evaluate whether they influence the perceived realness of the images. Neither Entropy, Complexity, Contrast, nor Luminance significantly influence the perceived realness of the images, nor the likelihood of realness being above 0.5 ("RealnessBelief"), as indicated by the lack of significant effects. 
@@ -356,6 +358,50 @@ p2 <- pred2 |>
        tag = "B")
 
 p2
+```
+
+### Association betwen Emotional responses and Realness Ratings
+
+**Realness** ratings were positively correlated with **Arousal**, **Enticement**, and **Valence.** 
+
+To examine the unique role of **Arousal** in predicting **perceived realness**, a model was tested including both linear and quadratic effects of Arousal, along with its interactions with Gender and Condition (AI-generated vs. real images), modeling participants and images as random intercepts. 
+To assess whether a non-linear (quadratic) component improved the model, a comparison was conducted between a model including a quadratic term for Arousal and one without. The model excluding the quadratic term was decisively favored, with Bayes Factors indicating that the data were over 1000 times more likely under the simpler linear model. This strongly supports the adequacy of a linear relationship between Arousal and Realness in this context. The following findings were seen in the simpler model:
+
+- **Arousal** had a strong positive linear effect on Realness, indicating that higher arousal was **associated** with **increased perceptions of realness**.
+
+- For **female** participants, the positive **effect of Arousal on Realness** is significantly **weaker** than for **males**. This suggests that women are less influenced by Arousal when making realness judgments.
+
+- Among **males**, the effect of **Arousal, on realness ratings**, is significantly **weaker** when judging images previous labelled as **AI-generated** compared to real ones.
+
+These results suggest a gender-specific modulation in how emotional arousal shapes beliefs about what is real, particularly when distinguishing between real and synthetic faces.
+
+
+```{r}
+df |>
+  select(Gender, Arousal, Enticing, Valence, RealnessBelief, Realness) |>
+  group_by(Gender) |>
+  correlation::correlation()
+
+p_a <- plot(cor_test(df, "Arousal", "Realness")) +
+  ggplot2::facet_wrap(~Gender) +
+  ggplot2::theme_bw()
+
+p_e <- plot(cor_test(df, "Enticing", "Realness")) +
+  ggplot2::facet_wrap(~Gender) +
+  ggplot2::theme_bw()
+
+p_v <- plot(cor_test(df, "Valence", "Realness")) +
+  ggplot2::facet_wrap(~Gender) +
+  ggplot2::theme_bw()
+
+p_sub <- p_a/ p_e/ p_v 
+
+m1_dir <- make_model("Realness ~ Arousal / Gender/ Condition + (1 | Participant) + (1|Stimulus)", family=glmmTMB::ordbeta())
+m2_dir <- make_model("Realness ~ poly(Arousal, 2) / Gender/ Condition + (1 | Participant) + (1|Stimulus)", family=glmmTMB::ordbeta())
+
+compare_performance(m1_dir, m2_dir)
+test_performance(m1_dir, m2_dir)
+
 ```
 
 
