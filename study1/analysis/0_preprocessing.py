@@ -57,12 +57,14 @@ norm_data = pd.read_csv("../experiment/stimuli_selection/stimuli_data.csv").rena
 # Get files from local directory ==========================================
 path = "C:/Users/asf25/Box/FictionEro1/"
 files = os.listdir(path)
+after_date = pd.to_datetime("2024-01-19")  # Date after which files were added
 cutoff_date = pd.to_datetime("2024-06-01")  
 skipped_files_date = []
 skipped_files_debriefing = []
+wrong_data_files = []
 
 for i, file in enumerate(files):
-    print(f"File N°{i+1}/{len(files)}") 
+    print(f"File N°{i+1}/{len(files)}, file: {file}") 
 
     data = pd.read_csv(path + file)
     filename = file.replace(".csv", "")
@@ -73,16 +75,16 @@ for i, file in enumerate(files):
     dates = pd.to_datetime(date_series, format="%d/%m/%Y", errors='coerce')
     max_date = dates.dropna().max()
 
-    # Check if any date is after cutoff
-    if max_date > cutoff_date:
-        print(f"Skipping {filename}: contains data after cutoff date")
+    # Skip files outside date range
+    if not (after_date <= max_date <= cutoff_date):
+        print(f"Skipping {filename}: contains data outside {after_date.date()} - {cutoff_date.date()}")
         skipped_files_date.append({"filename": filename, "date": max_date})
         continue
 
     # check if file contains all necessary information
-    if "debriefing" not in data["screen"].values:
+    if "debriefing" not in data["screen"].values and "fiction_debriefing" not in data["screen"].values:
         print(f"Skipping {filename}: no debriefing screen = did not complete study")
-        skipped_files_debriefing.append({"filename": filename})
+        skipped_files_debriefing.append(f"filename: {filename}, date: {dates}")
         continue
 
     if (
@@ -102,7 +104,7 @@ for i, file in enumerate(files):
 
     # Browser info -------------------------------------------------------
     browser = data[data["screen"] == "browser_info"].iloc[0]
-
+    
     # Experimenter
     experimenter = browser["researcher"]
     if experimenter in ["TEST", "jc"]:
