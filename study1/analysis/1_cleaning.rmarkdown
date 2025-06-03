@@ -10,7 +10,11 @@ format:
     toc: true
 ---
 
+
+
 ## Data Preparation
+
+
 
 ```{r}
 #| message: false
@@ -21,7 +25,6 @@ library(easystats)
 library(patchwork)
 library(ggside)
 ```
-
 
 ```{r}
 #| code-fold: false
@@ -45,9 +48,13 @@ dftask <- read.csv("../data/rawdata_task.csv") |>
     )
 ```
 
+
+
 The initial sample consisted of `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
 
 ### Compute Scores
+
+
 
 
 ```{r}
@@ -68,11 +75,15 @@ dftask <- dftask |>
 ```
 
 
+
+
 ### Recruitment History
 
 ::: {.panel-tabset}
 
 #### Global
+
+
 
 
 ```{r}
@@ -117,7 +128,11 @@ table_recruitment <- function(df) {
 table_recruitment(df)
 ```
 
+
+
 #### English
+
+
 
 ```{r}
 #| message: false
@@ -126,7 +141,11 @@ plot_recruitement(filter(df, Language == "English"))
 table_recruitment(filter(df, Language == "English"))
 ```
 
+
+
 #### French
+
+
 
 ```{r}
 #| message: false
@@ -135,7 +154,11 @@ plot_recruitement(filter(df, Language == "French"))
 table_recruitment(filter(df, Language == "French"))
 ```
 
+
+
 #### Italian
+
+
 
 ```{r}
 #| message: false
@@ -145,7 +168,11 @@ table_recruitment(filter(df, Language == "Italian"))
 ```
 
 
+
+
 #### Colombian
+
+
 
 ```{r}
 #| message: false
@@ -154,7 +181,11 @@ plot_recruitement(filter(df, Language == "Colombian"))
 table_recruitment(filter(df, Language == "Colombian"))
 ```
 
+
+
 #### Spanish
+
+
 
 ```{r}
 #| message: false
@@ -162,6 +193,8 @@ table_recruitment(filter(df, Language == "Colombian"))
 plot_recruitement(filter(df, Language == "Spanish"))
 table_recruitment(filter(df, Language == "Spanish"))
 ```
+
+
 
 
 :::
@@ -175,6 +208,8 @@ The majority of participants found the study to be a "fun" experience. Interesti
 ::: {.panel-tabset}
 
 #### Proportion
+
+
 
 ```{r}
 df |> 
@@ -207,7 +242,11 @@ df |>
   )
 ```
 
+
+
 #### Co-occurence
+
+
 
 ```{r}
 cor <- df |> 
@@ -242,9 +281,13 @@ cor |>
         axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+
+
 :::
 
 ### Comments
+
+
 
 ```{r}
 data.frame(Language = df$Language,
@@ -258,7 +301,11 @@ data.frame(Language = df$Language,
 ```
 
 
+
+
 ## Exclusion
+
+
 
 ```{r}
 #| echo: true
@@ -267,7 +314,11 @@ data.frame(Language = df$Language,
 outliers <- list()
 ```
 
+
+
 ### Mobile
+
+
 
 ```{r}
 df |>
@@ -277,16 +328,24 @@ df |>
   theme_modern()
 ```
 
+
+
 There were `r sum(df$Mobile=="True")` participants that used a mobile device.
+
+
 
 ```{r}
 # df <- filter(df, Mobile == "False")
 # dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
+
+
 ### Experiment Duration
 
 The experiment's median duration is `r insight::format_value(median(df$Experiment_Duration))` min (`r insight::format_ci(bayestestR::hdi(df$Experiment_Duration, ci=0.5))`).
+
+
 
 ```{r}
 #| fig-width: 15
@@ -322,7 +381,11 @@ outliers$expe_duration <- filter(df, Experiment_Duration < 15)$Participant
 ```
 
 
+
+
 ### Task Duration 
+
+
 
 ```{r}
 plot_hist <- function(dat) {
@@ -354,6 +417,8 @@ plot_hist <- function(dat) {
     coord_cartesian(xlim = c(0, 25))
 }
 ```
+
+
 
 <!-- ::: {.panel-tabset} -->
 
@@ -414,6 +479,8 @@ plot_hist <- function(dat) {
 
 ### BAIT Questionnaire Duration
 
+
+
 ```{r}
 #| fig-width: 15
 #| fig-height: 15
@@ -448,9 +515,13 @@ outliers$bait_duration <- filter(df, BAIT_Duration < 0.5)$Participant
 df[df$Participant %in% outliers$bait_duration, str_detect(names(df), "BAIT_\\d+")] <- NA
 ```
 
+
+
 We excluded the BAIT data of `r length(outliers$bait_duration)` participants who completed the questionnaire in less than 30 seconds.
 
 ### Response to Erotic Stimuli
+
+
 
 ```{r}
 # Single arousal response (0)
@@ -463,7 +534,11 @@ df <- filter(df, !Participant %in% outliers$novariability)
 dftask <- filter(dftask, !Participant %in% outliers$novariability)
 ```
 
+
+
 We removed `r length(outliers$novariability)` that showed no variation in their arousal response (did not move the scales).
+
+
 
 ```{r}
 #| fig-width: 15
@@ -502,7 +577,11 @@ outliers$emo_diff <- sort(as.character(dat[dat$Arousal < 0, ]$Participant))
 ```
 
 
+
+
 ### Response Coherence
+
+
 
 ```{r}
 dat <- dftask |> 
@@ -533,7 +612,11 @@ outliers$emo_cor <- sort(as.character(dat[dat$cor_ArEnt < 0, ]$Participant))
 outliers$arousal <- intersect(outliers$emo_diff, outliers$emo_cor)
 ```
 
+
+
 We removed `r length(outliers$arousal)` participants that had a negative correlation between arousal and enticement, and had a negative arousal difference between erotic and neutral (suggesting a misunderstanding of the scale direction).
+
+
 
 ```{r}
 df <- filter(df, !Participant %in% outliers$arousal)
@@ -542,10 +625,14 @@ dftask <- filter(dftask, !Participant %in% outliers$arousal)
 
 
 
+
+
 ### Sexual Profile
 
 
 #### Sample
+
+
 
 ```{r}
 df |>
@@ -564,7 +651,11 @@ df |>
   )
 ```
 
+
+
 We removed `r sum(df$Sex=="Other" | df$SexualOrientation=="Other")` participants that were incompatible with further analysis.
+
+
 
 ```{r}
 #| code-fold: false
@@ -575,7 +666,11 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 
 
 
+
+
 #### Task Behaviour
+
+
 
 ```{r}
 #| fig-width: 13
@@ -609,7 +704,11 @@ show_distribution <- function(dftask, target="Arousal") {
                              theme = theme(plot.title = element_text(hjust = 0.5, face="bold"))) 
 ```
 
+
+
 We kept only heterosexual participants (`r insight::format_percent(sum(df$SexualOrientation == "Heterosexual") / nrow(df))`).
+
+
 
 ```{r}
 #| code-fold: false
@@ -617,6 +716,8 @@ We kept only heterosexual participants (`r insight::format_percent(sum(df$Sexual
 df <- filter(df, SexualOrientation == "Heterosexual")
 dftask <- filter(dftask, Participant %in% df$Participant)
 ```
+
+
 
 ## Final Sample
 
@@ -628,6 +729,8 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 The final sample includes `r report::report_participants(df, age="Age", sex="Sex", education="Education")`.
 
 ### Origin
+
+
 
 ```{r p_demographics_country}
 p_country <- dplyr::select(df, region = Country) |>
@@ -663,7 +766,11 @@ ggwaffle::waffle_iron(df, ggwaffle::aes_d(group = Ethnicity), rows=10) |>
   )
 ```
 
+
+
 ### Age
+
+
 
 ```{r p_demographics_age}
 p_age <- estimate_density(df$Age) |>
@@ -689,7 +796,11 @@ p_age
 ```
 
 
+
+
 ### Education
+
+
 
 ```{r p_demographics_education}
 p_edu <- df |>
@@ -710,9 +821,13 @@ p_edu <- df |>
 p_edu
 ```
 
+
+
 ### Sex
 
 #### Birth Control
+
+
 
 ```{r p_demographics_sex}
 colors <- c(
@@ -745,7 +860,11 @@ p_sex <- df |>
 p_sex
 ```
 
+
+
 #### Sexual Profile
+
+
 
 
 
@@ -795,7 +914,11 @@ df$Porn <- get_scores(r)[, 1]
 ```
 
 
+
+
 ### Expertise 
+
+
 
 ```{r p_demographics_expertise}
 p_language <- df |>
@@ -827,7 +950,11 @@ p_expertise <- df |>
 p_language | p_expertise
 ```
 
+
+
 ### System
+
+
 
 ```{r p_demographics_settings}
 df$Screen_Size <- sqrt(df$Screen_Width * df$Screen_Height)
@@ -847,7 +974,11 @@ df |>
 ```
 
 
+
+
 :::
+
+
 
 ```{r p_summary}
 #| fig-width: 15
@@ -856,6 +987,8 @@ df |>
 p_country / 
   (p_age + p_edu)
 ```
+
+
 
 
 ## Beliefs about Artificial Information Technology (BAIT)
@@ -867,6 +1000,8 @@ This section pertains to the validation of the BAIT scale measuring beliefs and 
 ### Factor Analyis
 
 #### Exploratory Factor Analysis
+
+
 
 ```{r}
 bait <- df |> 
@@ -922,7 +1057,11 @@ plot(efa)
 display(efa)
 ```
 
+
+
 #### Confirmatory Factor Analysis
+
+
 
 ```{r}
 m1 <- lavaan::cfa(
@@ -949,6 +1088,7 @@ m5 <- lavaan::cfa(efa_to_cfa(efa, threshold="max"), data=bait)
 # bayestestR::bayesfactor_models(m1, m2)
 lavaan::anova(m1, m2, m3, m4, m5)
 ```
+
 ```{r}
 display(parameters::parameters(m4, standardize = TRUE))
 ```
@@ -1007,6 +1147,8 @@ tidygraph::tbl_graph(nodes = tidySEM::get_nodes(m4c), edges = edges) |>
   theme_void()
 ```
 
+
+
 ### Graph Analysis
 
 Exploratory Graph Analysis (EGA) is a recently developed framework for psychometric assessment, that can be used to estimate the number of dimensions in questionnaire data using network estimation methods and community detection algorithms, and assess the stability of dimensions and items using bootstrapping.
@@ -1016,13 +1158,19 @@ Exploratory Graph Analysis (EGA) is a recently developed framework for psychomet
 Unique Variable Analysis (Christensen, Garrido, & Golino, 2023) uses the weighted topological overlap measure (Nowick et al., 2009) on an estimated network. Values greater than 0.25 are determined to have considerable local dependence (i.e., redundancy) that should be handled (variables with the highest maximum weighted topological overlap to all other variables (other than the one it is redundant with) should be removed).
 
 
+
+
 ```{r}
 uva <- EGAnet::UVA(data = bait, cut.off = 0.3)
 uva
 uva$keep_remove
 ```
 
+
+
 #### Networks
+
+
 
 ```{r ega}
 #| fig-height: 20
@@ -1061,11 +1209,15 @@ EGAnet::compare.EGA.plots(
   plot.all = FALSE)$all
 ```
 
+
+
 #### Structure Stability
 
 Figures shows how often each variable is replicating in their empirical structure across bootstraps. 
 
 <!-- The summary statistics produced also relay this information as well as structural consistency. Structural consistency is defined as the extent to which each empirically derived dimension is exactly (i.e., identical variable composition) recovered from the replicate bootstrap samples (Christensen, Golino, & Silvia, 2020). In general, values of structural consistency and item stability greater than 0.70-0.75 reflect sufficient stability (Christensen & Golino, 2021). -->
+
+
 
 ```{r}
 #| fig-height: 20
@@ -1074,14 +1226,22 @@ Figures shows how often each variable is replicating in their empirical structur
 patchwork::wrap_plots(lapply(ega, plot), nrow = 4)
 ```
 
+
+
 #### Final Model
+
+
 
 ```{r}
 ega_final <- ega$glasso_walktrap_riEGA$EGA
 plot(ega_final)
 ```
 
+
+
 ### Scores
+
+
 
 ```{r}
 #| code-fold: false
@@ -1108,7 +1268,11 @@ df <- merge(df, raw_scores, by="Participant")
 ```
 
 
+
+
 We computed two type of general scores for the BAIT scale, an **empirical** score based on the average of observed data (of the most loading items) and a **model-based** score as predicted by the structural model. The first one gives equal weight to all items (and keeps the same [0-1] range), while the second one is based on the factor loadings and the covariance structure.
+
+
 
 ```{r}
 correlation::cor_test(scores, "BAIT_Visual", "BAIT_Visual_SEM") |> 
@@ -1121,7 +1285,11 @@ correlation::cor_test(scores, "BAIT_Visual", "BAIT_Visual_SEM") |>
   theme(ggside.panel.scale = .1) 
 ```
 
+
+
 While the two correlate substantially, they have different benefits. The empirical score has a more straightforward meaning and is more reproducible (as it is not based on a model fitted on a specific sample), the model-based score takes into account the relative importance of the contribution of each item to their factor.
+
+
 
 ```{r}
 table <- correlation::correlation(scores) |> 
@@ -1134,9 +1302,13 @@ format(table) |>
   gt::tab_options(column_labels.font.weight="bold")
 ```
 
+
+
 ### Validity
 
 #### Corrrelation with GAAIS
+
+
 
 ```{r}
 n <- n_factors(select(df, starts_with("GAAIS")))
@@ -1193,7 +1365,11 @@ mean(rowMeans(df[c("GAAIS_Positive_12", "GAAIS_Positive_17")])) * 6
 ```
 
 
+
+
 #### AI-Expertise
+
+
 
 ```{r}
 df |> 
@@ -1221,7 +1397,11 @@ marginaleffects::predictions(m, by=c("AI_Knowledge"), newdata = "means") |>
   labs(x = "AI-Knowledge", y="BAIT - Visual")
 ```
 
+
+
 #### Gender and Age
+
+
 
 ```{r}
 # m <- betareg::betareg(BAIT ~ Sex / Age, data=df, na.action=na.omit)
@@ -1229,7 +1409,11 @@ m <- lm(BAIT_Visual ~ Sex / Age, data=df)
 display(parameters::parameters(m))
 ```
 
+
+
 #### Belief in the Instructions
+
+
 
 
 ```{r}
@@ -1300,10 +1484,14 @@ glm(Feedback_AIMoreArousing ~ BAIT_Visual * AI_Knowledge,
   display(title="Predicting 'AI was more arousing'")
 ```
 
+
+
 :::
 
 
 ## Save 
+
+
 
 ```{r}
 #| code-fold: false
@@ -1312,3 +1500,4 @@ setdiff(unique(df$Participant), unique(dftask$Participant))
 write.csv(df, "../data/data_participants.csv", row.names = FALSE)
 write.csv(dftask, "../data/data.csv", row.names = FALSE)
 ```
+
