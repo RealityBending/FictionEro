@@ -574,7 +574,6 @@ dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
 
-
 #### Task Behaviour
 
 ```{r}
