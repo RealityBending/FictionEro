@@ -40,12 +40,12 @@ for i, file in enumerate(files):
     # Browser info -------------------------------------------------------
     browser = data[data["screen"] == "browser_info"].iloc[0]
 
-    # skip participants without the language column 
+    # Skip participants with no language column 
     if "language" not in browser.index:
-        print(f"Skipping {filename}: no language information")
+        print(f"Skipping {filename}: no language column")
         skipped_files.append({"filename": filename, "date": browser["date"]})
         continue
-    
+
     # Experimenter
     experimenter = browser["researcher"]
     if experimenter in ["TEST", "jc"]:

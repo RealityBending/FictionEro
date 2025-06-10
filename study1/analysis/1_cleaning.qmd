@@ -1207,15 +1207,15 @@ m <- lm(BAIT_Visual ~ poly(AI_Knowledge, 2), data=df)
 display(parameters::parameters(m))
 
 
-marginaleffects::predictions(m, by=c("AI_Knowledge"), newdata = "means") |> 
+  modelbased::estimate_means(m, by=c("AI_Knowledge")) |>
   as.data.frame() |> 
-  ggplot(aes(x=AI_Knowledge, y=estimate)) +
+  ggplot(aes(x=AI_Knowledge, y=Mean)) +
   ggdist::stat_halfeye(data=df, aes(y=BAIT_Visual), geom="slab") +
   # ggdist::stat_dots(data=df, aes(y=BAIT_Visual), side="left") +
   # geom_boxplot(data=df, aes(y=BAIT_Visual, group=AI_Knowledge)) +
   geom_point2(data=df, aes(x=AI_Knowledge-0.08, y=BAIT_Visual), alpha=0.2, position=position_jitter(width=0.06), size=2) +
   geom_line(aes(group=1), position = position_dodge(width=0.2)) +
-  geom_pointrange(aes(ymin = conf.low, ymax=conf.high), position = position_dodge(width=0.2)) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high), position = position_dodge(width=0.2)) +
   theme_minimal() +
   labs(x = "AI-Knowledge", y="BAIT - Visual")
 ```
