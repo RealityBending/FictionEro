@@ -934,7 +934,7 @@ m <- glmmTMB::glmmTMB(Emotionality ~ Sex / Relevance / Condition + (Relevance | 
 
 results_table(m)
 
-marginaleffects::avg_slopes(m, variables="Condition", by="Sex", re.form=NA) |> 
+marginaleffects::avg_slopes(m, variables="Condition", by="Sex", re.form=NA, backend ="emmeans") |> 
   results_table()
 ```
 
@@ -1038,10 +1038,10 @@ display(filter(moderator_believed, p < .1))
 
 pred1 <- 
   rbind(
-  modelbased::estimate_means(m_Arousal, by=c("Sex", "Relevance", "Condition")) |>
+  modelbased::estimate_means(m_arousal, by=c("Sex", "Relevance", "Condition")) |>
   as.data.frame() |> 
   mutate(Outcome="Arousal"),
-  modelbased::estimate_means(m_enticement, by=c("Sex", "Relevance", "Condition") |>
+  modelbased::estimate_means(m_enticement, by=c("Sex", "Relevance", "Condition")) |>
   as.data.frame() |> 
   mutate(Outcome="Enticement"),
   modelbased::estimate_means(m_valence, by=c("Sex", "Relevance", "Condition")) |>
@@ -1079,7 +1079,7 @@ p1 <- pred1 |>
         strip.text.y = element_text(size = 10),
         axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
         legend.text = element_text(size = 10),
-        legend.position = ) +
+        legend.position = "bottom") +
   labs(color="Images presented as:",
        tag = "A")
 p1
