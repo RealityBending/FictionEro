@@ -382,19 +382,63 @@ df |>
   group_by(Gender) |>
   correlation::correlation()
 
-p_a <- plot(cor_test(df, "Arousal", "Realness")) +
-  ggplot2::facet_wrap(~Gender) +
-  ggplot2::theme_bw()
+p_a <- ggplot(df, aes(x = Arousal, y = Realness, color = Condition, fill = Condition)) +
+  geom_smooth(method = "lm", se = TRUE) +
+  facet_wrap(~Gender) +
+  scale_color_manual(values = c("AI-Generated" = "#2196F3", "Photograph" = "#F44336")) +
+  scale_fill_manual(values = c("AI-Generated" = "#2196F3", "Photograph" = "#F44336")) +
+  smplot2::sm_statCorr() +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 8),
+    strip.placement = "outside",
+    strip.background.x = element_rect(fill = "lightgrey", color = NA),
+    strip.text.x = element_text(size = 10),
+    strip.text.y = element_text(size = 10),
+    axis.text.x = element_text(size = 9, color = "black"),
+    legend.text = element_text(size = 10)) +
+   labs(y="Realness\n", fill="Images presented as:", color="Images presented as:",
+       x = "Arousal") 
 
-p_e <- plot(cor_test(df, "Enticing", "Realness")) +
-  ggplot2::facet_wrap(~Gender) +
-  ggplot2::theme_bw()
 
-p_v <- plot(cor_test(df, "Valence", "Realness")) +
-  ggplot2::facet_wrap(~Gender) +
-  ggplot2::theme_bw()
+p_e <- ggplot(df, aes(x = Enticing, y = Realness, color = Condition, fill = Condition)) +
+  geom_smooth(method = "lm", se = TRUE) +
+  facet_wrap(~Gender) +
+  scale_color_manual(values = c("AI-Generated" = "#2196F3", "Photograph" = "#F44336")) +
+  scale_fill_manual(values = c("AI-Generated" = "#2196F3", "Photograph" = "#F44336")) +
+  smplot2::sm_statCorr() +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 8),
+    strip.placement = "outside",
+    axis.title.y = element_blank(),
+    strip.background.x = element_rect(fill = "lightgrey", color = NA),
+    strip.text.x = element_text(size = 10),
+    axis.text.x = element_text(size = 9, color = "black"),
+    legend.text = element_text(size = 10)) +
+   labs(y="Realness\n", fill="Images presented as:", color="Images presented as:",
+       x = "Enticement")
 
-p_sub <- p_a/ p_e/ p_v 
+p_v <- ggplot(df, aes(x = Valence, y = Realness, color = Condition, fill = Condition)) +
+  geom_smooth(method = "lm", se = TRUE) +
+  facet_wrap(~Gender) +
+  scale_color_manual(values = c("AI-Generated" = "#2196F3", "Photograph" = "#F44336")) +
+  scale_fill_manual(values = c("AI-Generated" = "#2196F3", "Photograph" = "#F44336")) +
+  smplot2::sm_statCorr() +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 8),
+    strip.placement = "outside",
+    axis.title.y = element_blank(),
+    strip.background.x = element_rect(fill = "lightgrey", color = NA),
+    strip.text.x = element_text(size = 10),
+    axis.text.x = element_text(size = 9, color = "black"),
+    legend.text = element_text(size = 10)) +
+   labs(y="Realness\n", fill="Images presented as:", color="Images presented as:",
+       x = "Valence")
+  
+
+p_sub <- (p_a + theme(legend.position = "none"))| (p_e + theme(legend.position = "none"))| p_v + plot_layout(guides = "collect")
 
 m1_dir <- make_model("Realness ~ Arousal / Gender/ Condition + (1 | Participant) + (1|Stimulus)", family=glmmTMB::ordbeta())
 m2_dir <- make_model("Realness ~ poly(Arousal, 2) / Gender/ Condition + (1 | Participant) + (1|Stimulus)", family=glmmTMB::ordbeta())

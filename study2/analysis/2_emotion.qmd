@@ -2,7 +2,7 @@
 title: "FictionEro2 - Affective Impact of Fiction"
 editor: source
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 format:
   html:
     code-fold: true
@@ -117,6 +117,7 @@ In general, males exhibited greater variability in their arousal ratings, while 
 The pattern of arousal ratings for images that participants believed to be either AI-generated or photos (i.e., initially labeled as photos and later rated as photos, or initially labeled as AI and later rated as AI), as well as for images where participants disagreed with the original labels, was generally similar within genders. However, between genders, women tended to provide more low arousal ratings than men.
 
 ```{r Arousal1}
+#| fig-width: 12
 arousal <- df |> 
   ggplot(aes(x=Arousal, fill = Gender)) +
   geom_bar() +
@@ -191,10 +192,10 @@ results_table(m_a)
 
 ```{r Arousal Plot}
 estimate_relation(m_a) |> 
-  ggplot(aes(x=SexualOrientation, y=Predicted)) +
+  ggplot(aes(x=Gender, y=Predicted)) +
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color = Gender), position=position_dodge(width=0.5)) +
  scale_color_manual(values=c("Male"="#E91E63", "Female"="#FF9800"), guide="none") +  labs(y="Arousal") +
-  facet_wrap(~Gender) +
+  facet_wrap(~SexualOrientation) +
   theme_abyss()
 ```
 
@@ -208,6 +209,7 @@ For females, although a similar pattern was observed, they tended to provide mor
 
 
 ```{r Enticement1}
+#| fig-width: 12
 enticiment <- df |> 
   ggplot(aes(x=Enticing, fill = Gender)) +
   geom_bar() +
@@ -277,6 +279,8 @@ In general, males tended to assign higher valence ratings to images more frequen
 The pattern of valence ratings for images, whether believed or not believed, was similar within genders, with ratings for believed images closely resembling those for non-believed images.
 
 ```{r Valence1}
+#| fig-width: 12
+
 valence <- df |> 
   ggplot(aes(x=Valence, fill = Gender)) +
   geom_bar() +
@@ -353,7 +357,7 @@ Exploratory analysis will then evaluate the effect of sexual orientation on rati
 
 ## Arousal 
 
-In contrast to [study1](https://realitybending.github.io/FictionEro/study1/analysis/2_emotions.html) arousal ratings for some images differ by whether the images were preceeded by 'photograph' or by 'AI-generated'. A possible explanation might be due to the lower number of participants compared to study1. 
+Similar to [study1](https://realitybending.github.io/FictionEro/study1/analysis/2_emotions.html) arousal ratings for some "AI-generated" are lower then when they are presented as real photos. 
 
 ```{r Arousal Desc}
 #| fig-height: 12
