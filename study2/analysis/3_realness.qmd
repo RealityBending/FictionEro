@@ -57,7 +57,12 @@ df <- read.csv("../data/data.csv") |>
          AllFakeConfidence = "Feedback_AllFakeConfidence",
          Enjoyment = "Feedback_Enjoyment"
          )|>
-  mutate(across(starts_with("Feedback_"), as.factor))
+  mutate(across(starts_with("Feedback_"), as.factor)) |>
+  mutate(StimuliType = case_when(
+    grepl("couple", Stimulus, ignore.case = TRUE) ~ "Couple",
+    TRUE ~ "Individual")) |>
+  mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
+
 
 results_table <- function(model, effects="fixed", filter=NULL) {
   if("marginaleffects" %in% class(model)) {
@@ -159,16 +164,18 @@ This model examines the influence **Gender and Condition** on ratings of realnes
 
 For males the realness ratings were lower for images labelled AI-Generated compared to real photographs. For females they also rated images labelled as AI-Generated as less Real, altough this effect was not significant. 
 
+**Note**. Adding StimuliType as a predictor did not change the pattern - Condition was still only a significant predictor for men. 
+
 ```{r}
 #| warning: false
 
-m <- make_model("Realness ~ Gender / Condition + 
+m <- make_model("Realness ~ Gender /Condition + 
                 (1|Participant) + (1|Stimulus)",
                 family=glmmTMB::ordbeta())
 
 predbeta <- estimate_relation(m, length=20)
 
-m <- make_model("RealnessBelief ~ Gender / Condition + 
+m <- make_model("RealnessBelief ~ Gender /Condition + 
                 (1|Participant) + (1|Stimulus)",
                 family="binomial")
 
@@ -178,7 +185,7 @@ predbeta |>
   ggplot(aes(x=Condition, y=Predicted)) +
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2)) +
   scale_color_manual(values=c("red", "blue"), guide="none") +
-  facet_grid(~Gender)
+  facet_grid(StimuliType~Gender)
 ```
 
 ## Moderators
