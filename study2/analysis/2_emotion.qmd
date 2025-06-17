@@ -430,6 +430,7 @@ This model examines the effect of **Gender Sexual Orientation, stimuli type, and
 Women rate photograph of individuals lower than males. Men show less arousal toward couple images (vs individual ones), regardless of condition. Women show greater arousal toward couple images than individual ones. Men show less arousal for AI-generated individual images compared to photographic individual images.
 
 Looking at average slopes:
+
 1. Males rate AI-generated images ~0.014 lower in arousal (on average) than photos — significant.
 2. Females also rate AI images lower, but not significantly.
 3. Males rate couple images significantly lower in arousal than individual ones.
@@ -443,10 +444,9 @@ m_arousal <- glmmTMB::glmmTMB(Arousal ~ Gender/ StimuliType/ Condition +
                               data=df, control = glmmTMB::glmmTMBControl(parallel = 8))
 
 results_table(m_arousal)
+
 marginaleffects::avg_slopes(m_arousal, variables=c("Condition", "StimuliType"), by="Gender") |>
   results_table()
-
-
 ```
 
 ### Moderators
@@ -588,6 +588,7 @@ This model examines how **Gender, Stimuli Type and Condition influence enticemen
 Women rated images as less enticing than men overall. They rated couple images as more enticing than individual images. Men, on the other hand, rated couple images as less enticing. Men also rated AI-generated images as significantly less enticing than photographs, both for images of individual and couple stimuli. In contrast, women did not significantly differentiate between AI and photographic images in terms of enticement.
 
 Looking at the average slopes, both genders rate Ai-generated conditions lower in enticement, although this effect is only significant for men. 
+
 ```{r Enticement Model}
 m_enticement <- glmmTMB::glmmTMB(Enticing ~ Gender / StimuliType/ Condition + 
                                    (Condition | Participant) + (1|Stimulus),
@@ -710,8 +711,7 @@ This model examines the effect of **Gender, Stimuli Type and Condition on Valenc
 Women rated images overall as lower in valence than men did. They rated couple images as higher in valence than individual ones. Additionally, women rated AI-generated couple images as significantly lower in valence than photographic couple images. Men rated images of couples lower in valence and AI-images of individuals lower in valence comapred to real photos of individuals. 
 
 
-Looking at avergae slopes, both genders rate AI-generated images lower in valence, but this effect is only significant for males. 
-
+Looking at avergae slopes, both genders rate AI-generated images lower in valence, but this effect is only significant for males as well. 
 
 ```{r Valence Model}
 m_valence <- glmmTMB::glmmTMB(Valence ~ Gender / StimuliType/ Condition + 
@@ -816,6 +816,9 @@ emotionality
 ```
 
 ```{r Emotionality Desc}
+#| fig-height: 12
+#| fig-width: 7
+
 emotionality_desc <- plot_descriptive(df, "Emotionality")
 emotionality_desc
 ```
@@ -925,6 +928,8 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 <!-- avg_predictions(): average (marginal) estimates. -->
 
 ```{r}
+#| fig-height: 12
+#| fig-width: 7
 
 pred1 <- rbind(
   marginaleffects::avg_predictions(m_arousal, by=c("Gender", "StimuliType", "Condition"), newdata = "mean", re.form=NA) |>
@@ -943,13 +948,13 @@ stars1a <- data.frame(label=c("**","***", "**", "***", "***"),
                     Outcome=c("Arousal","Arousal", "Enticement", "Enticement", "Valence"),
                     Condition=c("Photograph", "Photograph", "Photograph", "Photograph", "Photograph"), 
                     x=c(1.5, 1.5, 1.5, 1.5, 1.5), 
-                    y = c(0.52, 0.40, 0.57, 0.51, 0.6))
+                    y = c(0.53, 0.40, 0.6, 0.51, 0.6))
 
 stars1b <- data.frame(label=c("*","**", "*","*"),
                     Gender=fct_relevel(c("Male", "Male", "Male","Female"), "Male"),
                     Outcome=c("Arousal", "Enticement", "Enticement","Valence"),
                     x=c(1, 1, 2, 2),
-                    y=c(0.58, 0.63, 0.54, 0.6))
+                    y=c(0.60, 0.65, 0.56, 0.6))
 
 
 p1 <- pred1 |>

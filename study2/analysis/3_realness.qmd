@@ -130,6 +130,43 @@ df <- df|>
   filter(SexualOrientation == "Heterosexual")
 ```
 
+## Probability of Beliefs 
+
+This logistic regression model predicts the probability that a participant believed the condition (i.e., ratings on the nature of the stimuli matched that of the riginal labels), based on their gender, the condition they were shown (AI-generated vs. Photo), and their interaction.
+
+- Female participants have 18% lower odds of believing the condition is real compared to males, when presented with an image labelled as photo.
+- Male participants had 60% lower odds of believing the label was accurate when the image was labeled as AI-generated compared to when it was labeled as a photo.
+- The interaction between gender and condition suggests that the effect of the AI-generated label was slightly attenuated in females compared to males, although this did not reach statistical significance.
+
+```{r}
+
+df <- df |> 
+  mutate(ConditionBelieved = case_when(
+    ConditionBelief == "True" ~ 1, 
+    ConditionBelief == "False" ~ 0 
+  ))
+ 
+m <- glm(ConditionBelieved ~ Gender*Condition, data = df, family = binomial())
+model_parameters(m, exponentiate = TRUE)
+predictions <- modelbased::estimate_means(m, c("Gender", "Condition"))
+contrasts <- modelbased::estimate_contrasts(m, "Gender", by = "Condition")
+
+plot(predictions) +
+  theme_minimal() +
+  labs(y= "Probability of Believing in the Original Labels") +
+  theme(
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey", "blue"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = ) +
+  labs(color="Images presented as:")
+  
+```
 
 ## Physical Characteristics
 
@@ -185,7 +222,7 @@ predbeta |>
   ggplot(aes(x=Condition, y=Predicted)) +
   geom_pointrange(aes(ymin=CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2)) +
   scale_color_manual(values=c("red", "blue"), guide="none") +
-  facet_grid(StimuliType~Gender)
+  facet_grid(~Gender)
 ```
 
 ## Moderators
@@ -371,7 +408,8 @@ p2
 
 **Realness** ratings were positively correlated with **Arousal**, **Enticement**, and **Valence.** 
 
-To examine the unique role of **Arousal** in predicting **perceived realness**, a model was tested including both linear and quadratic effects of Arousal, along with its interactions with Gender and Condition (AI-generated vs. real images), modeling participants and images as random intercepts. 
+To examine the role of **Arousal** in predicting **perceived realness**, a model was tested including both linear and quadratic effects of Arousal, along with its interactions with Gender and Condition (AI-generated vs. real images), modeling participants and images as random intercepts. 
+
 To assess whether a non-linear (quadratic) component improved the model, a comparison was conducted between a model including a quadratic term for Arousal and one without. The model excluding the quadratic term was decisively favored, with Bayes Factors indicating that the data were over 1000 times more likely under the simpler linear model. This strongly supports the adequacy of a linear relationship between Arousal and Realness in this context. The following findings were seen in the simpler model:
 
 - **Arousal** had a strong positive linear effect on Realness, indicating that higher arousal was **associated** with **increased perceptions of realness**.
