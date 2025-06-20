@@ -29,7 +29,7 @@ options(mc.cores = parallel::detectCores(),
 
 ```{r data preparation}
 #| warning: false
-#| 
+
 dfsub <- read.csv("../data/data_participants.csv")
 
 df <- read.csv("../data/data.csv") |> 
