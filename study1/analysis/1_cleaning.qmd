@@ -586,6 +586,8 @@ show_distribution <- function(dftask, target="Arousal") {
     filter(SexualOrientation %in% c("Heterosexual", "Bisexual", "Homosexual")) |>
     bayestestR::estimate_density(select=target, 
                                  at=c("Relevance", "Category", "Sex", "SexualOrientation"), 
+                                       by = c("Relevance", "Category", "Sex", "SexualOrientation"),
+
                                  method="KernSmooth") |>
     ggplot(aes(x = x, y = y)) +
     geom_line(aes(color = Relevance, linetype = Category), linewidth=1) +
