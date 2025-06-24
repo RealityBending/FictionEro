@@ -647,7 +647,7 @@ For males, enticement ratings are significantly lower on average for AI-Generate
 
 ```{r}
 m_enticement <- glmmTMB::glmmTMB(Enticement ~ Sex / Relevance / Condition + 
-                                   (Relevance | Participant) + ((Relevance/Condition)|Item),
+                                   (Relevance | Participant) + (1|Item),
                       data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
@@ -791,7 +791,7 @@ Lastly, we can see that for males, valence ratings are on average significantly 
 *Note.* Model adding Relevance and Condition as random slopes for each stimuli converged.
 ```{r}
 m_valence <- glmmTMB::glmmTMB(Valence ~ Sex / Relevance / Condition + 
-                                (Relevance | Participant) + ((Relevance/Condition)|Item),
+                                (Relevance | Participant) + (1|Item),
                       data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
@@ -928,7 +928,7 @@ These findings suggest that females consistently rate relevant (photograph) imag
 For males, emotionality ratings are on average significantly lower for AI-Generated images compared to Photograph images. This indicates that males generally rate AI-Generated images lower in emotionality compared to photographs. For females, there is no significant difference between the mean ratings of AI-Generated and Photograph images in terms of emotionality. This suggests that females do not show a significant preference or difference in emotionality ratings between AI-Generated and Photograph images.
 
 ```{r}
-m <- glmmTMB::glmmTMB(Emotionality ~ Sex / Relevance / Condition + (Relevance | Participant) + ((Relevance/Condition)|Item),
+m <- glmmTMB::glmmTMB(Emotionality ~ Sex / Relevance / Condition + (Relevance | Participant) + (1|Item),
                       data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
@@ -1038,16 +1038,15 @@ display(filter(moderator_believed, p < .1))
 
 pred1 <- 
   rbind(
-  modelbased::estimate_means(m_arousal, by=c("Sex", "Relevance", "Condition")) |>
+  modelbased::estimate_means(m_arousal, by=c("Sex", "Relevance", "Condition"), backend = "emmeans") |>
   as.data.frame() |> 
   mutate(Outcome="Arousal"),
-  modelbased::estimate_means(m_enticement, by=c("Sex", "Relevance", "Condition")) |>
+  modelbased::estimate_means(m_enticement, by=c("Sex", "Relevance", "Condition"),backend = "emmeans") |>
   as.data.frame() |> 
   mutate(Outcome="Enticement"),
-  modelbased::estimate_means(m_valence, by=c("Sex", "Relevance", "Condition")) |>
+  modelbased::estimate_means(m_valence, by=c("Sex", "Relevance", "Condition"),backend = "emmeans") |>
   as.data.frame() |> 
-  mutate(Outcome="Valence")
-)
+  mutate(Outcome="Valence"))
 
 stars1 <- data.frame(label=c("***", "***", "*", "***"), 
                     Sex=fct_relevel(c("Male", "Male", "Male", "Male"), "Male"), 
@@ -1057,14 +1056,14 @@ stars1 <- data.frame(label=c("***", "***", "*", "***"),
 
 p1 <- pred1 |>
   mutate(Sex = fct_relevel(Sex, "Male", "Female")) |> 
-  ggplot(aes(x=Relevance, y=estimate)) +
+  ggplot(aes(x=Relevance, y=Proportion)) +
   geom_hline(yintercept=0, color="darkgrey") +
   geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
-  geom_pointrange(aes(ymin = conf.low, ymax=conf.high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
   geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
-  geom_rect(data=data.frame(Type="All trials", estimate=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+  geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
             aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
-  geom_rect(data=data.frame(Type="All trials", estimate=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+  geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
             aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
   facet_grid(Outcome~Sex, switch="y") +
   scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
@@ -1217,22 +1216,4 @@ pred4 |>
   facet_grid(~Sex) 
 ```
 
-<!-- ## Realness -->
 
-<!-- ### Physical Characteristics -->
-
-<!-- ```{r} -->
-
-<!-- m <- glmmTMB::glmmTMB(Realness ~ Entropy + Complexity + Contrast + Luminance + (1|Participant) + (1|Item), data=df) -->
-
-<!-- results_table(m) -->
-
-<!-- ``` -->
-
-<!-- ```{r} -->
-
-<!-- m <- glmmTMB::glmmTMB(Realness ~ Sex / (Relevance / Condition) + (1|Participant) + (1|Item), data=df, family=beta_family(link = "logit")) -->
-
-<!-- results_table(m) -->
-
-<!-- ``` -->
