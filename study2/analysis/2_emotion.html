@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,10 +63,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="2_emotion_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="2_emotion_files/libs/quarto-html/anchor.min.js"></script>
 <link href="2_emotion_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="2_emotion_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="2_emotion_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="2_emotion_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="2_emotion_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="2_emotion_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="2_emotion_files/libs/bootstrap/bootstrap-8a79a254b8e706d3c925cde0a310d4f0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -1645,23 +1645,23 @@ Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence p
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>m_a_b <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition <span class="sc">+</span> (Condition<span class="sc">|</span>Participant) <span class="sc">+</span> (Condition<span class="sc">|</span>Stimulus),</span>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> StimuliType<span class="sc">/</span>Condition <span class="sc">+</span> (Condition<span class="sc">|</span>Participant) <span class="sc">+</span> (Condition<span class="sc">|</span>Stimulus),</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>), </span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m_a_b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Fixed Effects</caption>
 <colgroup>
-<col style="width: 42%">
-<col style="width: 13%">
+<col style="width: 56%">
+<col style="width: 11%">
+<col style="width: 5%">
+<col style="width: 14%">
 <col style="width: 6%">
-<col style="width: 21%">
 <col style="width: 7%">
-<col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1676,35 +1676,67 @@ Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence p
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: center;">-0.10</td>
-<td style="text-align: center;">0.11</td>
-<td style="text-align: center;">(-0.31, 0.11)</td>
-<td style="text-align: center;">-0.94</td>
-<td style="text-align: center;">0.348</td>
+<td style="text-align: center;">0.37</td>
+<td style="text-align: center;">0.12</td>
+<td style="text-align: center;">(0.13, 0.61)</td>
+<td style="text-align: center;">3.02</td>
+<td style="text-align: center;">0.002</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender (Female)</td>
-<td style="text-align: center;">-0.24</td>
-<td style="text-align: center;">0.12</td>
-<td style="text-align: center;">(-0.47, -3.23e-03)</td>
-<td style="text-align: center;">-1.99</td>
-<td style="text-align: center;">0.047</td>
+<td style="text-align: center;">-1.26</td>
+<td style="text-align: center;">0.18</td>
+<td style="text-align: center;">(-1.61, -0.91)</td>
+<td style="text-align: center;">-7.05</td>
+<td style="text-align: center;">&lt; .001</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Gender (Male) × ConditionAI-Generated</td>
-<td style="text-align: center;">-0.28</td>
-<td style="text-align: center;">0.05</td>
-<td style="text-align: center;">(-0.37, -0.18)</td>
-<td style="text-align: center;">-5.62</td>
+<td style="text-align: left;">Gender (Male) × StimuliTypeCouple</td>
+<td style="text-align: center;">-0.45</td>
+<td style="text-align: center;">0.13</td>
+<td style="text-align: center;">(-0.71, -0.19)</td>
+<td style="text-align: center;">-3.35</td>
 <td style="text-align: center;">&lt; .001</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Gender (Female) × ConditionAI-Generated</td>
-<td style="text-align: center;">-0.14</td>
+<td style="text-align: left;">Gender (Female) × StimuliTypeCouple</td>
+<td style="text-align: center;">0.62</td>
+<td style="text-align: center;">0.14</td>
+<td style="text-align: center;">(0.35, 0.89)</td>
+<td style="text-align: center;">4.45</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gender (Male) × StimuliTypeIndividual × ConditionAI-Generated</td>
+<td style="text-align: center;">-0.31</td>
 <td style="text-align: center;">0.06</td>
-<td style="text-align: center;">(-0.25, -0.03)</td>
-<td style="text-align: center;">-2.49</td>
-<td style="text-align: center;">0.013</td>
+<td style="text-align: center;">(-0.43, -0.20)</td>
+<td style="text-align: center;">-5.38</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gender (Female) × StimuliTypeIndividual × ConditionAI-Generated</td>
+<td style="text-align: center;">-0.03</td>
+<td style="text-align: center;">0.08</td>
+<td style="text-align: center;">(-0.18, 0.12)</td>
+<td style="text-align: center;">-0.39</td>
+<td style="text-align: center;">0.696</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gender (Male) × StimuliTypeCouple × ConditionAI-Generated</td>
+<td style="text-align: center;">-0.31</td>
+<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">(-0.44, -0.19)</td>
+<td style="text-align: center;">-4.91</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gender (Female) × StimuliTypeCouple × ConditionAI-Generated</td>
+<td style="text-align: center;">-0.17</td>
+<td style="text-align: center;">0.07</td>
+<td style="text-align: center;">(-0.31, -0.03)</td>
+<td style="text-align: center;">-2.39</td>
+<td style="text-align: center;">0.017</td>
 </tr>
 </tbody>
 </table>
@@ -2572,7 +2604,7 @@ Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence p
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>m_e_b <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Enticing <span class="sc">~</span> Gender <span class="sc">/</span> Condition <span class="sc">+</span> (Condition<span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Enticing <span class="sc">~</span> Gender <span class="sc">/</span> Condition <span class="sc">+</span> (Condition<span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>), </span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
@@ -2583,12 +2615,12 @@ Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence p
 <table class="caption-top table table-sm table-striped small">
 <caption>Fixed Effects</caption>
 <colgroup>
-<col style="width: 54%">
-<col style="width: 11%">
-<col style="width: 5%">
-<col style="width: 14%">
+<col style="width: 43%">
+<col style="width: 13%">
 <col style="width: 6%">
+<col style="width: 20%">
 <col style="width: 7%">
+<col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -2603,67 +2635,35 @@ Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence p
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: center;">0.15</td>
-<td style="text-align: center;">0.15</td>
-<td style="text-align: center;">(-0.15, 0.44)</td>
-<td style="text-align: center;">0.97</td>
-<td style="text-align: center;">0.334</td>
+<td style="text-align: center;">0.19</td>
+<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">(0.02, 0.37)</td>
+<td style="text-align: center;">2.13</td>
+<td style="text-align: center;">0.033</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender (Female)</td>
-<td style="text-align: center;">-0.32</td>
-<td style="text-align: center;">0.22</td>
-<td style="text-align: center;">(-0.75, 0.12)</td>
-<td style="text-align: center;">-1.44</td>
-<td style="text-align: center;">0.150</td>
+<td style="text-align: center;">-0.15</td>
+<td style="text-align: center;">0.10</td>
+<td style="text-align: center;">(-0.35, 0.05)</td>
+<td style="text-align: center;">-1.50</td>
+<td style="text-align: center;">0.134</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gender (Male) × ConditionAI-Generated</td>
-<td style="text-align: center;">-0.36</td>
-<td style="text-align: center;">0.10</td>
-<td style="text-align: center;">(-0.55, -0.17)</td>
-<td style="text-align: center;">-3.77</td>
+<td style="text-align: center;">-0.32</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">(-0.41, -0.22)</td>
+<td style="text-align: center;">-6.67</td>
 <td style="text-align: center;">&lt; .001</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gender (Female) × ConditionAI-Generated</td>
-<td style="text-align: center;">-0.12</td>
-<td style="text-align: center;">0.12</td>
-<td style="text-align: center;">(-0.36, 0.12)</td>
-<td style="text-align: center;">-0.99</td>
-<td style="text-align: center;">0.323</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Gender (Male) × SexualActivity num</td>
-<td style="text-align: center;">0.02</td>
-<td style="text-align: center;">0.04</td>
-<td style="text-align: center;">(-0.07, 0.10)</td>
-<td style="text-align: center;">0.38</td>
-<td style="text-align: center;">0.707</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Gender (Female) × SexualActivity num</td>
-<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">-0.10</td>
 <td style="text-align: center;">0.05</td>
-<td style="text-align: center;">(-0.03, 0.15)</td>
-<td style="text-align: center;">1.37</td>
-<td style="text-align: center;">0.171</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Gender (Male) × ConditionAI-Generated × SexualActivity num</td>
-<td style="text-align: center;">0.01</td>
-<td style="text-align: center;">0.03</td>
-<td style="text-align: center;">(-0.04, 0.07)</td>
-<td style="text-align: center;">0.52</td>
-<td style="text-align: center;">0.604</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Gender (Female) × ConditionAI-Generated × SexualActivity num</td>
-<td style="text-align: center;">6.23e-03</td>
-<td style="text-align: center;">0.03</td>
-<td style="text-align: center;">(-0.06, 0.07)</td>
-<td style="text-align: center;">0.19</td>
-<td style="text-align: center;">0.852</td>
+<td style="text-align: center;">(-0.20, 7.43e-04)</td>
+<td style="text-align: center;">-1.95</td>
+<td style="text-align: center;">0.052</td>
 </tr>
 </tbody>
 </table>
@@ -3417,12 +3417,12 @@ Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence p
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>m_v_b <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Valence <span class="sc">~</span> Gender <span class="sc">/</span>Condition <span class="sc">+</span> (Condition<span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Valence <span class="sc">~</span> Gender <span class="sc">/</span>Condition <span class="sc">+</span> (Condition<span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>), </span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
 <span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m_v_b)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -3581,11 +3581,11 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>m_em <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Emotionality <span class="sc">~</span> Gender <span class="sc">/</span>StimuliType<span class="sc">/</span> Condition <span class="sc">+</span> (Condition<span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>m_emotionality <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Emotionality <span class="sc">~</span> Gender <span class="sc">/</span>StimuliType<span class="sc">/</span> Condition <span class="sc">+</span> (Condition<span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>df, <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m_em)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m_emotionality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -3678,7 +3678,7 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>marginaleffects<span class="sc">::</span><span class="fu">avg_slopes</span>(m_em, <span class="at">variables=</span><span class="st">"Condition"</span>, <span class="at">by=</span><span class="st">"Gender"</span>, <span class="at">re.form=</span><span class="cn">NA</span>) <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>marginaleffects<span class="sc">::</span><span class="fu">avg_slopes</span>(m_emotionality, <span class="at">variables=</span><span class="st">"Condition"</span>, <span class="at">by=</span><span class="st">"Gender"</span>, <span class="at">re.form=</span><span class="cn">NA</span>) <span class="sc">|&gt;</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">results_table</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
@@ -4351,18 +4351,18 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Outcome=</span><span class="st">"Valence"</span>)</span>
 <span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>stars1a <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label=</span><span class="fu">c</span>(<span class="st">"**"</span>,<span class="st">"***"</span>, <span class="st">"**"</span>, <span class="st">"***"</span>, <span class="st">"***"</span>, <span class="st">"***"</span>),</span>
-<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Gender=</span><span class="fu">fct_relevel</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>), <span class="st">"Male"</span>),</span>
-<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Outcome=</span><span class="fu">c</span>(<span class="st">"Arousal"</span>,<span class="st">"Arousal"</span>, <span class="st">"Enticement"</span>, <span class="st">"Enticement"</span>, <span class="st">"Valence"</span>, <span class="st">"Valence"</span>),</span>
-<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Condition=</span><span class="fu">c</span>(<span class="st">"Photograph"</span>, <span class="st">"Photograph"</span>, <span class="st">"Photograph"</span>, <span class="st">"Photograph"</span>, <span class="st">"Photograph"</span>, <span class="st">"Photograph"</span>), </span>
-<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span><span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="fl">1.5</span>), </span>
-<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">c</span>(<span class="fl">0.53</span>, <span class="fl">0.40</span>, <span class="fl">0.6</span>, <span class="fl">0.51</span>, <span class="fl">0.62</span>, <span class="fl">0.58</span>))</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="co"># stars1a &lt;- data.frame(label=c("**","***", "**", "***", "***", "***"),</span></span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                     Gender=fct_relevel(c("Male", "Female", "Male", "Female", "Male", "Female"), "Male"),</span></span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a><span class="co">#                     Outcome=c("Arousal","Arousal", "Enticement", "Enticement", "Valence", "Valence"),</span></span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                     Condition=c("Photograph", "Photograph", "Photograph", "Photograph", "Photograph", "Photograph"), </span></span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a><span class="co">#                     x=c(1.5, 1.5, 1.5, 1.5, 1.5, 1.5), </span></span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                     y = c(0.53, 0.40, 0.6, 0.51, 0.62, 0.58))</span></span>
 <span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>stars1b <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label=</span><span class="fu">c</span>(<span class="st">"*"</span>,<span class="st">"**"</span>, <span class="st">"*"</span>,<span class="st">"*"</span>),</span>
-<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Gender=</span><span class="fu">fct_relevel</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Male"</span>,<span class="st">"Female"</span>), <span class="st">"Male"</span>),</span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Gender=</span><span class="fu">fct_relevel</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Male"</span>,<span class="st">"Male"</span>), <span class="st">"Male"</span>),</span>
 <span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Outcome=</span><span class="fu">c</span>(<span class="st">"Arousal"</span>, <span class="st">"Enticement"</span>, <span class="st">"Enticement"</span>,<span class="st">"Valence"</span>),</span>
-<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>),</span>
-<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.60</span>, <span class="fl">0.65</span>, <span class="fl">0.56</span>, <span class="fl">0.6</span>))</span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.60</span>, <span class="fl">0.65</span>, <span class="fl">0.56</span>, <span class="fl">0.68</span>))</span>
 <span id="cb66-25"><a href="#cb66-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-26"><a href="#cb66-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-27"><a href="#cb66-27" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> pred1 <span class="sc">|&gt;</span></span>
@@ -4371,14 +4371,14 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <span id="cb66-30"><a href="#cb66-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">"darkgrey"</span>) <span class="sc">+</span></span>
 <span id="cb66-31"><a href="#cb66-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Condition, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">linewidth=</span><span class="fl">0.4</span>, <span class="at">key_glyph =</span> <span class="st">"path"</span>) <span class="sc">+</span></span>
 <span id="cb66-32"><a href="#cb66-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> conf.low, <span class="at">ymax=</span>conf.high, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">size=</span><span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb66-33"><a href="#cb66-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>stars1a, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label, <span class="at">color=</span>Condition), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">key_glyph =</span> <span class="st">"blank"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb66-33"><a href="#cb66-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_text(data=stars1a, aes(x=x, y=y, label=label, color=Condition), hjust=0.5, key_glyph = "blank", size=3) +</span></span>
 <span id="cb66-34"><a href="#cb66-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>stars1b, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">label=</span>label), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"#424242"</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
 <span id="cb66-35"><a href="#cb66-35" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_rect(data=data.frame(Type="All trials", estimate=0.1, Gender=as.factor("Male"), Outcome="Arousal"),</span></span>
 <span id="cb66-36"><a href="#cb66-36" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           aes(xmin=0.8, xmax=1.2, ymin=0.35, ymax=0.6), color="#8BC34A", alpha=0) +</span></span>
 <span id="cb66-37"><a href="#cb66-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># geom_rect(data=data.frame(Type="All trials", estimate=0.1, Gender=as.factor("Female"), Outcome="Arousal"),</span></span>
 <span id="cb66-38"><a href="#cb66-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">#           aes(xmin=0.8, xmax=1.2, ymin=0.3, ymax=0.5), color="#8BC34A", alpha=0) +</span></span>
 <span id="cb66-39"><a href="#cb66-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Outcome<span class="sc">~</span>Gender, <span class="at">switch=</span><span class="st">"y"</span>, <span class="at">scales =</span><span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb66-40"><a href="#cb66-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.8</span>), <span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb66-40"><a href="#cb66-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
 <span id="cb66-41"><a href="#cb66-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>)) <span class="sc">+</span></span>
 <span id="cb66-42"><a href="#cb66-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb66-43"><a href="#cb66-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
@@ -4396,9 +4396,6 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <span id="cb66-55"><a href="#cb66-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-56"><a href="#cb66-56" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range (`geom_hline()`).</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -4410,71 +4407,80 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),<span class="at">data =</span> df, </span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>), </span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition  <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>, Feedback_AILessAttractive<span class="sc">==</span><span class="st">"True"</span>), </span>
-<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
-<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
-<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition  <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
-<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>, Feedback_AIMoreAttractive<span class="sc">==</span><span class="st">"True"</span>), </span>
-<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
-<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),<span class="at">data =</span> df, </span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>), </span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition  <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>, Feedback_NoFacesAttractive<span class="sc">==</span><span class="st">"True"</span>), </span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence problem; non-positive-definite Hessian matrix. See vignette('troubleshooting')</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence problem; singular convergence (7). See vignette('troubleshooting'), help('diagnose')</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMB</span>(Arousal <span class="sc">~</span> Gender <span class="sc">/</span> Condition  <span class="sc">+</span> (Condition <span class="sc">|</span> Participant) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Stimulus),</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span><span class="fu">filter</span>(df, ConditionBelief <span class="sc">==</span> <span class="st">"True"</span>, Feedback_AIMoreAttractive<span class="sc">==</span><span class="st">"True"</span>), </span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family=</span>glmmTMB<span class="sc">::</span><span class="fu">ordbeta</span>(),</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> glmmTMB<span class="sc">::</span><span class="fu">glmmTMBControl</span>(<span class="at">parallel =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in finalizeTMB(TMBStruc, obj, fit, h, data.tmb.old): Model convergence problem; singular convergence (7). See vignette('troubleshooting'), help('diagnose')</code></pre>
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>stars2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label=</span><span class="fu">c</span>(<span class="st">"**"</span>, <span class="st">"***"</span>, <span class="st">"*"</span>),</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Gender=</span><span class="fu">fct_relevel</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Male"</span>)),</span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Type=</span><span class="fu">c</span>(<span class="st">"All trials"</span>, <span class="st">"Believed trials"</span> ,<span class="st">"'AI was more attractive'"</span>),</span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.52</span>, <span class="fl">0.56</span>, <span class="fl">0.66</span>))</span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m1) <span class="sc">|&gt;</span> </span>
-<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"All trials"</span>),</span>
-<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m2) <span class="sc">|&gt;</span> </span>
-<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"Believed trials"</span>),</span>
-<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m3) <span class="sc">|&gt;</span> </span>
-<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"'AI was less attractive'"</span>),</span>
-<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m4) <span class="sc">|&gt;</span> </span>
-<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"'AI was more attractive'"</span>))</span>
-<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> pred2 <span class="sc">|&gt;</span> </span>
-<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="fu">fct_relevel</span>(Type, <span class="st">"All trials"</span>, <span class="st">"Believed trials"</span>, <span class="st">"'AI was less attractive'"</span>, <span class="st">"'AI was more attractive'"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Predicted)) <span class="sc">+</span></span>
-<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">"darkgrey"</span>) <span class="sc">+</span></span>
-<span id="cb70-20"><a href="#cb70-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Condition, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb70-21"><a href="#cb70-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="fu">aes</span>(<span class="at">fill=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb70-22"><a href="#cb70-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_low, <span class="at">ymax=</span>CI_high, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">size=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb70-23"><a href="#cb70-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">Type=</span><span class="st">"All trials"</span>, <span class="at">Predicted=</span><span class="fl">0.1</span>, <span class="at">Gender=</span><span class="fu">as.factor</span>(<span class="st">"Male"</span>)),</span>
-<span id="cb70-24"><a href="#cb70-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.7</span>, <span class="at">xmax=</span><span class="fl">1.3</span>, <span class="at">ymin=</span><span class="fl">0.35</span>, <span class="at">ymax=</span><span class="fl">0.55</span>), <span class="at">color=</span><span class="st">"#8BC34A"</span>, <span class="at">alpha=</span><span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb70-25"><a href="#cb70-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">Type=</span><span class="st">"All trials"</span>, <span class="at">Predicted=</span><span class="fl">0.1</span>, <span class="at">Gender=</span><span class="fu">as.factor</span>(<span class="st">"Female"</span>)),</span>
-<span id="cb70-26"><a href="#cb70-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.7</span>, <span class="at">xmax=</span><span class="fl">1.3</span>, <span class="at">ymin=</span><span class="fl">0.30</span>, <span class="at">ymax=</span><span class="fl">0.48</span>), <span class="at">color=</span><span class="st">"#8BC34A"</span>, <span class="at">alpha=</span><span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb70-27"><a href="#cb70-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>stars2, <span class="fu">aes</span>(<span class="at">y=</span>y, <span class="at">label=</span>label), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb70-28"><a href="#cb70-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Gender) <span class="sc">+</span></span>
-<span id="cb70-29"><a href="#cb70-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
-<span id="cb70-30"><a href="#cb70-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>)) <span class="sc">+</span></span>
-<span id="cb70-31"><a href="#cb70-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>)) <span class="sc">+</span></span>
-<span id="cb70-32"><a href="#cb70-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Arousal"</span>,</span>
-<span id="cb70-33"><a href="#cb70-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">tag =</span> <span class="st">"B"</span>) <span class="sc">+</span></span>
-<span id="cb70-34"><a href="#cb70-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb70-35"><a href="#cb70-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb70-36"><a href="#cb70-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">25</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">vjust=</span><span class="fl">1.1</span>, <span class="at">size=</span><span class="dv">9</span>),</span>
-<span id="cb70-37"><a href="#cb70-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
-<span id="cb70-38"><a href="#cb70-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb70-39"><a href="#cb70-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
-<span id="cb70-40"><a href="#cb70-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background.x =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="fu">c</span>(<span class="st">"lightgrey"</span>), <span class="at">color=</span><span class="cn">NA</span>),</span>
-<span id="cb70-41"><a href="#cb70-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb70-42"><a href="#cb70-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb70-43"><a href="#cb70-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-44"><a href="#cb70-44" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>stars2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label=</span><span class="fu">c</span>(<span class="st">"**"</span>, <span class="st">"***"</span>, <span class="st">"*"</span>, <span class="st">"*"</span>, <span class="st">"*"</span>),</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Gender=</span><span class="fu">fct_relevel</span>(<span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>, <span class="st">"Female"</span>)),</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Type=</span><span class="fu">c</span>(<span class="st">"All trials"</span>, <span class="st">"Believed trials"</span> ,<span class="st">"'AI was more attractive'"</span>, <span class="st">"Believed trials"</span>, <span class="st">"'No faces were attractive'"</span>),</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span><span class="fu">c</span>(<span class="fl">0.52</span>, <span class="fl">0.56</span>, <span class="fl">0.66</span>, <span class="fl">0.47</span>, <span class="fl">0.39</span>))</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>pred2 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m1) <span class="sc">|&gt;</span> </span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"All trials"</span>),</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m2) <span class="sc">|&gt;</span> </span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"Believed trials"</span>),</span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m3) <span class="sc">|&gt;</span> </span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"'No faces were attractive'"</span>),</span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">estimate_relation</span>(m4) <span class="sc">|&gt;</span> </span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="st">"'AI was more attractive'"</span>))</span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> pred2 <span class="sc">|&gt;</span> </span>
+<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Type =</span> <span class="fu">fct_relevel</span>(Type, <span class="st">"All trials"</span>, <span class="st">"Believed trials"</span>, <span class="st">"'No faces were attractive'"</span>, <span class="st">"'AI was more attractive'"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb72-18"><a href="#cb72-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Type, <span class="at">y=</span>Predicted)) <span class="sc">+</span></span>
+<span id="cb72-19"><a href="#cb72-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">color=</span><span class="st">"darkgrey"</span>) <span class="sc">+</span></span>
+<span id="cb72-20"><a href="#cb72-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>Condition, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb72-21"><a href="#cb72-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="fu">aes</span>(<span class="at">fill=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">width=</span><span class="fl">0.2</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb72-22"><a href="#cb72-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_low, <span class="at">ymax=</span>CI_high, <span class="at">color=</span>Condition), <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width=</span><span class="fl">0.2</span>), <span class="at">size=</span><span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb72-23"><a href="#cb72-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">Type=</span><span class="st">"All trials"</span>, <span class="at">Predicted=</span><span class="fl">0.1</span>, <span class="at">Gender=</span><span class="fu">as.factor</span>(<span class="st">"Male"</span>)),</span>
+<span id="cb72-24"><a href="#cb72-24" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.7</span>, <span class="at">xmax=</span><span class="fl">1.3</span>, <span class="at">ymin=</span><span class="fl">0.35</span>, <span class="at">ymax=</span><span class="fl">0.55</span>), <span class="at">color=</span><span class="st">"#8BC34A"</span>, <span class="at">alpha=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb72-25"><a href="#cb72-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rect</span>(<span class="at">data=</span><span class="fu">data.frame</span>(<span class="at">Type=</span><span class="st">"All trials"</span>, <span class="at">Predicted=</span><span class="fl">0.1</span>, <span class="at">Gender=</span><span class="fu">as.factor</span>(<span class="st">"Female"</span>)),</span>
+<span id="cb72-26"><a href="#cb72-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">xmin=</span><span class="fl">0.7</span>, <span class="at">xmax=</span><span class="fl">1.3</span>, <span class="at">ymin=</span><span class="fl">0.30</span>, <span class="at">ymax=</span><span class="fl">0.48</span>), <span class="at">color=</span><span class="st">"#8BC34A"</span>, <span class="at">alpha=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb72-27"><a href="#cb72-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data=</span>stars2, <span class="fu">aes</span>(<span class="at">y=</span>y, <span class="at">label=</span>label), <span class="at">hjust=</span><span class="fl">0.5</span>, <span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb72-28"><a href="#cb72-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>Gender) <span class="sc">+</span></span>
+<span id="cb72-29"><a href="#cb72-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb72-30"><a href="#cb72-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>)) <span class="sc">+</span></span>
+<span id="cb72-31"><a href="#cb72-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"AI-Generated"</span><span class="ot">=</span><span class="st">"#2196F3"</span>, <span class="st">"Photograph"</span><span class="ot">=</span><span class="st">"#F44336"</span>)) <span class="sc">+</span></span>
+<span id="cb72-32"><a href="#cb72-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Arousal"</span>,</span>
+<span id="cb72-33"><a href="#cb72-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">tag =</span> <span class="st">"B"</span>) <span class="sc">+</span></span>
+<span id="cb72-34"><a href="#cb72-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb72-35"><a href="#cb72-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb72-36"><a href="#cb72-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">25</span>, <span class="at">hjust=</span><span class="dv">1</span>, <span class="at">vjust=</span><span class="fl">1.1</span>, <span class="at">size=</span><span class="dv">9</span>),</span>
+<span id="cb72-37"><a href="#cb72-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb72-38"><a href="#cb72-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb72-39"><a href="#cb72-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
+<span id="cb72-40"><a href="#cb72-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background.x =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="fu">c</span>(<span class="st">"lightgrey"</span>), <span class="at">color=</span><span class="cn">NA</span>),</span>
+<span id="cb72-41"><a href="#cb72-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb72-42"><a href="#cb72-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb72-43"><a href="#cb72-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-44"><a href="#cb72-44" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -4487,16 +4493,16 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>dfsub<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dfsub<span class="sc">$</span>Gender)</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>dfsub<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(dfsub<span class="sc">$</span>Gender, <span class="st">"Male"</span>, <span class="st">"Female"</span>)</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>dfsub<span class="sc">$</span>BAIT_Visual <span class="ot">=</span> (dfsub<span class="sc">$</span>BAIT_ImagesRealistic <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> dfsub<span class="sc">$</span>BAIT_ImagesIssues) <span class="sc">+</span> dfsub<span class="sc">$</span>BAIT_ImitatingReality <span class="sc">+</span> dfsub<span class="sc">$</span>BAIT_EnvironmentReal) <span class="sc">/</span> <span class="dv">4</span></span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>m6 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Feedback_NoFacesAttractive <span class="sc">~</span> Gender <span class="sc">/</span> BAIT_Visual, </span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span><span class="fu">mutate</span>(dfsub, <span class="at">Feedback_NoFacesAttractive =</span> <span class="fu">ifelse</span>(Feedback_NoFacesAttractive <span class="sc">==</span><span class="st">"True"</span>, <span class="dv">1</span>, <span class="dv">0</span>)), </span>
-<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">family=</span><span class="st">"binomial"</span>)</span>
-<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>dfsub<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(dfsub<span class="sc">$</span>Gender)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>dfsub<span class="sc">$</span>Gender <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(dfsub<span class="sc">$</span>Gender, <span class="st">"Male"</span>, <span class="st">"Female"</span>)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>dfsub<span class="sc">$</span>BAIT_Visual <span class="ot">=</span> (dfsub<span class="sc">$</span>BAIT_ImagesRealistic <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> dfsub<span class="sc">$</span>BAIT_ImagesIssues) <span class="sc">+</span> dfsub<span class="sc">$</span>BAIT_ImitatingReality <span class="sc">+</span> dfsub<span class="sc">$</span>BAIT_EnvironmentReal) <span class="sc">/</span> <span class="dv">4</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>m6 <span class="ot">&lt;-</span> <span class="fu">glm</span>(Feedback_NoFacesAttractive <span class="sc">~</span> Gender <span class="sc">/</span> BAIT_Visual, </span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span><span class="fu">mutate</span>(dfsub, <span class="at">Feedback_NoFacesAttractive =</span> <span class="fu">ifelse</span>(Feedback_NoFacesAttractive <span class="sc">==</span><span class="st">"True"</span>, <span class="dv">1</span>, <span class="dv">0</span>)), </span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">family=</span><span class="st">"binomial"</span>)</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="fu">results_table</span>(m6)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -4562,7 +4568,8 @@ The 2 principal components accounted for 94.67% of the total variance of the ori
 <li>Models for arousal, enticement, and valence had singularity issues when also adding condition as random slope for stimuli</li>
 <li>‘Other’ was removed due to the very small percentage of individuals identifying as such.</li>
 <li>‘Porn’ factor was not computed, instead sexual activity and frequency of watching porn were treated seperate.</li>
-<li>Missing final figures and interpretation of belief as influencing emotional ratings of images 5.<a href="https://realitybending.github.io/FictionEro/study1/analysis/1_cleaning.html">The calculations for the BAIt/GAAIS dimensions were based on the validation of the BAIT scale</a></li>
+<li>Missing final figures and interpretation of belief as influencing emotional ratings of images</li>
+<li><a href="https://realitybending.github.io/FictionEro/study1/analysis/1_cleaning.html">The calculations for the BAIt/GAAIS dimensions were based on the validation of the BAIT scale</a></li>
 </ol>
 <p><strong>BAIT_Videos</strong> was calculated by averaging participants’ agreement with the statement that current AI algorithms can generate very realistic videos and the inverse of their agreement with the statement that videos generated by AI have obvious problems that make them easy to spot as fake. <strong>Higher scores</strong> reflect <strong>stronger beliefs in the visual realism and technical reliability of AI-generated videos</strong>.</p>
 <p><strong>BAIT_Visual</strong> was computed as the average of four items: belief that AI algorithms can generate very realistic images, the inverse of belief that AI-generated images always contain errors and artifacts, agreement that CGI can perfectly imitate reality, and belief that technology allows the creation of environments that seem just as real as reality. <strong>Higher scores capture stronger beliefs in the visual realism and immersive quality of AI-generated and computer-generated content</strong>.</p>

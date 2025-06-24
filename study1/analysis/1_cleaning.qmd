@@ -280,6 +280,7 @@ df |>
 There were `r sum(df$Mobile=="True")` participants that used a mobile device.
 
 ```{r}
+
 # df <- filter(df, Mobile == "False")
 # dftask <- filter(dftask, Participant %in% df$Participant)
 ```
@@ -321,6 +322,7 @@ df |>
 outliers$expe_duration <- filter(df, Experiment_Duration < 15)$Participant
 ```
 
+`r length(outliers$expe_duration)` participants completed the experiment in less than 15 minutes.
 
 ### Task Duration 
 
@@ -448,7 +450,7 @@ outliers$bait_duration <- filter(df, BAIT_Duration < 0.5)$Participant
 df[df$Participant %in% outliers$bait_duration, str_detect(names(df), "BAIT_\\d+")] <- NA
 ```
 
-We excluded the BAIT data of `r length(outliers$bait_duration)` participants who completed the questionnaire in less than 30 seconds.
+`r length(outliers$bait_duration)` participants completed the BAIT questionnaire in less than 30 seconds.
 
 ### Response to Erotic Stimuli
 
@@ -541,9 +543,7 @@ dftask <- filter(dftask, !Participant %in% outliers$arousal)
 ```
 
 
-
 ### Sexual Profile
-
 
 #### Sample
 

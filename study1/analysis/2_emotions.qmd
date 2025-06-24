@@ -1069,7 +1069,7 @@ p1 <- pred1 |>
   facet_grid(Outcome~Sex, switch="y") +
   scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
   scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
-  theme_minimal() +
+  theme_bw() +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         axis.text.y = element_text(size = 8),
