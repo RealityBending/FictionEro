@@ -1048,11 +1048,12 @@ pred1 <-
   as.data.frame() |> 
   mutate(Outcome="Valence"))
 
-stars1 <- data.frame(label=c("***", "***", "*", "***"), 
-                    Sex=fct_relevel(c("Male", "Male", "Male", "Male"), "Male"), 
-                    Relevance=c("Relevant", "Relevant", "Non-erotic", "Relevant"), 
+stars1 <- data.frame(label=c("***", "***", "*", "***"),
+                    Sex=fct_relevel(c("Male", "Male", "Male", "Male"), "Male"),
+                    Relevance=c("Relevant", "Relevant", "Non-erotic", "Relevant"),
                     Outcome=c("Arousal", "Enticement", "Enticement", "Valence"),
                     y=c(0.75, 0.8, 0.2, 0.8))
+
 
 p1 <- pred1 |>
   mutate(Sex = fct_relevel(Sex, "Male", "Female")) |> 
@@ -1068,7 +1069,7 @@ p1 <- pred1 |>
   facet_grid(Outcome~Sex, switch="y") +
   scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
   scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
-  theme_bw() +
+  theme_minimal() +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
         axis.text.y = element_text(size = 8),
