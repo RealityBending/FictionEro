@@ -950,12 +950,6 @@ pred1 <- rbind(
 #                     x=c(1.5, 1.5, 1.5, 1.5, 1.5, 1.5), 
 #                     y = c(0.53, 0.40, 0.6, 0.51, 0.62, 0.58))
 
-stars1b <- data.frame(label=c("*"),
-                    Gender=fct_relevel(c("Male"), "Male"),
-                    Outcome=c("Arousal"),
-                    x=1,
-                    y=0.60)
-
 stars1b <- data.frame(label=c("*","**", "*","*"),
                     Gender=fct_relevel(c("Male", "Male", "Male","Male"), "Male"),
                     Outcome=c("Arousal", "Enticement", "Enticement","Valence"),
@@ -994,6 +988,7 @@ p1 <- pred1 |>
 p1
 
 ```
+
 
 
 ```{r}
