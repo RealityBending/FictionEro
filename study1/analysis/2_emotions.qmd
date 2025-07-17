@@ -467,7 +467,7 @@ The analysis also examined the average marginal effect of the variable "Conditio
 
 ```{r}
 m_arousal <- glmmTMB::glmmTMB(Arousal ~ Sex / Relevance / Condition + 
-                                (Relevance | Participant) + (1|Item),
+                                (Relevance | Participant) + ((Relevance / Condition)|Item),
                       data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
