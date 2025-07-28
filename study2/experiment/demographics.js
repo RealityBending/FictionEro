@@ -357,7 +357,7 @@ var demographics_endscreen = {
         if (jsPsych.data.urlVariables()["exp"] == "prolific") {
             text +=
                 "<p><b style='color:red;'>After clicking 'End', you will be redirected to the Prolific reimbursement page</b> (You can alternatively click " +
-                "<a href='https://app.prolific.com/submissions/complete?cc=CTHE3RFM'>here<a/>" +
+                "<a href='https://app.prolific.com/submissions/complete?cc=C1H71A2L'>here<a/>" +
                 " to directly access the link).</p>"
         }
         text += "<p><b>You can safely close the tab now.</b></p>"
@@ -383,3 +383,6 @@ var demographics_endscreen = {
         screen: "demographics_endscreen",
     },
 }
+
+
+

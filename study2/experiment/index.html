@@ -88,7 +88,7 @@
             if (finished_experiment) {
                 if (jsPsych.data.urlVariables()["exp"] == "prolific") {
                     window.location =
-                        "https://app.prolific.com/submissions/complete?cc=CTHE3RFM"
+                        "https://app.prolific.com/submissions/complete?cc=C1H71A2L"
                 }
                 else {
                     window.location = "https://realitybending.github.io/research/#participate" // Redirect to lab website
@@ -109,63 +109,63 @@
     timeline.push(demographics_browser_info)
 
     timeline.push(questionnaire_cops)
-    // timeline.push(demographics_consent)
+    timeline.push(demographics_consent)
     timeline.push(demographics_questions)
     timeline.push(fiction_preloadstims)
 
     //Save only demo data
-    // timeline.push({
-    //     type: jsPsychPipe,
-    //     action: "save",
-    //     experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
-    //     filename: `${participant_ID}_demo.csv`,
-    //     data_string: () => jsPsych.data.get().csv(),
-    //     on_finish: function () {
-    //         finished_experiment = true
-    //     }
-    // })
+    timeline.push({
+        type: jsPsychPipe,
+        action: "save",
+        experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+        filename: `${participant_ID}_demo.csv`,
+        data_string: () => jsPsych.data.get().csv(),
+        on_finish: function () {
+            finished_experiment = true
+        }
+    })
 
     // Eye-tracking ==============================================================
-    // timeline.push(eyetracking_consent)
-    // timeline.push(eyetracking_calibration) // include full-screen 
+    timeline.push(eyetracking_consent)
+    timeline.push(eyetracking_calibration) // include full-screen 
 
     // Fiction stage 1 ===========================================================
-    // timeline.push(eyetracking_fullscreen) // full-screen if they don't consent
+    timeline.push(eyetracking_fullscreen) // full-screen if they don't consent
 
     // Enter fullscreen mode
     timeline.push({
         timeline: [fiction_instructions1],
         on_finish() {
             //Phase 1A -------------------------------------------------------------
-            // timeline.push({
-            //     timeline_variables: stimuli.slice(
-            //         0,
-            //         Math.ceil(stimuli.length / 2)
-            //     ),
-            //     timeline: [
-            //         fiction_fixation1a,
-            //         fiction_cue,
-            //         fiction_fixation1b,
-            //         fiction_showimage1,
-            //         fiction_ratings1,
-            //     ],
-            // })
+            timeline.push({
+                timeline_variables: stimuli.slice(
+                    0,
+                    Math.ceil(stimuli.length / 2)
+                ),
+                timeline: [
+                    fiction_fixation1a,
+                    fiction_cue,
+                    fiction_fixation1b,
+                    fiction_showimage1,
+                    fiction_ratings1,
+                ],
+            })
 
             // Break ----------------------------------------------------------------
-            // timeline.push(fiction_phase1_break)
-            // timeline.push(eyetracking_recalibration)
+            timeline.push(fiction_phase1_break)
+            timeline.push(eyetracking_recalibration)
 
-            //Save phase 1 before break data
-            // timeline.push({
-            //     type: jsPsychPipe,
-            //     action: "save",
-            //     experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
-            //     filename: `${participant_ID}_break.csv`,
-            //     data_string: () => jsPsych.data.get().csv(),
-            //     on_finish: function () {
-            //         finished_experiment = true
-            //     }
-            // })
+            // Save phase 1 before break data
+            timeline.push({
+                type: jsPsychPipe,
+                action: "save",
+                experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+                filename: `${participant_ID}_break.csv`,
+                data_string: () => jsPsych.data.get().csv(),
+                on_finish: function () {
+                    finished_experiment = true
+                }
+            })
 
             // Phase 1B -------------------------------------------------------------
             timeline.push({
@@ -213,25 +213,25 @@
             })
             timeline.push(experiment_feedback)
 
-            // // End ===================================================================
-            // timeline.push(demographics_debriefing)
+            // End ===================================================================
+            timeline.push(demographics_debriefing)
 
-            // // Save data (without eyetracking) via DataPipe
-            // timeline.push({
-            //     type: jsPsychPipe,
-            //     action: "save",
-            //     experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
-            //     filename: `${participant_ID}.csv`,
-            //     data_string: () => {
-            //         const filtered_data = jsPsych.data.get().ignore(['raw_gaze', 'percent_in_roi', 'average_offset', // calibration columns 
-            //             'validation_points', 'webgazer_data', 'webgazer_targets']) // fiction columns 
+            // Save data (without eyetracking) via DataPipe
+            timeline.push({
+                type: jsPsychPipe,
+                action: "save",
+                experiment_id: "OZnmkS9sQSxE", // This in generated in the DataPipe interface
+                filename: `${participant_ID}.csv`,
+                data_string: () => {
+                    const filtered_data = jsPsych.data.get().ignore(['raw_gaze', 'percent_in_roi', 'average_offset', // calibration columns 
+                        'validation_points', 'webgazer_data', 'webgazer_targets']) // fiction columns 
 
-            //         return filtered_data.csv()
-            //     },
-            //     on_finish: function () {
-            //         finished_experiment = true
-            //     }
-            // })
+                    return filtered_data.csv()
+                },
+                on_finish: function () {
+                    finished_experiment = true
+                }
+            })
 
             // Save all data via DataPipe
             timeline.push({
