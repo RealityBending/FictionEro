@@ -125,6 +125,7 @@ break_files = [file for file in files if file.endswith("_break.csv")] # only fil
 phase1_files = [file for file in files if file.endswith("_phase1.csv")] # only files ending in break
 full_files = {f.replace("_Full.csv", "") for f in files if f.endswith("_Full.csv")}
 
+# files = ["otwdxkyvzz_Full.csv", "19zq68uf2o_Full.csv", "urmbgo663l_Full.csv", "g8dn8o5ntd_Full.csv", "5n9olb5kug_Full.csv"]
 
 for i, file in enumerate(files):
     #skip demo files
@@ -648,6 +649,7 @@ correlations_df = pd.DataFrame(list(correlations.items()), columns=["Participant
 # Compute distirbution based on correlations 
 correlations_df['Correlation'].hist()
 
+
 # data_task[data_task["Participant"] == 'S060']
 
 # Compute the average rating time for each participant for phase 1
@@ -666,10 +668,11 @@ rating_time_df = pd.DataFrame(list(rating_time.items()), columns=["Participant",
 # Compute distirbution based on correlations 
 rating_time_df['Rating Time'].hist()
 
+
 # Median time 
 data_demo["Experiment_Duration"].median()
 
-# # Save data ==============================================================
+# # # Save data ==============================================================
 data_demo = data_demo.drop(columns=["Prolific_ID"])
 
 data_demo.to_csv("../data/rawdata_participants.csv", index=False)
