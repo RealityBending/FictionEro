@@ -92,16 +92,13 @@ df$BAIT_Negative <- (df$BAIT_Worry + df$BAIT_Dangerous)/2
 df$BAIT_Positive <- (df$BAIT_Exciting + df$BAIT_Benefit)/2
 ```
 
-
 ## Visualisation of Key Variables
 
-This section is about selecting the best model. Notably, **all the stimuli presented are of an erotic nature**.
-Note that variables were rescaled to [0,1] when fitting the models and that the stimuli presented to participants was assigned according to their self-rated sexuality, making **all stimuli relevant** to participants. 
+This section is about selecting the best model. Notably, **all the stimuli presented are of an erotic nature**. Note that variables were rescaled to \[0,1\] when fitting the models and that the stimuli presented to participants was assigned according to their self-rated sexuality, making **all stimuli relevant** to participants.
 
 To summarise, **women** rate stimuli on average **significantly lower** in arousal, enticiment and valence than **men**. There was no difference between heterosexual, homosexual, and bisexual individuals within each gender on subjective ratings.
 
 ::: panel-tabset
-
 ### Arousal
 
 In general, males exhibited greater variability in their arousal ratings, while females tended to provide more lower arousal ratings.
@@ -165,7 +162,7 @@ compare_performance(m1, m2, m3, m4, m5, m6)
 # Model m3, which includes random intercepts for Participants and both random intercepts and slopes for Gender at the Stimulus level, seems to be the best
 ```
 
-This model evaluate ths the effects of Gender and Sexual Orientation on Arousal, accounting for random variability due to participants (i.e., random effects). The analysis revealed that on average **women rate erotic stimuli significantly lower in arousal than men**. There was no difference between heterosexual, homosexual, and bisexual individuals within each gender on arousal ratings. 
+This model evaluate ths the effects of Gender and Sexual Orientation on Arousal, accounting for random variability due to participants (i.e., random effects). The analysis revealed that on average **women rate erotic stimuli significantly lower in arousal than men**. There was no difference between heterosexual, homosexual, and bisexual individuals within each gender on arousal ratings.
 
 ```{r Arousal3}
 
@@ -191,12 +188,11 @@ estimate_relation(m_a) |>
 
 ### Enticement
 
-In general, males tended to rate images higher in enticement more often than females. 
+In general, males tended to rate images higher in enticement more often than females.
 
-Enticing ratings for images where participants believed in the original labels, as well as for those where they disagreed with the labels, were similar for within genders, with males providing higher ratings of enticement. 
+Enticing ratings for images where participants believed in the original labels, as well as for those where they disagreed with the labels, were similar for within genders, with males providing higher ratings of enticement.
 
 For females, although a similar pattern was observed, they tended to provide more lower enticement ratings, particularly for images where they disagreed with the original labels.
-
 
 ```{r Enticement1}
 #| fig-width: 12
@@ -236,7 +232,7 @@ df |>
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 ```
 
-This model evaluate ths the effects of Gender on Enticement, accounting for random variability due to participants (i.e., random effects). The analysis revealed that on average **women rate erotic stimuli significantly lower in enticiment than men**. There was no difference between heterosexual, homosexual, and bisexual individuals within each gender on enticement ratings. 
+This model evaluate ths the effects of Gender on Enticement, accounting for random variability due to participants (i.e., random effects). The analysis revealed that on average **women rate erotic stimuli significantly lower in enticiment than men**. There was no difference between heterosexual, homosexual, and bisexual individuals within each gender on enticement ratings.
 
 ```{r Enticicement3}
 m_e <- glmmTMB::glmmTMB(Enticing ~ Gender/SexualOrientation + (1|Participant),
@@ -305,7 +301,7 @@ df |>
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 ```
 
-This model evaluate ths the effects of Gender on valence, accounting for random variability due to participants. The analysis revealed that on average **women rate erotic stimuli significantly lower in valence than men**. There was no difference between heterosexual, homosexual, and bisexual individuals within each gender on arousal ratings. 
+This model evaluate ths the effects of Gender on valence, accounting for random variability due to participants. The analysis revealed that on average **women rate erotic stimuli significantly lower in valence than men**. There was no difference between heterosexual, homosexual, and bisexual individuals within each gender on arousal ratings.
 
 ```{r Valence3}
 m_v <- glmmTMB::glmmTMB(Valence ~ Gender/SexualOrientation+ (1|Participant), family=glmmTMB::ordbeta(),
@@ -327,7 +323,6 @@ estimate_relation(m_v) |>
   facet_wrap(~SexualOrientation) +
   theme_abyss()
 ```
-
 :::
 
 ```{r}
@@ -337,13 +332,13 @@ df <- df |>
 
 ```
 
-Due to the low number of participants self-described as Bisexual (N= `r sum(dfsub$SexualOrientation=="Bisexual")`) and Homosexual  (N= `r sum(dfsub$SexualOrientation=="Homosexual")`) the main analysis will focus solely on Heterosexual individuals. 
+Due to the low number of participants self-described as Bisexual (N= `r sum(dfsub$SexualOrientation=="Bisexual")`) and Homosexual (N= `r sum(dfsub$SexualOrientation=="Homosexual")`) the main analysis will focus solely on Heterosexual individuals.
 
 Exploratory analysis will then evaluate the effect of sexual orientation on ratings.
 
-## Arousal 
+## Arousal
 
-Similar to [study1](https://realitybending.github.io/FictionEro/study1/analysis/2_emotions.html) arousal ratings for some "AI-generated" are lower then when they are presented as real photos. 
+Similar to [study1](https://realitybending.github.io/FictionEro/study1/analysis/2_emotions.html) arousal ratings for some "AI-generated" are lower then when they are presented as real photos.
 
 ```{r Arousal Desc}
 #| fig-height: 12
@@ -431,14 +426,14 @@ Women rate photograph of individuals lower than males. Men show less arousal tow
 
 Looking at average slopes:
 
-1. Males rate AI-generated images ~0.014 lower in arousal (on average) than photos — significant.
-2. Females also rate AI images lower, but not significantly.
-3. Males rate couple images significantly lower in arousal than individual ones.
-4. Females rate couple images significantly higher in arousal than individual ones.
+1.  Males rate AI-generated images \~0.014 lower in arousal (on average) than photos — significant.
+2.  Females also rate AI images lower, but not significantly.
+3.  Males rate couple images significantly lower in arousal than individual ones.
+4.  Females rate couple images significantly higher in arousal than individual ones.
 
-```{r Arousal with Stimuli Type}
+```{r Arousal}
 
-m_arousal <- glmmTMB::glmmTMB(Arousal ~ Gender/ StimuliType/ Condition + 
+m_arousal <- glmmTMB::glmmTMB(Arousal ~ Gender/ Condition + 
                                 (Condition| Participant) + (1|Stimulus), family=glmmTMB::ordbeta(),
                               data=df, control = glmmTMB::glmmTMBControl(parallel = 8))
 
@@ -448,11 +443,23 @@ marginaleffects::avg_slopes(m_arousal, variables=c("Condition", "StimuliType"), 
   results_table()
 ```
 
+```{r Arousal with Stimuli Type}
+
+m_arousal_st <- glmmTMB::glmmTMB(Arousal ~ Gender/ StimuliType/ Condition + 
+                                (Condition| Participant) + (1|Stimulus), family=glmmTMB::ordbeta(),
+                              data=df, control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_arousal_st)
+
+marginaleffects::avg_slopes(m_arousal_st, variables=c("Condition", "StimuliType"), by="Gender") |>
+  results_table()
+```
+
 ### Moderators
 
 This model explores whether various factors such as **attitudes towards AI, knowledge about AI, frequency of porn consumption, and sexual activity** moderate the relationship between gender, image relevance (specifically AI-generated versus photographs), and arousal ratings.
 
-The analysis revealed a significant interaction effect only for **positive attitudes towards AI** among females. Specifically, females with higher positive attitudes towards AI rated AI-generated images as more arousing, relative to when they viewed images labelled as photographs. 
+The analysis revealed a significant interaction effect only for **positive attitudes towards AI** among females. Specifically, females with higher positive attitudes towards AI rated AI-generated images as more arousing, relative to when they viewed images labelled as photographs.
 
 No other moderators showed statistically significant effects on arousal across the interactions of gender, condition (AI-generated vs Photograph), and the respective moderators.
 
@@ -462,14 +469,14 @@ Lastly, the interaction between sexual activity and condition on Arousal levels.
 
 <!-- All significant findings for feedback  -->
 
+```{=html}
 <!-- 1.For Males, giving feedback indicating that AI-generated images were less attractive, influenced arousal ratings for images labeled as AI-generated. Specifically, males who reported finding AI-generated images as less arousing had lower arousal ratings for those images. 
 
 
 <!-- 2. For Males, giving feedback indicating that AI-generated images were more attractive significantly influenced arousal ratings for images labeled as AI-generated. Specifically, males who reported finding AI-generated images more attractive had higher arousal ratings for these images.  -->
-
+```
 
 <!-- Note: The feedback that the difference between the conditions was subtle only had one value - i.e., False.  The feedback that some AI images were arousing and that no AI images were arousing also only had one value - i.e., False -->
-
 
 ```{r Arousal Moderator}
 test_moderator <- function(df, outcome="Arousal", moderator="BAIT_Visual") {
@@ -495,7 +502,6 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI", "BAIT_Positive", "BAIT_N
 
 display(moderator_results)
 ```
-
 
 ```{r Arousal Moderator Feedback}
 feedback_results <- data.frame()
@@ -537,7 +543,7 @@ sex_act_plot
 
 ### Believed
 
-```{r Arousal Believed}
+```{r Arousal Believed with stimuli type}
 m <- glmmTMB::glmmTMB(Arousal ~ Gender / StimuliType/Condition + (Condition|Participant) + (Condition|Stimulus),
                         data=filter(df, ConditionBelief == "True"), 
                         family=glmmTMB::ordbeta(),
@@ -546,6 +552,14 @@ m <- glmmTMB::glmmTMB(Arousal ~ Gender / StimuliType/Condition + (Condition|Part
 results_table(m)
 ```
 
+```{r Arousal Believed without stimuli type}
+m <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition + (Condition|Participant) + (Condition|Stimulus),
+                        data=filter(df, ConditionBelief == "True"), 
+                        family=glmmTMB::ordbeta(),
+                        control = glmmTMB::glmmTMBControl(parallel = 8))
+  
+results_table(m)
+```
 
 ```{r Arousal Believed2}
 
@@ -565,10 +579,9 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 
 ```
 
-## Enticement 
+## Enticement
 
 Enticment ratings, for some images, differ by whether the images were preceeded by 'photograph' or by 'AI-generated'.
-
 
 ```{r Enticement Desc}
 #| fig-height: 12
@@ -578,7 +591,6 @@ enticement_desc <- plot_descriptive(df, "Enticing")
 enticement_desc
 ```
 
-
 ### Whole Sample
 
 This model examines how **Gender, Stimuli Type and Condition influence enticement** ratings, treating participant and items as random intercepts.
@@ -587,7 +599,7 @@ This model examines how **Gender, Stimuli Type and Condition influence enticemen
 
 Women rated images as less enticing than men overall. They rated couple images as more enticing than individual images. Men, on the other hand, rated couple images as less enticing. Men also rated AI-generated images as significantly less enticing than photographs, both for images of individual and couple stimuli. In contrast, women did not significantly differentiate between AI and photographic images in terms of enticement.
 
-Looking at the average slopes, both genders rate Ai-generated conditions lower in enticement, although this effect is only significant for men. 
+Looking at the average slopes, both genders rate Ai-generated conditions lower in enticement, although this effect is only significant for men.
 
 ```{r Enticement Model}
 m_enticement <- glmmTMB::glmmTMB(Enticing ~ Gender / StimuliType/ Condition + 
@@ -602,6 +614,20 @@ results_table(m_enticement)
 marginaleffects::avg_slopes(m_enticement, variables="Condition", by="Gender") |>
   results_table()
 
+```
+
+```{r Enticement Model with stimuly type}
+m_enticement_st <- glmmTMB::glmmTMB(Enticing ~ Gender / StimuliType/ Condition + 
+                                   (Condition | Participant) + (1|Stimulus),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+
+
+results_table(m_enticement_st)
+
+marginaleffects::avg_slopes(m_enticement_st, variables="Condition", by="Gender") |>
+  results_table()
 
 ```
 
@@ -609,11 +635,12 @@ marginaleffects::avg_slopes(m_enticement, variables="Condition", by="Gender") |>
 
 We examined whether **attitudes towards AI, porn frequency, and sexual activity** moderated the relationship between the predictors (sex, relevance, condition) and enticement ratings. The results showed that enticing ratings for images labeled AI-generated were moderated by the feedback reporting attitudes towards AI, but this was only significant for women. Specifically, women who reported having more positive attitudes towards AI, rated these images higher in arousal compared to images labeled as photographs.
 
-Looking at **feedback as a moderator**, the results showed that enticement ratings for images labelled as AI-Generated were moderated by the feedback that AI is less attractive for males, and that difference between the AI-Generated images and real photos is obvious for females. Specifically, 
+Looking at **feedback as a moderator**, the results showed that enticement ratings for images labelled as AI-Generated were moderated by the feedback that AI is less attractive for males, and that difference between the AI-Generated images and real photos is obvious for females. Specifically,
 
-Lastly, the interaction between sexual activity and condition on enticement, suggests that enticement ratings do not significantly differ with sexual activity levels for either gender. 
+Lastly, the interaction between sexual activity and condition on enticement, suggests that enticement ratings do not significantly differ with sexual activity levels for either gender.
 
 <!-- Note: Feedback that 'No Images were Arousing' , 'Some Images were Arousing' and the 'difference between real and photos was Subtle' only had 1 level, hence were excluded from the following analysis -->
+
 ```{r Enticement Moderator}
 for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
            "BAIT_Positive", "BAIT_Negative",
@@ -624,7 +651,6 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 
 display(filter(moderator_results, Outcome == "Enticing"))
 ```
-
 
 ```{r Enticement Moderator Feedback}
 for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive",
@@ -644,7 +670,6 @@ for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive",
 
 display(filter(feedback_results, Outcome == "Enticing"))
 ```
-
 
 ```{r Enticement Sexual Activity}
 m <- glmmTMB::glmmTMB(Enticing ~ Gender / (Condition * SexualActivity_num) + (Condition | Participant) + (1|Stimulus),
@@ -669,7 +694,16 @@ sex_act_plot_ent
 
 <!-- Note. Adding condition as random slope for participant did not converge -->
 
-```{r Enticement Believed1}
+```{r Enticement Believed1 with stimuli type}
+m <- glmmTMB::glmmTMB(Enticing ~ Gender/ StimuliType/ Condition + (Condition| Participant) + (1|Stimulus),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+```
+
+```{r Enticement Believed1 wihtout stimuli type}
 m <- glmmTMB::glmmTMB(Enticing ~ Gender / Condition + (Condition| Participant) + (1|Stimulus),
                       data=filter(df, ConditionBelief == "True"), 
                       family=glmmTMB::ordbeta(),
@@ -708,13 +742,13 @@ valence_desc
 This model examines the effect of **Gender, Stimuli Type and Condition on Valence** ratings, while accounting for random variability due to participants and items (i.e., random intercepts).
 
 <!-- The intercept is Male and photograph.  -->
-Women rated images overall as lower in valence than men did. They rated couple images as higher in valence than individual ones. Additionally, women rated AI-generated couple images as significantly lower in valence than photographic couple images. Men rated images of couples lower in valence and AI-images of individuals lower in valence comapred to real photos of individuals. 
 
+Women rated images overall as lower in valence than men did. They rated couple images as higher in valence than individual ones. Additionally, women rated AI-generated couple images as significantly lower in valence than photographic couple images. Men rated images of couples lower in valence and AI-images of individuals lower in valence comapred to real photos of individuals.
 
-Looking at avergae slopes, both genders rate AI-generated images lower in valence, but this effect is only significant for males as well. 
+Looking at avergae slopes, both genders rate AI-generated images lower in valence, but this effect is only significant for males as well.
 
 ```{r Valence Model}
-m_valence <- glmmTMB::glmmTMB(Valence ~ Gender / StimuliType/ Condition + 
+m_valence <- glmmTMB::glmmTMB(Valence ~ Gender/ Condition + 
                                 (Condition| Participant) + (1|Stimulus),
                       data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
@@ -726,12 +760,24 @@ marginaleffects::avg_slopes(m_valence, variables="Condition", by="Gender") |>
 
 ```
 
+```{r Valence Model with stimuli type}
+m_valence_st <- glmmTMB::glmmTMB(Valence ~ Gender / StimuliType/ Condition + 
+                                (Condition| Participant) + (1|Stimulus),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_valence_st)
+
+marginaleffects::avg_slopes(m_valence_st, variables="Condition", by="Gender") |>
+  results_table()
+
+```
 
 ### Moderators
 
 Here we look at whether the relationship between gender and condition and valence is moderated by **AI-attitudes, porn frequency, and sexual activity**. The results showed that enticing ratings for images labeled AI-generated were moderated by the feedback reporting attitudes towards AI, but this was only significant for women. More specifically, females who have more positive and negative attitudes towards AI rated images labelled as AI-Generated significantly higher and lower in valence compared to images labelled as photographs.
 
-Looking at **feedback** as a moderator, the results show that valence ratings for images labelled AI-Generated were moderted by the feedback that the difference between AI and Photos was obvious, but only for females. 
+Looking at **feedback** as a moderator, the results show that valence ratings for images labelled AI-Generated were moderted by the feedback that the difference between AI and Photos was obvious, but only for females.
 
 ```{r Valence Moderator}
 for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
@@ -763,7 +809,17 @@ display(filter(feedback_results, Outcome == "Valence"))
 
 ### Believed
 
-```{r Valence Believed1}
+```{r Valence Believed1 with stimuli type}
+m <- glmmTMB::glmmTMB(Valence ~ Gender / StimuliType/ Condition + (Condition| Participant) + (1|Stimulus),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+```
+
+```{r Valence Believed1 without stimuli type}
 m <- glmmTMB::glmmTMB(Valence ~ Gender /Condition + (Condition| Participant) + (1|Stimulus),
                       data=filter(df, ConditionBelief == "True"), 
                       family=glmmTMB::ordbeta(),
@@ -827,10 +883,10 @@ emotionality_desc
 
 This model looks at the effect of **Gender, StimuliType and Condition on Emotionality**, accounting for random variability due to participants and items (i.e., random intercepts).
 
-Females, compared to males, report significantly lower emotionality ratings for fotographs. Among males, couple stimuli are rated lower than individual stimuli.Among females, couple stimuli are rated higher than individual stimuli. For males, AI-generated individual stimuli are rated lower than human-generated ones. Females have lower ratings for AI-generated couple stimuli compared to AI-generated stimuli of individuals. 
+Females, compared to males, report significantly lower emotionality ratings for fotographs. Among males, couple stimuli are rated lower than individual stimuli.Among females, couple stimuli are rated higher than individual stimuli. For males, AI-generated individual stimuli are rated lower than human-generated ones. Females have lower ratings for AI-generated couple stimuli compared to AI-generated stimuli of individuals.
 
 ```{r Emotionality Model}
-m_emotionality <- glmmTMB::glmmTMB(Emotionality ~ Gender /StimuliType/ Condition + (Condition| Participant) + (1|Stimulus),
+m_emotionality <- glmmTMB::glmmTMB(Emotionality ~ Gender/ Condition + (Condition| Participant) + (1|Stimulus),
                       data=df, family=glmmTMB::ordbeta(),
                       control = glmmTMB::glmmTMBControl(parallel = 8))
 
@@ -840,12 +896,22 @@ marginaleffects::avg_slopes(m_emotionality, variables="Condition", by="Gender", 
   results_table()
 ```
 
+```{r Emotionality Model with stimuli type}
+m_emotionality_st <- glmmTMB::glmmTMB(Emotionality ~ Gender /StimuliType/ Condition + (Condition| Participant) + (1|Stimulus),
+                      data=df, family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m_emotionality_st)
+
+marginaleffects::avg_slopes(m_emotionality_st, variables="Condition", by="Gender", re.form=NA) |>
+  results_table()
+```
+
 ### Moderators
 
-Looking at **AI-attitudes, porn frequency and sexual activity**, and feedback as moderators, we can see that for males reporting higher expertise in AI led to an increase of emotionality ratings for images labelled as AI-Generated. Additionally, males who reported having more negative attitiudes towards AI, rated AI-Generated images lower in emotionality compared to fotographs. While for feamles, those with more positive AI attitudes rate AI-generated images higher in emotionality. 
+Looking at **AI-attitudes, porn frequency and sexual activity**, and feedback as moderators, we can see that for males reporting higher expertise in AI led to an increase of emotionality ratings for images labelled as AI-Generated. Additionally, males who reported having more negative attitiudes towards AI, rated AI-Generated images lower in emotionality compared to fotographs. While for feamles, those with more positive AI attitudes rate AI-generated images higher in emotionality.
 
-Looking at **feedback** as a moderator, the results show that for males who reported finidng AI-generated images as more attractive rated these images higher in emotionality.Conversely, males who reported finding AI-generated images as less attractive rated these images lower in emotionality. 
-
+Looking at **feedback** as a moderator, the results show that for males who reported finidng AI-generated images as more attractive rated these images higher in emotionality.Conversely, males who reported finding AI-generated images as less attractive rated these images lower in emotionality.
 
 ```{r Emotionality Moderator}
 for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
@@ -856,7 +922,6 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 
 display(filter(moderator_results, Outcome == "Emotionality"))
 ```
-
 
 ```{r Emotionality Moderator Feedback}
 for(m in c("Feedback_NoFacesAttractive", "Feedback_SomeFacesAttractive",
@@ -878,7 +943,17 @@ display(filter(feedback_results, Outcome == "Emotionality"))
 
 ### Believed
 
-```{r EMotionality Believed1}
+```{r EMotionality Believed1 with stimuli type}
+m <- glmmTMB::glmmTMB(Emotionality ~ Gender/StimuliType/ Condition + (Condition| Participant) + (1|Stimulus),
+                      data=filter(df, ConditionBelief == "True"), 
+                      family=glmmTMB::ordbeta(),
+                      control = glmmTMB::glmmTMBControl(parallel = 8))
+
+results_table(m)
+
+```
+
+```{r EMotionality Believed1 without stimuli type}
 m <- glmmTMB::glmmTMB(Emotionality ~ Gender / Condition + (Condition| Participant) + (1|Stimulus),
                       data=filter(df, ConditionBelief == "True"), 
                       family=glmmTMB::ordbeta(),
@@ -903,23 +978,20 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 (filter(moderator_believed, p < .1))
 ```
 
-
-
 ## Summary
 
-- Gender is a major predictor of arousal, enticement and valence, with females generally reporting lower ratings than males overall.
-- Women prefer couple images (i.e.,significantly higher arousal, enticement and valence ratings); men prefer individual images (i.e.,significantly lower arousal, enticement and valence ratings). 
-- AI-generation reduces arousal for men, especially for individual images. AI-generation has no significant effect on arousal for women, whether images are of individuals or couples.
+-   Gender is a major predictor of arousal, enticement and valence, with females generally reporting lower ratings than males overall.
+-   Women prefer couple images (i.e.,significantly higher arousal, enticement and valence ratings); men prefer individual images (i.e.,significantly lower arousal, enticement and valence ratings).
+-   AI-generation reduces arousal for men, especially for individual images. AI-generation has no significant effect on arousal for women, whether images are of individuals or couples.
 
 **Moderators**
 
-- For women, positive attitudes towards AI moderated arousal and enticement, resulting in more favorable evaluations of AI-generated images. Negative attitudes moderated valence ratings, leading to less favorable evaluations.
-- Negative attitudes towards AI moderated valence ratings for both genders
-- Reporting having higher knowledge about AI moderated valence ratings for men
-- Sexual activity moderated enticement ratings for females. Specifically, females who reported having sexual activity within the 3 previous days tended to rate AI images higher in enticement.
-- Men’s perceptions of the attractiveness of AI-generated images moderated both arousal and valence ratings. More attractive AI images were rated as more arousing and valent. 
-- Female's feedback that no images were attractive moderated arousal ratings. 
-
+-   For women, positive attitudes towards AI moderated arousal and enticement, resulting in more favorable evaluations of AI-generated images. Negative attitudes moderated valence ratings, leading to less favorable evaluations.
+-   Negative attitudes towards AI moderated valence ratings for both genders
+-   Reporting having higher knowledge about AI moderated valence ratings for men
+-   Sexual activity moderated enticement ratings for females. Specifically, females who reported having sexual activity within the 3 previous days tended to rate AI images higher in enticement.
+-   Men’s perceptions of the attractiveness of AI-generated images moderated both arousal and valence ratings. More attractive AI images were rated as more arousing and valent.
+-   Female's feedback that no images were attractive moderated arousal ratings.
 
 ## Figures
 
@@ -988,8 +1060,6 @@ p1 <- pred1 |>
 p1
 
 ```
-
-
 
 ```{r}
 m1 <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition + (Condition | Participant) + (1|Stimulus),data = df, 
@@ -1069,26 +1139,20 @@ m6 <- glm(Feedback_NoFacesAttractive ~ Gender / BAIT_Visual,
 results_table(m6)
 ```
 
-
 ## Notes/ Questions
 
-1. Models for arousal, enticement, and valence had singularity issues when also adding condition as random slope for stimuli
-2. 'Other' was removed due to the very small percentage of individuals identifying as such.
-3. 'Porn' factor was not computed, instead sexual activity and frequency of watching porn were treated seperate. 
-4. Missing final figures and interpretation of belief as influencing emotional ratings of images
-5. [The calculations for the BAIt/GAAIS dimensions were based on the validation of the BAIT scale](https://realitybending.github.io/FictionEro/study1/analysis/1_cleaning.html)
+1.  Models for arousal, enticement, and valence had singularity issues when also adding condition as random slope for stimuli
+2.  'Other' was removed due to the very small percentage of individuals identifying as such.
+3.  'Porn' factor was not computed, instead sexual activity and frequency of watching porn were treated seperate.
+4.  Missing final figures and interpretation of belief as influencing emotional ratings of images
+5.  [The calculations for the BAIt/GAAIS dimensions were based on the validation of the BAIT scale](https://realitybending.github.io/FictionEro/study1/analysis/1_cleaning.html)
 
 **BAIT_Videos** was calculated by averaging participants’ agreement with the statement that current AI algorithms can generate very realistic videos and the inverse of their agreement with the statement that videos generated by AI have obvious problems that make them easy to spot as fake. **Higher scores** reflect **stronger beliefs in the visual realism and technical reliability of AI-generated videos**.
 
 **BAIT_Visual** was computed as the average of four items: belief that AI algorithms can generate very realistic images, the inverse of belief that AI-generated images always contain errors and artifacts, agreement that CGI can perfectly imitate reality, and belief that technology allows the creation of environments that seem just as real as reality. **Higher scores capture stronger beliefs in the visual realism and immersive quality of AI-generated and computer-generated content**.
 
-**BAIT_Text** was calculated by averaging agreement with the belief that AI assistants can write texts indistinguishable from those written by humans and the inverse of the belief that AI-written documents usually read differently than human-written ones. 
-**Higher scores indicate stronger beliefs in the linguistic realism of AI-generated text.**
+**BAIT_Text** was calculated by averaging agreement with the belief that AI assistants can write texts indistinguishable from those written by humans and the inverse of the belief that AI-written documents usually read differently than human-written ones. **Higher scores indicate stronger beliefs in the linguistic realism of AI-generated text.**
 
 **BAIT_Negative** was computed by averaging levels of agreement with the statements “AI is dangerous” and “I am worried about future uses of AI”.**This composite reflects participants’ negative attitudes toward AI.**
 
 **BAIT_Positive** was calculated by averaging agreement with the statements “AI is exciting” and “Much of society will benefit from a future full of AI”. **This score represents positive attitudes towards AI.**
-
-
-
-
