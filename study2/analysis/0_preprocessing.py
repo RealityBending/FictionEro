@@ -125,9 +125,6 @@ break_files = [file for file in files if file.endswith("_break.csv")] # only fil
 phase1_files = [file for file in files if file.endswith("_phase1.csv")] # only files ending in break
 full_files = {f.replace("_Full.csv", "") for f in files if f.endswith("_Full.csv")}
 
-
-# files =["fchewatykz_Full.csv", "e77b658j0u_Full.csv", "lfo5rrdu9j_Full.csv","2c7w3enlwf_Full.csv", "7xqzrwrgv2_Full.csv", "qfu1gsb248_Full.csv", "n66clkllgv_Full.csv", "5lfwsyc1td_Full.csv", "9b9uo9mzd9_Full.csv", "z9vmjhw9en_Full.csv"]
-
 for i, file in enumerate(files):
     #skip demo files
     if file in demo_files:
@@ -650,6 +647,7 @@ correlations_df = pd.DataFrame(list(correlations.items()), columns=["Participant
 # Compute distirbution based on correlations 
 correlations_df['Correlation'].hist()
 
+
 # data_task[data_task["Participant"] == 'S002']
 
 
@@ -675,11 +673,14 @@ data_demo["Experiment_Duration"].median()
 # Look for duplicates in the data in the column prolific_id
 duplicates = data_demo[data_demo.duplicated(subset=["Prolific_ID"], keep=False)]
 
-# # Save data ==============================================================
-# data_demo = data_demo.drop(columns=["Prolific_ID"])
+# Remove participant based on prolific_id (duplicate)
+data_demo = data_demo[data_demo["Participant"] != "S278"] # remove participant with no data
 
-# data_demo.to_csv("../data/rawdata_participants.csv", index=False)
-# data_task.to_csv("../data/rawdata_task.csv", index=False)
-# data_eye.to_csv("../data/rawdata_eyetracking.csv", index=False)
+# # Save data ==============================================================
+data_demo = data_demo.drop(columns=["Prolific_ID"])
+
+data_demo.to_csv("../data/rawdata_participants.csv", index=False)
+data_task.to_csv("../data/rawdata_task.csv", index=False)
+data_eye.to_csv("../data/rawdata_eyetracking.csv", index=False)
 
 
