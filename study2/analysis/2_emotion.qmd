@@ -616,7 +616,7 @@ marginaleffects::avg_slopes(m_enticement, variables="Condition", by="Gender") |>
 
 ```
 
-```{r Enticement Model with stimuly type}
+```{r Enticement Model with stimuli type}
 m_enticement_st <- glmmTMB::glmmTMB(Enticing ~ Gender / StimuliType/ Condition + 
                                    (Condition | Participant) + (1|Stimulus),
                       data=df, family=glmmTMB::ordbeta(),
@@ -1004,13 +1004,13 @@ for(m in c("BAIT_Visual", "BAIT_Text", "BAIT_ExpertAI",
 #| fig-width: 7
 
 pred1 <- rbind(
-  modelbased::estimate_means(m_arousal, by=c("Gender", "StimuliType", "Condition"), backend = "emmeans") |>
+  modelbased::estimate_means(m_arousal, by=c("Gender", "Condition"), backend = "emmeans") |>
   as.data.frame() |> 
   mutate(Outcome="Arousal"),
-  modelbased::estimate_means(m_enticement, by=c("Gender","StimuliType",  "Condition"), backend = "emmeans") |>
+  modelbased::estimate_means(m_enticement, by=c("Gender", "Condition"), backend = "emmeans") |>
   as.data.frame() |> 
   mutate(Outcome="Enticement"),
-  modelbased::estimate_means(m_valence, by=c("Gender", "StimuliType", "Condition"), backend = "emmeans") |>
+  modelbased::estimate_means(m_valence, by=c("Gender","Condition"), backend = "emmeans") |>
   as.data.frame() |> 
   mutate(Outcome="Valence")
 )
