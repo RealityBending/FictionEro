@@ -588,6 +588,7 @@ data_demo = replace_value(data_demo, "Ethnicity", "Other_Maori", "Other")
 data_demo = replace_value(data_demo, "Ethnicity", "Other_Romanian", "White")
 
 
+
 # data_demo["Discipline"][data_demo["Discipline"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "Discipline", "Other_Architecture", "Otther")
 data_demo = replace_value(data_demo, "Discipline", "Other_Film Production", "Other")
@@ -609,12 +610,15 @@ data_demo = replace_value(data_demo, "Discipline", "Other_Health and Life Scienc
 data_demo = replace_value(data_demo, "Discipline", "Other_cognitive behavioural psychotherapy", "Psychology, Neuroscience")
 data_demo = replace_value(data_demo, "Discipline", "Other_Design", "Other")
 
-data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
+# data_demo["SexualOrientation"][data_demo["SexualOrientation"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "SexualOrientation", "Other_Straight", "Heterosexual")
+data_demo = replace_value(data_demo, "SexualOrientation", "Other_Asexual", "Other")
+data_demo = replace_value(data_demo, "SexualOrientation", "Other_omni", "Other")
 
 # data_demo["SexualStatus"][data_demo["SexualStatus"].str.contains("Other_").values].values
 data_demo = replace_value(data_demo, "SexualStatus", "Other_Separated", "Other")
 data_demo = replace_value(data_demo, "SexualStatus", "Other_Married", "In a relationship and not open to dating")
+data_demo = replace_value(data_demo, "SexualStatus", "Other_married", "In a relationship and not open to dating")
 
 # data_demo["Gender"][data_demo["Gender"].str.contains("Other_").values].values
 
@@ -628,8 +632,10 @@ data_demo = replace_value(data_demo, "Education", "Other_COLLEGE", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_College (diploma)", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_Technical college", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_College.", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_associates", "Other")
 data_demo = replace_value(data_demo, "Education", "Other_Nursing college", "Bachelor")
-
+data_demo = replace_value(data_demo, "Education", "Other_Associate's degree", "Other")
+data_demo = replace_value(data_demo, "Education", "Other_College (A-Levels)", "Other")
 
 # Compute the correlation for each participant for arousal and valence 
 correlations = {}
