@@ -174,7 +174,7 @@ df <- filter(df, Mobile == "False")
 dftask <- filter(dftask, Participant %in% df$Participant)
 ```
 
-There were `r  length(outliers$Mobile)` participants that used a mobile device.
+There were `r  sum(outliers$Mobile)` participants that used a mobile device.
 
 ### Experiment Duration
 

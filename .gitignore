@@ -1,4 +1,5 @@
 .DS_Store
+*.RData
 /analysis/models
 analysis/server.md
 *_cache*
