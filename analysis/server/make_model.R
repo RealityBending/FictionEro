@@ -10,23 +10,10 @@ options(mc.cores = parallel::detectCores(),
         brms.backend = "cmdstanr",
         width = 300)
 
-results_table <- function(model, effects="fixed", filter=NULL) {
-  if("marginaleffects" %in% class(model)) {
-    model |> 
-      parameters::parameters() |> 
-      as.data.frame() |> 
-      select(-Parameter, -SE, -S, z=Statistic) |> 
-      insight::format_table() |> 
-      parameters::display()
-  } else {
-    display(parameters::parameters(model, effects=effects, keep=filter))
-  }
-}
-
 # Study 1 ===================================================================================================================================
 
-dfsub <- dfsub <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
-df <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data.csv") |> 
+dfsub1 <- dfsub <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
+df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data.csv") |> 
   right_join(
     select(dfsub, Participant, Sample, Language, Mobile, starts_with("Feedback_"), 
            BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity, 
@@ -54,42 +41,36 @@ df <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs
 # MODELS --------
 
 # Arousal
-m_a1 <-  glmmTMB::glmmTMB(Arousal ~ Sex / Relevance / Condition*ConditionBelief + (1|Participant) + (1|Item),
-                         data=df,
-                         family=glmmTMB::ordbeta(),
-                         control = glmmTMB::glmmTMBControl(parallel = 8))
-
-
-results_table(m_a1)
-saveRDS(m_a1, file = "../models/ModelArousal_1")
+m_a1 <-  glmmTMB::glmmTMB(Arousal ~ Sex / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
+                          data=df1,
+                          family=glmmTMB::ordbeta(),
+                          control = glmmTMB::glmmTMBControl(parallel = 8))
 
 # Enticement
-m_e1 <-  glmmTMB::glmmTMB(Enticement ~ Sex / Relevance / Condition*ConditionBelief + (1|Participant) + (1|Item),
-                         data=df,
-                         family=glmmTMB::ordbeta(),
-                         control = glmmTMB::glmmTMBControl(parallel = 8))
-
-
-results_table(m_e1)
-saveRDS(m_e1, file = "../models/ModelEnticement_1")
-
-# Valence
-m_v1 <-  glmmTMB::glmmTMB(Valence ~ Sex / Relevance / Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df,
+m_e1 <-  glmmTMB::glmmTMB(Enticement ~ Sex /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
+                          data=df1,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 
 
-results_table(m_v1)
-saveRDS(m_v1, file = "../models/ModelValence_1")
+# Valence
+m_v1 <-  glmmTMB::glmmTMB(Valence ~ Sex / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
+                          data=df1,
+                          family=glmmTMB::ordbeta(),
+                          control = glmmTMB::glmmTMBControl(parallel = 8))
+
+# Save models
+saveRDS(m_a1, file = "../models/ModelArousal_1.rds")
+saveRDS(m_e1, file = "../models/ModelEnticement_1.rds")
+saveRDS(m_v1, file = "../models/ModelValence_1.rds")
+
 
 # Study 2 ----------------------------------------------------------------------
 
-dfsub <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data_participants.csv")
-
-df <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |> 
+dfsub2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data_participants.csv")
+df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |> 
   right_join(
-    select(dfsub, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
+    select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
     by = "Participant"
   ) |> 
   datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |> 
@@ -121,37 +102,27 @@ df <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs
   mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
 
 
-
 # MODELS --------
 
 # Arousal
 m_a2<-  glmmTMB::glmmTMB(Arousal ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Stimulus),
-                          data=df,
+                          data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
-
-
-results_table(m_a2)
-saveRDS(m_a2, file = "../models/ModelArousal_2")
-
-
-
 # Enticement
 m_e2 <-  glmmTMB::glmmTMB(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Stimulus),
-                          data=df,
+                          data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
-
-
-results_table(m_e2)
-saveRDS(m_e2, file = "../models/ModelEnticement_2")
-
 # Valence
 m_v2 <-  glmmTMB::glmmTMB(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Stimulus),
-                          data=df,
+                          data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 
+# Save models
+saveRDS(m_a2, file = "../models/ModelArousal_2.rds")
+saveRDS(m_e2, file = "../models/ModelEnticement_2.rds")
+saveRDS(m_v2, file = "../models/ModelValence_2.rds")
 
-results_table(m_v2)
-saveRDS(m_v2, file = "../models/ModelValence_2")
+
