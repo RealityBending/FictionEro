@@ -1,0 +1,280 @@
+---
+title: "FictionEro - Affective Impact of Fiction"
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    code-fold: true
+    self-contained: false
+    toc: true
+execute: 
+  cache: true
+---
+
+## Data Preparation
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+library(glmmTMB)
+
+options(mc.cores = parallel::detectCores(),
+        brms.backend = "cmdstanr",
+        width = 300)
+
+
+results_table <- function(model, effects="fixed", filter=NULL) {
+  if("marginaleffects" %in% class(model)) {
+    model |> 
+      parameters::parameters() |> 
+      as.data.frame() |> 
+      select(-Parameter, -SE, -S, z=Statistic) |> 
+      insight::format_table() |> 
+      parameters::display()
+  } else {
+    display(parameters::parameters(model, effects=effects, keep=filter))
+  }
+}
+
+```
+
+```{r data study1}
+#| warning: false
+
+dfsub1 <- dfsub <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
+df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data.csv") |> 
+  right_join(
+    select(dfsub, Participant, Sample, Language, Mobile, starts_with("Feedback_"), 
+           BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity, 
+           GAAIS_Negative, GAAIS_Positive, Porn, COPS_Frequency_2,
+           Screen_Size,
+           -Feedback_Comments),
+    by = "Participant"
+    ) |> 
+  datawizard::rescale(select=c("Valence"), range=c(-1, 1), to=c(0, 1)) |> 
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
+         Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "Non-erotic"),
+         Sex =  fct_relevel(Sex, "Male", "Female"),
+         PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
+         SexualActivity_num = as.numeric(as.factor(SexualActivity)),
+         ConditionBelief = case_when(
+           Condition == "Photograph" & Realness > 0.5 ~ "True",
+           Condition == "AI-Generated" & Realness < 0.5 ~ "True",
+           .default = "False"
+         )) |> 
+  mutate(across(starts_with("Feedback_"), function(x) {fct_relevel(x, "False", "True")}))
+```
+
+```{r data study2}
+#| warning: false
+
+dfsub2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data_participants.csv")
+df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |> 
+  right_join(
+    select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
+    by = "Participant"
+    ) |> 
+    datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |> 
+  datawizard::rescale(select= c("Realness"), range=c(-3,3), to=c(0,1)) |>
+  mutate(Condition = case_when(
+    Condition == "Fiction" ~ "AI-Generated",
+    Condition == "Reality" ~ "Photograph"
+  )) |>
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
+         Gender =  fct_relevel(Gender, "Male", "Female"),
+         SexualOrientation = fct_relevel(SexualOrientation, "Heterosexual", "Homosexual", "Bisexual"),
+         PornFrequency = as.numeric(as.factor(COPS_Frequency)),
+         SexualActivity_num = as.numeric(as.factor(SexualActivity)),
+         ConditionBelief = case_when(
+           Condition == "Photograph" & Realness > 0.5 ~ "True",
+           Condition == "AI-Generated" & Realness < 0.5 ~ "True",
+           .default = "False",
+         )) |>
+  rename(AllRealConfidence = "Feedback_AllRealConfidence",
+         AllFakeConfidence = "Feedback_AllFakeConfidence",
+         Enjoyment = "Feedback_Enjoyment"
+         )|>
+  mutate(across(starts_with("Feedback_"), as.factor)) |>
+  mutate(ConditionBelief = as.factor(ConditionBelief)) |>
+  mutate(StimuliType = case_when(
+    grepl("couple", Stimulus, ignore.case = TRUE) ~ "Couple",
+    TRUE ~ "Individual")) |>
+  mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
+```
+
+
+## Manipulation Checks
+
+### Distributions
+
+```{r Arousal1}
+#| fig-width: 12
+arousal_dist1 <- df1 |>
+  ggplot(aes(x=Arousal, fill = Condition)) +
+  geom_histogram(position = "identity", alpha = 0.4, colour = "black", bins = 20) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Arousal Study 1", ) +
+  facet_wrap(~Sex) +
+   scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+
+arousal_dist1
+```
+
+```{r Arousal2}
+#| fig-width: 12
+arousal_dist2 <- df2 |>
+  ggplot(aes(x=Arousal, fill = Condition)) +
+  geom_bar(position = "identity", alpha = 0.5, line = "black") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Arousal Study 2", ) +
+  facet_wrap(~Gender) +
+   scale_fill_manual(values=c("Photograph"="#F44336", "AI-Generated"="#2196F3")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+arousal_dist2
+```
+
+### Rate Belief
+
+```{r ratebelief}
+
+rate1 <- table(df1$Feedback_LabelsIncorrect)["True"] / sum(table(df1$Feedback_LabelsIncorrect))
+rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
+
+```
+
+The rate of people that did not believe the instructions in study 1 (i.e., gave feedback that the labels were incorrect) was `r round(mean(rate1) * 100, 1)`% while in study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%. 
+
+### Average Arousal 
+
+#### Study 1 
+
+```{r meanarousal 1}
+#| message: false
+
+dfsub1 <- dfsub1 |>
+  right_join(
+    df1 |>
+      group_by(Participant, Condition) |>
+      summarise(mean_arousal = mean(Arousal, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(
+        names_from = Condition,
+        names_prefix = "mean_Arousal_",
+        values_from = mean_arousal
+      ) |>
+      mutate(diff_arousal = `mean_Arousal_AI-Generated` - mean_Arousal_Photograph)
+  )
+
+ttest1 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub1)
+```
+
+```{r}
+diff_plot1 <- dfsub1 |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_arousal, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4,alpha = 0.6) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 1",
+    x = "Participant said AI is less arousing",
+    y = "Arousal Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#FF9800", "False" = "#E91E63")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot1
+```
+
+`r report(ttest1, data = dfsub1)`
+
+#### Study 2 
+```{r meanarousal 2}
+#| message: false
+
+dfsub2 <- dfsub2 |>
+  right_join(
+    df2|>
+      group_by(Participant, Condition)|>
+      summarise(mean_arousal = mean(Arousal, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(names_from = Condition, 
+                  names_prefix = "mean_Arousal_", 
+                  values_from = mean_arousal) |>
+      mutate(diff_arousal = `mean_Arousal_AI-Generated` - mean_Arousal_Photograph)
+    )
+
+ttest2 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub2)
+```
+
+```{r}
+diff_plot2 <- dfsub2 |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_arousal, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4, alpha = 0.6) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 2",
+    x = "Participant said AI is less arousing",
+    y = "Arousal Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#FF9800", "False" = "#E91E63")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot2
+```
+
+`r report(ttest2, data = dfsub1)`
+
+## Effect of Manipulation
+
+*Note*. Models for study 1 only include the conditions which were relevant to the participants secual orientation (e.g., seeing images of men as a heterosexual woman). 
+
+### Arousal
+
+```{r}
+arousal1 <- readRDS("models/ModelArousal_1.rds")
+results_table(arousal1)
+
+pred_a1 <- estimate_means(arousal1, by = c("Sex", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans")  |>
+  as.data.frame()
+
+pred_a1|>
+  mutate(Sex = fct_relevel(Sex, "Male", "Female")) |>
+  ggplot(aes(x = Arousal, y= Proportion ))
+
+```
+
+```{r}
+arousal2 <- readRDS("models/ModelArousal_2.rds")
+results_table(arousal2)
+
+pred_a2 <- estimate_means(arousal2, by = c("Gender","Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+```
+
+## Interindividual Variability and Moderators
+
+```{r}
+
+```
+
+
+
