@@ -6,11 +6,7 @@
 
         <!-- Load JsPsych -->
         <script src="https://unpkg.com/jspsych@8.1.0"></script>
-        <link
-            href="https://unpkg.com/jspsych@8.1.0/css/jspsych.css"
-            rel="stylesheet"
-            type="text/css"
-        />
+        <link href="https://unpkg.com/jspsych@8.1.0/css/jspsych.css" rel="stylesheet" type="text/css" />
 
         <!-- Load plugins -->
         <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.3"></script>
@@ -20,10 +16,7 @@
         <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-fullscreen@2.0.0"></script>
         <script src="https://unpkg.com/@jspsych/plugin-survey@2.0.0"></script>
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/@jspsych/plugin-survey@2.0.0/css/survey.css"
-        />
+        <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@2.0.0/css/survey.css" />
 
         <!-- To save data via DataPipe (for online experiments) -->
         <script src="https://unpkg.com/@jspsych-contrib/plugin-pipe@0.4.0"></script>
@@ -93,11 +86,9 @@
             on_finish: function () {
                 if (finished_experiment) {
                     if (jsPsych.data.urlVariables()["exp"] == "prolific") {
-                        window.location =
-                            "https://app.prolific.com/submissions/complete?cc=C1H71A2L"
+                        window.location = "https://app.prolific.com/submissions/complete?cc=C1H71A2L"
                     } else {
-                        window.location =
-                            "https://realitybending.github.io/research/#participate" // Redirect to lab website
+                        window.location = "https://realitybending.github.io/research/#participate" // Redirect to lab website
                     }
                 }
             },
@@ -110,8 +101,6 @@
         var timeline = []
 
         participant_ID = jsPsych.randomization.randomID(10)
-
-        timeline.push(fiction_ratings1)
 
         // Demographics ===========================================================
         timeline.push(demographics_browser_info)
@@ -144,17 +133,8 @@
             on_finish() {
                 //Phase 1A -------------------------------------------------------------
                 timeline.push({
-                    timeline_variables: stimuli.slice(
-                        0,
-                        Math.ceil(stimuli.length / 2)
-                    ),
-                    timeline: [
-                        fiction_fixation1a,
-                        fiction_cue,
-                        fiction_fixation1b,
-                        fiction_showimage1,
-                        fiction_ratings1,
-                    ],
+                    timeline_variables: stimuli.slice(0, Math.ceil(stimuli.length / 2)),
+                    timeline: [fiction_fixation1a, fiction_cue, fiction_fixation1b, fiction_showimage1, fiction_ratings1],
                 })
 
                 // Break ----------------------------------------------------------------
@@ -175,17 +155,8 @@
 
                 // Phase 1B -------------------------------------------------------------
                 timeline.push({
-                    timeline_variables: stimuli.slice(
-                        Math.ceil(stimuli.length / 2),
-                        stimuli.length
-                    ),
-                    timeline: [
-                        fiction_fixation1a,
-                        fiction_cue,
-                        fiction_fixation1b,
-                        fiction_showimage1,
-                        fiction_ratings1,
-                    ],
+                    timeline_variables: stimuli.slice(Math.ceil(stimuli.length / 2), stimuli.length),
+                    timeline: [fiction_fixation1a, fiction_cue, fiction_fixation1b, fiction_showimage1, fiction_ratings1],
                 })
                 timeline.push(fiction_feedback1)
 
@@ -210,13 +181,8 @@
                 // Stage 2 ==============================================================
                 timeline.push(fiction_instructions2)
                 timeline.push({
-                    timeline_variables:
-                        jsPsych.randomization.shuffleNoRepeats(stimuli),
-                    timeline: [
-                        fiction_fixation2,
-                        fiction_showimage2,
-                        fiction_ratings2,
-                    ],
+                    timeline_variables: jsPsych.randomization.shuffleNoRepeats(stimuli),
+                    timeline: [fiction_fixation2, fiction_showimage2, fiction_ratings2],
                 })
                 timeline.push(experiment_feedback)
 
