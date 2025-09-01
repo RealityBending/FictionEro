@@ -144,7 +144,7 @@ cache <- TRUE
 
 **Participants**
 
-The initial sample comprised 1,067 participants recruited via multiple channels, including Prolific (ref), Sona (ref), social media platforms, university classrooms, and snowball sampling. This strategy yielded a heterogeneous pool of both incentivised and non-incentivised individuals, including students and members of the general population from England, France, Italy, Colombia, and Spain.
+The initial sample comprised 1,067 participants recruited via multiple channels, including Prolific\textcopyright, Sona (ref), social media platforms, university classrooms, and snowball sampling. This strategy yielded a heterogeneous pool of both incentivised and non-incentivised individuals, including students and members of the general population from England, France, Italy, Colombia, and Spain.
 
 To ensure data quality, several exclusion criteria were applied. Participants were removed if they (a) showed no variation in arousal ratings across trials (N = 8), (b) displayed a negative correlation between arousal and enticement alongside lower arousal ratings for erotic compared to neutral stimuli, suggesting a possible misunderstanding of scale direction (N = 4), or (c) self-identified with a gender or sexual orientation incompatible with the aims of the analysis (N = 350). For the latter, only self-reported heterosexual individuals were retained.
 
@@ -206,18 +206,28 @@ Finally, participants were debriefed on the true purpose of the study: to examin
 
 **Data Analysis**
 
-
-
 # Study 2
 
 ## Methods
 
-**Participants**
+### Participants
 
-**Materials**
+The initial sample comprised of 279 participants recruited via Prolific\textcopyright. Participant exclusions were applied as follows: five participants were removed for showing no variability in arousal ratings (i.e., they did not move the response scales). An additional five participants were excluded for completing the study on a mobile device. One participant was excluded due to displaying negative correlations between arousal and both enticement and valence. Furthermore, five participants who self-identified as neither female nor male, and two participants who reported a sexual orientation other than heterosexual, homosexual, or bisexual, were excluded from further analyses. Finally, one participant was removed because the stimuli presented were not relevant to their gender and sexual orientation.
 
-**Procedure**
+The final sample consisted of 261 participants (Mean = 37.4 $\pm$ 12.7, 48.7% Female). %4.12% of participants were from the United Kingdom, 26.52% from South Africa, 11.47% from the United States and the remaining 7.89% distributed across other countries.
 
-**Ethics**
+Ethical approval for this study was obtained from the School of Psychology Ethics Committee at the University of Sussex (ER/EB672/2).
 
-**Data Analysis**
+### Materials
+
+### Procedure
+```{r}
+#| message: false
+#| warning: false
+
+
+knitr::include_graphics("images/Paradigm1.png")
+```
+
+
+### Data Analysis 
