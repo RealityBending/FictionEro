@@ -99,12 +99,13 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
          )) |>
   rename(AllRealConfidence = "Feedback_AllRealConfidence",
          AllFakeConfidence = "Feedback_AllFakeConfidence",
-         Enjoyment = "Feedback_Enjoyment"
+         Enjoyment = "Feedback_Enjoyment",
+         Item = Stimulus
          )|>
   mutate(across(starts_with("Feedback_"), as.factor)) |>
   mutate(ConditionBelief = as.factor(ConditionBelief)) |>
   mutate(StimuliType = case_when(
-    grepl("couple", Stimulus, ignore.case = TRUE) ~ "Couple",
+    grepl("couple", Item, ignore.case = TRUE) ~ "Couple",
     TRUE ~ "Individual")) |>
   mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
 ```
@@ -246,16 +247,16 @@ diff_plot2
 
 ## Effect of Manipulation
 
-*Note*. Models for study 1 only include the conditions which were relevant to the participants secual orientation (e.g., seeing images of men as a heterosexual woman). 
+*Note*. Models for study 1 only include the conditions which were relevant to the participants sexual orientation (e.g., seeing images of men as a heterosexual woman). 
 
 ```{r}
 
-tbl_results <-   function(model1,                                         title_table = "Fixed Effects: Study 1"){      
+tbl_results <-   function(model1, title_table = "Fixed Effects: Study 1"){      
                             
   # ---- Fixed effects table ----
-  tbl <- parameters::parameters(model1) |>
+  tbl <- parameters::parameters(model1, effects = "fixed") |>
     as.data.frame() |>
-    select(-Effects, -Group, -Component, -df_error, -CI) |>
+    select(-Effects, -df_error, -CI) |>
     gt() |>
     # tab_header(title = title_table, subtitle = subtitle_table) |>
     fmt_number(columns = c("Coefficient", "SE", "CI_low", "CI_high", "z", "p"), decimals = 2) |>
@@ -386,9 +387,61 @@ plt_v <- make_model_plot(valence1, valence2,
 3. effect of condition believed + relevant 
 4. correlation matrix/ matrix of scatter plots
 
+### Random Effects
+
+#### Arousal
 ```{r}
+table_dvour <- function(g) {
+  performance::performance_dvour(g) |> 
+    arrange(desc(D_vour)) |> 
+    gt::gt() |> 
+    gt::data_color("D_vour", palette = c("red", "red", "orange", "yellow", "green"), domain = c(0, 1)) |> 
+    gt::fmt_auto()
+}
+
+a1 <- modelbased::estimate_grouplevel(arousal1)
+table_dvour(a1)
+
+a2 <- modelbased::estimate_grouplevel(arousal2)
+table_dvour(a2)
 
 ```
 
+### Participant effects
 
+```{r}
+plot_grouplevel_effects <- function(model, outcome_name = NULL) {
+  
+  # Colors
+  colors <- c("Participant" = "#9C27B0", "Item" = "#FF9800")
+  
+  # Plot
+  p <- ggplot(model, aes(x = Median, y = Level)) +
+    geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Group), size = 0.3) +
+    ggside::geom_xsidedensity(aes(group = Group, fill = Group), color = NA, alpha = 0.3) +
+    scale_color_manual(values = colors) +
+    scale_fill_manual(values = colors) +
+    theme_minimal() +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.title.x = element_text(size = 12),
+      axis.title.y = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major.y = element_blank(),
+      legend.position = "bottom"
+    ) +
+    labs(
+      x = ifelse(is.null(outcome_name), "Random intercept (participant/item)", paste0(outcome_name, " random intercept")),
+      y = "",
+      color = "Group",
+      fill = "Group"
+    )
+  
+  return(p)
+}
+
+plot_grouplevel_effects(a1, outcome_name = "Arousal")
+
+```
 

@@ -22,10 +22,11 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            -Feedback_Comments),
     by = "Participant"
   ) |> 
+  rename(Gender = Sex) |>
   datawizard::rescale(select=c("Valence"), range=c(-1, 1), to=c(0, 1)) |> 
   mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
          Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "Non-erotic"),
-         Sex =  fct_relevel(Sex, "Male", "Female"),
+         Gender =  fct_relevel(Gender, "Male", "Female"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
          ConditionBelief = case_when(
@@ -41,20 +42,20 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # MODELS --------
 
 # Arousal
-m_a1 <-  glmmTMB::glmmTMB(Arousal ~ Sex / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_a1 <-  glmmTMB::glmmTMB(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 
 # Enticement
-m_e1 <-  glmmTMB::glmmTMB(Enticement ~ Sex /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_e1 <-  glmmTMB::glmmTMB(Enticement ~ Gender /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 
 
 # Valence
-m_v1 <-  glmmTMB::glmmTMB(Valence ~ Sex / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_v1 <-  glmmTMB::glmmTMB(Valence ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
@@ -92,12 +93,13 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
          ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |>
   rename(AllRealConfidence = "Feedback_AllRealConfidence",
          AllFakeConfidence = "Feedback_AllFakeConfidence",
-         Enjoyment = "Feedback_Enjoyment"
+         Enjoyment = "Feedback_Enjoyment",
+         Item = Stimulus
   )|>
   mutate(across(starts_with("Feedback_"), as.factor)) |>
   mutate(ConditionBelief = as.factor(ConditionBelief)) |>
   mutate(StimuliType = case_when(
-    grepl("couple", Stimulus, ignore.case = TRUE) ~ "Couple",
+    grepl("couple", Item, ignore.case = TRUE) ~ "Couple",
     TRUE ~ "Individual")) |>
   mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
 
@@ -105,17 +107,17 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # MODELS --------
 
 # Arousal
-m_a2<-  glmmTMB::glmmTMB(Arousal ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Stimulus),
+m_a2<-  glmmTMB::glmmTMB(Arousal ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 # Enticement
-m_e2 <-  glmmTMB::glmmTMB(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Stimulus),
+m_e2 <-  glmmTMB::glmmTMB(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 # Valence
-m_v2 <-  glmmTMB::glmmTMB(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Stimulus),
+m_v2 <-  glmmTMB::glmmTMB(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
