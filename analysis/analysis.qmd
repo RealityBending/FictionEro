@@ -23,6 +23,7 @@ library(easystats)
 library(patchwork)
 library(ggside)
 library(glmmTMB)
+library(gt)
 
 options(mc.cores = parallel::detectCores(),
         brms.backend = "cmdstanr",
@@ -56,10 +57,11 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            Screen_Size,
            -Feedback_Comments),
     by = "Participant") |> 
+  rename(Gender = Sex) |>
   datawizard::rescale(select=c("Valence"), range=c(-1, 1), to=c(0, 1)) |> 
   mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
          Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "Non-erotic"),
-         Sex =  fct_relevel(Sex, "Male", "Female"),
+         Gender =  fct_relevel(Gender, "Male", "Female"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
          ConditionBelief = case_when(
@@ -119,7 +121,7 @@ arousal_dist1 <- df1 |>
   geom_histogram(position = "identity", alpha = 0.4, colour = "black", bins = 20) +
   scale_x_continuous(breaks = c(0, 1)) +
   labs(title = "Arousal Study 1", ) +
-  facet_wrap(~Sex) +
+  facet_wrap(~Gender) +
    scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
@@ -246,6 +248,77 @@ diff_plot2
 
 *Note*. Models for study 1 only include the conditions which were relevant to the participants secual orientation (e.g., seeing images of men as a heterosexual woman). 
 
+```{r}
+
+tbl_results <-   function(model1,                                         title_table = "Fixed Effects: Study 1"){      
+                            
+  # ---- Fixed effects table ----
+  tbl <- parameters::parameters(model1) |>
+    as.data.frame() |>
+    select(-Effects, -Group, -Component, -df_error, -CI) |>
+    gt() |>
+    # tab_header(title = title_table, subtitle = subtitle_table) |>
+    fmt_number(columns = c("Coefficient", "SE", "CI_low", "CI_high", "z", "p"), decimals = 2) |>
+    cols_label(
+      Parameter = "Predictor",
+      Coefficient = "β",
+      SE = "SE",
+      CI_low = "CI (lower)",
+      CI_high = "CI (upper)",
+      z = "z-value",
+      p = "p"
+    ) |>
+    cols_merge(columns = c("CI_low", "CI_high"), pattern = "{1}, {2}") |>
+    cols_label(`CI_low` = "95% CI") |>
+    tab_style(
+      style = cell_text(weight = "bold"),
+      locations = cells_column_labels(everything())
+    ) |>
+    opt_table_lines()
+  
+    return(tbl)
+}
+
+```
+
+```{r}
+make_model_plot <- function(model1, model2 = NULL, 
+                            title = "Estimated Marginal Means") {
+  
+    pred_df <- rbind(
+      modelbased::estimate_means(model1, by = c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans")  |>
+        filter(Relevance == "Relevant") |>
+        select(-Relevance) |>
+        mutate(Sample = "Study 1")|>
+      as.data.frame(), 
+      modelbased::estimate_means(model2, by = c("Gender","Condition", "ConditionBelief"), backend = "emmeans")|>
+        mutate(Sample = "Study 2") |>
+        as.data.frame()) 
+    
+    plt <- pred_df |>
+      ggplot(aes(x = ConditionBelief,y = Proportion, color = Condition,linetype = Sample, group = interaction(Sample, Condition))) +
+      geom_line(size = 1) +
+      geom_point(size = 2) +
+      geom_errorbar(aes(ymin = CI_low, ymax = CI_high),width = 0.1) +
+      facet_wrap(~ Gender) +
+      scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+      theme_minimal(base_size = 14) +
+        labs(x = "Whether the original labels were believed to be true",y = "Estimated Proportion",color = "Images presented as:",linetype = "Sample", title = "Enticement") +
+      theme(
+            axis.text.y = element_text(size = 8),
+            strip.placement = "outside",
+            strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+            strip.text.x = element_text(size = 10),
+            strip.text.y = element_text(size = 10),
+            axis.text.x = element_text(face = "bold", size=9, color="black"),
+            legend.text = element_text(size = 10),
+            legend.position =  )
+    
+    return(plt)
+}
+
+```
+
 ### Arousal 
 
 ```{r}
@@ -255,35 +328,15 @@ arousal2 <- readRDS("models/ModelArousal_2.rds")
 
 ```{r}
 
-pred_a <- rbind(
-  modelbased::estimate_means(arousal1, by = c("Sex", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans")  |>
-    filter(Relevance == "Relevant") |>
-    select(-Relevance) |>
-    rename(Gender = "Sex") |>
-    mutate(Sample = "Study 1")|>
-  as.data.frame(), 
-  modelbased::estimate_means(arousal2, by = c("Gender","Condition", "ConditionBelief"), backend = "emmeans")|>
-    mutate(Sample = "Study 2") |>
-    as.data.frame()) 
+tbl_a1 <- tbl_results(arousal1, title = "Fixed Effects: Arousal Study 1")
+tbl_a2 <- tbl_results(arousal2, title = "Fixed Effects: Arousal Study 2")
 
-pred_a |>
-  ggplot(aes(x = ConditionBelief,y = Proportion, color = Condition,linetype = Sample, group = interaction(Sample, Condition))) +
-  geom_line(size = 1) +
-  geom_point(size = 2) +
-  geom_errorbar(aes(ymin = CI_low, ymax = CI_high),width = 0.1) +
-  facet_wrap(~ Gender) +
-  scale_color_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
-  theme_minimal(base_size = 14) +
-  theme(
-        axis.text.y = element_text(size = 8),
-        strip.placement = "outside",
-        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
-        strip.text.x = element_text(size = 10),
-        strip.text.y = element_text(size = 10),
-        axis.text.x = element_text(face = "bold", size=9, color="black"),
-        legend.text = element_text(size = 10),
-        legend.position =  ) +
-  labs(x = "Whether the original labels were believed to be true",y = "Estimated Proportion",color = "Images presented as:",linetype = "Sample")
+``` 
+
+```{r}
+
+plt_a <- make_model_plot(arousal1, arousal2,
+                title = "Arousal for Relevant Stimuli")
 ```
 
 ### Enticement
@@ -293,6 +346,18 @@ enticement1 <- readRDS("models/ModelEnticement_1.rds")
 enticement2 <- readRDS("models/ModelEnticement_2.rds")
 ```
 
+```{r}
+
+tbl_e1 <- tbl_results(enticement1, title = "Fixed Effects: Enticement Study 1")
+tbl_e2 <- tbl_results(enticement2, title = "Fixed Effects: Enticement Study 2")
+
+``` 
+
+```{r}
+
+plt_e <- make_model_plot(enticement1, enticement2,
+                title = "Enticement for Relevant Stimuli")
+```
 
 ### Valence
 
@@ -301,8 +366,25 @@ valence1 <- readRDS("models/ModelValence_1.rds")
 valence2 <- readRDS("models/ModelValence_2.rds")
 ```
 
+```{r}
+
+tbl_v1 <- tbl_results(valence1, title = "Fixed Effects: Valence Study 1")
+tbl_v2 <- tbl_results(valence2, title = "Fixed Effects: Valence Study 2")
+
+``` 
+
+```{r}
+
+plt_v <- make_model_plot(valence1, valence2,
+                title = "Valence for Relevant Stimuli")
+```
 
 ## Interindividual Variability and Moderators
+
+1. extract random effects
+2. make plot of participant effects
+3. effect of condition believed + relevant 
+4. correlation matrix/ matrix of scatter plots
 
 ```{r}
 
