@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "The Effect of Fictional Reappraisal on Subjective Ratings Toward Images"
 shorttitle: "FicitionEro"
 author:
   - name: Dominique Makowski
@@ -8,6 +8,13 @@ author:
     email: D.Makowski@sussex.ac.uk
     url: https://realitybending.github.io/
     roles:
+      - Project administration
+      - Data curation
+      - Formal Analysis
+      - Investigation
+      - Visualization
+      - Writing – original draft
+      - Writing – review & editing
     affiliations:
       - ref: "id1"
       - name: "University of Sussex"
@@ -15,7 +22,6 @@ author:
   - name: Ana Neves
     orcid: 0009-0006-0020-7599
     roles:
-      - Project administration
       - Data curation
       - Formal Analysis
       - Investigation
@@ -26,9 +32,6 @@ author:
       - id: "id1"
         name: "University of Sussex"
         department: "School of Psychology"
-        city: "Brighton"
-        country: "UK"
-        postal-code: "BN1 9RH"
 # author-note:
 #   status-changes: 
 #     affiliation-change: null
@@ -94,7 +97,7 @@ language:
 format:
   apaquarto-pdf:
     # Can be jou (journal), man (manuscript), stu (student), or doc (document)
-    documentmode: man
+    documentmode: jou
     include-in-header:
       - text: |
           \usepackage{lscape}
@@ -175,8 +178,11 @@ Consumption of Pornography Scale – General [COPS; @hatch2023consumption] is a 
 **Procedure**
 
 ```{r}
-#| message: false
 #| warning: false
+#| label: "fig-paradigm1"
+#| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
+#| out-width: "100%"
+#| fig-cap: "Paradigm 2"
 
 
 knitr::include_graphics("images/Paradigm1.png")
@@ -202,7 +208,7 @@ In the final phase, participants viewed the same 60 images, presented in a new r
 
 At the end of the experiment, participants completed a feedback form. They were asked whether they could distinguish AI-generated from real images, whether AI images appeared more or less arousing, whether cue labels seemed accurate or reversed, and whether specific images stood out as particularly arousing or unarousing.
 
-Finally, participants were debriefed on the true purpose of the study: to examine how image labels (AI-generated vs. real photograph) influence emotional responses. Importantly, they were informed that all images were real photographs, and that the “AI-generated” label was used solely to test the effect of belief on affective reactions. A shareable link to the experiment was also provided.
+Finally, participants were debriefed on the true purpose of the study: to examine how image labels (AI-generated vs. real photograph) influence emotional responses. Importantly, they were informed that all images were real photographs, and that the “AI-generated” label was used solely to test the effect of belief on affective reactions. A shareable link to the experiment was also provided [see @fig-paradigm1].
 
 **Data Analysis**
 
@@ -222,12 +228,23 @@ Ethical approval for this study was obtained from the School of Psychology Ethic
 
 ### Procedure
 ```{r}
-#| message: false
 #| warning: false
+#| label: "fig-paradigm2"
+#| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
+#| out-width: "100%"
+#| fig-cap: "Paradigm 2"
 
-
-knitr::include_graphics("images/Paradigm1.png")
+knitr::include_graphics("images/Paradigm2.png")
 ```
 
+see @fig-paradigm2
 
 ### Data Analysis 
+
+
+# References
+
+<!-- References will auto-populate in the refs div below -->
+
+::: {#refs}
+:::
