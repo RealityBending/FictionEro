@@ -30,6 +30,19 @@ options(mc.cores = parallel::detectCores(),
         brms.backend = "cmdstanr",
         width = 300)
 
+results_table <- function(model, effects="fixed", filter=NULL) {
+  if("marginaleffects" %in% class(model)) {
+    model |> 
+      parameters::parameters() |> 
+      as.data.frame() |> 
+      select(-Parameter, -SE, -S, z=Statistic) |> 
+      insight::format_table() |> 
+      parameters::display()
+  } else {
+    display(parameters::parameters(model, effects=effects, keep=filter))
+  }
+}
+
 ```
 
 ```{r data study1}
@@ -97,88 +110,6 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
   mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
 ```
 
-
-```{r}
-
-tbl_results <-   function(model1, title_table = "Fixed Effects: Study 1"){      
-                            
-  # ---- Fixed effects table ----
-  tbl <- parameters::parameters(model1, effects = "fixed") |>
-    as.data.frame() |>
-    select(-Effects, -df_error, -CI) |>
-    gt() |>
-    # tab_header(title = title_table, subtitle = subtitle_table) |>
-    fmt_number(columns = c("Coefficient", "SE", "CI_low", "CI_high", "z", "p"), decimals = 2) |>
-    cols_label(
-      Parameter = "Predictor",
-      Coefficient = "β",
-      SE = "SE",
-      CI_low = "CI (lower)",
-      CI_high = "CI (upper)",
-      z = "z-value",
-      p = "p"
-    ) |>
-    cols_merge(columns = c("CI_low", "CI_high"), pattern = "{1}, {2}") |>
-    cols_label(`CI_low` = "95% CI") |>
-    tab_style(
-      style = cell_text(weight = "bold"),
-      locations = cells_column_labels(everything())
-    ) |>
-    opt_table_lines()
-  
-    return(tbl)
-}
-
-
-make_combined_plot <- function(model1, model2 = NULL, 
-                               title = "Estimated Marginal Means") {
-  
-  df1 <- modelbased::estimate_means(
-    model1, by = c("Gender", "Relevance", "Condition", "ConditionBelief"),backend = "emmeans") |>
-    dplyr::mutate(Sample = "Study 1") |>
-    as.data.frame()
-  
-  # Study 2: only Relevant
-  if (!is.null(model2)) {
-    df2 <- modelbased::estimate_means(
-      model2, by = c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
-      dplyr::mutate(Relevance = "Relevant", Sample = "Study 2") |>
-      as.data.frame()
-    pred_df <- rbind(df1, df2)
-  } else {
-    pred_df <- df1
-  }
-  
-  
-  plt <- pred_df |>
-    ggplot(aes(x = ConditionBelief, y = Proportion,color = Condition, linetype = Sample, group = interaction(Sample, Condition)
-    )) +
-    geom_hline(yintercept = 0, color = "darkgrey") +
-    geom_line(size = 1) +
-    geom_point(size = 2) +
-    geom_errorbar(aes(ymin = CI_low, ymax = CI_high), width = 0.1) +
-    facet_grid(Relevance ~ Gender, switch = "y") +
-    scale_color_manual(values = c("AI-Generated" = "#2196F3","Photograph" = "#F44336")) +
-    theme_minimal(base_size = 14) +
-    labs(title = title, x= "Whether the original labels were believed to be true",color = "Images presented as:", linetype = "Sample"
-    ) +
-    theme(
-      axis.title.y = element_blank(),
-      axis.text.y = element_text(size = 8),
-      strip.placement = "outside",
-      strip.background.x = element_rect(fill = "lightgrey", color = NA),
-      strip.text.x = element_text(size = 10),
-      strip.text.y = element_text(size = 10),
-      axis.text.x = element_text(face = "bold", size = 9, color = "black"),
-      legend.text = element_text(size = 10),
-      legend.position = "bottom"
-    )
-  
-  plt
-}
-
-
-```
 
 ## Manipulation Checks
 
@@ -326,18 +257,71 @@ diff_plot2
 ```{r}
 arousal1 <- readRDS("models/ModelArousal_1.rds")
 arousal2 <- readRDS("models/ModelArousal_2.rds")
-
-tbl_a1 <- tbl_results(arousal1, title = "Fixed Effects: Arousal Study 1")
-tbl_a1
 ```
 
 ```{r}
-tbl_a2 <- tbl_results(arousal2, title = "Fixed Effects: Arousal Study 2")
-tbl_a2
+results_table(arousal1)
+```
+
+```{r}
+results_table(arousal2)
+
 ``` 
 
 ```{r}
+#| fig-height: 8
+#| fig-width: 8
+
+
+make_combined_plot <- function(model1, model2 = NULL, 
+                               title = "Estimated Marginal Means") {
+  
+  df1 <- modelbased::estimate_means(
+    model1, by = c("Gender", "Relevance", "Condition", "ConditionBelief"),backend = "emmeans") |>
+    dplyr::mutate(Sample = "Study 1") |>
+    as.data.frame()
+  
+  # Study 2: only Relevant
+  if (!is.null(model2)) {
+    df2 <- modelbased::estimate_means(
+      model2, by = c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+      dplyr::mutate(Relevance = "Relevant", Sample = "Study 2") |>
+      as.data.frame()
+    pred_df <- rbind(df1, df2)
+  } else {
+    pred_df <- df1
+  }
+  
+  
+  plt <- pred_df |>
+    ggplot(aes(x = ConditionBelief, y = Proportion,color = Condition, linetype = Sample, group = interaction(Sample, Condition)
+    )) +
+    geom_hline(yintercept = 0, color = "darkgrey") +
+    geom_line(linewidth = 1) +
+    geom_point(size = 2) +
+    geom_errorbar(aes(ymin = CI_low, ymax = CI_high), width = 0.1) +
+    facet_grid(Relevance ~ Gender, switch = "y") +
+    scale_color_manual(values = c("AI-Generated" = "#2196F3","Photograph" = "#F44336")) +
+    theme_minimal(base_size = 14) +
+    labs(title = title, x= "Whether the original labels were believed to be true",color = "Images presented as:", linetype = "Sample"
+    ) +
+    theme(
+      axis.title.y = element_blank(),
+      axis.text.y = element_text(size = 8),
+      strip.placement = "outside",
+      strip.background.x = element_rect(fill = "lightgrey", color = NA),
+      strip.text.x = element_text(size = 10),
+      strip.text.y = element_text(size = 10),
+      axis.text.x = element_text(face = "bold", size = 9, color = "black"),
+      legend.text = element_text(size = 10),
+      legend.position = "bottom")
+  
+  plt
+}
+
 plta <- make_combined_plot(arousal1, arousal2, title = "Arousal Estimates for All Stimuli")
+
+plta
 ```
 
 ### Enticement
@@ -345,17 +329,21 @@ plta <- make_combined_plot(arousal1, arousal2, title = "Arousal Estimates for Al
 ```{r}
 enticement1 <- readRDS("models/ModelEnticement_1.rds")
 enticement2 <- readRDS("models/ModelEnticement_2.rds")
-
-tbl_e1 <- tbl_results(enticement1, title = "Fixed Effects: Enticement Study 1")
-tbl_e1
 ```
 
 ```{r}
-tbl_e2 <- tbl_results(enticement2, title = "Fixed Effects: Enticement Study 2")
-tbl_e2
-``` 
+results_table(enticement1)
+```
 
 ```{r}
+results_table(enticement2)
+```
+
+
+```{r}
+#| fig-height: 8
+#| fig-width: 8
+
 plt_e <- make_combined_plot(enticement1, enticement2, title = "Enticement Estimates for All Stimuli")
 plt_e
 ```
@@ -365,17 +353,20 @@ plt_e
 ```{r}
 valence1 <- readRDS("models/ModelValence_1.rds")
 valence2 <- readRDS("models/ModelValence_2.rds")
-
-tbl_v1 <- tbl_results(valence1, title = "Fixed Effects: Valence Study 1")
-tbl_v1
 ```
 
 ```{r}
-tbl_v2 <- tbl_results(valence2, title = "Fixed Effects: Valence Study 2")
-tbl_v2
-``` 
+results_table(valence1)
+```
 
 ```{r}
+results_table(valence2)
+```
+
+```{r}
+#| fig-height: 8
+#| fig-width: 8
+
 plt_v <- make_combined_plot(valence1, valence2, title = "Valence Estimates for All Stimuli")
 plt_v
 ```
@@ -390,9 +381,30 @@ plt_v
 3. effect of condition believed + relevant 
 4. correlation matrix/ matrix of scatter plots
 
+::: {.panel-tabset}
+
 ### Random Effects
 
+```{r}
+
+table_dvour <- function(g) {
+  performance::performance_dvour(g) |> 
+    arrange(desc(D_vour)) |> 
+    gt::gt() |> 
+    gt::data_color("D_vour", palette = "green", domain = c(0, 1)) |> 
+    gt::fmt_auto()
+}
+
+g1 <- modelbased::estimate_grouplevel(arousal1)
+table_dvour(g1)
+
+```
+
+```{r}
+g2 <- modelbased::estimate_grouplevel(arousal2)
+table_dvour(g2)
+```
 
 ### Participant effects
 
-
+:::
