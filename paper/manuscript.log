@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.29)  2 SEP 2025 13:14
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.29)  2 SEP 2025 15:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1476,53 +1476,70 @@ LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/b/n' will be
 (Font)              scaled to size 9.0pt on input line 353.
 File: manuscript_files/mediabag/ReBeL_LogoOnly_hu114.png Graphic file (type bmp)
 <manuscript_files/mediabag/ReBeL_LogoOnly_hu114.png>
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/b/n' will be
-(Font)              scaled to size 10.0pt on input line 362.
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 362.
+(Font)              scaled to size 5.0pt on input line 386.
 
-Overfull \vbox (0.98277pt too high) has occurred while \output is active []
+Overfull \vbox (0.92744pt too high) has occurred while \output is active []
 
 
 
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/b/it' will be
-(Font)              scaled to size 10.0pt on input line 393.
+LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/b/n' will be
+(Font)              scaled to size 10.0pt on input line 397.
+
+LaTeX Warning: Citation `ref-moshel2022you' on page 1 undefined on input line 397.
+
 
 
 [1
 
 
 ]
+LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/b/it' will be
+(Font)              scaled to size 10.0pt on input line 434.
+
+
 LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/m/it' will be
-(Font)              scaled to size 10.0pt on input line 461.
+(Font)              scaled to size 10.0pt on input line 502.
 File: images/Paradigm1.png Graphic file (type bmp)
 <images/Paradigm1.png>
 
 
-
-Overfull \hbox (0.16565pt too wide) in paragraph at lines 529--543
+LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/m/n' will be
+(Font)              scaled to size 7.0pt on input line 561.
+[2]
+Overfull \hbox (0.16565pt too wide) in paragraph at lines 570--584
 []\TU/TeXGyreTermesX(0)/m/n/10 The initial sample comprised 279 participants recruited via
  []
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Font Info:    Font shape `TU/TeXGyreTermesX(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 548.
-[2]
 
+
+
+
+[3]
 File: images/Paradigm2.png Graphic file (type bmp)
 <images/Paradigm2.png>
 
 
-[3]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [4]
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[5]
 ! Undefined control sequence.
 \latex@makecol ...\@kludgeins \@makespecialcolbox 
                                                   \else \setbox \@outputbox ...
-l.685 
+l.787 
       
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1532,11 +1549,11 @@ and I'll forget about whatever was undefined.
 
  
 Here is how much of TeX's memory you used:
- 38784 strings out of 470457
- 786486 string characters out of 5489522
- 1266180 words of memory out of 5000000
- 66417 multiletter control sequences out of 15000+600000
+ 38791 strings out of 470457
+ 786657 string characters out of 5489522
+ 1268180 words of memory out of 5000000
+ 66424 multiletter control sequences out of 15000+600000
  665538 words of font info for 153 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  99i,12n,116p,901b,1264s stack positions out of 10000i,1000n,20000p,200000b,200000s
-Output written on manuscript.pdf (4 pages).
+Output written on manuscript.pdf (5 pages).
