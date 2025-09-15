@@ -385,8 +385,9 @@ plt_v
 
 ### Random Effects
 
-```{r}
+- Reliability 
 
+```{r}
 table_dvour <- function(g) {
   performance::performance_dvour(g) |> 
     arrange(desc(D_vour)) |> 
@@ -395,9 +396,39 @@ table_dvour <- function(g) {
     gt::fmt_auto()
 }
 
-g1 <- modelbased::estimate_grouplevel(arousal1)
+g1 <- modelbased::estimate_grouplevel(m_a2, type = "total")
 table_dvour(g1)
 
+```
+
+```{r}
+
+colors <- c("p" = "#9C27B0", "confright" = "#795548", "confleft" = "#795548",
+            "precright" = "#607D8B","precleft" = "#607D8B", "pex" = "#FF9800", "bex" = "#F44336")
+
+p2_dvour <- g1_choco |> 
+  mutate(Component = ifelse(Component == "conditional", "p",  Component),
+         Component = fct_relevel(Component, "p", "confright", "confleft", "precright", "precleft", "pex", "bex"),
+         Group = fct_relevel(Group, "Participant", "Item"),
+         .group = paste0(Group, " (", Component, ")")) |>
+  ggplot(aes(x = Median, y = Level)) +
+  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color= Component), linewidth = 0.3, size = 0.05) +
+  facet_grid(Group~Component, scales = "free", switch="both") +
+  ggside::geom_xsidedensity(aes(group = .group, fill = Component), color = NA) +
+  ggside::ggside(scales  = "free") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.placement.x = "outside",
+        strip.background = element_rect(fill = NA, color = NA),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position = "none")
+p2_dvour
 ```
 
 ```{r}
@@ -406,5 +437,9 @@ table_dvour(g2)
 ```
 
 ### Participant effects
+
+```{r}
+
+```
 
 :::

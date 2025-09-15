@@ -42,6 +42,10 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # MODELS --------
 
 # Arousal
+
+# random slopes that did not converge: (Condition:Relevance/ Participant) + 
+
+
 m_a1 <-  glmmTMB::glmmTMB(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1,
                           family=glmmTMB::ordbeta(),
@@ -107,7 +111,7 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # MODELS --------
 
 # Arousal
-m_a2<-  glmmTMB::glmmTMB(Arousal ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_a2<-  glmmTMB::glmmTMB(Arousal ~ Gender / Condition*ConditionBelief + (Condition|Participant) + (1|Item),
                           data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
