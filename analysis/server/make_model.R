@@ -38,6 +38,7 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
          ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |> 
   mutate(across(starts_with("Feedback_"), function(x) {fct_relevel(x, "False", "True")}))
 
+df1[1:2,] # keep only 2 participants to test locally 
 
 # MODELS --------
 
@@ -46,20 +47,20 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # random slopes that did not converge: (Condition:Relevance/ Participant) + 
 
 
-m_a1 <-  glmmTMB::glmmTMB(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_a1 <-  brms::brm(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 
 # Enticement
-m_e1 <-  glmmTMB::glmmTMB(Enticement ~ Gender /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_e1 <-  brms::brm(Enticement ~ Gender /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 
 
 # Valence
-m_v1 <-  glmmTMB::glmmTMB(Valence ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_v1 <-  brms::brm(Valence ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
@@ -107,21 +108,22 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
     TRUE ~ "Individual")) |>
   mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
 
+df2[1:2,] # keep only 2 participants to test locally 
+
 
 # MODELS --------
-
 # Arousal
-m_a2<-  glmmTMB::glmmTMB(Arousal ~ Gender / Condition*ConditionBelief + (Condition|Participant) + (1|Item),
+m_a2<-  brms::brm(Arousal ~ Gender / Condition*ConditionBelief + (Condition|Participant) + (1|Item),
                           data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 # Enticement
-m_e2 <-  glmmTMB::glmmTMB(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_e2 <-  brms::brm(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))
 # Valence
-m_v2 <-  glmmTMB::glmmTMB(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
+m_v2 <-  brms::brm(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df2,
                           family=glmmTMB::ordbeta(),
                           control = glmmTMB::glmmTMBControl(parallel = 8))

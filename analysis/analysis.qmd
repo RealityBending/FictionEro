@@ -373,7 +373,6 @@ plt_v
  
 :::
 
-
 ## Interindividual Variability and Moderators
 
 1. extract random effects
@@ -381,40 +380,44 @@ plt_v
 3. effect of condition believed + relevant 
 4. correlation matrix/ matrix of scatter plots
 
-::: {.panel-tabset}
-
 ### Random Effects
 
-- Reliability 
+```{r}
+
+model_draft <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition + (Condition|Participant) + (1|Item),
+                          data=df2,
+                          family=glmmTMB::ordbeta(),
+                          control = glmmTMB::glmmTMBControl(parallel = 8))
+
+
+```
+### Reliability 
 
 ```{r}
 table_dvour <- function(g) {
   performance::performance_dvour(g) |> 
     arrange(desc(D_vour)) |> 
     gt::gt() |> 
-    gt::data_color("D_vour", palette = "green", domain = c(0, 1)) |> 
+    gt::data_color("D_vour", palette = c("red","green"), domain = c(0, 1)) |> 
     gt::fmt_auto()
 }
 
-g1 <- modelbased::estimate_grouplevel(m_a2, type = "total")
+g1 <- modelbased::estimate_grouplevel(model_draft)
 table_dvour(g1)
 
 ```
 
+#### Participant effects
+
 ```{r}
+colors <- c("(Intercept)" = "#9C27B0","ConditionAI-Generated" = "#FF9800")
 
-colors <- c("p" = "#9C27B0", "confright" = "#795548", "confleft" = "#795548",
-            "precright" = "#607D8B","precleft" = "#607D8B", "pex" = "#FF9800", "bex" = "#F44336")
-
-p2_dvour <- g1_choco |> 
-  mutate(Component = ifelse(Component == "conditional", "p",  Component),
-         Component = fct_relevel(Component, "p", "confright", "confleft", "precright", "precleft", "pex", "bex"),
-         Group = fct_relevel(Group, "Participant", "Item"),
-         .group = paste0(Group, " (", Component, ")")) |>
-  ggplot(aes(x = Median, y = Level)) +
-  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color= Component), linewidth = 0.3, size = 0.05) +
-  facet_grid(Group~Component, scales = "free", switch="both") +
-  ggside::geom_xsidedensity(aes(group = .group, fill = Component), color = NA) +
+p2_dvour <- g1 |> 
+  ggplot(aes(x = Coefficient, y = Level)) +
+  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
+  facet_grid(Group~Parameter, scales = "free", switch="both") +
+  ggside::ggside(scales  = "free") +
+  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
   ggside::ggside(scales  = "free") +
   scale_color_manual(values = colors) +
   scale_fill_manual(values = colors) +
@@ -431,15 +434,7 @@ p2_dvour <- g1_choco |>
 p2_dvour
 ```
 
-```{r}
-g2 <- modelbased::estimate_grouplevel(arousal2)
-table_dvour(g2)
-```
+### Correlation
 
-### Participant effects
 
-```{r}
 
-```
-
-:::
