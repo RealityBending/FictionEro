@@ -5,6 +5,7 @@ library(easystats)
 library(patchwork)
 library(ggside)
 library(glmmTMB)
+library(brms)
 
 options(mc.cores = parallel::detectCores(),
         brms.backend = "cmdstanr",
@@ -47,23 +48,17 @@ df1[1:2,] # keep only 2 participants to test locally
 # random slopes that did not converge: (Condition:Relevance/ Participant) + 
 
 
-m_a1 <-  brms::brm(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df1,
-                          family=glmmTMB::ordbeta(),
-                          control = glmmTMB::glmmTMBControl(parallel = 8))
+m_a1 <-  brms::brm(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (Relevance / Condition|Participant) + (1|Item),
+                          data=df1, family=zero_one_inflated_beta())
 
 # Enticement
 m_e1 <-  brms::brm(Enticement ~ Gender /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df1,
-                          family=glmmTMB::ordbeta(),
-                          control = glmmTMB::glmmTMBControl(parallel = 8))
+                          data=df1, family=zero_one_inflated_beta())
 
 
 # Valence
 m_v1 <-  brms::brm(Valence ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df1,
-                          family=glmmTMB::ordbeta(),
-                          control = glmmTMB::glmmTMBControl(parallel = 8))
+                          data=df1, family=zero_one_inflated_beta())
 
 # Save models
 saveRDS(m_a1, file = "../models/ModelArousal_1.rds")
@@ -114,19 +109,13 @@ df2[1:2,] # keep only 2 participants to test locally
 # MODELS --------
 # Arousal
 m_a2<-  brms::brm(Arousal ~ Gender / Condition*ConditionBelief + (Condition|Participant) + (1|Item),
-                          data=df2,
-                          family=glmmTMB::ordbeta(),
-                          control = glmmTMB::glmmTMBControl(parallel = 8))
+                          data=df2, family=zero_one_inflated_beta())
 # Enticement
 m_e2 <-  brms::brm(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df2,
-                          family=glmmTMB::ordbeta(),
-                          control = glmmTMB::glmmTMBControl(parallel = 8))
+                          data=df2,family=zero_one_inflated_beta())
 # Valence
 m_v2 <-  brms::brm(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df2,
-                          family=glmmTMB::ordbeta(),
-                          control = glmmTMB::glmmTMBControl(parallel = 8))
+                          data=df2,family=zero_one_inflated_beta())
 
 # Save models
 saveRDS(m_a2, file = "../models/ModelArousal_2.rds")

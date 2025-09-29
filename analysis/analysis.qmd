@@ -16,6 +16,34 @@ execute:
 ## Data Preparation
 
 ```{r}
+
+m_a1 <-  brms::brm(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (Relevance / Condition|Participant) + (1|Item),
+                          data=df1, family=zero_one_inflated_beta())
+
+# Enticement
+m_e1 <-  brms::brm(Enticement ~ Gender /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
+                          data=df1, family=zero_one_inflated_beta())
+
+
+# Valence
+m_v1 <-  brms::brm(Valence ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
+                          data=df1, family=zero_one_inflated_beta())
+```
+
+```{r}
+
+m_a2<-  brms::brm(Arousal ~ Gender / Condition*ConditionBelief + (Condition|Participant) + (1|Item),
+                          data=df2, family=zero_one_inflated_beta())
+# Enticement
+m_e2 <-  brms::brm(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
+                          data=df2,family=zero_one_inflated_beta())
+# Valence
+m_v2 <-  brms::brm(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
+                          data=df2,family=zero_one_inflated_beta())
+```
+
+
+```{r}
 #| message: false
 #| warning: false
 
