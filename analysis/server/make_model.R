@@ -48,7 +48,7 @@ df1[1:2,] # keep only 2 participants to test locally
 # random slopes that did not converge: (Condition:Relevance/ Participant) + 
 
 
-m_a1 <-  brms::brm(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (Relevance / Condition|Participant) + (1|Item),
+m_a1 <-  brms::brm(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
                           data=df1, family=zero_one_inflated_beta())
 
 # Enticement
