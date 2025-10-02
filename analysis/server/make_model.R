@@ -7,7 +7,7 @@ library(tidyverse)
 task_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID", unset = "1"))
 chains_per_task <- as.numeric(Sys.getenv("SLURM_CPUS_PER_TASK", unset = "2"))
 start_chain <- (task_id - 1) * chains_per_task + 1
-iter <- 4000 
+iter <- 4000
 warmup <- iter / 2
 seed = 1234 + start_chain
 
@@ -20,18 +20,18 @@ dir.create(models_dir, recursive = TRUE, showWarnings = FALSE)
 # Study 1
 # ----------------------------
 
-dfsub1 <- dfsub <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
-df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data.csv") |> 
+dfsub <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
+df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data.csv") |>
   right_join(
-    select(dfsub, Participant, Sample, Language, Mobile, starts_with("Feedback_"), 
-           BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity, 
+    select(dfsub, Participant, Sample, Language, Mobile, starts_with("Feedback_"),
+           BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity,
            GAAIS_Negative, GAAIS_Positive, Porn, COPS_Frequency_2,
            Screen_Size,
            -Feedback_Comments),
     by = "Participant"
-  ) |> 
+  ) |>
   rename(Gender = Sex) |>
-  datawizard::rescale(select=c("Valence"), range=c(-1, 1), to=c(0, 1)) |> 
+  datawizard::rescale(select=c("Valence"), range=c(-1, 1), to=c(0, 1)) |>
   mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
          Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "Non-erotic"),
          Gender =  fct_relevel(Gender, "Male", "Female"),
@@ -43,7 +43,7 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            .default = "False"
          ),
          ConditionBelief = as.factor(ConditionBelief),
-         ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |> 
+         ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |>
   mutate(across(starts_with("Feedback_"), function(x) {fct_relevel(x, "False", "True")}))
 
 
@@ -56,11 +56,11 @@ f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance/ Condition*ConditionBelie
 
 m_a1 <-  brms::brm(
   formula = f_a1,
-  data = df1, 
+  data = df1,
   family = zero_one_inflated_beta(),
-  chains = chains_per_task,   
-  cores = chains_per_task,    
-  iter = iter, 
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
   warmup = warmup,
   seed = 1234 + start_chain,
   backend = "cmdstanr",
@@ -72,11 +72,11 @@ f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance/ Condition*ConditionBe
 
 m_e1 <-  brms::brm(
   formula = f_e1,
-  data = df1, 
+  data = df1,
   family = zero_one_inflated_beta(),
-  chains = chains_per_task,   
-  cores = chains_per_task,    
-  iter = iter, 
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
   warmup = warmup,
   seed = 1234 + start_chain,
   backend = "cmdstanr",
@@ -88,11 +88,11 @@ f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance/ Condition*ConditionBelie
 
 m_v1 <-  brms::brm(
   formula = f_v1,
-  data = df1, 
+  data = df1,
   family = zero_one_inflated_beta(),
-  chains = chains_per_task,   
-  cores = chains_per_task,    
-  iter = iter, 
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
   warmup = warmup,
   seed = 1234 + start_chain,
   backend = "cmdstanr",
@@ -103,12 +103,12 @@ m_v1 <-  brms::brm(
 # Study 2 ----------------------------------------------------------------------
 
 dfsub2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data_participants.csv")
-df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |> 
+df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |>
   right_join(
     select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
     by = "Participant"
-  ) |> 
-  datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |> 
+  ) |>
+  datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |>
   datawizard::rescale(select= c("Realness"), range=c(-3,3), to=c(0,1)) |>
   mutate(Condition = case_when(
     Condition == "Fiction" ~ "AI-Generated",
@@ -146,11 +146,11 @@ f_a2 <- brms::brmsformula(Arousal ~ Gender / Condition*ConditionBelief + (1|Part
 
 m_a2 <-  brms::brm(
   formula = f_a2,
-  data = df2, 
+  data = df2,
   family = zero_one_inflated_beta(),
-  chains = chains_per_task,   
-  cores = chains_per_task,    
-  iter = iter, 
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
   warmup = warmup,
   seed = 1234 + start_chain,
   backend = "cmdstanr",
@@ -162,11 +162,11 @@ f_e2 <- brms::brmsformula(Enticing ~ Gender / Condition*ConditionBelief + (1|Par
 
 m_e2 <-  brms::brm(
   formula = f_e2,
-  data = df2, 
+  data = df2,
   family = zero_one_inflated_beta(),
-  chains = chains_per_task,   
-  cores = chains_per_task,    
-  iter = iter, 
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
   warmup = warmup,
   seed = 1234 + start_chain,
   backend = "cmdstanr",
@@ -178,11 +178,11 @@ f_v2 <- brms::brmsformula(Valence ~ Gender / Condition*ConditionBelief + (1|Part
 
 m_v2 <-  brms::brm(
   formula = f_v2,
-  data = df2, 
+  data = df2,
   family = zero_one_inflated_beta(),
-  chains = chains_per_task,   
-  cores = chains_per_task,    
-  iter = iter, 
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
   warmup = warmup,
   seed = 1234 + start_chain,
   backend = "cmdstanr",
