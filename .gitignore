@@ -2,4 +2,5 @@
 *.RData
 /analysis/models
 analysis/server.md
+/analysis/server/Artemis.txt
 *_cache*
