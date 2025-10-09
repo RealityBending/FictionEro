@@ -32,14 +32,14 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
   ) |>
   rename(Gender = Sex) |>
   datawizard::rescale(select=c("Valence"), range=c(-1, 1), to=c(0, 1)) |>
-  mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
-         Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "Non-erotic"),
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+         Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "NonErotic"),
          Gender =  fct_relevel(Gender, "Male", "Female"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
          ConditionBelief = case_when(
            Condition == "Photograph" & Realness > 0.5 ~ "True",
-           Condition == "AI-Generated" & Realness < 0.5 ~ "True",
+           Condition == "AIGenerated" & Realness < 0.5 ~ "True",
            .default = "False"
          ),
          ConditionBelief = as.factor(ConditionBelief),
@@ -114,14 +114,14 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
     Condition == "Fiction" ~ "AI-Generated",
     Condition == "Reality" ~ "Photograph"
   )) |>
-  mutate(Condition = fct_relevel(Condition, "Photograph", "AI-Generated"),
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
          Gender =  fct_relevel(Gender, "Male", "Female"),
          SexualOrientation = fct_relevel(SexualOrientation, "Heterosexual", "Homosexual", "Bisexual"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
          ConditionBelief = case_when(
            Condition == "Photograph" & Realness > 0.5 ~ "True",
-           Condition == "AI-Generated" & Realness < 0.5 ~ "True",
+           Condition == "AIGenerated" & Realness < 0.5 ~ "True",
            .default = "False"),
          ConditionBelief = as.factor(ConditionBelief),
          ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |>
