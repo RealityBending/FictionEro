@@ -16,34 +16,6 @@ execute:
 ## Data Preparation
 
 ```{r}
-
-m_a1 <-  brms::brm(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (Relevance / Condition|Participant) + (1|Item),
-                          data=df1, family=zero_one_inflated_beta())
-
-# Enticement
-m_e1 <-  brms::brm(Enticement ~ Gender /Relevance/Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df1, family=zero_one_inflated_beta())
-
-
-# Valence
-m_v1 <-  brms::brm(Valence ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df1, family=zero_one_inflated_beta())
-```
-
-```{r}
-
-m_a2<-  brms::brm(Arousal ~ Gender / Condition*ConditionBelief + (Condition|Participant) + (1|Item),
-                          data=df2, family=zero_one_inflated_beta())
-# Enticement
-m_e2 <-  brms::brm(Enticing ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df2,family=zero_one_inflated_beta())
-# Valence
-m_v2 <-  brms::brm(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item),
-                          data=df2,family=zero_one_inflated_beta())
-```
-
-
-```{r}
 #| message: false
 #| warning: false
 
@@ -108,8 +80,8 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
   right_join(
     select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
     by = "Participant"
-    ) |> 
-    datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |> 
+  ) |> 
+  datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |> 
   datawizard::rescale(select= c("Realness"), range=c(-3,3), to=c(0,1)) |>
   mutate(Condition = case_when(
     Condition == "Fiction" ~ "AI-Generated",
@@ -129,7 +101,7 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
          AllFakeConfidence = "Feedback_AllFakeConfidence",
          Enjoyment = "Feedback_Enjoyment",
          Item = Stimulus
-         )|>
+  )|>
   mutate(across(starts_with("Feedback_"), as.factor)) |>
   mutate(ConditionBelief = as.factor(ConditionBelief)) |>
   mutate(StimuliType = case_when(
@@ -160,11 +132,11 @@ The rate of people that did not believe the instructions in study 1 (i.e., gave 
 #| fig-width: 12
 arousal_dist1 <- df1 |>
   ggplot(aes(x=Arousal, fill = Condition)) +
-  geom_histogram(position = "identity", alpha = 0.4, colour = "black", bins = 20) +
+  geom_histogram(position = "identity", alpha = 0.5, colour = "black", bins = 30) +
   scale_x_continuous(breaks = c(0, 1)) +
   labs(title = "Arousal Study 1", ) +
   facet_wrap(~Gender) +
-   scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 
@@ -181,11 +153,113 @@ arousal_dist2 <- df2 |>
   scale_x_continuous(breaks = c(0, 1)) +
   labs(title = "Arousal Study 2", ) +
   facet_wrap(~Gender) +
-   scale_fill_manual(values=c("Photograph"="#F44336", "AI-Generated"="#2196F3")) +
+  scale_fill_manual(values=c("Photograph"="#F44336", "AI-Generated"="#2196F3")) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5, face="bold"))
 
 arousal_dist2
+```
+
+### Arousal Distributions
+
+```{r Arousal1}
+#| fig-width: 12
+arousal_dist1 <- df1 |>
+  ggplot(aes(x=Arousal, fill = Condition)) +
+  geom_histogram(position = "identity", alpha = 0.5, colour = "black", bins = 30) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Arousal Study 1", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+
+arousal_dist1
+```
+
+```{r Arousal2}
+#| fig-width: 12
+arousal_dist2 <- df2 |>
+  ggplot(aes(x=Arousal, fill = Condition)) +
+  geom_bar(position = "identity", alpha = 0.5, line = "black") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Arousal Study 2", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("Photograph"="#F44336", "AI-Generated"="#2196F3")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+arousal_dist2
+```
+
+### Enticment Distributions
+
+```{r Arousal1}
+#| fig-width: 12
+enticement_dist1 <- df1 |>
+  ggplot(aes(x=Enticement, fill = Condition)) +
+  geom_histogram(position = "identity", alpha = 0.5, colour = "black", bins = 30) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Enticement Study 1", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+
+enticement_dist1
+```
+
+```{r Arousal2}
+#| fig-width: 12
+enticement_dist2 <- df2 |>
+  ggplot(aes(x=Enticing, fill = Condition)) +
+  geom_bar(position = "identity", alpha = 0.5, line = "black") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Enticment Study 2", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("Photograph"="#F44336", "AI-Generated"="#2196F3")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+enticement_dist2
+```
+
+### Valence Distributions
+
+```{r Arousal1}
+#| fig-width: 12
+valence_dist1 <- df1 |>
+  ggplot(aes(x=Valence, fill = Condition)) +
+  geom_histogram(position = "identity", alpha = 0.5, colour = "black", bins = 30) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Valence Study 1", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("AI-Generated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+
+valence_dist1
+```
+
+```{r Arousal2}
+#| fig-width: 12
+valence_dist2 <- df2 |>
+  ggplot(aes(x=Valence, fill = Condition)) +
+  geom_bar(position = "identity", alpha = 0.5, line = "black") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Valence Study 2", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("Photograph"="#F44336", "AI-Generated"="#2196F3")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+valence_dist2
 ```
 
 ### Average Arousal 
@@ -242,7 +316,7 @@ dfsub2 <- dfsub2 |>
                   names_prefix = "mean_Arousal_", 
                   values_from = mean_arousal) |>
       mutate(diff_arousal = `mean_Arousal_AI-Generated` - mean_Arousal_Photograph)
-    )
+  )
 
 ttest2 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub2)
 ```
@@ -280,7 +354,24 @@ diff_plot2
 
 ::: {.panel-tabset}
 
-### Arousal 
+### Arousal
+
+```{r}
+params_table <- function(m) {
+  d <- as.data.frame(m, variable = insight::find_parameters(m, effects = "fixed", flatten  = TRUE))
+  t <- bayestestR::describe_posterior(d, effects = "fixed", component = "all", ci_method = "hdi", test = "p_direction")
+  out <- insight::format_table(t)
+  out |> 
+    mutate(col = t$pd) |> 
+    gt::gt() |> 
+    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
+                   row = col > 0.95, palette = "yellow") |> 
+    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
+                   row = col > 0.97, palette = "green") |> 
+    gt::cols_hide("col")
+ }
+```
+
 
 ```{r}
 arousal1 <- readRDS("models/ModelArousal_1.rds")
@@ -288,11 +379,13 @@ arousal2 <- readRDS("models/ModelArousal_2.rds")
 ```
 
 ```{r}
-results_table(arousal1)
+params_table(arousal1)
+summary(arousal1, robust = TRUE)
 ```
 
 ```{r}
-results_table(arousal2)
+params_table(arousal2)
+summary(arousal2, robust = TRUE)
 
 ``` 
 
@@ -322,7 +415,7 @@ make_combined_plot <- function(model1, model2 = NULL,
   
   
   plt <- pred_df |>
-    ggplot(aes(x = ConditionBelief, y = Proportion,color = Condition, linetype = Sample, group = interaction(Sample, Condition)
+    ggplot(aes(x = ConditionBelief, y = Estimate,color = Condition, linetype = Sample, group = interaction(Sample, Condition)
     )) +
     geom_hline(yintercept = 0, color = "darkgrey") +
     geom_line(linewidth = 1) +
@@ -359,13 +452,17 @@ enticement1 <- readRDS("models/ModelEnticement_1.rds")
 enticement2 <- readRDS("models/ModelEnticement_2.rds")
 ```
 
+
 ```{r}
-results_table(enticement1)
+params_table(enticement1)
+summary(enticement1, robust = TRUE)
 ```
 
 ```{r}
-results_table(enticement2)
-```
+params_table(enticement2)
+summary(enticement2, robust = TRUE)
+
+``` 
 
 
 ```{r}
@@ -383,13 +480,17 @@ valence1 <- readRDS("models/ModelValence_1.rds")
 valence2 <- readRDS("models/ModelValence_2.rds")
 ```
 
+
 ```{r}
-results_table(valence1)
+params_table(valence1)
+summary(valence1, robust = TRUE)
 ```
 
 ```{r}
-results_table(valence2)
-```
+params_table(valence2)
+summary(valence2, robust = TRUE)
+
+``` 
 
 ```{r}
 #| fig-height: 8
@@ -398,7 +499,7 @@ results_table(valence2)
 plt_v <- make_combined_plot(valence1, valence2, title = "Valence Estimates for All Stimuli")
 plt_v
 ```
- 
+
 :::
 
 ## Interindividual Variability and Moderators
@@ -410,15 +511,7 @@ plt_v
 
 ### Random Effects
 
-```{r}
 
-model_draft <- glmmTMB::glmmTMB(Arousal ~ Gender / Condition + (Condition|Participant) + (1|Item),
-                          data=df2,
-                          family=glmmTMB::ordbeta(),
-                          control = glmmTMB::glmmTMBControl(parallel = 8))
-
-
-```
 ### Reliability 
 
 ```{r}
