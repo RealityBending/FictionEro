@@ -27,8 +27,7 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Arousal
-f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item))
-
+f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance/ Condition*ConditionBelief + ((Relevance/Condition*ConditionBelief)|Participant) + ((Relevance/Condition*ConditionBelief)|Item))
 m_a1 <-  brms::brm(
   formula = f_a1,
   data = df1,
@@ -43,7 +42,7 @@ m_a1 <-  brms::brm(
 )
 
 # Enticement (FIXED: use f_e1 and set chains)
-f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item))
+f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance/ Condition*ConditionBelief + ((Relevance/Condition*ConditionBelief)|Participant) + ((Relevance/Condition*ConditionBelief)|Item))
 
 m_e1 <-  brms::brm(
   formula = f_e1,
@@ -59,7 +58,7 @@ m_e1 <-  brms::brm(
 )
 
 # Valence
-f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance/ Condition*ConditionBelief + (1|Participant) + (1|Item))
+f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance/ Condition*ConditionBelief + ((Relevance/Condition*ConditionBelief)|Participant) + ((Relevance/Condition*ConditionBelief)|Item))
 
 m_v1 <-  brms::brm(
   formula = f_v1,
@@ -85,7 +84,7 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Arousal
-f_a2 <- brms::brmsformula(Arousal ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item))
+f_a2 <- brms::brmsformula(Arousal ~ Gender / Condition*ConditionBelief + ((Condition*ConditionBelief)|Participant) + ((Condition*ConditionBelief)|Item))
 
 m_a2 <-  brms::brm(
   formula = f_a2,
@@ -101,7 +100,7 @@ m_a2 <-  brms::brm(
 )
 
 # Enticement
-f_e2 <- brms::brmsformula(Enticement ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item))
+f_e2 <- brms::brmsformula(Enticement ~ Gender / Condition*ConditionBelief + ((Condition*ConditionBelief)|Participant) + ((Condition*ConditionBelief)|Item))
 
 m_e2 <-  brms::brm(
   formula = f_e2,
@@ -117,7 +116,7 @@ m_e2 <-  brms::brm(
 )
 
 # Valence
-f_v2 <- brms::brmsformula(Valence ~ Gender / Condition*ConditionBelief + (1|Participant) + (1|Item))
+f_v2 <- brms::brmsformula(Valence ~ Gender / Condition*ConditionBelief + ((Condition*ConditionBelief)|Participant) + ((Condition*ConditionBelief)|Item))
 
 m_v2 <-  brms::brm(
   formula = f_v2,
