@@ -9,6 +9,11 @@
 #SBATCH --error=/mnt/lustre/scratch/psych/asf25/fictionero/models_%A_%a.err
 #SBATCH --partition=long
 
+# Have slurm email your SUSSEX email
+#SBATCH --mail-user=asf25@sussex.ac.uk
+#SBATCH --mail-type=BEGIN,END,FAIL
+
+
 # Set working directory
 # cd /mnt/lustre/users/psych/asf25/fictionero || exit 1
 

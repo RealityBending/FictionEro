@@ -10,9 +10,9 @@
 #SBATCH --partition=long
 
 # Have slurm email your SUSSEX email
-#SBATCH --mail-user $asf25@sussex.ac.uk
-# Options: BEGIN,END,ABORT
-#SBATCH --mail-type=ALL
+#SBATCH --mail-user=asf25@sussex.ac.uk
+#SBATCH --mail-type=BEGIN,END,FAIL
+
 
 # Set working directory
 # cd /mnt/lustre/users/psych/asf25/fictionero  || exit 1
