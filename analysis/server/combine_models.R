@@ -32,7 +32,7 @@ combine_and_save <- function(name) {
   m <- brms::add_criterion(m, "waic", ndraws = 1500, file = name)
   
   # Save combined model
-  saveRDS(m, paste0(name, "_combined.rds"))
+  saveRDS(m, paste0(name, ".rds"))
   
   print(paste0("Finished: ", name, " at ", Sys.time()))
 }
