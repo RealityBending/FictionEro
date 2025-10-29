@@ -27,7 +27,7 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Arousal
-f_a1 <- brms::brmsformula(Arousal ~ Gender/Relevance/Condition * ConditionBelief + ((Relevance / Condition * ConditionBelief) | Participant) + (Relevance | Item))
+f_a1 <- brms::brmsformula(Arousal ~ Gender/Relevance/Condition * ConditionBelief + ((Relevance / Condition * ConditionBelief) | Participant) + (1 | Item))
 m_a1 <-  brms::brm(
   formula = f_a1,
   data = df1,
@@ -42,7 +42,7 @@ m_a1 <-  brms::brm(
 )
 
 # Enticement (FIXED: use f_e1 and set chains)
-f_e1 <- brms::brmsformula(Enticement ~ Gender/Relevance/Condition * ConditionBelief + ((Relevance / Condition * ConditionBelief) | Participant) + (Relevance | Item))
+f_e1 <- brms::brmsformula(Enticement ~ Gender/Relevance/Condition * ConditionBelief + ((Relevance / Condition * ConditionBelief) | Participant) + (1 | Item))
 
 m_e1 <-  brms::brm(
   formula = f_e1,
@@ -58,7 +58,7 @@ m_e1 <-  brms::brm(
 )
 
 # Valence
-f_v1 <- brms::brmsformula(Valence ~ Gender/Relevance/Condition * ConditionBelief + ((Relevance / Condition * ConditionBelief) | Participant) + (Relevance | Item))
+f_v1 <- brms::brmsformula(Valence ~ Gender/Relevance/Condition * ConditionBelief + ((Relevance / Condition * ConditionBelief) | Participant) + (1 | Item))
 
 m_v1 <-  brms::brm(
   formula = f_v1,
