@@ -319,7 +319,6 @@ diff_plot2
 
 **Study 1**: `r report::report(ttest1, data = dfsub1)`
 
-
 **Study 2**: `r report::report(ttest2, data = dfsub2)`
 
 :::
@@ -395,8 +394,11 @@ performance::performance(arousal2)
 
 ### Random Effects
 
-
 ### Reliability 
+
+<!-- These functions provide information about the reliability of group-level estimates (i.e., random effects) in mixed models. They are useful to assess whether the predictors yield consistent group-level variability. "Group-level" can refer, for instance, to different participants in a study, and the predictors to the effect of some experimental condition. -->
+
+<!-- D_vour: corresponds to the normalized ratio of observed variability to uncertainty in random effect estimates -->
 
 ```{r}
 table_dvour <- function(g) {
@@ -407,7 +409,13 @@ table_dvour <- function(g) {
     gt::fmt_auto()
 }
 
-g1 <- modelbased::estimate_grouplevel(model_draft)
+draft_model <- brms::brm(
+  formula = Arousal ~ Gender / (Condition * ConditionBelief) + (1  + Condition | Participant) + (1|Item),
+  data = df2,
+  family = brms::zero_one_inflated_beta())
+
+
+g1 <- modelbased::estimate_grouplevel(arousal2)
 table_dvour(g1)
 
 ```
@@ -418,7 +426,7 @@ table_dvour(g1)
 colors <- c("(Intercept)" = "#9C27B0","ConditionAI-Generated" = "#FF9800")
 
 p2_dvour <- g1 |> 
-  ggplot(aes(x = Coefficient, y = Level)) +
+  ggplot(aes(x = Estimate, y = Level)) +
   geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
   facet_grid(Group~Parameter, scales = "free", switch="both") +
   ggside::ggside(scales  = "free") +
