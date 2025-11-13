@@ -26,6 +26,7 @@ library(ggside)
 library(glmmTMB)
 library(gt)
 
+
 options(mc.cores = parallel::detectCores(),
         brms.backend = "cmdstanr",
         width = 300)
@@ -408,19 +409,20 @@ table_dvour <- function(g) {
 ```
 
 ```{r}
-# draft_model <- brms::brm(
-#   formula = Arousal ~ Gender / (Condition * ConditionBelief) + (1  + Condition | Participant) + (1|Item),
-#   data = df2,
-#   family = brms::zero_one_inflated_beta())
+draft_model <- brms::brm(
+  formula = Arousal ~ Gender / (Condition * ConditionBelief) + (1  + Condition | Participant) + (1|Item),
+  data = df2,
+  algorithm = "meanfield",
+  family = brms::zero_one_inflated_beta())
 
-# g1 <- modelbased::estimate_grouplevel(arousal2)
+g1 <- modelbased::estimate_grouplevel(draft_model)
 
 # saveRDS(g1, file = "draft_model_estimates.rds")
 
 ```
 
 ```{r}
-g1 <- readRDS("draft_model_estimates.rds")
+# g1 <- readRDS("draft_model_estimates.rds")
  
 table_dvour(g1)
 
@@ -433,11 +435,43 @@ table_dvour(g1)
 
 <!-- The item-level intercepts exhibited similar variability, indicating that certain stimuli were intrinsically more arousing than others across participants. -->
 
+##### Study 1
+
 ```{r}
-colors <- c("Intercept" = "#9C27B0")
+colors <- c("Intercept" = "#9C27B0", "ConditionAIMGenerated" = "#FF9800")
 
 p2_dvour <- g1 |> 
-   mutate(Group = fct_relevel(Group, "Participant", "Item")) |>
+   mutate(Group = fct_relevel(Group, "Participant", "Item"),
+          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIMGenerated")) |>
+  ggplot(aes(x = Median , y = Level)) +
+  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
+  facet_grid(Group~Parameter, scales = "free", switch="both") +
+  ggside::ggside(scales  = "free") +
+  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
+  ggside::ggside(scales  = "free") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.placement.x = "outside",
+        strip.background = element_rect(fill = NA, color = NA),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position = "none")
+p2_dvour
+```
+
+##### Study 2
+
+```{r}
+colors <- c("Intercept" = "#9C27B0", "ConditionAIMGenerated" = "#FF9800")
+
+p2_dvour <- g1 |> 
+   mutate(Group = fct_relevel(Group, "Participant", "Item"),
+          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIMGenerated")) |>
   ggplot(aes(x = Median , y = Level)) +
   geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
   facet_grid(Group~Parameter, scales = "free", switch="both") +
@@ -461,5 +495,134 @@ p2_dvour
 
 ### Correlation
 
+- between random-slopes (effect of condition) and dispositional traits 
+<!-- - look at mint and fiction choco analysis for correlation matrix -->
+
+#### Study 1 
+
+```{r}
+
+df_phase <- as.data.frame(g1) |>
+  filter(Group == "Participant") |>
+  mutate(Parameter = as.factor(Parameter)) |>
+   pivot_wider(id_cols = Level, names_from = Parameter, values_from = c(Median, MAD, CI_low, CI_high),names_glue = "{Parameter}_{.value}"
+  ) |>
+  rename(Participant= Level)
+
+head(g2_phase)
+
+df_dispositional <- dfsub1 |>
+  select(Participant, 
+           BAIT_Videos, BAIT_Visual, BAIT_Text, AI_Knowledge, SexualActivity, 
+           GAAIS_Negative, GAAIS_Positive, Porn) |>
+  rename(Porn_factor = Porn)
+
+head(g3_dispositional)
+
+```
+
+```{r}
+make_cor <- function(df_phase, df_dispositional = NULL, 
+                     qname_x = TRUE, qname_y = TRUE, 
+                     textsize = 3, xcol = "#424242", ycol = "#424242") {
+
+  # Identify common participants (if df_dispositional provided)
+  if (!is.null(df_dispositional)) {
+    common_ids <- intersect(df_phase$Participant, df_dispositional$Participant)
+    df_phase <- df_phase |> filter(Participant %in% common_ids) |> arrange(Participant)
+    df_dispositional <- df_dispositional |> filter(Participant %in% common_ids) |> arrange(Participant)
+  }
+
+  # Compute correlations
+  # r <- df_phase |>
+  #   select(ConditionAIMGenerated_Median, Intercept_Median) |>
+  #   correlation::correlation(
+  #     data2 = if (!is.null(df_dispositional)) df_dispositional |> select(-Participant) else NULL,
+  #     p_adjust = "none",
+  #     redundant = ifelse(is.null(df_dispositional), TRUE, FALSE)
+  #   ) |>
+  #   correlation::cor_sort() |>
+  #   mutate(
+  #     label = ifelse(p < .05, paste0(insight::format_value(r, lead_zero = FALSE, zap_small = TRUE)), ""),
+  #     Parameter1 = as.factor(Parameter1),
+  #     Parameter2 = as.factor(Parameter2)
+  #   )
+  
+  r <- df_phase |>
+  select(ConditionAIMGenerated_Median, Intercept_Median) |>
+  correlation::correlation(
+    data2 = if (!is.null(df_dispositional)) df_dispositional |> select(-Participant) else NULL,
+    p_adjust = "none",
+    redundant = ifelse(is.null(df_dispositional), TRUE, FALSE)
+  ) |>
+  correlation::cor_sort() |>
+  mutate(
+    # always show r, add '*' if p < .05
+    label = paste0(
+      insight::format_value(r, lead_zero = FALSE, zap_small = TRUE),
+      ifelse(p < .05, "*", "")
+    ),
+    Parameter1 = as.factor(Parameter1),
+    Parameter2 = as.factor(Parameter2)
+  )
+    
 
 
+  # Clear diagonal labels
+  r[as.character(r$Parameter1) == as.character(r$Parameter2), "label"] <- ""
+
+  # Axis names
+  xnames <- levels(r$Parameter1)
+  ynames <- levels(r$Parameter2)
+
+  # xcol <- case_when(
+  #   str_detect(xnames, "Condition") ~ "#1565C0",
+  #   str_detect(xnames, "Intercept") ~ "#6A1B9A",
+  #   .default = xcol
+  # )
+  # ycol <- case_when(
+  #   str_detect(ynames, "BAIT") ~ "#00838F",
+  #   str_detect(ynames, "GAAIS") ~ "#C62828",
+  #   str_detect(ynames, "AI_Knowledge") ~ "#EF6C00",
+  #   .default = ycol
+  # )
+
+  # Bold emphasis (optional, minimal)
+  xbold <- case_when(
+    str_detect(xnames, "Condition") ~ "bold",
+    str_detect(xnames, "Intercept") ~ "bold",
+    .default = "plain"
+  )
+  ybold <- case_when(
+    str_detect(ynames, "BAIT") ~ "bold",
+    str_detect(ynames, "GAAIS") ~ "bold",
+    str_detect(ynames, "Porn") ~ "bold",
+    str_detect(ynames, "AI") ~ "bold",
+    .default = "plain"
+  )
+
+  # Plot
+  r |>
+    ggplot(aes(x = Parameter1, y = Parameter2, fill = r)) +
+    geom_tile() +
+    geom_text(aes(label = label), size = textsize, lineheight = 0.9) +
+    scale_fill_gradient2(low = "blue", high = "red", mid = "white", midpoint = 0) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(color = xcol, face = xbold),
+      axis.text.y = element_text(color = ycol, face = ybold),
+      legend.position = "none",
+      axis.title = element_blank()
+    )
+}
+
+
+p_corAI <- make_cor(df_phase, df_dispositional, qname_x = FALSE, qname_y = FALSE, textsize = 3)  +
+  labs(title="Correlations between the effect of condition and dispositional traits") +
+  theme(axis.title = element_blank())
+
+p_corAI 
+```
+
+
+#### Study 2 
