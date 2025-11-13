@@ -346,11 +346,8 @@ params_table <- function(m) {
  }
 ```
 
-<!-- Study 2 Arousal:  Draws: 96 chains, each with iter = 2000; warmup = 1000; thin = 1; total post-warmup draws = 96000 -->
-
-<!-- Study 2 Arousal: Draws: 80 chains, each with iter=2000; warmup=1000; thin=1; post-warmup draws per chain=1000, total post-warmup draws=80000. -->
 ```{r}
-arousal1 <- readRDS("models/ModelArousal_1.rds")
+# arousal1 <- readRDS("models/ModelArousal_1.rds")
 arousal2 <- readRDS("models/ModelArousal_2.rds")
 ```
 
@@ -408,25 +405,40 @@ table_dvour <- function(g) {
     gt::data_color("D_vour", palette = c("red","green"), domain = c(0, 1)) |> 
     gt::fmt_auto()
 }
+```
 
-draft_model <- brms::brm(
-  formula = Arousal ~ Gender / (Condition * ConditionBelief) + (1  + Condition | Participant) + (1|Item),
-  data = df2,
-  family = brms::zero_one_inflated_beta())
+```{r}
+# draft_model <- brms::brm(
+#   formula = Arousal ~ Gender / (Condition * ConditionBelief) + (1  + Condition | Participant) + (1|Item),
+#   data = df2,
+#   family = brms::zero_one_inflated_beta())
 
+# g1 <- modelbased::estimate_grouplevel(arousal2)
 
-g1 <- modelbased::estimate_grouplevel(arousal2)
+# saveRDS(g1, file = "draft_model_estimates.rds")
+
+```
+
+```{r}
+g1 <- readRDS("draft_model_estimates.rds")
+ 
 table_dvour(g1)
+
 
 ```
 
 #### Participant effects
 
+<!-- The random intercepts for participants showed moderate variability around the grand mean, suggesting that some participants tended to report consistently higher or lower arousal regardless of condition or belief. -->
+
+<!-- The item-level intercepts exhibited similar variability, indicating that certain stimuli were intrinsically more arousing than others across participants. -->
+
 ```{r}
-colors <- c("(Intercept)" = "#9C27B0","ConditionAI-Generated" = "#FF9800")
+colors <- c("Intercept" = "#9C27B0")
 
 p2_dvour <- g1 |> 
-  ggplot(aes(x = Estimate, y = Level)) +
+   mutate(Group = fct_relevel(Group, "Participant", "Item")) |>
+  ggplot(aes(x = Median , y = Level)) +
   geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
   facet_grid(Group~Parameter, scales = "free", switch="both") +
   ggside::ggside(scales  = "free") +
