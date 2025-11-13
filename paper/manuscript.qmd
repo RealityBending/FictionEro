@@ -145,8 +145,11 @@ cache <- TRUE
   - societal consequences
   - indistinguishable nature of artificial vs real content -->
 
+<!-- Duffy et al., 2024:  when image sare controlled for types of artifacts participants show no ability in distinguishing real vs fake faces. Altough, they did rate faces with higher intensity smiles as more real. -->
+
 Recent advances in artificial intelligence (AI) have introduced new challenges for human cognition, particularly regarding the ability to distinguish between authentic and fabricated experiences [@miller2023ai]. 
-The stakes of such perceptual uncertainty are considerable, with misinformation representing one of the most pressing societal consequences [@kreps2022all].
+
+The consequences of such perceptual uncertainty are considerable, with misinformation representing one of the most pressing societal consequences [@kreps2022all].
 For instance, deepfakes (face-swapping technologies that enable the creation of realistic fake images and videos) have already been employed to fabricate convincing political speeches that appear genuine [@meskys2020regulating].
 When deployed in electoral contexts, such content has the potential to distort public opinion and undermine democratic processes by rendering the truth unclear [@graber2021artificial]. 
 Yet political disinformation is only one domain in which synthetic media exerts influence. 
@@ -160,14 +163,16 @@ In these settings, the boundaries between the “real” and the “artificial�
 
 
 A key challenge lies in the prevalence of ambiguous stimuli, that is images, texts, videos, or environments whose authenticity cannot be easily established. 
-While artificial stimuli once carried perceptual markers that betrayed their inauthenticity, such as distortions in early computer-generated imagery [@corvi2023detection; @mcdonnell2010face], these limitations are rapidly disappearing. 
+While artificial stimuli once carried perceptual markers that made their inauthenticity easier to spot, such as distortions in early computer-generated imagery [@corvi2023detection; @mcdonnell2010face], these limitations are rapidly disappearing. 
 In the domain of face generation especially, current algorithms now produce synthetic images that are virtually indistinguishable from genuine photographs [@moshel2022you; @nightingale2022ai]. 
 As these technologies approach perfect realism, the study of reality perception becomes not only a theoretical concern but also a practical imperative, with direct implications for information security, social trust, and the ethical deployment of AI.
 
 <!-- Affective Responses and Reality Judgments
   - Link perception of realism with emotional engagement: arousal, valence, enticement.
   - Mention theories such as Affective Reality Theory (Makowski, 2023) if relevant, or more general emotion–cognition links.
-  - Emotions may not just follow perception, but also shape how we judge what is real. -->
+  - Emotions may not just follow perception, but also shape how we judge what is real -PP. -->
+  
+
 
 <!-- Sexual Stimuli and Pornography Consumption
   - Motivation behind inclusion of sexual/non-sexual content (e.g., sexual images are affectively intense, highly relevant for arousal/enticement measures).
