@@ -344,11 +344,36 @@ params_table <- function(m) {
     gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
                    row = col > 0.97, palette = "green") |> 
     gt::cols_hide("col")
- }
+}
+
+
+results_table <- function(model, effects="fixed", filter=NULL) {
+  if("marginaleffects" %in% class(model)) {
+    model |> 
+      parameters::parameters() |> 
+      as.data.frame() |> 
+      select(-Parameter, -SE, -S, z=Statistic) |> 
+      insight::format_table() |> 
+      parameters::display()
+  } else {
+    display(parameters::parameters(model, effects=effects, keep=filter))
+  }
+}
 ```
 
+<!-- - condition as random intercept for participant converged but not sure whether we should keep intercepts different or the same for the models? -->
+
+<!-- ```{r} -->
+
+<!-- m_arousal1 <- glmmTMB::glmmTMB(Arousal ~ Gender / Relevance / Condition + (Relevance | Participant) + (Relevance|Item), data=df1, family=glmmTMB::ordbeta(), control = glmmTMB::glmmTMBControl(parallel = 8)) -->
+
+
+<!-- m_arousal2 <- glmmTMB::glmmTMB(Arousal ~ Gender/ Condition + (1| Participant) + (1|Item), family=glmmTMB::ordbeta(), data=df2, control = glmmTMB::glmmTMBControl(parallel = 8)) -->
+<!-- ``` -->
+
+
 ```{r}
-# arousal1 <- readRDS("models/ModelArousal_1.rds")
+arousal1 <- readRDS("models/ModelArousal_1.rds")
 arousal2 <- readRDS("models/ModelArousal_2.rds")
 ```
 
@@ -360,8 +385,13 @@ arousal2 <- readRDS("models/ModelArousal_2.rds")
 
 <!-- - R^(“R-hat”) Should be lower than 1.01 (R-hat is a measure of convergence) -->
 
+<!-- ```{r} -->
+<!-- results_table(m_arousal1) -->
+<!-- results_table(m_arousal2) -->
+<!-- ``` -->
+
 ```{r}
-params_table(arousal1)
+params_table(m_arousal1)
 summary(arousal1, robust = TRUE)
 ```
 

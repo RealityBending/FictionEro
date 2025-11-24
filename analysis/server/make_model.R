@@ -27,11 +27,11 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Arousal
-f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Relevance / Condition  | Participant) + (1|Item))
+f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Relevance / Condition | Participant) + (Relevance|Item))
 m_a1 <-  brms::brm(
   formula = f_a1,
   data = df1,
-  family = zero_one_inflated_beta(),
+  family = gaussian(),
   chains = chains_per_task,
   cores = chains_per_task,
   iter = iter,
@@ -42,12 +42,12 @@ m_a1 <-  brms::brm(
 )
 
 # Enticement (FIXED: use f_e1 and set chains)
-# f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Relevance / Condition  | Participant) + (1|Item))
+# f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Relevance / (Condition * ConditionBelief) | Participant) + (Relevance|Item))
 
 # m_e1 <-  brms::brm(
 #   formula = f_e1,
 #   data = df1,
-#   family = zero_one_inflated_beta(),
+#   family = gaussian(),
 #   chains = chains_per_task,
 #   cores = chains_per_task,
 #   iter = iter,
@@ -58,12 +58,12 @@ m_a1 <-  brms::brm(
 # )
 
 # Valence
-# f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Relevance / Condition  | Participant) + (1|Item))
+# f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Relevance / (Condition * ConditionBelief) | Participant) + (Relevance|Item))
 
 # m_v1 <-  brms::brm(
 #   formula = f_v1,
 #   data = df1,
-#   family = zero_one_inflated_beta(),
+#   family = gaussian(),
 #   chains = chains_per_task,
 #   cores = chains_per_task,
 #   iter = iter,
@@ -84,12 +84,12 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Arousal
-f_a2 <- brms::brmsformula(Arousal ~ Gender / (Condition * ConditionBelief) + ((1 + Condition)|Participant) + (1|Item))
+f_a2 <- brms::brmsformula(Arousal ~ Gender / (Condition * ConditionBelief) + (1 + Condition|Participant) + (1|Item))
 
 m_a2 <-  brms::brm(
   formula = f_a2,
   data = df2,
-  family = zero_one_inflated_beta(),
+  family = gaussian(),
   chains = chains_per_task,
   cores = chains_per_task,
   iter = iter,
@@ -100,12 +100,12 @@ m_a2 <-  brms::brm(
 )
 
 # Enticement
-# f_e2 <- brms::brmsformula(Enticement ~ Gender / (Condition * ConditionBelief) + ((1 + Condition)|Participant) + (1|Item))
+# f_e2 <- brms::brmsformula(Enticement ~ Gender / (Condition * ConditionBelief) + (1 + Condition* ConditionBelief|Participant) + (1|Item))
 
 # m_e2 <-  brms::brm(
 #   formula = f_e2,
 #   data = df2,
-#   family = zero_one_inflated_beta(),
+#   family = gaussian(),
 #   chains = chains_per_task,
 #   cores = chains_per_task,
 #   iter = iter,
@@ -116,12 +116,12 @@ m_a2 <-  brms::brm(
 # )
 
 # Valence
-# f_v2 <- brms::brmsformula(Valence ~ Gender / (Condition * ConditionBelief) + ((1 + Condition)|Participant) + (1|Item))
+# f_v2 <- brms::brmsformula(Valence ~ Gender / (Condition * ConditionBelief) + (1 + Condition * ConditionBelief)|Participant) + (1|Item))
 
 # m_v2 <-  brms::brm(
 #   formula = f_v2,
 #   data = df2,
-#   family = zero_one_inflated_beta(),
+#   family = gaussian(),
 #   chains = chains_per_task,
 #   cores = chains_per_task,
 #   iter = iter,
