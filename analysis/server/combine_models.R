@@ -11,8 +11,10 @@ task_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 setwd("/mnt/lustre/users/psych/asf25/fictionero/models/")
 
 # List of models
-model_names <- c("ModelArousal_1", "ModelEnticement_1", "ModelValence_1",
-                 "ModelArousal_2", "ModelEnticement_2", "ModelValence_2")
+# model_names <- c("ModelArousal_1", "ModelEnticement_1", "ModelValence_1",
+#                  "ModelArousal_2", "ModelEnticement_2", "ModelValence_2")
+
+model_names <- c("ModelArousal_1","ModelArousal_2")
 
 # Pick model based on array ID
 model_name <- model_names[task_id]
@@ -21,7 +23,7 @@ combine_and_save <- function(name) {
   print(paste0("Starting: ", name, " at ", Sys.time()))
   
   # Find all files for this model (e.g., ModelArousal_1_1.rds, ModelArousal_1_2.rds, …)
-  files <- list.files(".", pattern = paste0("^", name, "_.*\\.rds$"), full.names = TRUE)
+  files <- list.files(".", pattern = paste0("^", name, "_task_.*\\.rds$"), full.names = TRUE)
   
   if (length(files) == 0) stop("No .rds files found for ", name)
   
