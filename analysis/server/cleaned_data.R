@@ -73,3 +73,22 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 
 
 write.csv(df2, "../data/df2.csv", row.names = FALSE)
+
+
+
+############## DATA VIsUALISATION
+library(easystats)
+
+describe_distribution(df1, range = TRUE)
+
+df1 |>
+  group_by(Gender, Condition, Relevance, ConditionBelief, ) |>
+  summarise(n = n(),  perc = n() / nrow(df1) * 100, .groups = "drop")
+
+
+describe_distribution(df2, range = TRUE)
+
+df2 |>
+  group_by(Gender, Condition, ConditionBelief, ) |>
+  summarise(n = n(),  perc = n() / nrow(df1) * 100, .groups = "drop")
+
