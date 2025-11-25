@@ -72,4 +72,4 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
   rename(Enticement = Enticing)
 
 
-write.csv(df1, "../data/df2.csv", row.names = FALSE)
+write.csv(df2, "../data/df2.csv", row.names = FALSE)
