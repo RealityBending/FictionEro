@@ -25,6 +25,7 @@ library(patchwork)
 library(ggside)
 library(glmmTMB)
 library(gt)
+library(ggdist)
 
 
 options(mc.cores = parallel::detectCores(),
@@ -44,6 +45,20 @@ results_table <- function(model, effects="fixed", filter=NULL) {
   }
 }
 
+
+params_table <- function(m) {
+  d <- as.data.frame(m, variable = insight::find_parameters(m, effects = "fixed", flatten  = TRUE))
+  t <- bayestestR::describe_posterior(d, effects = "fixed", component = "all", ci_method = "hdi", test = "p_direction")
+  out <- insight::format_table(t)
+  out |> 
+    mutate(col = t$pd) |> 
+    gt::gt() |> 
+    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
+                   row = col > 0.95, palette = "yellow") |> 
+    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
+                   row = col > 0.97, palette = "green") |> 
+    gt::cols_hide("col")
+}
 ```
 
 ```{r data study1}
@@ -331,35 +346,7 @@ diff_plot2
 
 ### Arousal
 
-```{r}
-params_table <- function(m) {
-  d <- as.data.frame(m, variable = insight::find_parameters(m, effects = "fixed", flatten  = TRUE))
-  t <- bayestestR::describe_posterior(d, effects = "fixed", component = "all", ci_method = "hdi", test = "p_direction")
-  out <- insight::format_table(t)
-  out |> 
-    mutate(col = t$pd) |> 
-    gt::gt() |> 
-    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
-                   row = col > 0.95, palette = "yellow") |> 
-    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
-                   row = col > 0.97, palette = "green") |> 
-    gt::cols_hide("col")
-}
-
-
-results_table <- function(model, effects="fixed", filter=NULL) {
-  if("marginaleffects" %in% class(model)) {
-    model |> 
-      parameters::parameters() |> 
-      as.data.frame() |> 
-      select(-Parameter, -SE, -S, z=Statistic) |> 
-      insight::format_table() |> 
-      parameters::display()
-  } else {
-    display(parameters::parameters(model, effects=effects, keep=filter))
-  }
-}
-```
+#### Distributions
 
 <!-- - condition as random intercept for participant converged but not sure whether we should keep intercepts different or the same for the models? -->
 
@@ -371,10 +358,47 @@ results_table <- function(model, effects="fixed", filter=NULL) {
 <!-- m_arousal2 <- glmmTMB::glmmTMB(Arousal ~ Gender/ Condition + (1| Participant) + (1|Item), family=glmmTMB::ordbeta(), data=df2, control = glmmTMB::glmmTMBControl(parallel = 8)) -->
 <!-- ``` -->
 
+```{r}
+df1 |> 
+  ggplot(aes(x = Gender, y = Arousal, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.6, trim = FALSE) +
+  stat_pointinterval(
+    position = position_dodge(width = 1),
+    .width = c(.66, .95),
+    point_size = 1.5) +
+  facet_grid(Relevance ~ Condition) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Arousal by Gender × Belief × Relevance × Condition",
+    x = "Gender",
+    y = "Arousal",
+    fill = " Condition Belief"
+  )
+
+
+df2 |> 
+  ggplot(aes(x = Gender, y = Arousal, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.6, trim = FALSE) +
+  stat_pointinterval(
+    position = position_dodge(width = 1),
+    .width = c(.66, .95),
+    point_size = 1.5) +
+  facet_grid( ~ Condition) +
+  theme_minimal(base_size = 14) +
+  labs(
+    title = "Arousal by Gender × Belief × Relevance × Condition",
+    x = "Gender",
+    y = "Arousal",
+    fill = " Condition Belief"
+  )
+
+```
+
 
 ```{r}
 arousal1 <- readRDS("models/ModelArousal_1.rds")
 arousal2 <- readRDS("models/ModelArousal_2.rds")
+
 ```
 
 #### Posterior Description
