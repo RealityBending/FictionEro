@@ -20,14 +20,18 @@ dir.create(models_dir, recursive = TRUE, showWarnings = FALSE)
 # Study 1
 # ----------------------------
 
-df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df1.csv")
+df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df1.csv") |>
+  mutate(
+    Condition = factor(Condition, levels = c("Photograph", "AIGenerated")),
+    ConditionBelief = factor(ConditionBelief, levels = c("True", "False"))
+  )
 
 # ----------------------------
 # MODELS - Study 1
 # ----------------------------
 
 # Arousal
-f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Condition  | Participant) + (1|Item))
+f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / Condition * ConditionBelief + (1  + Condition  | Participant) + (1|Item))
 
 # brms::get_prior(f_a1, data=df1)
 
@@ -85,7 +89,11 @@ m_a1 <-  brms::brm(
 
 # Study 2 ----------------------------------------------------------------------
 
-df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df2.csv")
+# df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df2.csv") |>
+#   mutate(
+#     Condition = factor(Condition, levels = c("Photograph", "AIGenerated")),
+#     ConditionBelief = factor(ConditionBelief, levels = c("True", "False"))
+#   )
 
 
 # ----------------------------
