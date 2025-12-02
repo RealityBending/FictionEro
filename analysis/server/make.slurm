@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=fictionero_models
-#SBATCH --array=1-5
+#SBATCH --array=1-6
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
