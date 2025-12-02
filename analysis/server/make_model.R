@@ -7,7 +7,7 @@ library(tidyverse)
 task_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID", unset = "1"))
 chains_per_task <- as.numeric(Sys.getenv("SLURM_CPUS_PER_TASK", unset = "2"))
 start_chain <- (task_id - 1) * chains_per_task + 1
-iter <- 2000
+iter <- 1200
 warmup <- iter / 2
 seed = 1234 + start_chain
 
@@ -28,10 +28,19 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 
 # Arousal
 f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / (Condition * ConditionBelief) + (1  + Condition  | Participant) + (1|Item))
+
+# brms::get_prior(f_a1, data=df1)
+
+priors <- set_prior("normal(0, 0.5)", class = "b")
+
+validate_prior(priors, f_a1, data = df1)
+
+
 m_a1 <-  brms::brm(
   formula = f_a1,
   data = df1,
-  family = gaussian(),
+  family = gaussian(),,
+  prior = priors,
   chains = chains_per_task,
   cores = chains_per_task,
   iter = iter,
@@ -84,20 +93,20 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Arousal
-f_a2 <- brms::brmsformula(Arousal ~ Gender / (Condition * ConditionBelief) + (1 + Condition|Participant) + (1|Item))
-
-m_a2 <-  brms::brm(
-  formula = f_a2,
-  data = df2,
-  family = gaussian(),
-  chains = chains_per_task,
-  cores = chains_per_task,
-  iter = iter,
-  warmup = warmup,
-  seed = 1234 + start_chain,
-  backend = "cmdstanr",
-  file = file.path(models_dir, paste0("ModelArousal_2_task_", task_id))
-)
+# f_a2 <- brms::brmsformula(Arousal ~ Gender / (Condition * ConditionBelief) + (1 + Condition|Participant) + (1|Item))
+# 
+# m_a2 <-  brms::brm(
+#   formula = f_a2,
+#   data = df2,
+#   family = gaussian(),
+#   chains = chains_per_task,
+#   cores = chains_per_task,
+#   iter = iter,
+#   warmup = warmup,
+#   seed = 1234 + start_chain,
+#   backend = "cmdstanr",
+#   file = file.path(models_dir, paste0("ModelArousal_2_task_", task_id))
+# )
 
 # Enticement
 # f_e2 <- brms::brmsformula(Enticement ~ Gender / (Condition * ConditionBelief) + (1 + Condition* ConditionBelief|Participant) + (1|Item))
