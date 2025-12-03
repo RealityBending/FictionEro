@@ -21,7 +21,9 @@ dir.create(models_dir, recursive = TRUE, showWarnings = FALSE)
 # ----------------------------
 
 df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df1.csv") |>
-  mutate(Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+  mutate(Condition = fct_recode(Condition, "Photograph" = "Photograph", "AIGenerated" = "AI-Generated"),
+         Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+         Relevance = fct_recode(Relevance,  "Relevant" = "Relevant",  "Irrelevant"= "Irrelevant", "NonErotic" = "Non-erotic"),
          Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "NonErotic"),
          Gender =  fct_relevel(Gender, "Male", "Female"),
          ConditionBelief = case_when(
