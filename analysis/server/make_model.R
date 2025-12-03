@@ -21,10 +21,16 @@ dir.create(models_dir, recursive = TRUE, showWarnings = FALSE)
 # ----------------------------
 
 df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df1.csv") |>
-  mutate(
-    Condition = factor(Condition, levels = c("Photograph", "AIGenerated")),
-    ConditionBelief = factor(ConditionBelief, levels = c("True", "False"))
-  )
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+         Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "NonErotic"),
+         Gender =  fct_relevel(Gender, "Male", "Female"),
+         ConditionBelief = case_when(
+           Condition == "Photograph" & Realness > 0.5 ~ "True",
+           Condition == "AIGenerated" & Realness < 0.5 ~ "True",
+           .default = "False"
+         ),
+         ConditionBelief = as.factor(ConditionBelief),
+         ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) 
 
 # ----------------------------
 # MODELS - Study 1
@@ -90,10 +96,21 @@ m_a1 <-  brms::brm(
 # Study 2 ----------------------------------------------------------------------
 
 # df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df2.csv") |>
-#   mutate(
-#     Condition = factor(Condition, levels = c("Photograph", "AIGenerated")),
-#     ConditionBelief = factor(ConditionBelief, levels = c("True", "False"))
-#   )
+#   mutate(Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+#          Gender =  fct_relevel(Gender, "Male", "Female"),
+#          SexualOrientation = fct_relevel(SexualOrientation, "Heterosexual", "Homosexual", "Bisexual"),
+#          ConditionBelief = case_when(
+#            Condition == "Photograph" & Realness > 0.5 ~ "True",
+#            Condition == "AIGenerated" & Realness < 0.5 ~ "True",
+#            .default = "False"),
+#          ConditionBelief = as.factor(ConditionBelief),
+#          ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |>
+#     rename(Item = Stimulus)|>
+#     mutate(ConditionBelief = as.factor(ConditionBelief)) |>
+#     mutate(StimuliType = case_when(
+#       grepl("couple", Item, ignore.case = TRUE) ~ "Couple", TRUE ~ "Individual")) |>
+#     mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple")) |>
+#     rename(Enticement = Enticing)
 
 
 # ----------------------------
