@@ -105,12 +105,12 @@ m_a1 <-  brms::brm(
 #            .default = "False"),
 #          ConditionBelief = as.factor(ConditionBelief),
 #          ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |>
-#     rename(Item = Stimulus)|>
-#     mutate(ConditionBelief = as.factor(ConditionBelief)) |>
+#     rename(Item = Stimulus,
+              # Enticement = Enticing)|>
+#     mutate() |>
 #     mutate(StimuliType = case_when(
 #       grepl("couple", Item, ignore.case = TRUE) ~ "Couple", TRUE ~ "Individual")) |>
-#     mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple")) |>
-#     rename(Enticement = Enticing)
+#     mutate(StimuliType = fct_relevel(StimuliType, "Individual", "Couple"))
 
 
 # ----------------------------
