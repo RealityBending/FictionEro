@@ -39,7 +39,7 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Arousal
-f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / Condition * ConditionBelief + (1  + Condition  | Participant) + (1|Item))
+f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
 
 # brms::get_prior(f_a1, data=df1)
 
