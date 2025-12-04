@@ -399,6 +399,8 @@ df2 |>
 arousal1 <- readRDS("models/ModelArousal_1.rds")
 arousal2 <- readRDS("models/ModelArousal_2.rds")
 
+arousal1_cr <- readRDS("models/ModelArousal_1_CR.rds")
+
 
 #Individual models
 
