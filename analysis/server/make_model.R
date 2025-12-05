@@ -7,7 +7,7 @@ library(tidyverse)
 task_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID", unset = "1"))
 chains_per_task <- as.numeric(Sys.getenv("SLURM_CPUS_PER_TASK", unset = "2"))
 start_chain <- (task_id - 1) * chains_per_task + 1
-iter <- 1200
+iter <- 2000
 warmup <- iter / 2
 seed = 1234 + start_chain
 
