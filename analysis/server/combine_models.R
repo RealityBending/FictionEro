@@ -11,13 +11,8 @@ task_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 setwd("/mnt/lustre/users/psych/asf25/fictionero/models/")
 
 # List of models
-# model_names <- c("ModelArousal_1", "ModelEnticement_1", "ModelValence_1",
-#                  "ModelArousal_2", "ModelEnticement_2", "ModelValence_2")
-
-# model_names <- c("ModelArousal_1","ModelArousal_2")
-
-model_names <- c("ModelArousal_1")
-
+model_names <- c("ModelEnticement_1", "ModelValence_1",
+                 "ModelEnticement_2", "ModelValence_2")
 
 # Pick model based on array ID
 model_name <- model_names[task_id]
