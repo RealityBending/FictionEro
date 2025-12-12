@@ -371,8 +371,11 @@ df2 |>
 
 
 ```{r}
-arousal1 <- readRDS("models/ModelArousal_1.rds")
-arousal2 <- readRDS("models/ModelArousal_2.rds")
+arousal1_GAU <- readRDS("models/Gaussian/ModelArousal_1.rds")
+arousal2_GAU <- readRDS("models/Gaussian/ModelArousal_2.rds")
+
+arousal1_ZOIB <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
+arousal2_ZOIB <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
 ```
 
 #### Posterior Description
@@ -396,6 +399,16 @@ summary(arousal1, robust = TRUE)
 ```{r}
 params_table(arousal2) 
 summary(arousal2, robust = TRUE)
+```
+
+```{r}
+params_table(arousal1_ZOIB)
+summary(arousal1_ZOIB, robust = TRUE)
+```
+
+```{r}
+params_table(arousal2_ZOIB) 
+summary(arousal2_ZOIB, robust = TRUE)
 ```
 
 
@@ -437,24 +450,13 @@ table_dvour <- function(g) {
 ```
 
 ```{r}
-draft_model <- brms::brm(
-  formula = Arousal ~ Gender / (Condition * ConditionBelief) + (1  + Condition | Participant) + (1|Item),
-  data = df2,
-  algorithm = "meanfield",
-  family = brms::zero_one_inflated_beta())
-
-g1 <- modelbased::estimate_grouplevel(draft_model)
-
-# saveRDS(g1, file = "draft_model_estimates.rds")
+a1 <- modelbased::estimate_grouplevel(arousal1)
+a2 <- modelbased::estimate_grouplevel(arousal2)
 
 ```
 
 ```{r}
-# g1 <- readRDS("draft_model_estimates.rds")
- 
-table_dvour(g1)
-
-
+table_dvour(a2)
 ```
 
 #### Participant effects
