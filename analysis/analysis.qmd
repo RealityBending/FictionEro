@@ -391,16 +391,18 @@ arousal2_ZOIB <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
 <!-- results_table(m_arousal2) -->
 <!-- ``` -->
 
+##### GAU
 ```{r}
-params_table(arousal1)
+params_table(arousal1_GAU)
 summary(arousal1, robust = TRUE)
 ```
 
 ```{r}
-params_table(arousal2) 
+params_table(arousal2_GAU) 
 summary(arousal2, robust = TRUE)
 ```
 
+##### ZOIB
 ```{r}
 params_table(arousal1_ZOIB)
 summary(arousal1_ZOIB, robust = TRUE)
@@ -414,14 +416,25 @@ summary(arousal2_ZOIB, robust = TRUE)
 
 #### Model Performance
 
+##### GAU
+
 ```{r}
-performance::performance(arousal1)
+performance::performance(arousal1_GAU)
 ```
 
 ```{r}
-performance::performance(arousal2)
+performance::performance(arousal2_GAU)
 ```
 
+##### ZOIB
+
+```{r}
+performance::performance(arousal1_ZOIB)
+```
+
+```{r}
+performance::performance(arousal2_ZOIB)
+```
 :::
 
 ## Interindividual Variability and Moderators
@@ -449,15 +462,36 @@ table_dvour <- function(g) {
 }
 ```
 
-```{r}
-a1 <- modelbased::estimate_grouplevel(arousal1)
-a2 <- modelbased::estimate_grouplevel(arousal2)
+#### GAU
 
+```{r}
+a1 <- modelbased::estimate_grouplevel(arousal1_GAU)
+a2 <- modelbased::estimate_grouplevel(arousal2_GAU)
+```
+
+```{r}
+table_dvour(a1)
 ```
 
 ```{r}
 table_dvour(a2)
 ```
+
+#### ZOIB
+
+```{r}
+a1 <- modelbased::estimate_grouplevel(arousal1_GAU)
+a2 <- modelbased::estimate_grouplevel(arousal2_GAU)
+```
+
+```{r}
+table_dvour(a1)
+```
+
+```{r}
+table_dvour(a2)
+```
+
 
 #### Participant effects
 
