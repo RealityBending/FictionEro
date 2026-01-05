@@ -26,6 +26,8 @@ library(ggside)
 library(glmmTMB)
 library(gt)
 library(ggdist)
+library(posterior)
+
 
 
 options(mc.cores = parallel::detectCores(),
@@ -376,6 +378,10 @@ arousal2_GAU <- readRDS("models/Gaussian/ModelArousal_2.rds")
 
 arousal1_ZOIB <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 arousal2_ZOIB <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
+
+arousal1_ZOIB_sub <- readRDS("models/ZOIB/subset/ModelArousal_1_ZOIB_subset.rds")
+arousal2_ZOIB_sub <- readRDS("models/ZOIB/subset/ModelArousal_2_ZOIB_subset.rds")
+
 ```
 
 #### Posterior Description
@@ -392,6 +398,7 @@ arousal2_ZOIB <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
 <!-- ``` -->
 
 ##### GAU
+
 ```{r}
 params_table(arousal1_GAU)
 summary(arousal1, robust = TRUE)
@@ -403,16 +410,23 @@ summary(arousal2, robust = TRUE)
 ```
 
 ##### ZOIB
+
 ```{r}
-params_table(arousal1_ZOIB)
-summary(arousal1_ZOIB, robust = TRUE)
+# params_table(arousal1_ZOIB)
+# summary(arousal1_ZOIB, robust = TRUE)
+
+params_table(arousal1_ZOIB_sub)
+summary(arousal1_ZOIB_sub, robust = TRUE)
 ```
 
 ```{r}
-params_table(arousal2_ZOIB) 
-summary(arousal2_ZOIB, robust = TRUE)
-```
+# params_table(arousal2_ZOIB)
+# summary(arousal2_ZOIB, robust = TRUE)
 
+
+params_table(arousal2_ZOIB_sub) 
+summary(arousal2_ZOIB_sub, robust = TRUE)
+```
 
 #### Model Performance
 
