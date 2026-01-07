@@ -19,6 +19,7 @@ execute:
 #| message: false
 #| warning: false
 
+library(dplyr)
 library(tidyverse)
 library(easystats)
 library(patchwork)
@@ -27,6 +28,8 @@ library(glmmTMB)
 library(gt)
 library(ggdist)
 library(posterior)
+library(forcats)
+
 
 
 
@@ -347,7 +350,7 @@ diff_plot2
 
 ### Arousal
 
-#### Distributions
+#### Arousal Study 1
 
 ```{r}
 df1 |> 
@@ -358,8 +361,24 @@ df1 |>
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
   labs(title = "Arousal by Gender × Belief × Relevance × Condition", subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
+```
+
+```{r}
+arousal1_ZOIB <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 
 
+params_table(arousal1_ZOIB) 
+summary(arousal1_ZOIB, robust = TRUE)
+```
+
+```{r}
+performance::performance(arousal1_ZOIB)
+```
+
+
+#### Arousal Study 2
+
+```{r}
 df2 |> 
   ggplot(aes(x = Gender, y = Arousal, fill = ConditionBelief)) +
   geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
@@ -371,84 +390,18 @@ df2 |>
 
 ```
 
-
 ```{r}
-arousal1_GAU <- readRDS("models/Gaussian/ModelArousal_1.rds")
-arousal2_GAU <- readRDS("models/Gaussian/ModelArousal_2.rds")
-
-arousal1_ZOIB <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 arousal2_ZOIB <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
 
-arousal1_ZOIB_sub <- readRDS("models/ZOIB/subset/ModelArousal_1_ZOIB_subset.rds")
-arousal2_ZOIB_sub <- readRDS("models/ZOIB/subset/ModelArousal_2_ZOIB_subset.rds")
 
+params_table(arousal2_ZOIB) 
+summary(arousal2_ZOIB, robust = TRUE)
 ```
-
-#### Posterior Description
-
-<!-- Sampling Diagnostics -->
-
-<!-- - ESS should be at least 1000 (the effective sample size - ESS - is an estimation of the number of independent samples) -->
-
-<!-- - R^(“R-hat”) Should be lower than 1.01 (R-hat is a measure of convergence) -->
-
-<!-- ```{r} -->
-<!-- results_table(m_arousal1) -->
-<!-- results_table(m_arousal2) -->
-<!-- ``` -->
-
-##### GAU
-
-```{r}
-params_table(arousal1_GAU)
-summary(arousal1, robust = TRUE)
-```
-
-```{r}
-params_table(arousal2_GAU) 
-summary(arousal2, robust = TRUE)
-```
-
-##### ZOIB
-
-```{r}
-# params_table(arousal1_ZOIB)
-# summary(arousal1_ZOIB, robust = TRUE)
-
-params_table(arousal1_ZOIB_sub)
-summary(arousal1_ZOIB_sub, robust = TRUE)
-```
-
-```{r}
-# params_table(arousal2_ZOIB)
-# summary(arousal2_ZOIB, robust = TRUE)
-
-
-params_table(arousal2_ZOIB_sub) 
-summary(arousal2_ZOIB_sub, robust = TRUE)
-```
-
-#### Model Performance
-
-##### GAU
-
-```{r}
-performance::performance(arousal1_GAU)
-```
-
-```{r}
-performance::performance(arousal2_GAU)
-```
-
-##### ZOIB
 
 ```{r}
 performance::performance(arousal1_ZOIB)
 ```
 
-```{r}
-performance::performance(arousal2_ZOIB)
-```
 :::
 
 ## Interindividual Variability and Moderators
@@ -476,30 +429,20 @@ table_dvour <- function(g) {
 }
 ```
 
-#### GAU
+#### Arousal Study 1 
 
 ```{r}
 a1 <- modelbased::estimate_grouplevel(arousal1_GAU)
-a2 <- modelbased::estimate_grouplevel(arousal2_GAU)
 ```
 
 ```{r}
 table_dvour(a1)
 ```
 
-```{r}
-table_dvour(a2)
-```
-
-#### ZOIB
+#### Arousal Study 2
 
 ```{r}
-a1 <- modelbased::estimate_grouplevel(arousal1_GAU)
 a2 <- modelbased::estimate_grouplevel(arousal2_GAU)
-```
-
-```{r}
-table_dvour(a1)
 ```
 
 ```{r}
