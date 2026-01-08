@@ -257,6 +257,8 @@ valence_dist2
 
 ### Study 1
 
+#### Arousal 
+
 ```{r meanarousal 1}
 #| message: false
 
@@ -297,7 +299,100 @@ diff_plot1 <- dfsub1 |>
 diff_plot1
 ```
 
+**Study 1**: `r report::report(ttest1, data = dfsub1)`
+
+#### Enticement 
+
+```{r meanarousal 1}
+#| message: false
+
+dfsub1 <- dfsub1 |>
+  right_join(
+    df1 |>
+      group_by(Participant, Condition) |>
+      summarise(mean_Enticement = mean(Enticement, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(
+        names_from = Condition,
+        names_prefix = "mean_Enticement_",
+        values_from = mean_Enticement
+      ) |>
+      mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)
+  )
+
+ttest1 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub1)
+```
+
+```{r}
+diff_plot1 <- dfsub1 |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_enticement, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4,alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 1",
+    x = "Participant said AI is less arousing",
+    y = "Enticment Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot1
+```
+
+**Study 1**: `r report::report(ttest1, data = dfsub1)`
+
+#### Valence 
+
+#### Enticement 
+
+```{r meanarousal 1}
+#| message: false
+
+dfsub1 <- dfsub1 |>
+  right_join(
+    df1 |>
+      group_by(Participant, Condition) |>
+      summarise(mean_Valence = mean(Valence, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(
+        names_from = Condition,
+        names_prefix = "mean_Valence_",
+        values_from = mean_Valence
+      ) |>
+      mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph)
+  )
+
+ttest1 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub1)
+```
+
+```{r}
+diff_plot1 <- dfsub1 |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_valence, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4,alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 1",
+    x = "Participant said AI is less arousing",
+    y = "Valence Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot1
+```
+
+**Study 1**: `r report::report(ttest1, data = dfsub1)`
 ### Study 2
+
+#### Arousal
 
 ```{r meanarousal 2}
 #| message: false
@@ -337,7 +432,89 @@ diff_plot2 <- dfsub2 |>
 diff_plot2
 ```
 
-**Study 1**: `r report::report(ttest1, data = dfsub1)`
+**Study 2**: `r report::report(ttest2, data = dfsub2)`
+
+#### Enticement 
+
+```{r meanarousal 2}
+#| message: false
+
+dfsub2 <- dfsub2 |>
+  right_join(
+    df2|>
+      group_by(Participant, Condition)|>
+      summarise(mean_Enticement = mean(Enticement, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(names_from = Condition, 
+                  names_prefix = "mean_Enticement_", 
+                  values_from = mean_Enticement) |>
+      mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)
+  )
+
+ttest2 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub2)
+```
+
+```{r}
+diff_plot2 <- dfsub2 |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_enticement, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4, alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 2",
+    x = "Participant said AI is less arousing",
+    y = "Enticement Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot2
+```
+
+**Study 2**: `r report::report(ttest2, data = dfsub2)`
+
+#### Valence 
+
+```{r meanarousal 2}
+#| message: false
+
+dfsub2 <- dfsub2 |>
+  right_join(
+    df2|>
+      group_by(Participant, Condition)|>
+      summarise(mean_Valence = mean(Valence, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(names_from = Condition, 
+                  names_prefix = "mean_Valence_", 
+                  values_from = mean_Valence) |>
+      mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph)
+  )
+
+ttest2 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub2)
+```
+
+```{r}
+diff_plot2 <- dfsub2 |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_valence, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4, alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 2",
+    x = "Participant said AI is less arousing",
+    y = "Valence Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot2
+```
 
 **Study 2**: `r report::report(ttest2, data = dfsub2)`
 
@@ -348,9 +525,9 @@ diff_plot2
 
 ::: {.panel-tabset}
 
-### Arousal
+### Study 1
 
-#### Arousal Study 1
+#### Arousal
 
 ```{r}
 df1 |> 
@@ -375,8 +552,59 @@ summary(arousal1_ZOIB, robust = TRUE)
 performance::performance(arousal1_ZOIB)
 ```
 
+#### Enticement 
 
-#### Arousal Study 2
+```{r}
+df1 |> 
+  ggplot(aes(x = Gender, y = Enticement, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
+  stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
+  facet_grid(Relevance ~ Condition) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Enticement by Gender × Belief × Relevance × Condition", subtitle ="Study 1", x = "Gender",y = "Enticement",fill = " Condition Belief")
+```
+
+```{r}
+enticement1_ZOIB <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
+
+
+params_table(enticement1_ZOIB) 
+summary(enticement1_ZOIB, robust = TRUE)
+```
+
+```{r}
+performance::performance(enticement1_ZOIB)
+```
+
+#### Valence 
+
+```{r}
+df1 |> 
+  ggplot(aes(x = Gender, y = Valence, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
+  stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
+  facet_grid(Relevance ~ Condition) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Valence by Gender × Belief × Relevance × Condition", subtitle ="Study 1", x = "Gender",y = "Valence",fill = " Condition Belief")
+```
+
+```{r}
+valence1_ZOIB <- readRDS("models/ZOIB/ModelValence_1_ZOIB.rds")
+
+
+params_table(valence1_ZOIB) 
+summary(valence1_ZOIB, robust = TRUE)
+```
+
+```{r}
+performance::performance(valence1_ZOIB)
+```
+
+### Study 2
+
+#### Arousal
 
 ```{r}
 df2 |> 
@@ -402,6 +630,58 @@ summary(arousal2_ZOIB, robust = TRUE)
 performance::performance(arousal1_ZOIB)
 ```
 
+#### Enticement
+
+```{r}
+df2 |> 
+  ggplot(aes(x = Gender, y = Enticement, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
+  stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
+  facet_grid( ~ Condition) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Enticement by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "Enticement",fill = " Condition Belief")
+
+```
+
+```{r}
+enticement2_ZOIB <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB.rds")
+
+
+params_table(enticement2_ZOIB) 
+summary(enticement2_ZOIB, robust = TRUE)
+```
+
+```{r}
+performance::performance(enticement2_ZOIB)
+```
+
+#### Valence
+
+```{r}
+df2 |> 
+  ggplot(aes(x = Gender, y = Valence, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
+  stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
+  facet_grid( ~ Condition) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Valence by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "valence",fill = " Condition Belief")
+
+```
+
+```{r}
+valence2_ZOIB <- readRDS("models/ZOIB/ModelValence_2_ZOIB.rds")
+
+
+params_table(valence2_ZOIB) 
+summary(valence2_ZOIB, robust = TRUE)
+```
+
+```{r}
+performance::performance(valence2_ZOIB)
+```
+
 :::
 
 ## Interindividual Variability and Moderators
@@ -413,12 +693,16 @@ performance::performance(arousal1_ZOIB)
 
 ### Random Effects
 
-### Reliability 
+
+### Reliability Study 1 
+:::
+
 
 <!-- These functions provide information about the reliability of group-level estimates (i.e., random effects) in mixed models. They are useful to assess whether the predictors yield consistent group-level variability. "Group-level" can refer, for instance, to different participants in a study, and the predictors to the effect of some experimental condition. -->
 
 <!-- D_vour: corresponds to the normalized ratio of observed variability to uncertainty in random effect estimates -->
 
+#### Arousal
 ```{r}
 table_dvour <- function(g) {
   performance::performance_dvour(g) |> 
@@ -429,41 +713,68 @@ table_dvour <- function(g) {
 }
 ```
 
-#### Arousal Study 1 
-
 ```{r}
 a1 <- modelbased::estimate_grouplevel(arousal1_ZOIB)
-```
 
-```{r}
 table_dvour(a1)
 ```
 
-#### Arousal Study 2
+#### Enticement 
 
 ```{r}
-a2 <- modelbased::estimate_grouplevel(arousal2_ZOIB)
+e1 <- modelbased::estimate_grouplevel(enticement1_ZOIB)
+
+table_dvour(e1)
 ```
 
+#### Valence
+
 ```{r}
+v1 <- modelbased::estimate_grouplevel(valence1_ZOIB)
+
+table_dvour(v1)
+```
+:::
+
+### Reliability Study 2
+
+##### Arousal 
+```{r}
+a2 <- modelbased::estimate_grouplevel(arousal2_ZOIB)
+
 table_dvour(a2)
 ```
 
+##### Enticement 
 
-#### Participant effects
+```{r}
+e2 <- modelbased::estimate_grouplevel(enticement2_ZOIB)
+
+table_dvour(e2)
+```
+
+##### Valence
+
+```{r}
+v2 <- modelbased::estimate_grouplevel(valence2_ZOIB)
+
+table_dvour(v2)
+```
+
+### Participant effects Study 1
 
 <!-- The random intercepts for participants showed moderate variability around the grand mean, suggesting that some participants tended to report consistently higher or lower arousal regardless of condition or belief. -->
 
 <!-- The item-level intercepts exhibited similar variability, indicating that certain stimuli were intrinsically more arousing than others across participants. -->
 
-##### Study 1
+#### Arousal
 
 ```{r}
-colors <- c("Intercept" = "#9C27B0", "ConditionAIMGenerated" = "#FF9800")
+colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
 
-p2_dvour <- a1 |> 
+p_dvour <- a1 |> 
    mutate(Group = fct_relevel(Group, "Participant", "Item"),
-          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIMGenerated")) |>
+          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
   ggplot(aes(x = Median , y = Level)) +
   geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
   facet_grid(Group~Parameter, scales = "free", switch="both") +
@@ -482,10 +793,69 @@ p2_dvour <- a1 |>
         panel.grid.minor = element_blank(),
         panel.grid.major.y = element_blank(),
         legend.position = "none")
-p2_dvour
+p_dvour
 ```
 
-##### Study 2
+#### Enticement
+
+```{r}
+
+p_dvour <- e1 |> 
+   mutate(Group = fct_relevel(Group, "Participant", "Item"),
+          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
+  ggplot(aes(x = Median , y = Level)) +
+  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
+  facet_grid(Group~Parameter, scales = "free", switch="both") +
+  ggside::ggside(scales  = "free") +
+  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
+  ggside::ggside(scales  = "free") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.placement.x = "outside",
+        strip.background = element_rect(fill = NA, color = NA),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position = "none")
+p_dvour
+```
+
+#### Valence
+
+
+```{r}
+
+p_dvour <- v1 |> 
+   mutate(Group = fct_relevel(Group, "Participant", "Item"),
+          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
+  ggplot(aes(x = Median , y = Level)) +
+  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
+  facet_grid(Group~Parameter, scales = "free", switch="both") +
+  ggside::ggside(scales  = "free") +
+  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
+  ggside::ggside(scales  = "free") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.placement.x = "outside",
+        strip.background = element_rect(fill = NA, color = NA),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position = "none")
+p_dvour
+```
+
+### Participant effects Study 2
+
+#### Arousal
 
 ```{r}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -512,6 +882,63 @@ p2_dvour <- a2 |>
         panel.grid.major.y = element_blank(),
         legend.position = "none")
 p2_dvour
+```
+
+#### Enticement
+
+```{r}
+
+p_dvour <- e2 |> 
+   mutate(Group = fct_relevel(Group, "Participant", "Item"),
+          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
+  ggplot(aes(x = Median , y = Level)) +
+  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
+  facet_grid(Group~Parameter, scales = "free", switch="both") +
+  ggside::ggside(scales  = "free") +
+  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
+  ggside::ggside(scales  = "free") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.placement.x = "outside",
+        strip.background = element_rect(fill = NA, color = NA),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position = "none")
+p_dvour
+```
+
+
+#### Valence
+
+```{r}
+
+p_dvour <- v2 |> 
+   mutate(Group = fct_relevel(Group, "Participant", "Item"),
+          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
+  ggplot(aes(x = Median , y = Level)) +
+  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
+  facet_grid(Group~Parameter, scales = "free", switch="both") +
+  ggside::ggside(scales  = "free") +
+  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
+  ggside::ggside(scales  = "free") +
+  scale_color_manual(values = colors) +
+  scale_fill_manual(values = colors) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.placement.x = "outside",
+        strip.background = element_rect(fill = NA, color = NA),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position = "none")
+p_dvour
 ```
 
 ### Correlation
