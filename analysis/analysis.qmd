@@ -148,7 +148,7 @@ The rate of people that did not believe the instructions in study 1 (i.e., gave 
 
 ### Arousal Distributions
 
-```{r Arousal1}
+```{r}
 #| fig-width: 12
 arousal_dist1 <- df1 |>
   ggplot(aes(x=Arousal, fill = Condition)) +
@@ -164,7 +164,7 @@ arousal_dist1 <- df1 |>
 arousal_dist1
 ```
 
-```{r Arousal2}
+```{r}
 #| fig-width: 12
 arousal_dist2 <- df2 |>
   ggplot(aes(x=Arousal, fill = Condition)) +
@@ -183,7 +183,7 @@ arousal_dist2
 
 ### Enticment Distributions
 
-```{r Arousal1}
+```{r}
 #| fig-width: 12
 enticement_dist1 <- df1 |>
   ggplot(aes(x=Enticement, fill = Condition)) +
@@ -199,7 +199,7 @@ enticement_dist1 <- df1 |>
 enticement_dist1
 ```
 
-```{r Arousal2}
+```{r}
 #| fig-width: 12
 enticement_dist2 <- df2 |>
   ggplot(aes(x=Enticement, fill = Condition)) +
@@ -217,7 +217,7 @@ enticement_dist2
 
 ### Valence Distributions
 
-```{r Arousal1}
+```{r}
 #| fig-width: 12
 valence_dist1 <- df1 |>
   ggplot(aes(x=Valence, fill = Condition)) +
@@ -233,7 +233,7 @@ valence_dist1 <- df1 |>
 valence_dist1
 ```
 
-```{r Arousal2}
+```{r}
 #| fig-width: 12
 valence_dist2 <- df2 |>
   ggplot(aes(x=Valence, fill = Condition)) +
@@ -251,7 +251,7 @@ valence_dist2
 :::
 
 
-## Average Arousal
+## Average 
 
 ::: {.panel-tabset}
 
@@ -259,7 +259,7 @@ valence_dist2
 
 #### Arousal 
 
-```{r meanarousal 1}
+```{r}
 #| message: false
 
 dfsub1 <- dfsub1 |>
@@ -303,7 +303,7 @@ diff_plot1
 
 #### Enticement 
 
-```{r meanarousal 1}
+```{r}
 #| message: false
 
 dfsub1 <- dfsub1 |>
@@ -349,7 +349,7 @@ diff_plot1
 
 #### Enticement 
 
-```{r meanarousal 1}
+```{r}
 #| message: false
 
 dfsub1 <- dfsub1 |>
@@ -394,7 +394,7 @@ diff_plot1
 
 #### Arousal
 
-```{r meanarousal 2}
+```{r }
 #| message: false
 
 dfsub2 <- dfsub2 |>
@@ -436,7 +436,7 @@ diff_plot2
 
 #### Enticement 
 
-```{r meanarousal 2}
+```{r}
 #| message: false
 
 dfsub2 <- dfsub2 |>
@@ -478,7 +478,7 @@ diff_plot2
 
 #### Valence 
 
-```{r meanarousal 2}
+```{r }
 #| message: false
 
 dfsub2 <- dfsub2 |>
