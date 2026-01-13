@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=fictionero_combine
-#SBATCH --array=1-6
+#SBATCH --array=1
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
-#SBATCH --mem=32G
+#SBATCH --mem=64G
 #SBATCH --output=/mnt/lustre/scratch/psych/asf25/fictionero/combine_%A_%a.out
 #SBATCH --error=/mnt/lustre/scratch/psych/asf25/fictionero/combine_%A_%a.err
 #SBATCH --partition=long
