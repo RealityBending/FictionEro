@@ -527,6 +527,18 @@ diff_plot2
 
 ### Study 1
 
+```{r}
+# Function to load, summarize, and check performance of ZOIB model
+summarize_zoib <- function(file_path) {
+  model <- readRDS(file_path)
+  params_table(model)
+  summary(model, robust = TRUE)
+  performance::performance(model)
+  return(model)
+} 
+
+```
+
 #### Arousal
 
 ```{r}
@@ -537,19 +549,11 @@ df1 |>
   facet_grid(Relevance ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Arousal by Gender × Belief × Relevance × Condition", subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
+  labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
 ```
 
 ```{r}
-arousal1_ZOIB <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
-
-
-params_table(arousal1_ZOIB) 
-summary(arousal1_ZOIB, robust = TRUE)
-```
-
-```{r}
-performance::performance(arousal1_ZOIB)
+arousal1_ZOIB <- summarize_zoib("models/ZOIB/ModelArousal_1_ZOIB.rds")
 ```
 
 #### Enticement 
@@ -566,15 +570,7 @@ df1 |>
 ```
 
 ```{r}
-enticement1_ZOIB <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
-
-
-params_table(enticement1_ZOIB) 
-summary(enticement1_ZOIB, robust = TRUE)
-```
-
-```{r}
-performance::performance(enticement1_ZOIB)
+enticement1_ZOIB <- summarize_zoib("models/ZOIB/ModelEnticement_1_ZOIB.rds")
 ```
 
 #### Valence 
@@ -591,15 +587,7 @@ df1 |>
 ```
 
 ```{r}
-valence1_ZOIB <- readRDS("models/ZOIB/ModelValence_1_ZOIB.rds")
-
-
-params_table(valence1_ZOIB) 
-summary(valence1_ZOIB, robust = TRUE)
-```
-
-```{r}
-performance::performance(valence1_ZOIB)
+valence1_ZOIB <- summarize_zoib("models/ZOIB/ModelValence_1_ZOIB.rds")
 ```
 
 ### Study 2
@@ -619,15 +607,7 @@ df2 |>
 ```
 
 ```{r}
-arousal2_ZOIB <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
-
-
-params_table(arousal2_ZOIB) 
-summary(arousal2_ZOIB, robust = TRUE)
-```
-
-```{r}
-performance::performance(arousal1_ZOIB)
+arousal2_ZOIB <- summarize_zoib("models/ZOIB/ModelArousal_2_ZOIB.rds")
 ```
 
 #### Enticement
@@ -645,15 +625,7 @@ df2 |>
 ```
 
 ```{r}
-enticement2_ZOIB <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB.rds")
-
-
-params_table(enticement2_ZOIB) 
-summary(enticement2_ZOIB, robust = TRUE)
-```
-
-```{r}
-performance::performance(enticement2_ZOIB)
+enticement2_ZOIB <- summarize_zoib("models/ZOIB/ModelEnticement_2_ZOIB.rds")
 ```
 
 #### Valence
@@ -671,15 +643,7 @@ df2 |>
 ```
 
 ```{r}
-valence2_ZOIB <- readRDS("models/ZOIB/ModelValence_2_ZOIB.rds")
-
-
-params_table(valence2_ZOIB) 
-summary(valence2_ZOIB, robust = TRUE)
-```
-
-```{r}
-performance::performance(valence2_ZOIB)
+valence2_ZOIB <- summarize_zoib("models/ZOIB/ModelValence_2_ZOIB.rds")
 ```
 
 :::
@@ -691,18 +655,15 @@ performance::performance(valence2_ZOIB)
 3. effect of condition believed + relevant 
 4. correlation matrix/ matrix of scatter plots
 
-### Random Effects
-
-
-### Reliability Study 1 
+### Random Effects /  Reliability  
 :::
 
-
+#### Study 1
 <!-- These functions provide information about the reliability of group-level estimates (i.e., random effects) in mixed models. They are useful to assess whether the predictors yield consistent group-level variability. "Group-level" can refer, for instance, to different participants in a study, and the predictors to the effect of some experimental condition. -->
 
 <!-- D_vour: corresponds to the normalized ratio of observed variability to uncertainty in random effect estimates -->
 
-#### Arousal
+##### Arousal
 ```{r}
 table_dvour <- function(g) {
   performance::performance_dvour(g) |> 
@@ -714,65 +675,85 @@ table_dvour <- function(g) {
 ```
 
 ```{r}
-a1 <- modelbased::estimate_grouplevel(arousal1_ZOIB)
-
-table_dvour(a1)
-```
-
-#### Enticement 
-
-```{r}
-e1 <- modelbased::estimate_grouplevel(enticement1_ZOIB)
-
-table_dvour(e1)
-```
-
-#### Valence
-
-```{r}
-v1 <- modelbased::estimate_grouplevel(valence1_ZOIB)
-
-table_dvour(v1)
-```
-:::
-
-### Reliability Study 2
-
-##### Arousal 
-```{r}
-a2 <- modelbased::estimate_grouplevel(arousal2_ZOIB)
-
-table_dvour(a2)
+m <- readRDS("C:/Users/asf25/Downloads/ModelArousal_1_task_1.rds")
+# m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
+  
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
 ```
 
 ##### Enticement 
 
 ```{r}
-e2 <- modelbased::estimate_grouplevel(enticement2_ZOIB)
+m <- readRDS("C:/Users/asf25/Downloads/ModelEnticement_1_task_1.rds")
+# m <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
 
-table_dvour(e2)
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
 ```
 
 ##### Valence
 
 ```{r}
-v2 <- modelbased::estimate_grouplevel(valence2_ZOIB)
+m <- readRDS("C:/Users/asf25/Downloads/ModelEnticement_1_task_1.rds")
+# m <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
 
-table_dvour(v2)
+
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
 ```
 
-### Participant effects Study 1
+#### Study 2
 
+##### Arousal 
+```{r}
+m <- readRDS("C:/Users/asf25/Downloads/ModelArousal_2_task_1.rds")
+# m <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
+  
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
+```
+
+##### Enticement 
+
+```{r}
+m <- readRDS("C:/Users/asf25/Downloads/ModelEnticement_2_task_1.rds")
+# m <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB.rds")
+
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
+```
+
+##### Valence
+
+```{r}
+m <- readRDS("C:/Users/asf25/Downloads/ModelValence_2_task_1.rds")
+# m <- readRDS("models/ZOIB/ModelValence_2_ZOIB.rds")
+
+
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
+```
+:::
+
+### Participant effects 
+:::
+
+#### Study 1
 <!-- The random intercepts for participants showed moderate variability around the grand mean, suggesting that some participants tended to report consistently higher or lower arousal regardless of condition or belief. -->
 
 <!-- The item-level intercepts exhibited similar variability, indicating that certain stimuli were intrinsically more arousing than others across participants. -->
 
-#### Arousal
+##### Arousal
 
 ```{r}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
 
-p_dvour <- a1 |> 
+m <- readRDS("C:/Users/asf25/Downloads/ModelArousal_1_task_1.rds")
+m <- modelbased::estimate_grouplevel(m)
+
+
+p_dvour <- m |> 
    mutate(Group = fct_relevel(Group, "Participant", "Item"),
           Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
   ggplot(aes(x = Median , y = Level)) +
@@ -796,7 +777,7 @@ p_dvour <- a1 |>
 p_dvour
 ```
 
-#### Enticement
+##### Enticement
 
 ```{r}
 
@@ -824,7 +805,7 @@ p_dvour <- e1 |>
 p_dvour
 ```
 
-#### Valence
+##### Valence
 
 
 ```{r}
@@ -853,9 +834,9 @@ p_dvour <- v1 |>
 p_dvour
 ```
 
-### Participant effects Study 2
+#### Study 2
 
-#### Arousal
+##### Arousal
 
 ```{r}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -884,7 +865,7 @@ p2_dvour <- a2 |>
 p2_dvour
 ```
 
-#### Enticement
+##### Enticement
 
 ```{r}
 
@@ -913,7 +894,7 @@ p_dvour
 ```
 
 
-#### Valence
+##### Valence
 
 ```{r}
 
@@ -940,6 +921,8 @@ p_dvour <- v2 |>
         legend.position = "none")
 p_dvour
 ```
+::: 
+
 
 ### Correlation
 
@@ -947,5 +930,46 @@ p_dvour
 <!-- - look at mint and fiction choco analysis for correlation matrix -->
 
 #### Study 1 
+
+##### Arousal 
+
+```{r}
+
+m <- readRDS("C:/Users/asf25/Downloads/ModelArousal_1_task_1.rds")
+m <- modelbased::estimate_grouplevel(m)
+
+correlations <- df1 |>
+  select(Participant, starts_with("Feedback"), starts_with("BAIT"), starts_with("GAIS"), starts_with("Porn"), "AI_Knowledge", "SexualActivity_num", "COPS_Frequency_2")
+
+features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
+  datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
+  full_join(correlations, by = "Participant") 
+  
+
+cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
+  correlation::cor_sort() |> 
+  correlation::cor_lower() |>
+  as.data.frame() |> 
+  mutate(Parameter2 = fct_rev(Parameter2),
+         Parameter1 = fct_relabel(Parameter1, \(x) gsub("_Intercept", "", x)),
+         Parameter2 = fct_relabel(Parameter2, \(x) gsub("_Intercept", "", x)),
+         Parameter1 = fct_relabel(Parameter1, \(x) gsub("_", " - ", x)),
+         Parameter2 = fct_relabel(Parameter2, \(x) gsub("_", " - ", x)))
+
+p2_cor <- cordata |> 
+  ggplot(aes(x=Parameter2, y = Parameter1)) +
+  geom_tile(aes(fill = r)) +
+  geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    legend.position = "none"
+  )
+p2_cor
+
+```
 
 #### Study 2 
