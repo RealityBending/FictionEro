@@ -29,6 +29,7 @@ library(gt)
 library(ggdist)
 library(posterior)
 library(forcats)
+library(ggplot2)
 
 options(mc.cores = parallel::detectCores(),
         brms.backend = "cmdstanr",
@@ -52,8 +53,8 @@ results_table <- function(model, effects="fixed", filter=NULL) {
 
 # Parameters tables for the models 
 params_table <- function(m) {
-  d <- as.data.frame(m, variable = insight::find_parameters(m, effects = "fixed", flatten  = TRUE))
-  t <- bayestestR::describe_posterior(d, effects = "fixed", component = "all", ci_method = "hdi", test = "p_direction")
+  # d <- as.data.frame(m, variable = insight::find_parameters(m, effects = "fixed", flatten  = TRUE))
+  t <- bayestestR::describe_posterior(m, effects = "fixed", component = "all", ci_method = "hdi", test = "p_direction")
   out <- insight::format_table(t)
   out |> 
     mutate(col = t$pd) |> 
@@ -219,6 +220,7 @@ diff_plot1
 **Study 1**: `r report::report(ttest1, data = dfsub1)`
 :::
 
+
 ### Effect of Manipulation
 
 ```{r arousal 1 by condition belief plot }
@@ -238,7 +240,7 @@ m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 
 ```{r arousal 1 model analysis}
 params_table(m)
-summary(m, robust = TRUE)
+yYsummary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
