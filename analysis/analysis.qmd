@@ -30,9 +30,6 @@ library(ggdist)
 library(posterior)
 library(forcats)
 
-
-
-
 options(mc.cores = parallel::detectCores(),
         brms.backend = "cmdstanr",
         width = 300)
