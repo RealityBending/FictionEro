@@ -232,12 +232,14 @@ df1 |>
   labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
 ```
 
-```{r arousal 1 model}
+```{r arousal 1 model load}
 m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
+```
 
+```{r arousal 1 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
-performance::performance(m)
+# performance::performance(m)
 ```
 
 
@@ -282,35 +284,44 @@ p_dvour
 :::
 ### Correlations (moderators)
 
-
-```{r arousal 1 corr}
+```{r df 1 corr}
 
 correlations <- df1 |>
   select(Participant, starts_with("Feedback"), starts_with("BAIT"), starts_with("GAIS"), starts_with("Porn"), "AI_Knowledge", "SexualActivity_num", "COPS_Frequency_2")
 
-features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
+
+corr_mod <- function(m){
+  features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
   datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
   full_join(correlations, by = "Participant") 
   
 
-cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
-  correlation::cor_sort() |> 
-  correlation::cor_lower() |>
-  as.data.frame()
+  cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
+    correlation::cor_sort() |> 
+    correlation::cor_lower() |>
+    as.data.frame()
+  
+  p2_cor <- cordata |> 
+    ggplot(aes(x=Parameter2, y = Parameter1)) +
+    geom_tile(aes(fill = r)) +
+    geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      legend.position = "none"
+    )
+  p2_cor
+  
+}
 
-p2_cor <- cordata |> 
-  ggplot(aes(x=Parameter2, y = Parameter1)) +
-  geom_tile(aes(fill = r)) +
-  geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-p2_cor
+```
+
+```{r arousal 1 corr}
+
+corr_mod(m)
 
 ```
 
@@ -397,12 +408,14 @@ df1 |>
   labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
 ```
 
-```{r enticement 1 model}
+```{r enticement 1 model load}
 m <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
+```
 
+```{r enticement 1 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
-performance::performance(m)
+# performance::performance(m)
 ```
 
 
@@ -448,34 +461,7 @@ p_dvour
 ### Correlations (moderators)
 
 ```{r enticement  1 corr}
-
-correlations <- df1 |>
-  select(Participant, starts_with("Feedback"), starts_with("BAIT"), starts_with("GAIS"), starts_with("Porn"), "AI_Knowledge", "SexualActivity_num", "COPS_Frequency_2")
-
-features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
-  datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
-  full_join(correlations, by = "Participant") 
-  
-
-cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
-  correlation::cor_sort() |> 
-  correlation::cor_lower() |>
-  as.data.frame()
-
-p2_cor <- cordata |> 
-  ggplot(aes(x=Parameter2, y = Parameter1)) +
-  geom_tile(aes(fill = r)) +
-  geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-p2_cor
-
+corr_mod(m)
 ```
 
 ## Valence
@@ -563,10 +549,12 @@ df1 |>
 
 ```{r valence 1 model}
 m <- readRDS("models/ZOIB/ModelValence_1_ZOIB.rds")
+```
 
+```{r valence 1 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
-performance::performance(m)
+# performance::performance(m)
 ```
 
 
@@ -612,34 +600,7 @@ p_dvour
 ### Correlations (moderators)
 
 ```{r valence 1 corr}
-
-correlations <- df1 |>
-  select(Participant, starts_with("Feedback"), starts_with("BAIT"), starts_with("GAIS"), starts_with("Porn"), "AI_Knowledge", "SexualActivity_num", "COPS_Frequency_2")
-
-features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
-  datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
-  full_join(correlations, by = "Participant") 
-  
-
-cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
-  correlation::cor_sort() |> 
-  correlation::cor_lower() |>
-  as.data.frame()
-
-p2_cor <- cordata |> 
-  ggplot(aes(x=Parameter2, y = Parameter1)) +
-  geom_tile(aes(fill = r)) +
-  geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-p2_cor
-
+corr_mod(m)
 ```
 
 # Study 2
@@ -733,12 +694,14 @@ df2 |>
 
 ```
 
-```{r arousal 2 model}
+```{r arousal 2 model load}
 m <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
+```
 
+```{r arousa 1 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
-performance::performance(m)
+# performance::performance(m)
 ```
 
 
@@ -784,35 +747,14 @@ p2_dvour
 
 ### Correlations (moderators)
 
-```{r arousal 2 corr}
-
+```{r df 2 corr}
 correlations <- df2 |>
-  select(Participant, starts_with("Feedback"), starts_with("BAIT"), "PornFrequency", "AI_Knowledge", "SexualActivity_num", "COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment")
+  select(Participant, starts_with("Feedback"), starts_with("BAIT"), "PornFrequency", "SexualActivity_num", "COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment")
 
-features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
-  datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
-  full_join(correlations, by = "Participant") 
-  
+```
 
-cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
-  correlation::cor_sort() |> 
-  correlation::cor_lower() |>
-  as.data.frame()
-
-p2_cor <- cordata |> 
-  ggplot(aes(x=Parameter2, y = Parameter1)) +
-  geom_tile(aes(fill = r)) +
-  geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-p2_cor
-
+```{arousal 2 corr}
+corr_mod(m)
 ``` 
 
 ## Enticement
@@ -897,12 +839,14 @@ df2 |>
 
 ```
 
-```{r enticement 2 model}
+```{r enticement 2 model load}
 m <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB.rds")
+```
 
+```{r enticement 2 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
-performance::performance(m)
+# performance::performance(m)
 ```
 
 
@@ -949,34 +893,7 @@ p_dvour
 ### Correlations (moderators)
 
 ```{r enticement 2 corr}
-
-correlations <- df2 |>
-  select(Participant, starts_with("Feedback"), starts_with("BAIT"), "PornFrequency", "AI_Knowledge", "SexualActivity_num","COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment")
-
-features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
-  datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
-  full_join(correlations, by = "Participant") 
-  
-
-cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
-  correlation::cor_sort() |> 
-  correlation::cor_lower() |>
-  as.data.frame()
-
-p2_cor <- cordata |> 
-  ggplot(aes(x=Parameter2, y = Parameter1)) +
-  geom_tile(aes(fill = r)) +
-  geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-p2_cor
-
+corr_mod(m)
 ```  
 
 ## Valence
@@ -1060,12 +977,14 @@ df2 |>
   labs(title = "Valence by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "valence",fill = " Condition Belief")
 ```
 
-```{r valence 2 model}
+```{r valence 2 model load}
 m <- readRDS("models/ZOIB/ModelValence_2_ZOIB.rds")
+```
 
+```{r valence 2 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
-performance::performance(m)
+# performance::performance(m)
 ```
 
 
@@ -1112,32 +1031,5 @@ p_dvour
 ### Correlations (moderators)
 
 ```{r valence 2 corr}
-
-correlations <- df2 |>
-  select(Participant, starts_with("Feedback"), starts_with("BAIT"), "PornFrequency", "AI_Knowledge", "SexualActivity_num", "COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment")
-
-features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
-  datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
-  full_join(correlations, by = "Participant") 
-  
-
-cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
-  correlation::cor_sort() |> 
-  correlation::cor_lower() |>
-  as.data.frame()
-
-p2_cor <- cordata |> 
-  ggplot(aes(x=Parameter2, y = Parameter1)) +
-  geom_tile(aes(fill = r)) +
-  geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
-  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    axis.title.x = element_blank(),
-    axis.title.y = element_blank(),
-    legend.position = "none"
-  )
-p2_cor
-
+corr_mod(m)
 ``` 
