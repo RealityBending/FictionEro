@@ -262,7 +262,7 @@ df1 |>
   facet_grid(Relevance ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
+  labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = "Condition Belief")
 ```
 
 ```{r arousal 1 model load}
@@ -281,14 +281,14 @@ summary(m, robust = TRUE)
 
 
 ##### Random effects
-```{r arousal d_vour}
+```{r arousal 1 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
 ##### Participant effects 
 
-```{r arousal ppt effects}
+```{r arousal 1 ppt effects}
 colors <- c(
   "Intercept" = "#9C27B0",                   
   "RelevanceIrrelevant" = "#1E88E5",        
@@ -397,7 +397,7 @@ diff_plot1 <- dfsub1_enticement |>
   labs(
     title = "Study 1",
     x = "Participant said AI is less arousing",
-    y = "Enticment Difference (AI - Photo)"
+    y = "Enticement Difference (AI - Photo)"
   ) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal() +
@@ -423,7 +423,7 @@ df1 |>
   facet_grid(Relevance ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(subtitle ="Study 1", x = "Gender",y = "Enticement",fill = " Condition Belief")
+  labs(subtitle ="Study 1", x = "Gender",y = "Enticement",fill = "Condition Belief")
 ```
 
 ```{r enticement 1 model load}
@@ -441,14 +441,14 @@ summary(m, robust = TRUE)
 ::: {.panel-tabset}
 
 ##### Random effects
-```{r enticement d_vour}
+```{r enticement 1 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
 ##### Participant effects 
 
-```{r enticement ppt effects}
+```{r enticement 1 ppt effects}
 p_dvour(m, colors)
 ```
 :::
@@ -538,7 +538,7 @@ df1 |>
   facet_grid(Relevance ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(subtitle ="Study 1", x = "Gender",y = "Valence",fill = " Condition Belief")
+  labs(subtitle ="Study 1", x = "Gender",y = "Valence",fill = "Condition Belief")
 ```
 
 ```{r valence 1 model}
@@ -556,14 +556,14 @@ summary(m, robust = TRUE)
 ::: {.panel-tabset}
 
 ##### Random effects
-```{r valence d_vour}
+```{r valence 1 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
 ##### Participant effects 
 
-```{r valence ppt effects}
+```{r valence 1 ppt effects}
 p_dvour(m, colors)
 ```
 :::
@@ -664,7 +664,7 @@ df2 |>
   facet_grid( ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = " Condition Belief")
+  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
 
 ```
 
@@ -672,7 +672,7 @@ df2 |>
 m <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
 ```
 
-```{r arousa 1 model analysis}
+```{r arousal 2 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
 # performance::performance(m)
@@ -726,7 +726,7 @@ enticement_dist2 <- df2 |>
   geom_bar(position = "identity", alpha = 0.5, colour = "black") +
   scale_y_sqrt(expand = c(0, 0)) +
   scale_x_continuous(breaks = c(0, 1)) +
-  labs(title = "Enticment Study 2", ) +
+  labs(title = "Enticement Study 2", ) +
   facet_wrap(~Gender) +
   scale_fill_manual(values=c("Photograph"="#F44336", "AIGenerated"="#2196F3")) +
   theme_minimal() +
@@ -789,7 +789,7 @@ df2 |>
   facet_grid( ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = " Condition Belief")
+  labs(title = "Enticement by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
 
 ```
 
@@ -905,7 +905,7 @@ df2 |>
   facet_grid( ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = " Condition Belief")
+  labs(title = "Valence by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
 ```
 
 ```{r valence 2 model load}
