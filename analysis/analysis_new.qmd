@@ -249,7 +249,7 @@ diff_plot1 <- dfsub1_arousal |>
 diff_plot1
 ```
 
-**Study 1**: `r report::report(ttest1, data = dfsub1)`
+**Study 1**: `r report::report(ttest1, data = dfsub1_arousal)`
 :::
 
 #### Effect of Manipulation
@@ -409,7 +409,7 @@ diff_plot1 <- dfsub1_enticement |>
 diff_plot1
 ```
 
-**Study 1**: `r report::report(ttest1, data = dfsub1)`
+**Study 1**: `r report::report(ttest1, data = dfsub1_enticement)`
 
 :::
 
@@ -525,7 +525,7 @@ diff_plot1 <- dfsub1_valence |>
 diff_plot1
 ```
 
-**Study 1**: `r report::report(ttest1, data = dfsub1)`
+**Study 1**: `r report::report(ttest1, data = dfsub1_valence)`
 :::
 
 #### Effect of Manipulation
@@ -651,7 +651,7 @@ diff_plot2 <- dfsub2_arousal |>
 diff_plot2
 ```
 
-**Study 2**: `r report::report(ttest2, data = dfsub2)`
+**Study 2**: `r report::report(ttest2, data = dfsub2_arousal)`
 :::
 
 #### Effect of Manipulation
@@ -775,7 +775,7 @@ diff_plot2 <- dfsub2_enticement |>
 diff_plot2
 ```
 
-**Study 2**: `r report::report(ttest2, data = dfsub2)`
+**Study 2**: `r report::report(ttest2, data = dfsub2_enticement)`
 
 :::
 
@@ -891,7 +891,7 @@ diff_plot2 <- dfsub2_valence |>
 diff_plot2
 ```
 
-**Study 2**: `r report::report(ttest2, data = dfsub2)`
+**Study 2**: `r report::report(ttest2, data = dfsub2_valence)`
 
 :::
 
