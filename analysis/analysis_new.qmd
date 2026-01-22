@@ -78,7 +78,7 @@ table_dvour <- function(g) {
 ```{r data study1}
 #| warning: false
 
-dfsub1 <- dfsub <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
+dfsub1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
 df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data.csv") |> 
   right_join(
     select(dfsub1, Participant, Sample, Language, Mobile, starts_with("Feedback_"), 
@@ -151,12 +151,14 @@ rate1 <- table(df1$Feedback_LabelsIncorrect)["True"] / sum(table(df1$Feedback_La
 
 The rate of people that did not believe the instructions in study 1 (i.e., gave feedback that the labels were incorrect) was `r round(mean(rate1) * 100, 1)`%.
 
-## Arousal
-
-### Manipulation Checks
 ::: {.panel-tabset}
 
-#### Distributions
+### Arousal
+
+#### Manipulation Checks
+::: {.panel-tabset}
+
+##### Distributions
 
 ```{r dist arousal 1}
 #| fig-width: 12
@@ -174,7 +176,7 @@ arousal_dist1 <- df1 |>
 arousal_dist1
 ```
 
-#### Averages 
+##### Averages 
 
 ```{r arousal 1 t_test}
 #| message: false
@@ -219,8 +221,7 @@ diff_plot1
 **Study 1**: `r report::report(ttest1, data = dfsub1)`
 :::
 
-
-### Effect of Manipulation
+#### Effect of Manipulation
 
 ```{r arousal 1 by condition belief plot }
 df1 |> 
@@ -244,17 +245,17 @@ summary(m, robust = TRUE)
 ```
 
 
-### Interindividual Variability
+#### Interindividual Variability
 ::: {.panel-tabset}
 
 
-#### Random effects
+##### Random effects
 ```{r arousal d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
-#### Participant effects 
+##### Participant effects 
 
 ```{r arousal ppt effects}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -283,7 +284,7 @@ p_dvour <- m |>
 p_dvour
 ```
 :::
-### Correlations (moderators)
+#### Correlations (moderators)
 
 ```{r df 1 corr}
 
@@ -326,13 +327,13 @@ corr_mod(m)
 
 ```
 
-## Enticement
+### Enticement
 
-### Manipulation Checks
+#### Manipulation Checks
 
 ::: {.panel-tabset}
 
-#### Distributions 
+##### Distributions 
 
 ```{r dist enticement 1}
 #| fig-width: 12
@@ -350,7 +351,7 @@ enticement_dist1 <- df1 |>
 enticement_dist1
 ```
 
-#### Averages 
+##### Averages 
 
 ```{r enticement 1 t_test}
 #| message: false
@@ -396,7 +397,7 @@ diff_plot1
 
 :::
 
-### Effect of Manipulation
+#### Effect of Manipulation
 
 ```{r enticement 1 by condition belief plot }
 df1 |> 
@@ -406,7 +407,7 @@ df1 |>
   facet_grid(Relevance ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
+  labs(subtitle ="Study 1", x = "Gender",y = "Enticement",fill = " Condition Belief")
 ```
 
 ```{r enticement 1 model load}
@@ -420,16 +421,16 @@ summary(m, robust = TRUE)
 ```
 
 
-### Interindividual Variability
-:::: {.panel-tabset}
+#### Interindividual Variability
+::: {.panel-tabset}
 
-#### Random effects
+##### Random effects
 ```{r enticement d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
-#### Participant effects 
+##### Participant effects 
 
 ```{r enticement ppt effects}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -459,19 +460,19 @@ p_dvour
 ```
 :::
 
-### Correlations (moderators)
+#### Correlations (moderators)
 
 ```{r enticement  1 corr}
 corr_mod(m)
 ```
 
-## Valence
+### Valence
 
-### Manipulation Checks
+#### Manipulation Checks
 
 ::: {.panel-tabset}
 
-#### Distributions
+##### Distributions
 
 ```{r dist valence 1}
 #| fig-width: 12
@@ -489,7 +490,7 @@ valence_dist1 <- df1 |>
 valence_dist1
 ```
 
-#### Averages 
+##### Averages 
 
 ```{r valence 1 t_test}
 #| message: false
@@ -532,10 +533,9 @@ diff_plot1
 ```
 
 **Study 1**: `r report::report(ttest1, data = dfsub1)`
-
 :::
 
-### Effect of Manipulation
+#### Effect of Manipulation
 
 ```{r valence 1 by condition belief plot }
 df1 |> 
@@ -545,7 +545,7 @@ df1 |>
   facet_grid(Relevance ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = " Condition Belief")
+  labs(subtitle ="Study 1", x = "Gender",y = "Valence",fill = " Condition Belief")
 ```
 
 ```{r valence 1 model}
@@ -559,16 +559,16 @@ summary(m, robust = TRUE)
 ```
 
 
-### Interindividual Variability
+#### Interindividual Variability
 ::: {.panel-tabset}
 
-#### Random effects
+##### Random effects
 ```{r valence d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
-#### Participant effects 
+##### Participant effects 
 
 ```{r valence ppt effects}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -598,11 +598,12 @@ p_dvour
 ```
 :::
 
-### Correlations (moderators)
+#### Correlations (moderators)
 
 ```{r valence 1 corr}
 corr_mod(m)
 ```
+:::
 
 # Study 2
 
@@ -615,12 +616,14 @@ rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
 
 In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%. 
 
-## Arousal
-
-### Manipulation Checks
 ::: {.panel-tabset}
 
-#### Distributions
+### Arousal
+
+#### Manipulation Checks
+::: {.panel-tabset}
+
+##### Distributions
 
 ```{r dist arousal 2}
 #| fig-width: 12
@@ -638,7 +641,7 @@ arousal_dist2 <- df2 |>
 arousal_dist2
 ```
 
-#### Averages 
+##### Averages 
 
 ```{r arousal 2 t_test}
 #| message: false
@@ -681,7 +684,7 @@ diff_plot2
 **Study 2**: `r report::report(ttest2, data = dfsub2)`
 :::
 
-### Effect of Manipulation
+#### Effect of Manipulation
 
 ```{r arousal 2 by condition belief plot }
 df2 |> 
@@ -706,17 +709,17 @@ summary(m, robust = TRUE)
 ```
 
 
-### Interindividual Variability
+#### Interindividual Variability
 
 ::: {.panel-tabset}
 
-#### Random effects
+##### Random effects
 ```{r arousal 2 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
-#### Participant effects 
+##### Participant effects 
 
 ```{r arousal 2 ppt effects}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -746,7 +749,7 @@ p2_dvour
 ```
 :::
 
-### Correlations (moderators)
+#### Correlations (moderators)
 
 ```{r df 2 corr}
 correlations <- df2 |>
@@ -758,13 +761,13 @@ correlations <- df2 |>
 corr_mod(m)
 ``` 
 
-## Enticement
+### Enticement
 
-### Manipulation Checks
+#### Manipulation Checks
 
 ::: {.panel-tabset}
 
-#### Distributions 
+##### Distributions 
 
 ```{r dist enticement 2}
 #| fig-width: 12
@@ -782,7 +785,7 @@ enticement_dist2 <- df2 |>
 enticement_dist2
 ```
 
-#### Averages 
+##### Averages 
 
 ```{r enticement 2 t_test}
 #| message: false
@@ -822,11 +825,11 @@ diff_plot2 <- dfsub2 |>
 diff_plot2
 ```
 
-**Study 2**: `r report::report(ttest2, data = dfsub1)`
+**Study 2**: `r report::report(ttest2, data = dfsub2)`
 
 :::
 
-### Effect of Manipulation
+#### Effect of Manipulation
 
 ```{r enticement 2 by condition belief plot }
 df2 |> 
@@ -851,16 +854,16 @@ summary(m, robust = TRUE)
 ```
 
 
-### Interindividual Variability
+#### Interindividual Variability
 ::: {.panel-tabset}
 
-#### Random effects
+##### Random effects
 ```{r enticement 2  d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
-#### Participant effects 
+##### Participant effects 
 
 ```{r enticement 2 ppt effects}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -891,19 +894,19 @@ p_dvour
 
 :::
 
-### Correlations (moderators)
+#### Correlations (moderators)
 
 ```{r enticement 2 corr}
 corr_mod(m)
 ```  
 
-## Valence
+### Valence
 
-### Manipulation Checks
+#### Manipulation Checks
 
 ::: {.panel-tabset}
 
-#### Distributions
+##### Distributions
 
 ```{r dist valence 2}
 #| fig-width: 12
@@ -921,7 +924,7 @@ valence_dist2 <- df2 |>
 valence_dist2
 ```
 
-#### Averages 
+##### Averages 
 
 ```{r valence 2 t_test}
 #| message: false
@@ -965,7 +968,7 @@ diff_plot2
 
 :::
 
-### Effect of Manipulation
+#### Effect of Manipulation
 
 ```{r valence 2 by condition belief plot }
 df2 |> 
@@ -975,7 +978,7 @@ df2 |>
   facet_grid( ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Valence by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "valence",fill = " Condition Belief")
+  labs(title = "Valence by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "Valence",fill = " Condition Belief")
 ```
 
 ```{r valence 2 model load}
@@ -989,17 +992,17 @@ summary(m, robust = TRUE)
 ```
 
 
-### Interindividual Variability
+#### Interindividual Variability
 
 ::: {.panel-tabset}
 
-#### Random effects
+##### Random effects
 ```{r valence 2 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
-#### Participant effects 
+##### Participant effects 
 
 ```{r valence 2 ppt effects}
 colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
@@ -1029,8 +1032,9 @@ p_dvour
 ```
 :::
 
-### Correlations (moderators)
+#### Correlations (moderators)
 
 ```{r valence 2 corr}
 corr_mod(m)
 ``` 
+:::
