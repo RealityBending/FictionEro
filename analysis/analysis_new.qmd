@@ -24,7 +24,6 @@ library(tidyverse)
 library(easystats)
 library(patchwork)
 library(ggside)
-library(glmmTMB)
 library(gt)
 library(ggdist)
 library(posterior)
@@ -72,6 +71,38 @@ table_dvour <- function(g) {
     gt::gt() |> 
     gt::data_color("D_vour", palette = c("red","green"), domain = c(0, 1)) |> 
     gt::fmt_auto()
+}
+
+## plot for participant effects
+
+p_dvour <- function(m, colors){
+  m |>
+    mutate(
+      Group = fct_relevel(Group, "Participant", "Item"),
+      Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")
+    ) |>
+    ggplot(aes(x = Median , y = Level)) +
+    geom_pointrange(
+      aes(xmin = CI_low, xmax = CI_high, color = Parameter),
+      linewidth = 0.3, size = 0.05
+    ) +
+    facet_grid(Group ~ Parameter, scales = "free", switch = "both") +
+    ggside::ggside(scales = "free") +
+    ggside::geom_xsidedensity(aes(fill = Parameter), color = NA) +
+    scale_color_manual(values = colors) +
+    scale_fill_manual(values = colors) +
+    theme_minimal() +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      strip.placement.x = "outside",
+      strip.background = element_rect(fill = NA, color = NA),
+      axis.title = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major.y = element_blank(),
+      axis.text.x = element_text(angle = 30, hjust = 1),
+      legend.position = "none"
+    )
 }
 ```
 
@@ -181,7 +212,7 @@ arousal_dist1
 ```{r arousal 1 t_test}
 #| message: false
 
-dfsub1 <- dfsub1 |>
+dfsub1_arousal <- dfsub1 |>
   right_join(
     df1 |>
       group_by(Participant, Condition) |>
@@ -194,11 +225,11 @@ dfsub1 <- dfsub1 |>
       mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)
   )
 
-ttest1 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub1)
+ttest1 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub1_arousal)
 ```
 
 ```{r arousal 1 diff plot}
-diff_plot1 <- dfsub1 |> 
+diff_plot1 <- dfsub1_arousal |> 
   ggplot(aes(x = Feedback_AILessArousing, y = diff_arousal, fill = Feedback_AILessArousing)) +
   geom_boxplot(width = 0.4,alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
@@ -258,30 +289,15 @@ table_dvour(m)
 ##### Participant effects 
 
 ```{r arousal ppt effects}
-colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
+colors <- c(
+  "Intercept" = "#9C27B0",                   
+  "RelevanceIrrelevant" = "#1E88E5",        
+  "Relevance:ConditionAIGenerated" = "#FF9800", 
+  "RelevanceNonErotic"  = "#43A047", 
+  "NonErotic:ConditionAIGenerated"  = "#E53935",
+  "Irrelevant:ConditionAIGenerated" = "#00897B")
 
-p_dvour <- m |> 
-   mutate(Group = fct_relevel(Group, "Participant", "Item"),
-          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
-  ggplot(aes(x = Median , y = Level)) +
-  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
-  facet_grid(Group~Parameter, scales = "free", switch="both") +
-  ggside::ggside(scales  = "free") +
-  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
-  ggside::ggside(scales  = "free") +
-  scale_color_manual(values = colors) +
-  scale_fill_manual(values = colors) +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        strip.placement.x = "outside",
-        strip.background = element_rect(fill = NA, color = NA),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank(),
-        legend.position = "none")
-p_dvour
+p_dvour(m, colors)
 ```
 :::
 #### Correlations (moderators)
@@ -292,7 +308,7 @@ correlations <- df1 |>
   select(Participant, starts_with("Feedback"), starts_with("BAIT"), starts_with("GAIS"), starts_with("Porn"), "AI_Knowledge", "SexualActivity_num", "COPS_Frequency_2")
 
 
-corr_mod <- function(m){
+corr_mod <- function(m, correlations){
   features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
   datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
   full_join(correlations, by = "Participant") 
@@ -323,7 +339,7 @@ corr_mod <- function(m){
 
 ```{r arousal 1 corr}
 
-corr_mod(m)
+corr_mod(m, correlations)
 
 ```
 
@@ -356,7 +372,7 @@ enticement_dist1
 ```{r enticement 1 t_test}
 #| message: false
 
-dfsub1 <- dfsub1 |>
+dfsub1_enticement <- dfsub1 |>
   right_join(
     df1 |>
       group_by(Participant, Condition) |>
@@ -369,11 +385,11 @@ dfsub1 <- dfsub1 |>
       mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)
   )
 
-ttest1 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub1)
+ttest1 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub1_enticement)
 ```
 
 ```{r enticement 1 diff plot}
-diff_plot1 <- dfsub1 |> 
+diff_plot1 <- dfsub1_enticement |> 
   ggplot(aes(x = Feedback_AILessArousing, y = diff_enticement, fill = Feedback_AILessArousing)) +
   geom_boxplot(width = 0.4,alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
@@ -433,37 +449,14 @@ table_dvour(m)
 ##### Participant effects 
 
 ```{r enticement ppt effects}
-colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
-
-p_dvour <- m |> 
-   mutate(Group = fct_relevel(Group, "Participant", "Item"),
-          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
-  ggplot(aes(x = Median , y = Level)) +
-  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
-  facet_grid(Group~Parameter, scales = "free", switch="both") +
-  ggside::ggside(scales  = "free") +
-  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
-  ggside::ggside(scales  = "free") +
-  scale_color_manual(values = colors) +
-  scale_fill_manual(values = colors) +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        strip.placement.x = "outside",
-        strip.background = element_rect(fill = NA, color = NA),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank(),
-        legend.position = "none")
-p_dvour
+p_dvour(m, colors)
 ```
 :::
 
 #### Correlations (moderators)
 
 ```{r enticement  1 corr}
-corr_mod(m)
+corr_mod(m, correlations)
 ```
 
 ### Valence
@@ -495,7 +488,7 @@ valence_dist1
 ```{r valence 1 t_test}
 #| message: false
 
-dfsub1 <- dfsub1 |>
+dfsub1_valence <- dfsub1 |>
   right_join(
     df1 |>
       group_by(Participant, Condition) |>
@@ -508,11 +501,11 @@ dfsub1 <- dfsub1 |>
       mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph)
   )
 
-ttest1 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub1)
+ttest1 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub1_valence)
 ```
 
 ```{r valence 1 diff plot}
-diff_plot1 <- dfsub1 |> 
+diff_plot1 <- dfsub1_valence |> 
   ggplot(aes(x = Feedback_AILessArousing, y = diff_valence, fill = Feedback_AILessArousing)) +
   geom_boxplot(width = 0.4,alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
@@ -539,7 +532,7 @@ diff_plot1
 
 ```{r valence 1 by condition belief plot }
 df1 |> 
-  ggplot(aes(x = Gender, y = Enticement, fill = ConditionBelief)) +
+  ggplot(aes(x = Gender, y = Valence, fill = ConditionBelief)) +
   geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
   stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
   facet_grid(Relevance ~ Condition) +
@@ -571,37 +564,14 @@ table_dvour(m)
 ##### Participant effects 
 
 ```{r valence ppt effects}
-colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
-
-p_dvour <- m |> 
-   mutate(Group = fct_relevel(Group, "Participant", "Item"),
-          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
-  ggplot(aes(x = Median , y = Level)) +
-  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
-  facet_grid(Group~Parameter, scales = "free", switch="both") +
-  ggside::ggside(scales  = "free") +
-  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
-  ggside::ggside(scales  = "free") +
-  scale_color_manual(values = colors) +
-  scale_fill_manual(values = colors) +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        strip.placement.x = "outside",
-        strip.background = element_rect(fill = NA, color = NA),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank(),
-        legend.position = "none")
-p_dvour
+p_dvour(m, colors)
 ```
 :::
 
 #### Correlations (moderators)
 
 ```{r valence 1 corr}
-corr_mod(m)
+corr_mod(m, correlations)
 ```
 :::
 
@@ -646,7 +616,7 @@ arousal_dist2
 ```{r arousal 2 t_test}
 #| message: false
 
-dfsub2 <- dfsub2 |>
+dfsub2_arousal <- dfsub2 |>
   right_join(
     df2|>
       group_by(Participant, Condition)|>
@@ -657,11 +627,11 @@ dfsub2 <- dfsub2 |>
       mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)
   )
 
-ttest2 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub2)
+ttest2 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub2_arousal)
 ```
 
 ```{r arousal 2 diff plot}
-diff_plot2 <- dfsub2 |> 
+diff_plot2 <- dfsub2_arousal |> 
   ggplot(aes(x = Feedback_AILessArousing, y = diff_arousal, fill = Feedback_AILessArousing)) +
   geom_boxplot(width = 0.4, alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
@@ -694,7 +664,7 @@ df2 |>
   facet_grid( ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Arousal by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = " Condition Belief")
+  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = " Condition Belief")
 
 ```
 
@@ -722,43 +692,23 @@ table_dvour(m)
 ##### Participant effects 
 
 ```{r arousal 2 ppt effects}
-colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
+colors2 <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
 
-p2_dvour <- m |> 
-   mutate(Group = fct_relevel(Group, "Participant", "Item"),
-          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
-  ggplot(aes(x = Median , y = Level)) +
-  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
-  facet_grid(Group~Parameter, scales = "free", switch="both") +
-  ggside::ggside(scales  = "free") +
-  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
-  ggside::ggside(scales  = "free") +
-  scale_color_manual(values = colors) +
-  scale_fill_manual(values = colors) +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        strip.placement.x = "outside",
-        strip.background = element_rect(fill = NA, color = NA),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank(),
-        legend.position = "none")
-p2_dvour
+p_dvour(m, colors2)
 ```
 :::
 
 #### Correlations (moderators)
 
 ```{r df 2 corr}
-correlations <- df2 |>
+correlations2 <- df2 |>
   select(Participant, starts_with("Feedback"), starts_with("BAIT"), "PornFrequency", "SexualActivity_num", "COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment")
 
 ```
 
-```{arousal 2 corr}
-corr_mod(m)
+```{r arousal 2 corr}
+
+corr_mod(m, correlations2)
 ``` 
 
 ### Enticement
@@ -790,7 +740,7 @@ enticement_dist2
 ```{r enticement 2 t_test}
 #| message: false
 
-dfsub2 <- dfsub2 |>
+dfsub2_enticement <- dfsub2 |>
   right_join(
     df2|>
       group_by(Participant, Condition)|>
@@ -801,11 +751,11 @@ dfsub2 <- dfsub2 |>
       mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)
   )
 
-ttest2 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub2)
+ttest2 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub2_enticement)
 ```
 
 ```{r enticement 2 diff plot}
-diff_plot2 <- dfsub2 |> 
+diff_plot2 <- dfsub2_enticement |> 
   ggplot(aes(x = Feedback_AILessArousing, y = diff_enticement, fill = Feedback_AILessArousing)) +
   geom_boxplot(width = 0.4, alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
@@ -839,7 +789,7 @@ df2 |>
   facet_grid( ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Enticement by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "Enticement",fill = " Condition Belief")
+  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = " Condition Belief")
 
 ```
 
@@ -866,30 +816,7 @@ table_dvour(m)
 ##### Participant effects 
 
 ```{r enticement 2 ppt effects}
-colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
-
-p_dvour <- m |> 
-   mutate(Group = fct_relevel(Group, "Participant", "Item"),
-          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
-  ggplot(aes(x = Median , y = Level)) +
-  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
-  facet_grid(Group~Parameter, scales = "free", switch="both") +
-  ggside::ggside(scales  = "free") +
-  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
-  ggside::ggside(scales  = "free") +
-  scale_color_manual(values = colors) +
-  scale_fill_manual(values = colors) +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        strip.placement.x = "outside",
-        strip.background = element_rect(fill = NA, color = NA),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank(),
-        legend.position = "none")
-p_dvour
+p_dvour(m, colors2)
 ```
 
 :::
@@ -897,7 +824,7 @@ p_dvour
 #### Correlations (moderators)
 
 ```{r enticement 2 corr}
-corr_mod(m)
+corr_mod(m, correlations2)
 ```  
 
 ### Valence
@@ -929,7 +856,7 @@ valence_dist2
 ```{r valence 2 t_test}
 #| message: false
 
-dfsub2 <- dfsub2 |>
+dfsub2_valence <- dfsub2 |>
   right_join(
     df2|>
       group_by(Participant, Condition)|>
@@ -940,11 +867,11 @@ dfsub2 <- dfsub2 |>
       mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph)
   )
 
-ttest2 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub2)
+ttest2 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub2_valence)
 ```
 
 ```{r valence 2 diff plot}
-diff_plot2 <- dfsub2 |> 
+diff_plot2 <- dfsub2_valence |> 
   ggplot(aes(x = Feedback_AILessArousing, y = diff_valence, fill = Feedback_AILessArousing)) +
   geom_boxplot(width = 0.4, alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
@@ -978,7 +905,7 @@ df2 |>
   facet_grid( ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(title = "Valence by Gender × Belief × Relevance × Condition", subtitle ="Study 2", x = "Gender", y = "Valence",fill = " Condition Belief")
+  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = " Condition Belief")
 ```
 
 ```{r valence 2 model load}
@@ -1005,36 +932,13 @@ table_dvour(m)
 ##### Participant effects 
 
 ```{r valence 2 ppt effects}
-colors <- c("Intercept" = "#9C27B0", "ConditionAIGenerated" = "#FF9800")
-
-p_dvour <- m |> 
-   mutate(Group = fct_relevel(Group, "Participant", "Item"),
-          Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")) |>
-  ggplot(aes(x = Median , y = Level)) +
-  geom_pointrange(aes(xmin = CI_low, xmax = CI_high, color = Parameter), linewidth = 0.3, size = 0.05) +
-  facet_grid(Group~Parameter, scales = "free", switch="both") +
-  ggside::ggside(scales  = "free") +
-  ggside::geom_xsidedensity(aes(group = Parameter, fill = Parameter), color = NA) +
-  ggside::ggside(scales  = "free") +
-  scale_color_manual(values = colors) +
-  scale_fill_manual(values = colors) +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        strip.placement.x = "outside",
-        strip.background = element_rect(fill = NA, color = NA),
-        axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank(),
-        legend.position = "none")
-p_dvour
+p_dvour(m, colors2)
 ```
 :::
 
 #### Correlations (moderators)
 
 ```{r valence 2 corr}
-corr_mod(m)
+corr_mod(m, correlations2)
 ``` 
 :::
