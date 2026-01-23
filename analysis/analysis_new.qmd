@@ -266,6 +266,8 @@ df1 |>
 ```
 
 ```{r arousal 1 model load}
+#| cache: false
+ 
 m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 ```
 
@@ -427,6 +429,8 @@ df1 |>
 ```
 
 ```{r enticement 1 model load}
+#| cache: false
+ 
 m <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
 ```
 
@@ -669,6 +673,8 @@ df2 |>
 ```
 
 ```{r arousal 2 model load}
+#| cache: false
+ 
 m <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
 ```
 
@@ -794,6 +800,8 @@ df2 |>
 ```
 
 ```{r enticement 2 model load}
+#| cache: false
+ 
 m <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB.rds")
 ```
 
@@ -909,6 +917,8 @@ df2 |>
 ```
 
 ```{r valence 2 model load}
+#| cache: false
+ 
 m <- readRDS("models/ZOIB/ModelValence_2_ZOIB.rds")
 ```
 
