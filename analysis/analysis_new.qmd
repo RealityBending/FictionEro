@@ -78,9 +78,7 @@ table_dvour <- function(g) {
 p_dvour <- function(m, colors){
   m |>
     mutate(
-      Group = fct_relevel(Group, "Participant", "Item"),
-      Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated")
-    ) |>
+      Group = fct_relevel(Group, "Participant", "Item")) |>
     ggplot(aes(x = Median , y = Level)) +
     geom_pointrange(
       aes(xmin = CI_low, xmax = CI_high, color = Parameter),
@@ -89,6 +87,7 @@ p_dvour <- function(m, colors){
     facet_grid(Group ~ Parameter, scales = "free", switch = "both") +
     ggside::ggside(scales = "free") +
     ggside::geom_xsidedensity(aes(fill = Parameter), color = NA) +
+    scale_x_continuous(limits = c(-4, 4), breaks = seq(-4, 4, 1)) +
     scale_color_manual(values = colors) +
     scale_fill_manual(values = colors) +
     theme_minimal() +
@@ -100,9 +99,8 @@ p_dvour <- function(m, colors){
       axis.title = element_blank(),
       panel.grid.minor = element_blank(),
       panel.grid.major.y = element_blank(),
-      axis.text.x = element_text(angle = 30, hjust = 1),
-      legend.position = "none"
-    )
+      axis.text.x = element_text(hjust = 1),
+      legend.position = "none")
 }
 ```
 
@@ -183,6 +181,8 @@ rate1 <- table(df1$Feedback_LabelsIncorrect)["True"] / sum(table(df1$Feedback_La
 The rate of people that did not believe the instructions in study 1 (i.e., gave feedback that the labels were incorrect) was `r round(mean(rate1) * 100, 1)`%.
 
 ::: {.panel-tabset}
+
+## Models
 
 ### Arousal
 
@@ -284,6 +284,7 @@ summary(m, robust = TRUE)
 
 ##### Random effects
 ```{r arousal 1 d_vour}
+
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
@@ -291,13 +292,15 @@ table_dvour(m)
 ##### Participant effects 
 
 ```{r arousal 1 ppt effects}
+#| fig-width: 10
 colors <- c(
   "Intercept" = "#9C27B0",                   
-  "RelevanceIrrelevant" = "#1E88E5",        
-  "Relevance:ConditionAIGenerated" = "#FF9800", 
+  "RelevanceIrrelevant" = "#1E88E5",   
   "RelevanceNonErotic"  = "#43A047", 
-  "NonErotic:ConditionAIGenerated"  = "#E53935",
-  "Irrelevant:ConditionAIGenerated" = "#00897B")
+  "RelevanceIrrelevant:ConditionAIGenerated" = "#00897B",
+  "RelevanceRelevant:ConditionAIGenerated"  = "#E53935",
+  "RelevanceNonErotic:ConditionAIGenerated" = "#FF9800")
+
 
 p_dvour(m, colors)
 ```
@@ -312,14 +315,18 @@ correlations <- df1 |>
 
 corr_mod <- function(m, correlations){
   features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
-  datawizard::data_addprefix("ZOIB_", exclude = "Participant") |>
   full_join(correlations, by = "Participant") 
   
 
   cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
-    correlation::cor_sort() |> 
+    correlation::cor_sort() |>
     correlation::cor_lower() |>
-    as.data.frame()
+    as.data.frame() |>
+      mutate(Parameter2 = fct_rev(Parameter2),
+         Parameter1 = fct_relabel(Parameter1, \(x) gsub("_Intercept", "", x)),
+         Parameter2 = fct_relabel(Parameter2, \(x) gsub("_Intercept", "", x)),
+         Parameter1 = fct_relabel(Parameter1, \(x) gsub("_", " - ", x)),
+         Parameter2 = fct_relabel(Parameter2, \(x) gsub("_", " - ", x)))
   
   p2_cor <- cordata |> 
     ggplot(aes(x=Parameter2, y = Parameter1)) +
@@ -592,6 +599,8 @@ In study 2 (i.e., gave feedback that all images were real images) was `r round(m
 
 ::: {.panel-tabset}
 
+## Models
+
 ### Arousal
 
 #### Manipulation Checks
@@ -708,7 +717,7 @@ p_dvour(m, colors2)
 
 ```{r df 2 corr}
 correlations2 <- df2 |>
-  select(Participant, starts_with("Feedback"), starts_with("BAIT"), "PornFrequency", "SexualActivity_num", "COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment")
+  select(Participant, starts_with("Feedback"), starts_with("BAIT"), "PornFrequency", "SexualActivity_num", "COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment", -"Bait_Duration")
 
 ```
 
