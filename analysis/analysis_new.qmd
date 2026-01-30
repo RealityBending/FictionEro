@@ -285,8 +285,21 @@ summary(m, robust = TRUE)
 ```
 
 ```{r arousal est cont}
-estimate_contrasts(m)
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans") 
 ```
+
+```{}
+```
+
+```{r}
+
+pred1 <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+
+
+```
+
 
 #### Interindividual Variability
 ::: {.panel-tabset}
@@ -503,7 +516,7 @@ summary(m, robust = TRUE)
 ```
 
 ```{r enticement est cont}
-estimate_contrasts(m)
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
 
 
@@ -622,7 +635,7 @@ summary(m, robust = TRUE)
 ```
 
 ```{r valence est cont}
-estimate_contrasts(m)
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
 
 
@@ -757,7 +770,7 @@ summary(m, robust = TRUE)
 ```
 
 ```{r arousal2 est cont}
-estimate_contrasts(m)
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
 
 
@@ -958,7 +971,7 @@ summary(m, robust = TRUE)
 ```
 
 ```{r enticement est2 cont}
-estimate_contrasts(m)
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
 
 
@@ -1081,7 +1094,7 @@ summary(m, robust = TRUE)
 ```
 
 ```{r valence est2 cont}
-estimate_contrasts(m)
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
 
 
@@ -1179,49 +1192,4 @@ dist_plot <- df_long2 |>
 dist_plot
 ```
 
-```{r}
-# df_diff_long <- dfsub1 |>
-#   right_join(
-#     df1 |>
-#       group_by(Participant, Condition) %>%
-#       summarise(
-#         mean_arousal = mean(Arousal, na.rm = TRUE),
-#         mean_enticement = mean(Enticement, na.rm = TRUE),
-#         mean_valence = mean(Valence, na.rm = TRUE),
-#         .groups = "drop")|>
-#       pivot_wider(names_from = Condition,
-#         values_from = c(mean_arousal, mean_enticement, mean_valence),
-#         names_sep = "_") |>
-#       mutate(diff_arousal = mean_arousal_AIGenerated - mean_arousal_Photograph,
-#         diff_enticement = mean_enticement_AIGenerated - mean_enticement_Photograph,
-#         diff_valence = mean_valence_AIGenerated - mean_valence_Photograph)) |>
-#   pivot_longer(cols = starts_with("diff_"),
-#     names_to = "Outcome",
-#     values_to = "Diff") |>
-#   mutate(Outcome = factor(Outcome, levels = c("diff_arousal", "diff_enticement", "diff_valence"),
-#                      labels = c("Arousal", "Enticement", "Valence")))
-# 
-# # Plot
-# diff_plot_long <- df_diff_long |>
-#   ggplot(aes(x = Condition, y = Diff, fill = Condition)) +
-#   geom_boxplot(width = 0.4, alpha = 0.7) +
-#   geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
-#   stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
-#   facet_grid(Outcome ~ ., switch = "y") +  
-#   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
-#   labs(fill = "Feedback that AI is less arousing: ") +
-#   theme_minimal() +
-#   theme(axis.title.y = element_blank(),
-#         axis.title.x = element_blank(),
-#         axis.text.y = element_text(size = 8),
-#         strip.placement = "outside",
-#         strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
-#         strip.text = element_text(face = "bold", size = 10),
-#         strip.text.y = element_text(size = 10),
-#         axis.text.x = element_text(hjust=1, vjust=1.1, size=9, color="black"),
-#         legend.text = element_text(size = 10),
-#         legend.title = element_text(size = 10, face = "bold"), 
-#         legend.position = "bottom")
-# 
-# diff_plot_long
-```
+
