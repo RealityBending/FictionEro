@@ -288,18 +288,39 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans") 
 ```
 
-```{}
-```
+```{r arousal 1 model plot}
 
-```{r}
-
-pred1 <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
+pred_a <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
 
-
-
+pred_a |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=Relevance, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  # geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(Gender~ConditionBelief, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:",
+       tag = "A")
 ```
-
 
 #### Interindividual Variability
 ::: {.panel-tabset}
@@ -519,6 +540,41 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
 
+```{r enticement 1 model plot}
+
+pred_e <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+
+pred_e |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=Relevance, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  # geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(Gender~ConditionBelief, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:",
+       tag = "A")
+```
+
 
 #### Interindividual Variability
 ::: {.panel-tabset}
@@ -636,6 +692,40 @@ summary(m, robust = TRUE)
 
 ```{r valence est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
+```
+
+```{r valence 1 model pred}
+
+pred_v <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+pred_v |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=Relevance, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  # geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(Gender~ConditionBelief, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:",
+       tag = "A")
 ```
 
 
@@ -769,10 +859,43 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
-```{r arousal2 est cont}
-estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
+```{r arousal 2 est cont}
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
 
+```{r arousal 2 model plot}
+
+pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+pred_a2 |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=ConditionBelief, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  # geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(~Gender, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:",
+       tag = "A")
+```
 
 #### Interindividual Variability
 
@@ -970,10 +1093,43 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
-```{r enticement est2 cont}
-estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
+```{r enticement 2 est cont}
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
 
+```{r enticement 2 model plot}
+
+pred_e2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+pred_e2 |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=ConditionBelief, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  # geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(~Gender, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:",
+       tag = "A")
+```
 
 #### Interindividual Variability
 ::: {.panel-tabset}
@@ -1097,6 +1253,44 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
 
+```{r valence 2 est cont}
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
+```
+
+```{r valence 2 model plot}
+
+pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+pred_a2 |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=ConditionBelief, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2) +
+  # geom_text(data=stars1, aes(y=y, label=label), hjust=0.5, size=3) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Male"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.5, ymax=0.80), color="#8BC34A", alpha=0) +
+  # geom_rect(data=data.frame(Type="All trials", Proportion=0.1, Sex=as.factor("Female"), Outcome="Arousal", Relevance="Relevant"), 
+            # aes(xmin=0.8, xmax=1.2, ymin=0.2, ymax=0.5), color="#8BC34A", alpha=0) +
+  facet_grid(~Gender, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:",
+       tag = "A")
+```
+
 
 #### Interindividual Variability
 
@@ -1191,5 +1385,3 @@ dist_plot <- df_long2 |>
 
 dist_plot
 ```
-
-
