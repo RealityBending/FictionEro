@@ -284,6 +284,9 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+```{r arousal est cont}
+estimate_contrasts(m)
+```
 
 #### Interindividual Variability
 ::: {.panel-tabset}
@@ -499,6 +502,10 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+```{r enticement est cont}
+estimate_contrasts(m)
+```
+
 
 #### Interindividual Variability
 ::: {.panel-tabset}
@@ -612,6 +619,10 @@ m <- readRDS("models/ZOIB/ModelValence_1_ZOIB.rds")
 params_table(m)
 summary(m, robust = TRUE)
 # performance::performance(m)
+```
+
+```{r valence est cont}
+estimate_contrasts(m)
 ```
 
 
@@ -743,6 +754,10 @@ m <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
 params_table(m)
 summary(m, robust = TRUE)
 # performance::performance(m)
+```
+
+```{r arousal2 est cont}
+estimate_contrasts(m)
 ```
 
 
@@ -942,6 +957,10 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+```{r enticement est2 cont}
+estimate_contrasts(m)
+```
+
 
 #### Interindividual Variability
 ::: {.panel-tabset}
@@ -1059,6 +1078,10 @@ m <- readRDS("models/ZOIB/ModelValence_2_ZOIB.rds")
 params_table(m)
 summary(m, robust = TRUE)
 # performance::performance(m)
+```
+
+```{r valence est2 cont}
+estimate_contrasts(m)
 ```
 
 
