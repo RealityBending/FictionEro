@@ -1249,20 +1249,16 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
-```{r valence est2 cont}
-estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
-```
-
 ```{r valence 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
 
 ```{r valence 2 model plot}
 
-pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+pred_v2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
 
-pred_a2 |>
+pred_v2 |>
   mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
   ggplot(aes(x=ConditionBelief, y=Probability)) +
     geom_hline(yintercept=0, color="darkgrey") +
