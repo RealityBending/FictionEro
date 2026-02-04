@@ -564,7 +564,7 @@ df |>
   )
 ```
 
-We removed `r sum(df$Sex=="Other" | df$SexualOrientation=="Other")` participants that were incompatible with further analysis.
+We removed `r sum(df$Sex=="Other" | df$SexualOrientation=="Other")` participants that were incompatible with further analysis (i.e., sex and sexual orientation as "other").
 
 ```{r}
 #| code-fold: false
@@ -610,7 +610,7 @@ show_distribution <- function(dftask, target="Arousal") {
                              theme = theme(plot.title = element_text(hjust = 0.5, face="bold"))) 
 ```
 
-We kept only heterosexual participants (`r insight::format_percent(sum(df$SexualOrientation == "Heterosexual") / nrow(df))`).
+We kept only heterosexual participants (`r insight::format_percent(sum(df$SexualOrientation == "Heterosexual") / nrow(df))`). Therefore we removed  participants that identified: as Bisexual (N= (`r sum(df$SexualOrientation == "Bisexual")`), or Homosexual (N=`r `sum(df$SexualOrientation == "Homosexual")` ) or Other (N=`r sum(df$SexualOrientation == "Other")`). 
 
 ```{r}
 #| code-fold: false
