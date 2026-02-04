@@ -15,6 +15,8 @@ execute:
 
 # Data Preparation
 
+*Note*
+
 ```{r libraries}
 #| message: false
 #| warning: false
@@ -138,7 +140,6 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            AllFakeConfidence = "Feedback_AllFakeConfidence",
            Enjoyment = "Feedback_Enjoyment") 
 
-
 ## compute based on higher dimensions
 
 df2$BAIT_ImagesIssues <- 6 - df2$BAIT_ImagesIssues
@@ -170,10 +171,15 @@ df2$BAIT_Bias <- rowMeans(select(df2,BAIT_InnovativeAI, BAIT_UniqueHuman, BAIT_E
 
 
 df2$BAIT_Total <- rowMeans(select(df2, BAIT_Expectations, BAIT_Attitudes, BAIT_Expertise, BAIT_Discrimination, BAIT_Bias), na.rm=TRUE)
+```
+
+## Internal consistency
+
+```{r}
+
 
 
 ```
-
 
 # Study 1
 
@@ -367,7 +373,7 @@ p_dvour <- function(m, colors){
     facet_grid(Group ~ Parameter, scales = "free", switch = "both") +
     ggside::ggside(scales = "free") +
     ggside::geom_xsidedensity(aes(fill = Parameter), color = NA) +
-    scale_x_continuous(limits = c(-3, 3), breaks = seq(-3, 3, 1)) +
+    # scale_x_continuous(limits = c(-3, 3), breaks = seq(-3, 3, 1)) +
     scale_color_manual(values = colors) +
     scale_fill_manual(values = colors) +
     theme_minimal() +
@@ -387,6 +393,8 @@ p_dvour <- function(m, colors){
 ```{r arousal ppt effect plot}
 p_dvour(m, colors)
 ```
+
+
 :::
 #### Correlations (moderators)
 
@@ -930,7 +938,7 @@ p_dvour <- function(m, colors){
     facet_grid(Group ~ Parameter, scales = "free", switch = "both") +
     ggside::ggside(scales = "free") +
     ggside::geom_xsidedensity(aes(fill = Parameter), color = NA) +
-    scale_x_continuous(limits = c(-2,2), breaks = seq(-2, 2, 1)) +
+    # scale_x_continuous(limits = c(-2,2), breaks = seq(-2, 2, 1)) +
     scale_color_manual(values = colors) +
     scale_fill_manual(values = colors) +
     theme_minimal() +
@@ -950,6 +958,8 @@ p_dvour <- function(m, colors){
 ```{r}
 p_dvour(m, colors2)
 ```
+
+
 :::
 
 #### Correlations (moderators)
