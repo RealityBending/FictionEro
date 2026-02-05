@@ -174,13 +174,137 @@ df2$BAIT_Total <- rowMeans(select(df2, BAIT_Expectations, BAIT_Attitudes, BAIT_E
 ```
 
 ## Internal consistency
+::: {.panel-tabset}
+
+### Study 1
 
 ```{r}
 
+GAAIS_Negative <- dfsub1[grepl("^GAAIS_Negative_", names(dfsub1))]
+GAAIS_Positive <- dfsub1[grepl("^GAAIS_Positive_", names(dfsub1))]
 
+psych::omega(GAAIS_Negative, n_factors= 1)
+psych::omega(GAAIS_Positive, n_factors= 1)
 
 ```
 
+```{r}
+dfsub1$BAIT_8_TextIssues <- 1- dfsub1$BAIT_8_TextIssues
+dfsub1$BAIT_2_ImagesIssues <- 1- dfsub1$BAIT_2_ImagesIssues
+dfsub1$BAIT_4_VideosIssues <- 1- dfsub1$BAIT_4_VideosIssues
+# dfsub1$BAIT_5_ImitatingReality <- dfsub1$BAIT_5_ImitatingReality
+
+
+BAIT_Text <- dfsub1[, grepl("^BAIT_[78]_Text", names(dfsub1))]
+BAIT_Images <- dfsub1[, grepl("^BAIT_[12]_Images", names(dfsub1))]
+BAIT_Videos <- dfsub1[,grepl("^BAIT_[34]_Videos", names(dfsub1))]
+BAIT_Enviornment <-dfsub1[, grepl("^BAIT_[56]", names(dfsub1))]
+
+psych::alpha(BAIT_Text)
+psych::alpha(BAIT_Images)
+psych::alpha(BAIT_Videos)
+psych::alpha(BAIT_Enviornment)
+```
+
+```{r}
+dfsub1 <- dfsub1 |>
+  mutate(COPS_Duration_1 = case_when(
+    COPS_Duration_1 =="1. Less than 5 minutes" ~ 1,
+    COPS_Duration_1 == "2. 6-15 minutes" ~2, 
+    COPS_Duration_1 =="3. 16-25 minutes" ~3, 
+    COPS_Duration_1 == "4. 26-35 minutes" ~ 4,
+    COPS_Duration_1 == "5. 36-45 minutes" ~5, 
+    COPS_Duration_1 == "6. 46+ minutes" ~ 6),
+    COPS_Frequency_2 = case_when(
+    COPS_Frequency_2 == "0. I haven't viewed pornography in the past 30 days" ~ 0, 
+    COPS_Frequency_2 =="1. I viewed pornography once in the past 30 days" ~ 1,
+    COPS_Frequency_2 == "2. I viewed pornography twice in the past 30 days" ~2, 
+    COPS_Frequency_2 =="3. I viewed pornography weekly" ~3, 
+    COPS_Frequency_2 == "4. I viewed pornography multiple times a week " ~ 4,
+    COPS_Frequency_2 == " 5. I viewed pornography daily" ~5, 
+    COPS_Frequency_2 == "6. I viewed pornography multiple times a day" ~ 6),
+    SexualActivity = case_when(
+      SexualActivity == "1. Less than 24h ago" ~ 1 , 
+      SexualActivity == "2. Within the last 3 days" ~ 2, 
+      SexualActivity == "3. Within the last week" ~ 3,
+      SexualActivity == "4. Within the last month" ~ 4, 
+      SexualActivity == "5. Within the last year" ~ 5,
+      SexualActivity == "6. More than a year ago" ~ 5)
+    )
+
+COPS <- select(dfsub1, starts_with("COPS_Frequency_"), starts_with("COPS_Duration_1"), "SexualActivity")
+
+psych::omega(COPS, nfactors = 1)
+```
+
+### Study 2
+```{r}
+## compute based on higher dimensions
+
+dfsub2$BAIT_ImagesIssues <- 6 - dfsub2$BAIT_ImagesIssues
+dfsub2$BAIT_VideosIssues <- 6 - dfsub2$BAIT_VideosIssues
+dfsub2$BAIT_TextIssues <- 6 - dfsub2$BAIT_TextIssues
+
+dfsub2$BAIT_Dangerous <- 6 - dfsub2$BAIT_Dangerous
+dfsub2$BAIT_Worry <- 6 - dfsub2$BAIT_Worry
+
+dfsub2$BAIT_ImageDistinctionBad <- 6 - dfsub2$BAIT_ImageDistinctionBad
+dfsub2$BAIT_TextDifferentiation <- 6 - dfsub2$BAIT_TextDifferentiation
+
+dfsub2$BAIT_UniqueHuman <- 6 - dfsub2$BAIT_UniqueHuman
+dfsub2$BAIT_ImpersonalAI <- 6 - dfsub2$BAIT_ImpersonalAI
+dfsub2$BAIT_EmotionalHuman <- 6 - dfsub2$BAIT_EmotionalHuman
+dfsub2$BAIT_PreferenceHuman <- 6 - dfsub2$BAIT_PreferenceHuman
+dfsub2$BAIT_TrustHuman <- 6 - dfsub2$BAIT_TrustHuman
+
+
+
+BAIT_Expectations <- select(dfsub2, c("BAIT_ImagesRealistic", "BAIT_ImagesIssues",  "BAIT_VideosIssues", "BAIT_TextIssues", "BAIT_VideosRealistic", "BAIT_TextRealistic", "BAIT_EnvironmentReal", "BAIT_ImitatingReality"))
+
+BAIT_Attitudes <- select(df2, c("BAIT_Worry", "BAIT_Exciting", "BAIT_Dangerous", "BAIT_Benefit"))
+
+BAIT_Expertise <- select(df2, c("BAIT_UserAI", "BAIT_UnderstandingAI", "BAIT_ExpertAI"))
+
+BAIT_Discrimination <- select(df2,c("BAIT_ImageDistinctionEasy", "BAIT_ImageDistinctionBad", "BAIT_TextDifferentiation", "BAIT_ContentDetection"))
+
+BAIT_Bias <- select(df2,c("BAIT_InnovativeAI", "BAIT_UniqueHuman", "BAIT_EmotionalHuman", "BAIT_InterestingAI", "BAIT_TrustHuman", "BAIT_ImpersonalAI", "BAIT_PreferenceHuman"))
+
+psych::omega(BAIT_Expectations, nfactors = 1)
+psych::omega(BAIT_Attitudes, nfactors = 1)
+psych::omega(BAIT_Expertise, nfactors = 1)
+psych::omega(BAIT_Discrimination, nfactors = 1)
+psych::omega(BAIT_Bias, nfactors = 1)
+```
+
+```{r}
+dfsub2 <- dfsub2 |>
+  mutate(COPS_Frequency = case_when(
+    COPS_Frequency == "0. I haven't viewed pornography in the past 30 days" ~ 0,
+    COPS_Frequency =="1. I viewed pornography once in the past 30 days" ~ 1,
+    COPS_Frequency == "2. I viewed pornography twice in the past 30 days" ~2,
+    COPS_Frequency =="3. I viewed pornography weekly" ~3,
+    COPS_Frequency == "4. I viewed pornography multiple times a week " ~ 4,
+    COPS_Frequency == " 5. I viewed pornography daily" ~5,
+    COPS_Frequency == "6. I viewed pornography multiple times a day" ~ 6),
+    SexualActivity = case_when(
+      SexualActivity == "1. Less than 24h ago" ~ 1 ,
+      SexualActivity == "2. Within the last 3 days" ~ 2,
+      SexualActivity == "3. Within the last week" ~ 3,
+      SexualActivity == "4. Within the last month" ~ 4,
+      SexualActivity == "5. Within the last year" ~ 5,
+      SexualActivity == "6. More than a year ago" ~ 5)
+    ) |>
+  datawizard::rescale(select= c("COPS_Frequency"), range=c(0,6), to=c(0,1)) |>
+  datawizard::rescale(select= c("SexualActivity"), range=c(1,6), to=c(0,1)) 
+
+
+
+COPS <- select(dfsub1, starts_with("COPS_Frequency"), starts_with("COPS_Duration"), "SexualActivity")
+
+psych::omega(COPS, nfactors = 1)
+```
+
+:::
 # Study 1
 
 ## Rate Belief
