@@ -414,6 +414,8 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+##### Marginal contrasts
+
 ```{r arousal est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans") 
 ```
@@ -454,7 +456,6 @@ pred_a |>
 
 #### Interindividual Variability
 ::: {.panel-tabset}
-
 
 ##### Random effects
 ```{r arousal 1 d_vour}
@@ -516,6 +517,32 @@ p_dvour <- function(m, colors){
 
 ```{r arousal ppt effect plot}
 p_dvour(m, colors)
+```
+
+##### Sample analysis 
+
+```{r arousal 1 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r arousal 1 sample analysis}
+
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+```
+
+```{r arousal 1 country analysis}
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
 ```
 
 
@@ -668,6 +695,8 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+##### Marginal contrasts
+
 ```{r enticement est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
@@ -722,6 +751,33 @@ table_dvour(m)
 ```{r enticement 1 ppt effects}
 p_dvour(m, colors)
 ```
+
+##### Sample analysis 
+
+```{r arousal 1 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r arousal 1 sample analysis}
+
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+```
+
+```{r arousal 1 country analysis}
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
+```
+
 :::
 
 #### Correlations (moderators)
@@ -822,6 +878,8 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+##### Marginal contrasts
+
 ```{r valence est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
 ```
@@ -875,6 +933,32 @@ table_dvour(m)
 ```{r valence 1 ppt effects}
 p_dvour(m, colors)
 ```
+##### Sample analysis 
+
+```{r arousal 1 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r arousal 1 sample analysis}
+
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+```
+
+```{r arousal 1 country analysis}
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
+```
+
 :::
 
 #### Correlations (moderators)
@@ -995,6 +1079,8 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
 
+##### Marginal contrasts
+
 ```{r arousal 2 model plot}
 
 pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
@@ -1082,6 +1168,32 @@ p_dvour <- function(m, colors){
 ```{r}
 p_dvour(m, colors2)
 ```
+##### Sample analysis 
+
+```{r arousal 1 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r arousal 1 sample analysis}
+
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+```
+
+```{r arousal 1 country analysis}
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
+```
+
 
 
 :::
@@ -1127,6 +1239,7 @@ corr_mod <- function(m, correlations){
 }
 
 ```
+
 
 ```{r arousal 2 corr}
 
@@ -1227,6 +1340,8 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+##### Marginal contrasts
+
 ```{r enticement 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
@@ -1278,6 +1393,32 @@ table_dvour(m)
 
 ```{r enticement 2 ppt effects}
 p_dvour(m, colors2)
+```
+
+##### Sample analysis 
+
+```{r arousal 1 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r arousal 1 sample analysis}
+
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+```
+
+```{r arousal 1 country analysis}
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
 ```
 
 :::
@@ -1383,6 +1524,8 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+##### Marginal contrasts
+
 ```{r valence 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
@@ -1437,6 +1580,33 @@ table_dvour(m)
 ```{r valence 2 ppt effects}
 p_dvour(m, colors2)
 ```
+
+##### Sample analysis 
+
+```{r arousal 1 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r arousal 1 sample analysis}
+
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+```
+
+```{r arousal 1 country analysis}
+results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
+```
+
 :::
 
 #### Correlations (moderators)
