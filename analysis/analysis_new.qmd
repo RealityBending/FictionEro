@@ -754,7 +754,7 @@ p_dvour(m, colors)
 
 ##### Sample analysis 
 
-```{r arousal 1 sample df}
+```{r enticement 1 sample df}
 
 m_sample <- m |>
   select(Group, Level, Parameter, Median) |>
@@ -769,12 +769,12 @@ df <- dfsub1 |>
   rename("Gender" = "Sex")
 ```
 
-```{r arousal 1 sample analysis}
+```{r enticement 1 sample analysis}
 
 results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
 ```
 
-```{r arousal 1 country analysis}
+```{r enticement 1 country analysis}
 results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
 ```
 
@@ -935,7 +935,7 @@ p_dvour(m, colors)
 ```
 ##### Sample analysis 
 
-```{r arousal 1 sample df}
+```{r valence 1 sample df}
 
 m_sample <- m |>
   select(Group, Level, Parameter, Median) |>
@@ -950,12 +950,12 @@ df <- dfsub1 |>
   rename("Gender" = "Sex")
 ```
 
-```{r arousal 1 sample analysis}
+```{r valence 1 sample analysis}
 
 results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
 ```
 
-```{r arousal 1 country analysis}
+```{r valence 1 country analysis}
 results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
 ```
 
@@ -1170,11 +1170,11 @@ p_dvour(m, colors2)
 ```
 ##### Sample analysis 
 
-```{r arousal 1 sample df}
+```{r arousal 2 sample df}
 
 m_sample <- m |>
   select(Group, Level, Parameter, Median) |>
-  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","ConditionAIGenerated")) |>
   pivot_wider(names_from = "Parameter", values_from = "Median") |>
   select(!Group) |>
   rename("Participant" = "Level") 
@@ -1185,16 +1185,14 @@ df <- dfsub1 |>
   rename("Gender" = "Sex")
 ```
 
-```{r arousal 1 sample analysis}
+```{r arousal 2 sample analysis}
 
-results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
 ```
 
-```{r arousal 1 country analysis}
-results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
+```{r arousal 2 country analysis}
+results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
 ```
-
-
 
 :::
 
@@ -1397,11 +1395,11 @@ p_dvour(m, colors2)
 
 ##### Sample analysis 
 
-```{r arousal 1 sample df}
+```{r enticement 2 sample df}
 
 m_sample <- m |>
   select(Group, Level, Parameter, Median) |>
-  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","ConditionAIGenerated")) |>
   pivot_wider(names_from = "Parameter", values_from = "Median") |>
   select(!Group) |>
   rename("Participant" = "Level") 
@@ -1412,13 +1410,13 @@ df <- dfsub1 |>
   rename("Gender" = "Sex")
 ```
 
-```{r arousal 1 sample analysis}
+```{r enticement 2  sample analysis}
 
-results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
 ```
 
-```{r arousal 1 country analysis}
-results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
+```{r enticement 2 country analysis}
+results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
 ```
 
 :::
@@ -1583,11 +1581,11 @@ p_dvour(m, colors2)
 
 ##### Sample analysis 
 
-```{r arousal 1 sample df}
+```{r valence 2 sample df}
 
 m_sample <- m |>
   select(Group, Level, Parameter, Median) |>
-  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","ConditionAIGenerated")) |>
   pivot_wider(names_from = "Parameter", values_from = "Median") |>
   select(!Group) |>
   rename("Participant" = "Level") 
@@ -1598,13 +1596,13 @@ df <- dfsub1 |>
   rename("Gender" = "Sex")
 ```
 
-```{r arousal 1 sample analysis}
+```{r valence 2 sample analysis}
 
-results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, data = df))
+results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
 ```
 
-```{r arousal 1 country analysis}
-results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
+```{r valence 2 country analysis}
+results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
 ```
 
 :::
