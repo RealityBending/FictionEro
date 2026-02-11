@@ -9,13 +9,12 @@ format:
     code-fold: true
     self-contained: false
 execute: 
-  cache: false
+  cache: true
+  cache-lazy: false
 ---
 
 
 # Data Preparation
-
-*Note*
 
 ```{r libraries}
 #| message: false
@@ -78,6 +77,7 @@ table_dvour <- function(g) {
 ```
 
 ```{r data study1}
+#| message: false
 #| warning: false
 
 dfsub1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study1/data/data_participants.csv")
@@ -108,6 +108,7 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 ```
 
 ```{r data study2}
+#| message: false
 #| warning: false
 
 dfsub2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data_participants.csv")
@@ -173,22 +174,30 @@ df2$BAIT_Bias <- rowMeans(select(df2,BAIT_InnovativeAI, BAIT_UniqueHuman, BAIT_E
 df2$BAIT_Total <- rowMeans(select(df2, BAIT_Expectations, BAIT_Attitudes, BAIT_Expertise, BAIT_Discrimination, BAIT_Bias), na.rm=TRUE)
 ```
 
-## Internal consistency
+## Internal Consistency
 ::: {.panel-tabset}
 
 ### Study 1
 
 ```{r}
+#| message: false
+#| warning: false
 
 GAAIS_Negative <- dfsub1[grepl("^GAAIS_Negative_", names(dfsub1))]
 GAAIS_Positive <- dfsub1[grepl("^GAAIS_Positive_", names(dfsub1))]
 
-psych::omega(GAAIS_Negative, n_factors= 1)
-psych::omega(GAAIS_Positive, n_factors= 1)
+GAAIS_Negative_o <- psych::omega(GAAIS_Negative, n_factors= 1)
+GAAIS_Positive_o <- psych::omega(GAAIS_Positive, n_factors= 1)
 
 ```
 
+McDonald's Omega (\(\omega \)) total was aceptable for both dimensions of the GAAIS (Negative = `r round(GAAIS_Negative_o$omega.tot,2)`, and Positive = `r round(GAAIS_Positive_o$omega.tot,2)`). 
+
 ```{r}
+#| message: false
+#| warning: false
+
+
 dfsub1$BAIT_8_TextIssues <- 1- dfsub1$BAIT_8_TextIssues
 dfsub1$BAIT_2_ImagesIssues <- 1- dfsub1$BAIT_2_ImagesIssues
 dfsub1$BAIT_4_VideosIssues <- 1- dfsub1$BAIT_4_VideosIssues
@@ -200,11 +209,13 @@ BAIT_Images <- dfsub1[, grepl("^BAIT_[12]_Images", names(dfsub1))]
 BAIT_Videos <- dfsub1[,grepl("^BAIT_[34]_Videos", names(dfsub1))]
 BAIT_Enviornment <-dfsub1[, grepl("^BAIT_[56]", names(dfsub1))]
 
-psych::alpha(BAIT_Text)
-psych::alpha(BAIT_Images)
-psych::alpha(BAIT_Videos)
-psych::alpha(BAIT_Enviornment)
+BAIT_Text_a <- psych::alpha(BAIT_Text)
+BAIT_Images_a <- psych::alpha(BAIT_Images)
+BAIT_Videos_a <- psych::alpha(BAIT_Videos)
+BAIT_Enviornment_a <- psych::alpha(BAIT_Enviornment)
 ```
+
+Cronbach's alpha (\(\alpha\)) was questionnable for the Text dimension (`r round(BAIT_Text_a$total$raw_alpha,2)`), very poor for the Images dimension ( `r round(BAIT_Images_a$total$raw_alpha, 2)`), poor for the Videos `r round(BAIT_Videos_a$total$raw_alpha, 2)`) and poor for the Enviornment dimensions (`r round(BAIT_Enviornment_a$total$raw_alpha, 2)`).
 
 ```{r}
 dfsub1 <- dfsub1 |>
@@ -234,13 +245,17 @@ dfsub1 <- dfsub1 |>
 
 COPS <- select(dfsub1, starts_with("COPS_Frequency_"), starts_with("COPS_Duration_1"), "SexualActivity")
 
-psych::omega(COPS, nfactors = 1)
+COPS_o <- psych::omega(COPS, nfactors = 1)
 ```
+
+McDonald's Omega (\(\omega \)) total was poor for the COPS `r round(COPS_o$omega.tot,2)`). 
 
 ### Study 2
 ```{r}
-## compute based on higher dimensions
+#| message: false
+#| warning: false
 
+## compute based on higher dimensions
 dfsub2$BAIT_ImagesIssues <- 6 - dfsub2$BAIT_ImagesIssues
 dfsub2$BAIT_VideosIssues <- 6 - dfsub2$BAIT_VideosIssues
 dfsub2$BAIT_TextIssues <- 6 - dfsub2$BAIT_TextIssues
@@ -269,14 +284,19 @@ BAIT_Discrimination <- select(df2,c("BAIT_ImageDistinctionEasy", "BAIT_ImageDist
 
 BAIT_Bias <- select(df2,c("BAIT_InnovativeAI", "BAIT_UniqueHuman", "BAIT_EmotionalHuman", "BAIT_InterestingAI", "BAIT_TrustHuman", "BAIT_ImpersonalAI", "BAIT_PreferenceHuman"))
 
-psych::omega(BAIT_Expectations, nfactors = 1)
-psych::omega(BAIT_Attitudes, nfactors = 1)
-psych::omega(BAIT_Expertise, nfactors = 1)
-psych::omega(BAIT_Discrimination, nfactors = 1)
-psych::omega(BAIT_Bias, nfactors = 1)
+BAIT_Expectations_o <- psych::omega(BAIT_Expectations, nfactors = 1)
+BAIT_Attitudes_o <-psych::omega(BAIT_Attitudes, nfactors = 1)
+BAIT_Expertise_o <- psych::omega(BAIT_Expertise, nfactors = 1)
+BAIT_Discrimination_o <- psych::omega(BAIT_Discrimination, nfactors = 1)
+BAIT_Bias_o <- psych::omega(BAIT_Bias, nfactors = 1)
 ```
 
+McDonald's Omega (\(\omega \)) total was acepptable for all the BAIT dimensions (Expectations about AI = `r round( BAIT_Expectations_o$omega.tot,2)`, Attitudes towards AI = `r round(BAIT_Attitudes_o$omega.tot, 2)`, Expertise about AI = `r round(BAIT_Expertise_o$omega.tot, 2)`, Bias against AI = `r round( BAIT_Bias_o$omega.tot, 2)`), except the Discrimination ability of AI output which showed good internal consistency (`r round( BAIT_Discrimination_o$omega.tot, 2)`).
+
 ```{r}
+#| message: false
+#| warning: false
+
 dfsub2 <- dfsub2 |>
   mutate(COPS_Frequency = case_when(
     COPS_Frequency == "0. I haven't viewed pornography in the past 30 days" ~ 0,
@@ -301,15 +321,20 @@ dfsub2 <- dfsub2 |>
 
 COPS <- select(dfsub1, starts_with("COPS_Frequency"), starts_with("COPS_Duration"), "SexualActivity")
 
-psych::omega(COPS, nfactors = 1)
+Cops_o <- psych::omega(COPS, nfactors = 1)
 ```
 
+McDonald's Omega (\(\omega \)) total was also poor for the COPS `r round(Cops_o$omega.tot,2)`) in study 2. 
+
 :::
+
 # Study 1
 
 ## Rate Belief
 
 ```{r ratebelief 1}
+#| message: false
+#| warning: false
 
 rate1 <- table(df1$Feedback_LabelsIncorrect)["True"] / sum(table(df1$Feedback_LabelsIncorrect))
 ```
@@ -328,8 +353,14 @@ The rate of people that did not believe the instructions in study 1 (i.e., gave 
 
 ##### Distributions
 
+Arousal ratings are heavily skewed towards the lower end of the scale, with a much higher frequency of scores at 0 and a slight increase in the middle of the scale, for both images presented as AI-Generated and Photograph. 
+
+
 ```{r dist arousal 1}
+#| message: false
+#| warning: false
 #| fig-width: 12
+
 arousal_dist1 <- df1 |>
   ggplot(aes(x=Arousal, fill = Condition)) +
   geom_histogram(position = "identity", alpha = 0.5, colour = "black", bins = 30) +
@@ -346,8 +377,11 @@ arousal_dist1
 
 ##### Averages 
 
+Arousal ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences.
+
 ```{r arousal 1 t_test}
 #| message: false
+#| warning: false
 
 dfsub1_arousal <- dfsub1 |>
   right_join(
@@ -366,6 +400,10 @@ ttest1 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub1_ar
 ```
 
 ```{r arousal 1 diff plot}
+#| message: false
+#| warning: false
+#| fig-width: 12
+
 diff_plot1 <- dfsub1_arousal |> 
   ggplot(aes(x = Feedback_AILessArousing, y = diff_arousal, fill = Feedback_AILessArousing)) +
   geom_boxplot(width = 0.4,alpha = 0.7) +
@@ -392,6 +430,9 @@ diff_plot1
 #### Effect of Manipulation
 
 ```{r arousal 1 by condition belief plot }
+#| message: false
+#| warning: false
+
 df1 |> 
   ggplot(aes(x = Gender, y = Arousal, fill = ConditionBelief)) +
   geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
@@ -399,7 +440,7 @@ df1 |>
   facet_grid(Relevance ~ Condition) +
   scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
   theme_minimal(base_size = 14) +
-  labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = "Condition Belief")
+  labs(subtitle ="Study 1", x = "Gender",y = "Arousal",fill = "Congruence")
 ```
 
 ```{r arousal 1 model load}
@@ -408,7 +449,14 @@ df1 |>
 m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 ```
 
+Females reported lower arousal than males. Arousal was highest for relevant images and lowest for non-erotic images, with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced arousal, strongest for relevant content and minimal for non-erotic images (especially among females).
+
+Participants who maintained label congruency across phases reported higher arousal than those who changed labels; this effect was larger for males. Label incongruency showed small positive deviations in some conditions (most notably for AI-labeled relevant images and, to a lesser extent, for irrelevant and non-erotic images) with generally larger deviations among females.
+
 ```{r arousal 1 model analysis}
+#| message: false
+#| warning: false
+
 params_table(m)
 summary(m, robust = TRUE)
 # performance::performance(m)
@@ -416,14 +464,23 @@ summary(m, robust = TRUE)
 
 ##### Marginal contrasts
 
+When participants maintained label concistency across phases, photographs were rated as more arousing than AI-generated images, particularly for relevant content. When labels were not maintained, this pattern reversed for relevant images, with AI-generated images rated as more arousing, while effects for irrelevant and non-erotic images were small or uncertain. Gender differences were modest. 
+
 ```{r arousal est cont}
+#| message: false
+#| warning: false
+
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans") 
 ```
 
 ```{r arousal 1 model plot}
+#| message: false
+#| warning: false
+
 
 pred_a <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
+
 
 pred_a |>
   mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
@@ -458,6 +515,9 @@ pred_a |>
 ::: {.panel-tabset}
 
 ##### Random effects
+
+Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance are not reliable) 
+
 ```{r arousal 1 d_vour}
 
 m <- modelbased::estimate_grouplevel(m)
@@ -549,6 +609,8 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country,
 :::
 #### Correlations (moderators)
 
+We extracted the random effects and correlated them with other variables in the dataset to look at whether these variables "moderated" the effect of condition. Correlations were overall weak - variability in the intercept and relevance-related parameters was not meaningfully associated with participants’ sexual behaviour or their beliefs and attitudes towards AI. 
+
 ```{r df 1 corr}
 
 correlations <- df1 |>
@@ -608,6 +670,9 @@ corr_mod(m, correlations)
 
 ##### Distributions 
 
+Like in Arousal, Enticing ratings are heavily skewed towards the lower end of the scal and a slight increase in the middle of the scale.
+
+
 ```{r dist enticement 1}
 #| fig-width: 12
 enticement_dist1 <- df1 |>
@@ -625,6 +690,8 @@ enticement_dist1
 ```
 
 ##### Averages 
+
+Enticement ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences.
 
 ```{r enticement 1 t_test}
 #| message: false
@@ -689,6 +756,10 @@ df1 |>
 m <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
 ```
 
+Females reported lower enticement than males. Enticement was highest for relevant images with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced enticement.
+
+Participants who maintained label congruency across phases reported higher enticement than those who changed labels; this effect was larger for males.
+
 ```{r enticement 1 model analysis}
 params_table(m)
 summary(m, robust = TRUE)
@@ -696,6 +767,8 @@ summary(m, robust = TRUE)
 ```
 
 ##### Marginal contrasts
+
+When participants maintained label congruency across phases, photographs were rated as more enticing than AI-generated images, particularly for relevant content, similar to arousal. This pattern reversed for when the labels were incongruent. 
 
 ```{r enticement est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
@@ -741,6 +814,9 @@ pred_e |>
 ::: {.panel-tabset}
 
 ##### Random effects
+
+Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance in terms of enticement ratings are not reliable) 
+
 ```{r enticement 1 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
@@ -753,21 +829,6 @@ p_dvour(m, colors)
 ```
 
 ##### Sample analysis 
-
-```{r enticement 1 sample df}
-
-m_sample <- m |>
-  select(Group, Level, Parameter, Median) |>
-  filter(Group == "Participant" & Parameter %in% c("Intercept","RelevanceRelevant:ConditionAIGenerated")) |>
-  pivot_wider(names_from = "Parameter", values_from = "Median") |>
-  select(!Group) |>
-  rename("Participant" = "Level") 
-  
-
-df <- dfsub1 |>
-  left_join(m_sample, by = "Participant") |>
-  rename("Gender" = "Sex")
-```
 
 ```{r enticement 1 sample analysis}
 
@@ -782,8 +843,12 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country,
 
 #### Correlations (moderators)
 
+We extracted the random effects and correlated them with other variables in the dataset to look at whether these variables "moderated" the effect of condition. Correlations were overall weak - variability in the intercept and relevance-related parameters was not meaningfully associated with participants’ sexual behaviour or their beliefs and attitudes towards AI. 
+
 ```{r enticement  1 corr}
+
 corr_mod(m, correlations)
+
 ```
 
 ### Valence
@@ -871,6 +936,10 @@ df1 |>
 ```{r valence 1 model}
 m <- readRDS("models/ZOIB/ModelValence_1_ZOIB.rds")
 ```
+
+Females reported lower enticement than males. Enticement was highest for relevant images with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced enticement.
+
+Participants who maintained label congruency across phases reported higher enticement than those who changed labels; this effect was larger for males.
 
 ```{r valence 1 model analysis}
 params_table(m)
@@ -962,6 +1031,7 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country,
 :::
 
 #### Correlations (moderators)
+
 
 ```{r valence 1 corr}
 corr_mod(m, correlations)
