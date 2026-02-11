@@ -353,7 +353,7 @@ The rate of people that did not believe the instructions in study 1 (i.e., gave 
 
 ##### Distributions
 
-Arousal ratings are heavily skewed towards the lower end of the scale, with a much higher frequency of scores at 0 and a slight increase in the middle of the scale, for both images presented as AI-Generated and Photograph. 
+<!-- Arousal ratings are heavily skewed towards the lower end of the scale, with a much higher frequency of scores at 0 and a slight increase in the middle of the scale, for both images presented as AI-Generated and Photograph.  -->
 
 
 ```{r dist arousal 1}
@@ -377,7 +377,7 @@ arousal_dist1
 
 ##### Averages 
 
-Arousal ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences.
+<!-- Arousal ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences. -->
 
 ```{r arousal 1 t_test}
 #| message: false
@@ -449,9 +449,9 @@ df1 |>
 m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 ```
 
-Females reported lower arousal than males. Arousal was highest for relevant images and lowest for non-erotic images, with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced arousal, strongest for relevant content and minimal for non-erotic images (especially among females).
+<!-- Females reported lower arousal than males. Arousal was highest for relevant images and lowest for non-erotic images, with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced arousal, strongest for relevant content and minimal for non-erotic images (especially among females). -->
 
-Participants who maintained label congruency across phases reported higher arousal than those who changed labels; this effect was larger for males. Label incongruency showed small positive deviations in some conditions (most notably for AI-labeled relevant images and, to a lesser extent, for irrelevant and non-erotic images) with generally larger deviations among females.
+<!-- Participants who maintained label congruency across phases reported higher arousal than those who changed labels; this effect was larger for males. Label incongruency showed small positive deviations in some conditions (most notably for AI-labeled relevant images and, to a lesser extent, for irrelevant and non-erotic images) with generally larger deviations among females. -->
 
 ```{r arousal 1 model analysis}
 #| message: false
@@ -464,7 +464,7 @@ summary(m, robust = TRUE)
 
 ##### Marginal contrasts
 
-When participants maintained label concistency across phases, photographs were rated as more arousing than AI-generated images, particularly for relevant content. When labels were not maintained, this pattern reversed for relevant images, with AI-generated images rated as more arousing, while effects for irrelevant and non-erotic images were small or uncertain. Gender differences were modest. 
+<!-- When participants maintained label concistency across phases, photographs were rated as more arousing than AI-generated images, particularly for relevant content. When labels were not maintained, this pattern reversed for relevant images, with AI-generated images rated as more arousing, while effects for irrelevant and non-erotic images were small or uncertain. Gender differences were modest.  -->
 
 ```{r arousal est cont}
 #| message: false
@@ -516,7 +516,7 @@ pred_a |>
 
 ##### Random effects
 
-Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance are not reliable) 
+<!-- Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance are not reliable)  -->
 
 ```{r arousal 1 d_vour}
 
@@ -609,7 +609,7 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country,
 :::
 #### Correlations (moderators)
 
-We extracted the random effects and correlated them with other variables in the dataset to look at whether these variables "moderated" the effect of condition. Correlations were overall weak - variability in the intercept and relevance-related parameters was not meaningfully associated with participants’ sexual behaviour or their beliefs and attitudes towards AI. 
+<!-- We extracted the random effects and correlated them with other variables in the dataset to look at whether these variables "moderated" the effect of condition. Correlations were overall weak - variability in the intercept and relevance-related parameters was not meaningfully associated with participants’ sexual behaviour or their beliefs and attitudes towards AI.  -->
 
 ```{r df 1 corr}
 
@@ -670,7 +670,7 @@ corr_mod(m, correlations)
 
 ##### Distributions 
 
-Like in Arousal, Enticing ratings are heavily skewed towards the lower end of the scal and a slight increase in the middle of the scale.
+<!-- Like in Arousal, Enticing ratings are heavily skewed towards the lower end of the scal and a slight increase in the middle of the scale. -->
 
 
 ```{r dist enticement 1}
@@ -691,7 +691,7 @@ enticement_dist1
 
 ##### Averages 
 
-Enticement ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences.
+<!-- Enticement ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences. -->
 
 ```{r enticement 1 t_test}
 #| message: false
@@ -756,9 +756,9 @@ df1 |>
 m <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
 ```
 
-Females reported lower enticement than males. Enticement was highest for relevant images with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced enticement.
+<!-- Females reported lower enticement than males. Enticement was highest for relevant images with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced enticement. -->
 
-Participants who maintained label congruency across phases reported higher enticement than those who changed labels; this effect was larger for males.
+<!-- Participants who maintained label congruency across phases reported higher enticement than those who changed labels; this effect was larger for males. -->
 
 ```{r enticement 1 model analysis}
 params_table(m)
@@ -768,7 +768,7 @@ summary(m, robust = TRUE)
 
 ##### Marginal contrasts
 
-When participants maintained label congruency across phases, photographs were rated as more enticing than AI-generated images, particularly for relevant content, similar to arousal. This pattern reversed for when the labels were incongruent. 
+<!-- When participants maintained label congruency across phases, photographs were rated as more enticing than AI-generated images, particularly for relevant content, similar to arousal. This pattern reversed for when the labels were incongruent.  -->
 
 ```{r enticement est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
@@ -815,7 +815,7 @@ pred_e |>
 
 ##### Random effects
 
-Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance in terms of enticement ratings are not reliable) 
+<!-- Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance in terms of enticement ratings are not reliable)  -->
 
 ```{r enticement 1 d_vour}
 m <- modelbased::estimate_grouplevel(m)
@@ -843,7 +843,7 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country,
 
 #### Correlations (moderators)
 
-We extracted the random effects and correlated them with other variables in the dataset to look at whether these variables "moderated" the effect of condition. Correlations were overall weak - variability in the intercept and relevance-related parameters was not meaningfully associated with participants’ sexual behaviour or their beliefs and attitudes towards AI. 
+
 
 ```{r enticement  1 corr}
 
