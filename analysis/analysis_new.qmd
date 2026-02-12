@@ -178,6 +178,9 @@ df2$BAIT_Total <- rowMeans(select(df2, BAIT_Expectations, BAIT_Attitudes, BAIT_E
 ::: {.panel-tabset}
 
 ### Study 1
+::: {.panel-tabset}
+
+#### GAAIS
 
 ```{r}
 #| message: false
@@ -192,6 +195,8 @@ GAAIS_Positive_o <- psych::omega(GAAIS_Positive, n_factors= 1)
 ```
 
 McDonald's Omega (\(\omega \)) total was aceptable for both dimensions of the GAAIS (Negative = `r round(GAAIS_Negative_o$omega.tot,2)`, and Positive = `r round(GAAIS_Positive_o$omega.tot,2)`). 
+
+#### BAIT
 
 ```{r}
 #| message: false
@@ -216,6 +221,8 @@ BAIT_Enviornment_a <- psych::alpha(BAIT_Enviornment)
 ```
 
 Cronbach's alpha (\(\alpha\)) was questionnable for the Text dimension (`r round(BAIT_Text_a$total$raw_alpha,2)`), very poor for the Images dimension ( `r round(BAIT_Images_a$total$raw_alpha, 2)`), poor for the Videos `r round(BAIT_Videos_a$total$raw_alpha, 2)`) and poor for the Enviornment dimensions (`r round(BAIT_Enviornment_a$total$raw_alpha, 2)`).
+
+#### COPS
 
 ```{r}
 dfsub1 <- dfsub1 |>
@@ -249,8 +256,13 @@ COPS_o <- psych::omega(COPS, nfactors = 1)
 ```
 
 McDonald's Omega (\(\omega \)) total was poor for the COPS `r round(COPS_o$omega.tot,2)`). 
+:::
 
 ### Study 2
+::: {.panel-tabset}
+
+#### BAIT
+
 ```{r}
 #| message: false
 #| warning: false
@@ -293,6 +305,8 @@ BAIT_Bias_o <- psych::omega(BAIT_Bias, nfactors = 1)
 
 McDonald's Omega (\(\omega \)) total was acepptable for all the BAIT dimensions (Expectations about AI = `r round( BAIT_Expectations_o$omega.tot,2)`, Attitudes towards AI = `r round(BAIT_Attitudes_o$omega.tot, 2)`, Expertise about AI = `r round(BAIT_Expertise_o$omega.tot, 2)`, Bias against AI = `r round( BAIT_Bias_o$omega.tot, 2)`), except the Discrimination ability of AI output which showed good internal consistency (`r round( BAIT_Discrimination_o$omega.tot, 2)`).
 
+#### COPS
+
 ```{r}
 #| message: false
 #| warning: false
@@ -325,6 +339,7 @@ Cops_o <- psych::omega(COPS, nfactors = 1)
 ```
 
 McDonald's Omega (\(\omega \)) total was also poor for the COPS `r round(Cops_o$omega.tot,2)`) in study 2. 
+:::
 
 :::
 
