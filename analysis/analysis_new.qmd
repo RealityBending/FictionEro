@@ -9,7 +9,7 @@ format:
     code-fold: true
     self-contained: false
 execute: 
-  cache: true
+  cache: false
   cache-lazy: false
 ---
 
@@ -459,8 +459,7 @@ df1 |>
 ```
 
 ```{r arousal 1 model load}
-#| cache: false
- 
+
 m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 ```
 
@@ -491,7 +490,6 @@ estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "Condi
 ```{r arousal 1 model plot}
 #| message: false
 #| warning: false
-
 
 pred_a <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
@@ -790,6 +788,8 @@ estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "Condi
 ```
 
 ```{r enticement 1 model plot}
+#| message: false
+#| warning: false
 
 pred_e <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
@@ -969,6 +969,8 @@ estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "Condi
 ```
 
 ```{r valence 1 model pred}
+#| message: false
+#| warning: false
 
 pred_v <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
@@ -1008,6 +1010,8 @@ pred_v |>
 
 ##### Random effects
 ```{r valence 1 d_vour}
+
+
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
@@ -1167,6 +1171,8 @@ estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"),
 ##### Marginal contrasts
 
 ```{r arousal 2 model plot}
+#| message: false
+#| warning: false
 
 pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
@@ -1430,6 +1436,8 @@ estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"),
 ```
 
 ```{r enticement 2 model plot}
+#| message: false
+#| warning: false
 
 pred_e2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
@@ -1614,6 +1622,8 @@ estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"),
 ```
 
 ```{r valence 2 model plot}
+#| message: false
+#| warning: false
 
 pred_v2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
