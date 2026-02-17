@@ -346,7 +346,6 @@ McDonald's Omega (⍵) total was also poor for the COPS (⍵ =`r round(Cops_o$om
 
 # Study 1
 
-## Rate Belief
 
 ```{r ratebelief 1}
 #| message: false
@@ -356,6 +355,7 @@ rate1 <- table(df1$Feedback_LabelsIncorrect)["True"] / sum(table(df1$Feedback_La
 ```
 
 The rate of people that did not believe the instructions in study 1 (i.e., gave feedback that the labels were incorrect) was `r round(mean(rate1) * 100, 1)`%.
+::: panel-tabset
 
 ## Arousal
 
@@ -564,7 +564,7 @@ table_dvour(m)
 #### Participant effects
 
 ```{r arousal 1 ppt effects}
-#| fig-width: 15
+#| fig-width: 20
 colors <- c(
   "Intercept" = "#9C27B0",                   
   "Irrelevant" = "#1E88E5",   
@@ -890,6 +890,7 @@ table_dvour(m)
 #### Participant effects
 
 ```{r enticement 1 ppt effects}
+#| fig-width: 20
 p_dvour(m, colors)
 ```
 
@@ -1093,6 +1094,8 @@ table_dvour(m)
 #### Participant effects
 
 ```{r valence 1 ppt effects}
+#| fig-width: 20
+
 p_dvour(m, colors)
 ```
 
@@ -1123,15 +1126,15 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country,
 ```
 :::
 
+
 ### Correlations (moderators)
 
 ```{r valence 1 corr}
 corr_mod(m, correlations)
 ```
+:::
 
 # Study 2
-
-## Rate Belief
 
 ```{r ratebelief 2}
 
@@ -1141,6 +1144,7 @@ rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
 In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%.
 
 ## Arousal
+::: panel-tabset
 
 ### Manipulation Checks
 
@@ -1246,10 +1250,10 @@ pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionB
   as.data.frame()
 
 
-pd <- data.frame(label=c("pd = 100%", "pd = 100%", "pd = 100%", "pd = 100%"),
-                 Gender = c("Male", "Female", "Male", "Female"),
-                 ConditionBelief = c("Congruent", "Congruent", "Incongruent", "Incongruent"),
-                 y =c(0.60, 0.55, 0.55, 0.52))
+pd <- data.frame(label=c("pd = 100%", "pd = 97.18%", "pd = 99.71%"),
+                 Gender = c("Male", "Female", "Male"),
+                 ConditionBelief = c("Congruent", "Congruent", "Incongruent"),
+                 y =c(0.60, 0.55, 0.55))
 
 
 pred_a2 |>
@@ -1790,6 +1794,7 @@ results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
 ```{r valence 2 corr}
 corr_mod(m, correlations2)
 ```
+:::
 
 <!-- # Figures -->
 
