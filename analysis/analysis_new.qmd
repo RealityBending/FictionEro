@@ -1,6 +1,6 @@
 ---
 title: "FictionEro - Affective Impact of Fiction"
-editor: Source
+editor: source
 editor_options: 
   chunk_output_type: console
 format:
