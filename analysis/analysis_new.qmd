@@ -125,14 +125,13 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            Condition == "Reality" ~ "Photograph"), 
          Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
          ConditionBelief = case_when(
-           Condition == "Photograph" & Realness > 0.5 ~ "True",
-           Condition == "AIGenerated" & Realness < 0.5 ~ "True",
-           .default = "False"),
-         ConditionBelief = as.factor(ConditionBelief),
-         ConditionBelief = fct_relevel(ConditionBelief, "True", "False"),
+               Condition == "Photograph" & Realness > 0.5 ~ 0, Condition
+               == "AIGenerated" & Realness < 0.5 ~ 0, .default =
+               1),
+         ConditionBelief = as.numeric(ConditionBelief),
          PornFrequency = as.numeric(as.factor(COPS_Frequency)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
-         across(starts_with("Feedback_"), as.factor), 
+         across(starts_with("Feedback_"), as.factor),
          across(starts_with("Feedback_"), function(x) {fct_relevel(x, "False", "True")})) |>
     rename(Item = Stimulus,
            Enticement = Enticing,
