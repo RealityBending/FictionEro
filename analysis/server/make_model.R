@@ -1,6 +1,7 @@
 # Fit models
 
 library(brms)
+library(stats)
 library(cmdstanr)
 library(tidyverse)
 
@@ -62,46 +63,46 @@ priors <- set_prior("normal(0, 0.5)", class = "b")
 # )
 
 # Enticement 
-f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
+# f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
 
-brms::get_prior(f_e1, data=df1)
+# brms::get_prior(f_e1, data=df1)
 
-validate_prior(priors, f_e1, data = df1)
+# validate_prior(priors, f_e1, data = df1)
 
-m_e1 <-  brms::brm(
-  formula = f_e1,
-  data = df1,
-  family = zero_one_inflated_beta(),
-  prior = priors,
-  chains = chains_per_task,
-  cores = chains_per_task,
-  iter = iter,
-  warmup = warmup,
-  seed = 1234 + start_chain,
-  backend = "cmdstanr",
-  file = file.path(models_dir, paste0("ModelEnticement_1_task_", task_id))
-)
+# m_e1 <-  brms::brm(
+#   formula = f_e1,
+#   data = df1,
+#   family = zero_one_inflated_beta(),
+#   prior = priors,
+#   chains = chains_per_task,
+#   cores = chains_per_task,
+#   iter = iter,
+#   warmup = warmup,
+#   seed = 1234 + start_chain,
+#   backend = "cmdstanr",
+#   file = file.path(models_dir, paste0("ModelEnticement_1_task_", task_id))
+# )
 
 # Valence
-f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
+# f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
 
-brms::get_prior(f_v1, data=df1)
+# brms::get_prior(f_v1, data=df1)
 
-validate_prior(priors, f_v1, data = df1)
+# validate_prior(priors, f_v1, data = df1)
 
-m_v1 <-  brms::brm(
-  formula = f_v1,
-  data = df1,
-  family = zero_one_inflated_beta(),
-  prior = priors,
-  chains = chains_per_task,
-  cores = chains_per_task,
-  iter = iter,
-  warmup = warmup,
-  seed = 1234 + start_chain,
-  backend = "cmdstanr",
-  file = file.path(models_dir, paste0("ModelValence_1_task_", task_id))
-)
+# m_v1 <-  brms::brm(
+#   formula = f_v1,
+#   data = df1,
+#   family = zero_one_inflated_beta(),
+#   prior = priors,
+#   chains = chains_per_task,
+#   cores = chains_per_task,
+#   iter = iter,
+#   warmup = warmup,
+#   seed = 1234 + start_chain,
+#   backend = "cmdstanr",
+#   file = file.path(models_dir, paste0("ModelValence_1_task_", task_id))
+# )
 
 
 # Study 2 ----------------------------------------------------------------------
@@ -122,26 +123,29 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # MODELS - Study 2
 # ----------------------------
 
+# Logistic 
+m_log <- stats::glm(ConditionBelief ~ Gender * Type, data = df2, family = "binomial" )
+
 # Arousal
-# f_a2 <- brms::brmsformula(Arousal ~ Gender / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
-# 
-# brms::get_prior(f_a2, data=df2)
-# 
-# validate_prior(priors, f_a2, data = df2)
-# 
-# m_a2 <-  brms::brm(
-#   formula = f_a2,
-#   data = df2,
-#   family = zero_one_inflated_beta(),
-#   chains = chains_per_task,
-#   cores = chains_per_task,
-#   iter = iter,
-#   prior = priors,
-#   warmup = warmup,
-#   seed = 1234 + start_chain,
-#   backend = "cmdstanr",
-#   file = file.path(models_dir, paste0("ModelArousal_2_task_", task_id))
-# )
+f_a2 <- brms::brmsformula(Arousal ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
+
+brms::get_prior(f_a2, data=df2)
+
+validate_prior(priors, f_a2, data = df2)
+
+m_a2 <-  brms::brm(
+  formula = f_a2,
+  data = df2,
+  family = zero_one_inflated_beta(),
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
+  prior = priors,
+  warmup = warmup,
+  seed = 1234 + start_chain,
+  backend = "cmdstanr",
+  file = file.path(models_dir, paste0("ModelArousal_2_task_", task_id))
+)
 
 # Enticement
 f_e2 <- brms::brmsformula(Enticement ~ Gender / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
