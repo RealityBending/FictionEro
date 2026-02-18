@@ -35,9 +35,9 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
     Condition == "Reality" ~ "Photograph"
   )) |>
   mutate(ConditionBelief = case_when(
-               Condition == "Photograph" & Realness > 0.5 ~ "True", Condition
-               == "AIGenerated" & Realness < 0.5 ~ "True", .default =
-               "False"))
+               Condition == "Photograph" & Realness > 0.5 ~ 0, Condition
+               == "AIGenerated" & Realness < 0.5 ~ 0, .default =
+               1)) 
 
 write.csv(df2, "../data/df2.csv", row.names = FALSE)
 
