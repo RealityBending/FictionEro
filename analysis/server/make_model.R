@@ -32,8 +32,9 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            Condition == "AIGenerated" & Realness < 0.5 ~ "True",
            .default = "False"
          ),
-         ConditionBelief = as.factor(ConditionBelief),
-         ConditionBelief = fct_relevel(ConditionBelief, "True", "False"))
+         ConditionBelief = as.(ConditionBelief)
+         # ConditionBelief = fct_relevel(ConditionBelief, "True", "False")
+         )
 
 priors <- set_prior("normal(0, 0.5)", class = "b")
 
@@ -112,19 +113,25 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
   mutate(Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
          Gender =  fct_relevel(Gender, "Male", "Female"),
          ConditionBelief = case_when(
-           Condition == "Photograph" & Realness > 0.5 ~ "True",
-           Condition == "AIGenerated" & Realness < 0.5 ~ "True",
-           .default = "False"),
-         ConditionBelief = as.factor(ConditionBelief),
-         ConditionBelief = fct_relevel(ConditionBelief, "True", "False")) |>
-    rename(Item = Stimulus,
-           Enticement = Enticing) 
+           Condition == "Photograph" & Realness > 0.5 ~ 0,
+           Condition == "AIGenerated" & Realness < 0.5 ~ 0 ,
+           .default = 1),
+         Type = case_when(
+           Category %in% c("Female", "Male") ~ "Single",
+           .default = "Couple"
+         ),
+         ConditionBelief = as.numeric(ConditionBelief),
+         Type = as.factor(Type)) |>
+  rename(Item = Stimulus,
+         Enticement = Enticing) 
+         # ConditionBelief = fct_relevel(ConditionBelief, "True", "False") 
+ 
 # ----------------------------
 # MODELS - Study 2
 # ----------------------------
 
 # Logistic 
-m_log <- stats::glm(ConditionBelief ~ Gender * Type, data = df2, family = "binomial" )
+m_log <- brms::brm(ConditionBelief ~ Gender * Type + (1 | Participant), data = df2, family = "binominal")
 
 # Arousal
 f_a2 <- brms::brmsformula(Arousal ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
