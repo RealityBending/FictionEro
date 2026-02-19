@@ -21,22 +21,22 @@ dir.create(models_dir, recursive = TRUE, showWarnings = FALSE)
 # Study 1
 # ----------------------------
 
-df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df1.csv") |>
-  mutate(Condition = fct_recode(Condition, "Photograph" = "Photograph", "AIGenerated" = "AI-Generated"),
-         Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
-         Relevance = fct_recode(Relevance,  "Relevant" = "Relevant",  "Irrelevant"= "Irrelevant", "NonErotic" = "Non-erotic"),
-         Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "NonErotic"),
-         Gender =  fct_relevel(Gender, "Male", "Female"),
-         ConditionBelief = case_when(
-           Condition == "Photograph" & Realness > 0.5 ~ "True",
-           Condition == "AIGenerated" & Realness < 0.5 ~ "True",
-           .default = "False"
-         ),
-         ConditionBelief = as.(ConditionBelief)
-         # ConditionBelief = fct_relevel(ConditionBelief, "True", "False")
-         )
-
-priors <- set_prior("normal(0, 0.5)", class = "b")
+# df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df1.csv") |>
+#   mutate(Condition = fct_recode(Condition, "Photograph" = "Photograph", "AIGenerated" = "AI-Generated"),
+#          Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+#          Relevance = fct_recode(Relevance,  "Relevant" = "Relevant",  "Irrelevant"= "Irrelevant", "NonErotic" = "Non-erotic"),
+#          Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "NonErotic"),
+#          Gender =  fct_relevel(Gender, "Male", "Female"),
+#          ConditionBelief = case_when(
+#            Condition == "Photograph" & Realness > 0.5 ~ "True",
+#            Condition == "AIGenerated" & Realness < 0.5 ~ "True",
+#            .default = "False"
+#          ),
+#          ConditionBelief = as.(ConditionBelief)
+#          # ConditionBelief = fct_relevel(ConditionBelief, "True", "False")
+#          )
+# 
+# priors <- set_prior("normal(0, 0.5)", class = "b")
 
 # ----------------------------
 # MODELS - Study 1
@@ -131,7 +131,10 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # ----------------------------
 
 # Logistic 
-m_log <- brms::brm(ConditionBelief ~ Gender * Type + (1 | Participant), data = df2, family = "binominal")
+m_log <- glmmTMB::glmmTMB(
+  ConditionBelief ~ Gender * Type + (1 | Participant), data = df2, family = binomial)
+
+saveRDS(m_log, file = file.path(models_dir, paste0("Logistic_Model_task_", task_id, ".rds")))
 
 # Arousal
 f_a2 <- brms::brmsformula(Arousal ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
