@@ -1,7 +1,7 @@
 # Fit models
 
 library(brms)
-library(stats)
+library(glmmTMB)
 library(cmdstanr)
 library(tidyverse)
 
@@ -158,7 +158,7 @@ m_a2 <-  brms::brm(
 )
 
 # Enticement
-f_e2 <- brms::brmsformula(Enticement ~ Gender / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
+f_e2 <- brms::brmsformula(Enticement ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
 
 brms::get_prior(f_e2, data=df2)
 
@@ -179,7 +179,7 @@ m_e2 <-  brms::brm(
 )
 
 # Valence
-f_v2 <- brms::brmsformula(Valence ~ Gender / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
+f_v2 <- brms::brmsformula(Valence ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
 
 brms::get_prior(f_v2, data=df2)
 
