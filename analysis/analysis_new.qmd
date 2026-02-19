@@ -114,8 +114,7 @@ dfsub2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/
 df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |> 
   right_join(
     select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
-    by = "Participant"
-  ) |> 
+    by = "Participant") |> 
   datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |>
   datawizard::rescale(select= c("Realness"), range=c(-3,3), to=c(0,1)) |>
   filter(SexualOrientation == "Heterosexual") |> # Keep only heterosexuals
@@ -125,10 +124,13 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            Condition == "Reality" ~ "Photograph"), 
          Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
          ConditionBelief = case_when(
-               Condition == "Photograph" & Realness > 0.5 ~ 0, Condition
-               == "AIGenerated" & Realness < 0.5 ~ 0, .default =
-               1),
-         ConditionBelief = as.numeric(ConditionBelief),
+               Condition == "Photograph" & Realness > 0.5 ~ 0, 
+               Condition == "AIGenerated" & Realness < 0.5 ~ 0, 
+               .default = 1),
+        Type = case_when(
+           Category %in% c("Female", "Male") ~ "Single",
+           .default = "Couple"),
+         Type = as.factor(Type),
          PornFrequency = as.numeric(as.factor(COPS_Frequency)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
          across(starts_with("Feedback_"), as.factor),
@@ -139,10 +141,12 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            AllFakeConfidence = "Feedback_AllFakeConfidence",
            Enjoyment = "Feedback_Enjoyment") 
 
+
+
 ## compute based on higher dimensions
 
-df2$BAIT_ImagesIssues <- 6 - df2$BAIT_ImagesIssues
-df2$BAIT_VideosIssues <- 6 - df2$BAIT_VideosIssues
+ 
+ df2$BAIT_VideosIssues <- 6 - df2$BAIT_VideosIssues
 df2$BAIT_TextIssues <- 6 - df2$BAIT_TextIssues
 
 df2$BAIT_Dangerous <- 6 - df2$BAIT_Dangerous
@@ -1141,6 +1145,12 @@ rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
 ```
 
 In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%.
+
+```{r}
+m_log <- glmmTMB::glmmTMB(ConditionBelief ~ Gender * Type + (1 | Participant), data = df2, family = binomial)
+summary(m_log)
+```
+
 
 ## Arousal
 ::: panel-tabset
