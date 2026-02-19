@@ -36,7 +36,7 @@ dir.create(models_dir, recursive = TRUE, showWarnings = FALSE)
 #          # ConditionBelief = fct_relevel(ConditionBelief, "True", "False")
 #          )
 # 
-# priors <- set_prior("normal(0, 0.5)", class = "b")
+priors <- set_prior("normal(0, 0.5)", class = "b")
 
 # ----------------------------
 # MODELS - Study 1
