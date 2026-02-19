@@ -131,6 +131,7 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            Category %in% c("Female", "Male") ~ "Single",
            .default = "Couple"),
          Type = as.factor(Type),
+        Type = fct_relevel(Type, "Single", "Couple"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
          across(starts_with("Feedback_"), as.factor),
@@ -1146,6 +1147,8 @@ rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
 
 In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%.
 
+ There is no clear evidence that Gender, Type, or their interaction predicts ConditionBelief.
+
 ```{r}
 m_log <- glmmTMB::glmmTMB(ConditionBelief ~ Gender * Type + (1 | Participant), data = df2, family = binomial)
 summary(m_log)
@@ -1233,6 +1236,7 @@ df2 |>
 
 ```
 
+#### Model without Type 
 ```{r arousal 2 model load}
 #| cache: false
  
@@ -1249,7 +1253,25 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
 
-#### Marginal contrasts
+#### Model with Type 
+
+```{r arousal 2 model type load}
+#| cache: false
+ 
+m_type <- readRDS("models/ZOIB/ModelArousal_2_ZOIB_type.rds")
+```
+
+```{r arousal 2 type model analysis}
+params_table(m_type)
+summary(m_type, robust = TRUE)
+# performance::performance(m)
+```
+
+#### Marginal contrasts without Type
+
+```{r arousal 2 est cont}
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
+```
 
 ```{r arousal 2 model plot}
 #| message: false
@@ -1293,6 +1315,12 @@ pred_a2 |>
         legend.text = element_text(size = 10),
         legend.position = "bottom") +
   labs(color="Images presented as:")
+```
+
+#### Marginal contrasts with Type
+
+```{r arousal 2 type est cont}
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
 
 ### Inter-individual Variability
@@ -1503,6 +1531,9 @@ df2 |>
 
 ```
 
+
+#### Model without Type 
+
 ```{r enticement 2 model load}
 #| cache: false
  
@@ -1515,7 +1546,20 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
-#### Marginal contrasts
+#### Model with Type
+```{r enticement 2 model type load}
+#| cache: false
+ 
+m_type <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB_type.rds")
+```
+
+```{r enticement 2 type model analysis}
+params_table(m_type)
+summary(m_type, robust = TRUE)
+# performance::performance(m)
+```
+
+#### Marginal contrasts without Type
 
 ```{r enticement 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
@@ -1562,6 +1606,12 @@ pred_e2 |>
         legend.text = element_text(size = 10),
         legend.position = "bottom") +
   labs(color="Images presented as:")
+```
+
+#### Marginal contrasts with Type
+
+```{r enticement 2 typw est cont}
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
 
 ### Inter-individual Variability
@@ -1694,6 +1744,7 @@ df2 |>
   labs(title = "Valence by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
 ```
 
+#### Model without Type 
 ```{r valence 2 model load}
 #| cache: false
  
@@ -1706,7 +1757,20 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
-#### Marginal contrasts
+#### Model with Type
+```{r valence  2 model type load}
+#| cache: false
+ 
+m_type <- readRDS("models/ZOIB/ModelValence_2_ZOIB_type.rds")
+```
+
+```{r enticement 2 type model analysis}
+params_table(m_type)
+summary(m_type, robust = TRUE)
+# performance::performance(m)
+```
+
+#### Marginal contrasts without Type
 
 ```{r valence 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
@@ -1753,6 +1817,12 @@ pred_v2 |>
         legend.text = element_text(size = 10),
         legend.position = "bottom") +
   labs(color="Images presented as:")
+```
+
+#### Marginal contrasts with Type
+
+```{r valence  2 type est cont}
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
 
 ### Inter-individual Variability

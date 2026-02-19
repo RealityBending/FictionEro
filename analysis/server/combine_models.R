@@ -14,7 +14,7 @@ setwd("/mnt/lustre/users/psych/asf25/fictionero/models/")
 # model_names <- c("ModelArousal_1", "ModelEnticement_1", "ModelValence_1",
 #                  "ModelArousal_2", "ModelEnticement_2", "ModelValence_2")
 
-model_names <- c("ModelValence_1")
+model_names <- c("ModelArousal_2", "ModelEnticement_2", "ModelValence_2")
 
 # Pick model based on array ID
 model_name <- model_names[task_id]

@@ -130,12 +130,7 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 # MODELS - Study 2
 # ----------------------------
 
-# Logistic 
-# m_log <- glmmTMB::glmmTMB(
-#   ConditionBelief ~ Gender * Type + (1 | Participant), data = df2, family = binomial)
-# 
-# saveRDS(m_log, file = file.path(models_dir, paste0("Logistic_Model_task_", task_id, ".rds")))
-
+ 
 # Arousal
 f_a2 <- brms::brmsformula(Arousal ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
 
