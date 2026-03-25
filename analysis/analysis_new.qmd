@@ -124,9 +124,9 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            Condition == "Reality" ~ "Photograph"), 
          Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
          ConditionBelief = case_when(
-               Condition == "Photograph" & Realness > 0.5 ~ 0, 
-               Condition == "AIGenerated" & Realness < 0.5 ~ 0, 
-               .default = 1),
+               Condition == "Photograph" & Realness > 0.5 ~ "True", 
+               Condition == "AIGenerated" & Realness < 0.5 ~ "True", 
+               .default = "False"),
         Type = case_when(
            Category %in% c("Female", "Male") ~ "Single",
            .default = "Couple"),
@@ -391,6 +391,19 @@ arousal_dist1
 
 #### Averages
 
+
+```{r mean arousal for feedback ai less arousing}
+df1 |>
+  group_by(Feedback_AILessArousing, Condition ) |>
+  summarise(mean_Arousal = mean(Arousal, na.rm = TRUE), 
+            sd_Arousal = sd(Arousal, na.rm = TRUE),.groups = "drop") |>
+  gt() |>
+  fmt_number(decimals = 3,
+    use_seps = FALSE
+  )
+
+```
+
 <!-- Arousal ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences. -->
 
 ```{r arousal 1 t_test}
@@ -401,16 +414,19 @@ dfsub1_arousal <- dfsub1 |>
   right_join(
     df1 |>
       group_by(Participant, Condition) |>
-      summarise(mean_arousal = mean(Arousal, na.rm = TRUE), .groups = "drop") |>
+      summarise(mean_arousal = mean(Arousal, na.rm = TRUE),.groups = "drop") |>
       pivot_wider(
         names_from = Condition,
         names_prefix = "mean_Arousal_",
-        values_from = mean_arousal
-      ) |>
-      mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)
-  )
+        values_from = mean_arousal) |>
+      mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)) |>
+  mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+  as.data.frame()
 
-ttest1 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub1_arousal)
+ttest1 <- BayesFactor::ttestBF(dfsub1_arousal$diff_arousal, dfsub1_arousal$Feedback_AILessArousing)
+
+model_parameters(ttest1)
+
 ```
 
 ```{r arousal 1 diff plot}
@@ -438,7 +454,7 @@ diff_plot1 <- dfsub1_arousal |>
 diff_plot1
 ```
 
-**Study 1**: `r report::report(ttest1, data = dfsub1_arousal)`
+
 :::
 
 ### Effect of Manipulation
@@ -514,10 +530,10 @@ pred_a |>
   ggplot(aes(x=Relevance, y=Probability)) +
     geom_hline(yintercept=0, color="darkgrey") +
   geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.4), alpha=0.8, linewidth=0.2) +
-  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.4), size=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.4), size=0.6) +
   geom_text(data=pd, aes(y=y, label = label), hjust=0.5, size = 3.5) +
   geom_text(data=pd_small, aes(y=y, label = label), hjust=0.5, size = 2.5) +
-  
+
   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent", Relevance="Relevant"),
             aes(xmin=0.8, xmax=1.2, ymin=0.45, ymax=0.75), color="#8BC34A", alpha=0, linewidth = 1.2) +
   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Congruent", Relevance="Relevant"),
@@ -526,14 +542,14 @@ pred_a |>
             aes(xmin=0.8, xmax=1.2, ymin=0.40, ymax=0.7), color="#8BC34A", alpha=0, linewidth = 1.2) +
   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Incongruent", Relevance="Relevant"),
             aes(xmin=0.8, xmax=1.2, ymin=0.20, ymax=0.50), color="#8BC34A", alpha=0, linewidth = 1.2) +
-  
-  #   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Congruent", Relevance="Irrelevant"),
-  #           aes(xmin=1.8, xmax=2.2, ymin=0.17, ymax=0.45), color="#8BC34A", alpha=0, linewidth = 0.5) +
-  #   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Incongruent", Relevance="Irrelevant"),
-  #           aes(xmin=1.8, xmax=2.2, ymin=0.17, ymax=0.45), color="#8BC34A", alpha=0, linewidth = 0.5) +
-  # facet_grid(Gender~ConditionBelief, switch = "y") +
-  # geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent", Relevance="NonErotic"),
-  #           aes(xmin=2.8, xmax=3.2, ymin=0.05, ymax=0.25), color="#8BC34A", alpha=0, linewidth = 0.5) +
+
+    geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Congruent", Relevance="Irrelevant"),
+            aes(xmin=1.8, xmax=2.2, ymin=0.17, ymax=0.45), color="#8BC34A", alpha=0, linewidth = 1.2) +
+    geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Incongruent", Relevance="Irrelevant"),
+            aes(xmin=1.8, xmax=2.2, ymin=0.17, ymax=0.45), color="#8BC34A", alpha=0, linewidth = 1.2) +
+  facet_grid(Gender~ConditionBelief, switch = "y") +
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent", Relevance="NonErotic"),
+            aes(xmin=2.8, xmax=3.2, ymin=0.05, ymax=0.25), color="#8BC34A", alpha=0, linewidth = ) +
   facet_grid(Gender~ConditionBelief, switch = "y") +
   
   scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
@@ -541,15 +557,16 @@ pred_a |>
   theme_minimal() +
     theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.y = element_text(size = 8, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
         strip.placement = "outside",
         strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
-        strip.text.x = element_text(size = 10, face = "bold"),
+        strip.text.x = element_text(size = 12, face = "bold"),
         strip.text.y = element_text(size = 10, face = "bold"),
-        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=10, color="black"),
         legend.text = element_text(size = 10),
         legend.position = "bottom") +
   labs(color="Images presented as:")
+
 ```
 
 ### Inter-individual Variability
@@ -730,6 +747,19 @@ enticement_dist1
 
 #### Averages
 
+
+```{r mean enticement for feedback ai less arousing}
+df1 |>
+  group_by(Feedback_AILessArousing, Condition ) |>
+  summarise(mean_Enticement = mean(Enticement, na.rm = TRUE), 
+            sd_Enticement = sd(Enticement, na.rm = TRUE),.groups = "drop") |>
+  gt() |>
+  fmt_number(decimals = 3,
+    use_seps = FALSE
+  )
+
+```
+
 <!-- Enticement ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences. -->
 
 ```{r enticement 1 t_test}
@@ -743,12 +773,14 @@ dfsub1_enticement <- dfsub1 |>
       pivot_wider(
         names_from = Condition,
         names_prefix = "mean_Enticement_",
-        values_from = mean_Enticement
-      ) |>
-      mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)
-  )
+        values_from = mean_Enticement) |>
+      mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)) |>
+  mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+  as.data.frame()
 
-ttest1 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub1_enticement)
+ttest1 <- BayesFactor::ttestBF(dfsub1_enticement$diff_enticement, dfsub1_enticement$Feedback_AILessArousing)
+
+model_parameters(ttest1)
 ```
 
 ```{r enticement 1 diff plot}
@@ -772,7 +804,6 @@ diff_plot1 <- dfsub1_enticement |>
 diff_plot1
 ```
 
-**Study 1**: `r report::report(ttest1, data = dfsub1_enticement)`
 :::
 
 ### Effect of Manipulation
@@ -941,6 +972,18 @@ valence_dist1
 
 #### Averages
 
+```{r mean valence for feedback ai less arousing}
+df1 |>
+  group_by(Feedback_AILessArousing, Condition ) |>
+  summarise(mean_Valence = mean(Valence, na.rm = TRUE), 
+            sd_valence = sd(Valence, na.rm = TRUE),.groups = "drop") |>
+  gt() |>
+  fmt_number(decimals = 3,
+    use_seps = FALSE
+  )
+
+```
+
 ```{r valence 1 t_test}
 #| message: false
 
@@ -952,12 +995,14 @@ dfsub1_valence <- dfsub1 |>
       pivot_wider(
         names_from = Condition,
         names_prefix = "mean_Valence_",
-        values_from = mean_Valence
-      ) |>
-      mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph)
-  )
+        values_from = mean_Valence) |>
+      mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph)) |>
+  mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+  as.data.frame()
 
-ttest1 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub1_valence)
+ttest1 <- BayesFactor::ttestBF(dfsub1_valence$diff_valence, dfsub1_valence$Feedback_AILessArousing)
+
+model_parameters(ttest1)
 ```
 
 ```{r valence 1 diff plot}
@@ -981,7 +1026,6 @@ diff_plot1 <- dfsub1_valence |>
 diff_plot1
 ```
 
-**Study 1**: `r report::report(ttest1, data = dfsub1_valence)`
 :::
 
 ### Effect of Manipulation
@@ -1150,8 +1194,16 @@ In study 2 (i.e., gave feedback that all images were real images) was `r round(m
  There is no clear evidence that Gender, Type, or their interaction predicts ConditionBelief.
 
 ```{r}
-m_log <- glmmTMB::glmmTMB(ConditionBelief ~ Gender * Type + (1 | Participant), data = df2, family = binomial)
-summary(m_log)
+df2_log <- df2 |>
+  mutate(ConditionBelief = case_when(
+               Condition == "Photograph" & Realness > 0.5 ~ 0, 
+               Condition == "AIGenerated" & Realness < 0.5 ~ 0, 
+               .default = 1))
+               
+               
+m_log <- glmmTMB::glmmTMB(ConditionBelief ~ Gender * Type + (1 | Participant), data = df2_log, family = binomial)
+
+results_table(m_log)
 ```
 
 
@@ -1192,10 +1244,13 @@ dfsub2_arousal <- dfsub2 |>
       pivot_wider(names_from = Condition, 
                   names_prefix = "mean_Arousal_", 
                   values_from = mean_arousal) |>
-      mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)
-  )
+      mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)) |>
+   mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+    as.data.frame()
 
-ttest2 <- stats::t.test(diff_arousal ~ Feedback_AILessArousing, data = dfsub2_arousal)
+ttest2 <- BayesFactor::ttestBF(dfsub2_arousal$diff_arousal, dfsub2_arousal$Feedback_AILessArousing)
+model_parameters(ttest2)
+
 ```
 
 ```{r arousal 2 diff plot}
@@ -1219,7 +1274,6 @@ diff_plot2 <- dfsub2_arousal |>
 diff_plot2
 ```
 
-**Study 2**: `r report::report(ttest2, data = dfsub2_arousal)`
 :::
 
 ### Effect of Manipulation
@@ -1249,10 +1303,6 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
-```{r arousal 2 est cont}
-estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
-```
-
 #### Model with Type 
 
 ```{r arousal 2 model type load}
@@ -1270,8 +1320,9 @@ summary(m_type, robust = TRUE)
 #### Marginal contrasts without Type
 
 ```{r arousal 2 est cont}
-estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
+
 
 ```{r arousal 2 model plot}
 #| message: false
@@ -1281,10 +1332,10 @@ pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionB
   as.data.frame()
 
 
-pd <- data.frame(label=c("pd = 100%", "pd = 97.18%", "pd = 99.71%"),
-                 Gender = c("Male", "Female", "Male"),
-                 ConditionBelief = c("Congruent", "Congruent", "Incongruent"),
-                 y =c(0.60, 0.55, 0.55))
+pd <- data.frame(label=c("pd = 100%", "pd = 99.71%"),
+                 Gender = c("Male", "Male"),
+                 ConditionBelief = c("Congruent", "Incongruent"),
+                 y =c(0.60, 0.55))
 
 
 pred_a2 |>
@@ -1294,27 +1345,30 @@ pred_a2 |>
   ggplot(aes(x=ConditionBelief, y=Probability)) +
     geom_hline(yintercept=0, color="darkgrey") +
   geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
-  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2)+
-  geom_text(data=pd, aes(y=y, label = label), hjust=0.5, size = 3.5) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.6)+
   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
             aes(xmin = 0.8, xmax = 1.2,ymin=0.35, ymax=0.55), color="#8BC34A", alpha=0, linewidth = 1.2) +
-  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Congruent"),
-            aes(xmin = 0.8, xmax = 1.2,ymin=0.3, ymax=0.50), color="#8BC34A", alpha=0, linewidth = 1.2) +
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
+            aes(xmin = 1.8, xmax = 2.2,ymin=0.32, ymax=0.52), color="#8BC34A", alpha=0, linewidth = 1.2) +
+   geom_text(data=pd, aes(label = label, y=y), hjust=0.5, size = 3.5) +
+  
   facet_grid(~Gender, switch = "y") +
-  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_y_continuous(limits=c(0, 1)) +
   scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
   theme_minimal() +
     theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.y = element_text(size = 8),
+        axis.text.y = element_text(size = 10, face = "bold"),
         strip.placement = "outside",
         strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
-        strip.text.x = element_text(size = 10, face= "bold"),
-        strip.text.y = element_text(size = 10),
-        axis.text.x = element_text(hjust=1, vjust=1.1, size=9, color="black", face = "bold"),
+        strip.text.x = element_text(size = 12, face = "bold"),
+        strip.text.y = element_text(size = 10, face = "bold"),
+        axis.text.x = element_text(hjust=1,face = "bold", vjust=1.1, size=10, color="black"),
         legend.text = element_text(size = 10),
         legend.position = "bottom") +
   labs(color="Images presented as:")
+
+
 ```
 
 #### Marginal contrasts with Type
@@ -1487,10 +1541,13 @@ dfsub2_enticement <- dfsub2 |>
       pivot_wider(names_from = Condition, 
                   names_prefix = "mean_Enticement_", 
                   values_from = mean_Enticement) |>
-      mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)
-  )
+      mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)) |>
+   mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+    as.data.frame()
 
-ttest2 <- stats::t.test(diff_enticement ~ Feedback_AILessArousing, data = dfsub2_enticement)
+
+ttest2 <- BayesFactor::ttestBF(dfsub2_enticement$diff_enticement, dfsub2_enticement$Feedback_AILessArousing)
+model_parameters(ttest2)
 ```
 
 ```{r enticement 2 diff plot}
@@ -1514,7 +1571,6 @@ diff_plot2 <- dfsub2_enticement |>
 diff_plot2
 ```
 
-**Study 2**: `r report::report(ttest2, data = dfsub2_enticement)`
 :::
 
 ### Effect of Manipulation
@@ -1701,10 +1757,13 @@ dfsub2_valence <- dfsub2 |>
       pivot_wider(names_from = Condition, 
                   names_prefix = "mean_Valence_", 
                   values_from = mean_Valence) |>
-      mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph)
+      mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph))  |>
+   mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+    as.data.frame()
   )
 
-ttest2 <- stats::t.test(diff_valence ~ Feedback_AILessArousing, data = dfsub2_valence)
+ttest2 <- BayesFactor::ttestBF(dfsub2_valence$diff_valence, dfsub2_valence$Feedback_AILessArousing)
+model_parameters(ttest2)
 ```
 
 ```{r valence 2 diff plot}
@@ -1728,7 +1787,6 @@ diff_plot2 <- dfsub2_valence |>
 diff_plot2
 ```
 
-**Study 2**: `r report::report(ttest2, data = dfsub2_valence)`
 :::
 
 ### Effect of Manipulation
@@ -1764,7 +1822,7 @@ summary(m, robust = TRUE)
 m_type <- readRDS("models/ZOIB/ModelValence_2_ZOIB_type.rds")
 ```
 
-```{r enticement 2 type model analysis}
+```{r valence 2 type model analysis}
 params_table(m_type)
 summary(m_type, robust = TRUE)
 # performance::performance(m)
