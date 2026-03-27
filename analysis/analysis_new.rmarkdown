@@ -13,7 +13,11 @@ execute:
   cache-lazy: false
 ---
 
+
+
 # Data Preparation
+
+
 
 ```{r libraries}
 #| message: false
@@ -177,10 +181,14 @@ df2$BAIT_Bias <- rowMeans(select(df2,BAIT_InnovativeAI, BAIT_UniqueHuman, BAIT_E
 df2$BAIT_Total <- rowMeans(select(df2, BAIT_Expectations, BAIT_Attitudes, BAIT_Expertise, BAIT_Discrimination, BAIT_Bias), na.rm=TRUE)
 ```
 
+
+
 ### Study 1 
 
 ::: panel-tabset
 #### GAAIS
+
+
 
 ```{r}
 #| message: false
@@ -195,9 +203,13 @@ GAAIS_Positive_o <- psych::omega(GAAIS_Positive, n_factors= 1)
 
 ```
 
+
+
 McDonald's Omega (⍵) total was acceptable for both dimensions of the GAAIS (Negative ⍵ = `r round(GAAIS_Negative_o$omega.tot,2)`, and Positive ⍵ = `r round(GAAIS_Positive_o$omega.tot,2)`).
 
 #### BAIT
+
+
 
 ```{r}
 #| message: false
@@ -223,9 +235,13 @@ BAIT_Videos_a <- psych::alpha(BAIT_Videos)
 BAIT_Enviornment_a <- psych::alpha(BAIT_Enviornment)
 ```
 
+
+
 Cronbach's alpha (⍺) was questionable for the Text dimension (⍺ = `r round(BAIT_Text_a$total$raw_alpha,2)`), very poor for the Images dimension (⍺ = `r round(BAIT_Images_a$total$raw_alpha, 2)`), poor for the Videos (⍺ = `r round(BAIT_Videos_a$total$raw_alpha, 2)`) and poor for the Environment dimensions (⍺ = `r round(BAIT_Enviornment_a$total$raw_alpha, 2)`).
 
 #### COPS
+
+
 
 ```{r}
 #| output: false
@@ -260,6 +276,8 @@ COPS <- select(dfsub1, starts_with("COPS_Frequency_"), starts_with("COPS_Duratio
 COPS_o <- psych::omega(COPS, nfactors = 1)
 ```
 
+
+
 McDonald's Omega (⍵) total was poor for the (⍵ =COPS `r round(COPS_o$omega.tot,2)`).
 :::
 
@@ -267,6 +285,8 @@ McDonald's Omega (⍵) total was poor for the (⍵ =COPS `r round(COPS_o$omega.t
 
 ::: panel-tabset
 #### BAIT
+
+
 
 ```{r}
 #| message: false
@@ -309,9 +329,13 @@ BAIT_Discrimination_o <- psych::omega(BAIT_Discrimination, nfactors = 1)
 BAIT_Bias_o <- psych::omega(BAIT_Bias, nfactors = 1)
 ```
 
+
+
 McDonald's Omega (⍵) total was acceptable for all the BAIT dimensions (Expectations about AI ⍵ = `r round(BAIT_Expectations_o$omega.tot,2)`, Attitudes towards AI ⍵ = `r round(BAIT_Attitudes_o$omega.tot, 2)`, Expertise about AI ⍵ = `r round(BAIT_Expertise_o$omega.tot, 2)`, Bias against AI ⍵ = `r round( BAIT_Bias_o$omega.tot, 2)`), except the Discrimination ability of AI output which showed good internal consistency (⍵ =`r round( BAIT_Discrimination_o$omega.tot, 2)`).
 
 #### COPS
+
+
 
 ```{r}
 #| message: false
@@ -345,10 +369,14 @@ COPS <- select(dfsub1, starts_with("COPS_Frequency"), starts_with("COPS_Duration
 Cops_o <- psych::omega(COPS, nfactors = 1)
 ```
 
+
+
 McDonald's Omega (⍵) total was also poor for the COPS (⍵ =`r round(Cops_o$omega.tot,2)`) in study 2.
 :::
 
 # Study 1
+
+
 
 
 ```{r ratebelief 1}
@@ -357,6 +385,8 @@ McDonald's Omega (⍵) total was also poor for the COPS (⍵ =`r round(Cops_o$om
 
 rate1 <- table(df1$Feedback_LabelsIncorrect)["True"] / sum(table(df1$Feedback_LabelsIncorrect))
 ```
+
+
 
 The rate of people that did not believe the instructions in study 1 (i.e., gave feedback that the labels were incorrect) was `r round(mean(rate1) * 100, 1)`%.
 ::: panel-tabset
@@ -369,6 +399,8 @@ The rate of people that did not believe the instructions in study 1 (i.e., gave 
 #### Distributions
 
 <!-- Arousal ratings are heavily skewed towards the lower end of the scale, with a much higher frequency of scores at 0 and a slight increase in the middle of the scale, for both images presented as AI-Generated and Photograph.  -->
+
+
 
 ```{r dist arousal 1}
 #| message: false
@@ -389,7 +421,11 @@ arousal_dist1 <- df1 |>
 arousal_dist1
 ```
 
+
+
 #### Averages
+
+
 
 
 ```{r mean arousal for feedback ai less arousing}
@@ -404,7 +440,11 @@ df1 |>
 
 ```
 
+
+
 <!-- Arousal ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences. -->
+
+
 
 ```{r arousal 1 t_test}
 #| message: false
@@ -455,9 +495,13 @@ diff_plot1
 ```
 
 
+
+
 :::
 
 ### Effect of Manipulation
+
+
 
 ```{r arousal 1 by condition belief plot }
 #| message: false
@@ -478,9 +522,13 @@ df1 |>
 m <- readRDS("models/ZOIB/ModelArousal_1_ZOIB.rds")
 ```
 
+
+
 <!-- Females reported lower arousal than males. Arousal was highest for relevant images and lowest for non-erotic images, with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced arousal, strongest for relevant content and minimal for non-erotic images (especially among females). -->
 
 <!-- Participants who maintained label congruency across phases reported higher arousal than those who changed labels; this effect was larger for males. Label incongruency showed small positive deviations in some conditions (most notably for AI-labeled relevant images and, to a lesser extent, for irrelevant and non-erotic images) with generally larger deviations among females. -->
+
+
 
 ```{r arousal 1 model analysis}
 #| message: false
@@ -491,9 +539,13 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Marginal contrasts
 
 <!-- When participants maintained label concistency across phases, photographs were rated as more arousing than AI-generated images, particularly for relevant content. When labels were not maintained, this pattern reversed for relevant images, with AI-generated images rated as more arousing, while effects for irrelevant and non-erotic images were small or uncertain. Gender differences were modest.  -->
+
+
 
 ```{r arousal est cont}
 #| message: false
@@ -569,6 +621,8 @@ pred_a |>
 
 ```
 
+
+
 ### Inter-individual Variability
 
 ::: panel-tabset
@@ -576,13 +630,19 @@ pred_a |>
 
 <!-- Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance are not reliable)  -->
 
+
+
 ```{r arousal 1 d_vour}
 
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
+
+
 #### Participant effects
+
+
 
 ```{r arousal 1 ppt effects}
 #| fig-width: 20
@@ -638,7 +698,11 @@ p_dvour <- function(m, colors){
 p_dvour(m, colors)
 ```
 
+
+
 #### Sample analysis
+
+
 
 ```{r arousal 1 sample df}
 
@@ -663,11 +727,15 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, 
 ```{r arousal 1 country analysis}
 results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
 ```
+
+
 :::
 
 ### Correlations (moderators)
 
 <!-- We extracted the random effects and correlated them with other variables in the dataset to look at whether these variables "moderated" the effect of condition. Correlations were overall weak - variability in the intercept and relevance-related parameters was not meaningfully associated with participants’ sexual behaviour or their beliefs and attitudes towards AI.  -->
+
+
 
 ```{r df 1 corr}
 
@@ -720,6 +788,8 @@ corr_mod(m, correlations)
 
 ```
 
+
+
 ## Enticement
 
 ### Manipulation Checks
@@ -728,6 +798,8 @@ corr_mod(m, correlations)
 #### Distributions
 
 <!-- Like in Arousal, Enticing ratings are heavily skewed towards the lower end of the scal and a slight increase in the middle of the scale. -->
+
+
 
 ```{r dist enticement 1}
 #| fig-width: 12
@@ -745,7 +817,11 @@ enticement_dist1 <- df1 |>
 enticement_dist1
 ```
 
+
+
 #### Averages
+
+
 
 
 ```{r mean enticement for feedback ai less arousing}
@@ -760,7 +836,11 @@ df1 |>
 
 ```
 
+
+
 <!-- Enticement ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences. -->
+
+
 
 ```{r enticement 1 t_test}
 #| message: false
@@ -804,9 +884,13 @@ diff_plot1 <- dfsub1_enticement |>
 diff_plot1
 ```
 
+
+
 :::
 
 ### Effect of Manipulation
+
+
 
 ```{r enticement 1 by condition belief plot }
 df1 |> 
@@ -825,9 +909,13 @@ df1 |>
 m <- readRDS("models/ZOIB/ModelEnticement_1_ZOIB.rds")
 ```
 
+
+
 <!-- Females reported lower enticement than males. Enticement was highest for relevant images with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced enticement. -->
 
 <!-- Participants who maintained label congruency across phases reported higher enticement than those who changed labels; this effect was larger for males. -->
+
+
 
 ```{r enticement 1 model analysis}
 params_table(m)
@@ -835,9 +923,13 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Marginal contrasts
 
 <!-- When participants maintained label congruency across phases, photographs were rated as more enticing than AI-generated images, particularly for relevant content, similar to arousal. This pattern reversed for when the labels were incongruent.  -->
+
+
 
 ```{r enticement est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
@@ -910,6 +1002,8 @@ pred_e |>
   labs(color="Images presented as:")
 ```
 
+
+
 ### Inter-individual Variability
 
 ::: panel-tabset
@@ -917,19 +1011,29 @@ pred_e |>
 
 <!-- Random effects indicate minimal reliable inter-individual in response to the label manipulation (i.e., individual differences in how AI interacts with relevance in terms of enticement ratings are not reliable)  -->
 
+
+
 ```{r enticement 1 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
+
+
 #### Participant effects
+
+
 
 ```{r enticement 1 ppt effects}
 #| fig-width: 20
 p_dvour(m, colors)
 ```
 
+
+
 #### Sample analysis
+
+
 
 ```{r enticement 1 sample analysis}
 
@@ -939,13 +1043,19 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, 
 ```{r enticement 1 country analysis}
 results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
 ```
+
+
 :::
 
 ### Correlations (moderators)
 
+
+
 ```{r enticement 1 corr}
 corr_mod(m, correlations)
 ```
+
+
 
 ## Valence
 
@@ -953,6 +1063,8 @@ corr_mod(m, correlations)
 
 ::: panel-tabset
 #### Distributions
+
+
 
 ```{r dist valence 1}
 #| fig-width: 12
@@ -970,7 +1082,11 @@ valence_dist1 <- df1 |>
 valence_dist1
 ```
 
+
+
 #### Averages
+
+
 
 ```{r mean valence for feedback ai less arousing}
 df1 |>
@@ -1026,9 +1142,13 @@ diff_plot1 <- dfsub1_valence |>
 diff_plot1
 ```
 
+
+
 :::
 
 ### Effect of Manipulation
+
+
 
 ```{r valence 1 by condition belief plot }
 df1 |> 
@@ -1045,9 +1165,13 @@ df1 |>
 m <- readRDS("models/ZOIB/ModelValence_1_ZOIB.rds")
 ```
 
+
+
 Females reported lower enticement than males. Enticement was highest for relevant images with smaller relevance effects among females. Labeling images as AI-generated was associated with reduced enticement.
 
 Participants who maintained label congruency across phases reported higher enticement than those who changed labels; this effect was larger for males.
+
+
 
 ```{r valence 1 model analysis}
 params_table(m)
@@ -1055,7 +1179,11 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Marginal contrasts
+
+
 
 ```{r valence est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "ConditionBelief"), backend = "emmeans")
@@ -1128,10 +1256,14 @@ pred_v |>
   labs(color="Images presented as:")
 ```
 
+
+
 ### Inter-individual Variability
 
 ::: panel-tabset
 #### Random effects
+
+
 
 ```{r valence 1 d_vour}
 
@@ -1139,7 +1271,11 @@ m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
+
+
 #### Participant effects
+
+
 
 ```{r valence 1 ppt effects}
 #| fig-width: 20
@@ -1147,7 +1283,11 @@ table_dvour(m)
 p_dvour(m, colors)
 ```
 
+
+
 #### Sample analysis
+
+
 
 ```{r valence 1 sample df}
 
@@ -1172,26 +1312,38 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Sample, 
 ```{r valence 1 country analysis}
 results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Country, data = df))
 ```
+
+
 :::
 
 
 ### Correlations (moderators)
 
+
+
 ```{r valence 1 corr}
 corr_mod(m, correlations)
 ```
+
+
 :::
 
 # Study 2
+
+
 
 ```{r ratebelief 2}
 
 rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
 ```
 
+
+
 In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%.
 
  There is no clear evidence that Gender, Type, or their interaction predicts ConditionBelief.
+
+
 
 ```{r}
 df2_log <- df2 |>
@@ -1207,6 +1359,8 @@ results_table(m_log)
 ```
 
 
+
+
 ## Arousal
 ::: panel-tabset
 
@@ -1214,6 +1368,8 @@ results_table(m_log)
 
 ::: panel-tabset
 #### Distributions
+
+
 
 ```{r dist arousal 2}
 #| fig-width: 12
@@ -1231,7 +1387,11 @@ arousal_dist2 <- df2 |>
 arousal_dist2
 ```
 
+
+
 #### Averages
+
+
 
 ```{r arousal 2 t_test}
 #| message: false
@@ -1274,9 +1434,13 @@ diff_plot2 <- dfsub2_arousal |>
 diff_plot2
 ```
 
+
+
 :::
 
 ### Effect of Manipulation
+
+
 
 ```{r arousal 2 by condition belief plot }
 df2 |> 
@@ -1290,7 +1454,11 @@ df2 |>
 
 ```
 
+
+
 #### Model without Type 
+
+
 ```{r arousal 2 model load}
 #| cache: false
  
@@ -1303,7 +1471,11 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Model with Type 
+
+
 
 ```{r arousal 2 model type load}
 #| cache: false
@@ -1317,12 +1489,15 @@ summary(m_type, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Marginal contrasts without Type
+
+
 
 ```{r arousal 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
 ```
-
 
 ```{r arousal 2 model plot}
 #| message: false
@@ -1371,23 +1546,35 @@ pred_a2 |>
 
 ```
 
+
+
 #### Marginal contrasts with Type
+
+
 
 ```{r arousal 2 type est cont}
 estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
+
+
 
 ### Inter-individual Variability
 
 ::: panel-tabset
 #### Random effects
 
+
+
 ```{r arousal 2 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
+
+
 #### Participant effects
+
+
 
 ```{r arousal 2 ppt effects}
 colors2 <- c("Intercept" = "#9C27B0", "AI-Generated" = "#FF9800")
@@ -1431,7 +1618,11 @@ p_dvour <- function(m, colors){
 p_dvour(m, colors2)
 ```
 
+
+
 #### Sample analysis
+
+
 
 ```{r arousal 2 sample df}
 
@@ -1456,9 +1647,13 @@ results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
 ```{r arousal 2 country analysis}
 results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
 ```
+
+
 :::
 
 ### Correlations (moderators)
+
+
 
 ```{r df 2 corr}
 correlations2 <- df2 |>
@@ -1505,12 +1700,16 @@ corr_mod <- function(m, correlations){
 corr_mod(m, correlations2)
 ```
 
+
+
 ## Enticement
 
 ### Manipulation Checks
 
 ::: panel-tabset
 #### Distributions
+
+
 
 ```{r dist enticement 2}
 #| fig-width: 12
@@ -1528,7 +1727,11 @@ enticement_dist2 <- df2 |>
 enticement_dist2
 ```
 
+
+
 #### Averages
+
+
 
 ```{r enticement 2 t_test}
 #| message: false
@@ -1571,9 +1774,13 @@ diff_plot2 <- dfsub2_enticement |>
 diff_plot2
 ```
 
+
+
 :::
 
 ### Effect of Manipulation
+
+
 
 ```{r enticement 2 by condition belief plot }
 df2 |> 
@@ -1588,7 +1795,11 @@ df2 |>
 ```
 
 
+
+
 #### Model without Type 
+
+
 
 ```{r enticement 2 model load}
 #| cache: false
@@ -1602,7 +1813,11 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Model with Type
+
+
 ```{r enticement 2 model type load}
 #| cache: false
  
@@ -1615,7 +1830,11 @@ summary(m_type, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Marginal contrasts without Type
+
+
 
 ```{r enticement 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
@@ -1664,29 +1883,45 @@ pred_e2 |>
   labs(color="Images presented as:")
 ```
 
+
+
 #### Marginal contrasts with Type
+
+
 
 ```{r enticement 2 typw est cont}
 estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
+
+
 
 ### Inter-individual Variability
 
 ::: panel-tabset
 #### Random effects
 
+
+
 ```{r enticement 2  d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
+
+
 #### Participant effects
+
+
 
 ```{r enticement 2 ppt effects}
 p_dvour(m, colors2)
 ```
 
+
+
 #### Sample analysis
+
+
 
 ```{r enticement 2 sample df}
 
@@ -1711,15 +1946,21 @@ results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
 ```{r enticement 2 country analysis}
 results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
 ```
+
+
 :::
 
 ### Correlations (moderators)
 
 <!-- -   enticement lower nait toal correlations from 0.25 to .14 same with expertise -->
 
+
+
 ```{r enticement 2 corr}
 corr_mod(m, correlations2)
 ```
+
+
 
 ## Valence
 
@@ -1727,6 +1968,8 @@ corr_mod(m, correlations2)
 
 ::: panel-tabset
 #### Distributions
+
+
 
 ```{r dist valence 2}
 #| fig-width: 12
@@ -1744,7 +1987,11 @@ valence_dist2 <- df2 |>
 valence_dist2
 ```
 
+
+
 #### Averages
+
+
 
 ```{r valence 2 t_test}
 #| message: false
@@ -1787,9 +2034,13 @@ diff_plot2 <- dfsub2_valence |>
 diff_plot2
 ```
 
+
+
 :::
 
 ### Effect of Manipulation
+
+
 
 ```{r valence 2 by condition belief plot }
 df2 |> 
@@ -1802,7 +2053,11 @@ df2 |>
   labs(title = "Valence by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
 ```
 
+
+
 #### Model without Type 
+
+
 ```{r valence 2 model load}
 #| cache: false
  
@@ -1815,7 +2070,11 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Model with Type
+
+
 ```{r valence  2 model type load}
 #| cache: false
  
@@ -1828,7 +2087,11 @@ summary(m_type, robust = TRUE)
 # performance::performance(m)
 ```
 
+
+
 #### Marginal contrasts without Type
+
+
 
 ```{r valence 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
@@ -1877,29 +2140,45 @@ pred_v2 |>
   labs(color="Images presented as:")
 ```
 
+
+
 #### Marginal contrasts with Type
+
+
 
 ```{r valence  2 type est cont}
 estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
+
+
 
 ### Inter-individual Variability
 
 ::: panel-tabset
 #### Random effects
 
+
+
 ```{r valence 2 d_vour}
 m <- modelbased::estimate_grouplevel(m)
 table_dvour(m)
 ```
 
+
+
 #### Participant effects
+
+
 
 ```{r valence 2 ppt effects}
 p_dvour(m, colors2)
 ```
 
+
+
 #### Sample analysis
+
+
 
 ```{r valence 2 sample df}
 
@@ -1924,13 +2203,19 @@ results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
 ```{r valence 2 country analysis}
 results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
 ```
+
+
 :::
 
 ### Correlations (moderators)
 
+
+
 ```{r valence 2 corr}
 corr_mod(m, correlations2)
 ```
+
+
 :::
 
 <!-- # Figures -->
@@ -2058,3 +2343,4 @@ corr_mod(m, correlations2)
 <!-- ``` -->
 
 ::::::::: ::::::::::::::::
+
