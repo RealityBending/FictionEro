@@ -1760,7 +1760,6 @@ dfsub2_valence <- dfsub2 |>
       mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph))  |>
    mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
     as.data.frame()
-  )
 
 ttest2 <- BayesFactor::ttestBF(dfsub2_valence$diff_valence, dfsub2_valence$Feedback_AILessArousing)
 model_parameters(ttest2)
