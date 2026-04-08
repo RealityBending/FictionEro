@@ -1,0 +1,1079 @@
+---
+title: "FictionEro- Study 2"
+format: html
+editor: visual
+---
+
+# Data Preparation
+
+```{r libraries}
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(tidyverse)
+library(easystats)
+library(patchwork)
+library(ggside)
+library(gt)
+library(ggdist)
+library(posterior)
+library(forcats)
+
+options(mc.cores = parallel::detectCores(),
+        brms.backend = "cmdstanr",
+        width = 300)
+```
+
+```{r functions}
+
+results_table <- function(model, effects="fixed", filter=NULL) {
+  if("marginaleffects" %in% class(model)) {
+    model |> 
+      parameters::parameters() |> 
+      as.data.frame() |> 
+      select(-Parameter, -SE, -S, z=Statistic) |> 
+      insight::format_table() |> 
+      parameters::display()
+  } else {
+    display(parameters::parameters(model, effects=effects, keep=filter))
+  }
+}
+
+# Parameters tables for the models 
+params_table <- function(m) {
+  # d <- as.data.frame(m, variable = insight::find_parameters(m, effects = "fixed", flatten  = TRUE))
+  t <- bayestestR::describe_posterior(m, effects = "fixed", component = "all", ci_method = "hdi", test = "p_direction")
+  out <- insight::format_table(t)
+  out |> 
+    mutate(col = t$pd) |> 
+    gt::gt() |> 
+    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
+                   row = col > 0.95, palette = "yellow") |> 
+    gt::data_color(columns = "col", method = "numeric", target_columns = "pd", 
+                   row = col > 0.97, palette = "green") |> 
+    gt::cols_hide("col")
+}
+
+# Random effects table
+table_dvour <- function(g) {
+  performance::performance_dvour(g) |> 
+    arrange(desc(D_vour)) |> 
+    gt::gt() |> 
+    gt::data_color("D_vour", palette = c("red","green"), domain = c(0, 1)) |> 
+    gt::fmt_auto()
+}
+
+```
+
+
+```{r data study2}
+#| message: false
+#| warning: false
+
+dfsub2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data_participants.csv")
+df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |> 
+  right_join(
+    select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
+    by = "Participant") |> 
+  datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |>
+  datawizard::rescale(select= c("Realness"), range=c(-3,3), to=c(0,1)) |>
+  filter(SexualOrientation == "Heterosexual") |> # Keep only heterosexuals
+  mutate(Gender =  fct_relevel(Gender, "Male", "Female"),
+         Condition = case_when(
+           Condition == "Fiction" ~ "AIGenerated",
+           Condition == "Reality" ~ "Photograph"), 
+         Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+         ConditionBelief = case_when(
+               Condition == "Photograph" & Realness > 0.5 ~ "True", 
+               Condition == "AIGenerated" & Realness < 0.5 ~ "True", 
+               .default = "False"),
+        Type = case_when(
+           Category %in% c("Female", "Male") ~ "Single",
+           .default = "Couple"),
+         Type = as.factor(Type),
+        Type = fct_relevel(Type, "Single", "Couple"),
+         PornFrequency = as.numeric(as.factor(COPS_Frequency)),
+         SexualActivity_num = as.numeric(as.factor(SexualActivity)),
+         across(starts_with("Feedback_"), as.factor),
+         across(starts_with("Feedback_"), function(x) {fct_relevel(x, "False", "True")})) |>
+    rename(Item = Stimulus,
+           Enticement = Enticing,
+           AllRealConfidence = "Feedback_AllRealConfidence",
+           AllFakeConfidence = "Feedback_AllFakeConfidence",
+           Enjoyment = "Feedback_Enjoyment") 
+
+
+
+## compute based on higher dimensions
+
+ 
+ df2$BAIT_VideosIssues <- 6 - df2$BAIT_VideosIssues
+df2$BAIT_TextIssues <- 6 - df2$BAIT_TextIssues
+
+df2$BAIT_Dangerous <- 6 - df2$BAIT_Dangerous
+df2$BAIT_Worry <- 6 - df2$BAIT_Worry
+
+df2$BAIT_ImageDistinctionBad <- 6 - df2$BAIT_ImageDistinctionBad
+df2$BAIT_TextDifferentiation <- 6 - df2$BAIT_TextDifferentiation
+
+df2$BAIT_UniqueHuman <- 6 - df2$BAIT_UniqueHuman
+df2$BAIT_ImpersonalAI <- 6 - df2$BAIT_ImpersonalAI
+df2$BAIT_EmotionalHuman <- 6 - df2$BAIT_EmotionalHuman
+df2$BAIT_PreferenceHuman <- 6 - df2$BAIT_PreferenceHuman
+df2$BAIT_TrustHuman <- 6 - df2$BAIT_TrustHuman
+
+
+df2$BAIT_Expectations <- rowMeans(select(df2, BAIT_ImagesRealistic, BAIT_ImagesIssues,  BAIT_VideosIssues, BAIT_TextIssues, BAIT_VideosRealistic, BAIT_TextRealistic, BAIT_EnvironmentReal, BAIT_ImitatingReality), na.rm=TRUE)
+
+df2$BAIT_Attitudes <- rowMeans(select(df2,BAIT_Worry, BAIT_Exciting, BAIT_Dangerous, BAIT_Benefit), na.rm=TRUE)
+
+df2$BAIT_Expertise <- rowMeans(select(df2, BAIT_UserAI, BAIT_UnderstandingAI, BAIT_ExpertAI), na.rm=TRUE)
+
+df2$BAIT_Discrimination <- rowMeans(select(df2,BAIT_ImageDistinctionEasy, BAIT_ImageDistinctionBad, BAIT_TextDifferentiation, BAIT_ContentDetection), na.rm=TRUE)
+
+df2$BAIT_Bias <- rowMeans(select(df2,BAIT_InnovativeAI, BAIT_UniqueHuman, BAIT_EmotionalHuman, BAIT_InterestingAI, BAIT_TrustHuman, BAIT_ImpersonalAI, BAIT_PreferenceHuman), na.rm=TRUE)
+
+
+df2$BAIT_Total <- rowMeans(select(df2, BAIT_Expectations, BAIT_Attitudes, BAIT_Expertise, BAIT_Discrimination, BAIT_Bias), na.rm=TRUE)
+```
+
+# Questionnaires
+
+::: panel-tabset
+## BAIT
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+## compute based on higher dimensions
+dfsub2$BAIT_ImagesIssues <- 6 - dfsub2$BAIT_ImagesIssues
+dfsub2$BAIT_VideosIssues <- 6 - dfsub2$BAIT_VideosIssues
+dfsub2$BAIT_TextIssues <- 6 - dfsub2$BAIT_TextIssues
+
+dfsub2$BAIT_Dangerous <- 6 - dfsub2$BAIT_Dangerous
+dfsub2$BAIT_Worry <- 6 - dfsub2$BAIT_Worry
+
+dfsub2$BAIT_ImageDistinctionBad <- 6 - dfsub2$BAIT_ImageDistinctionBad
+dfsub2$BAIT_TextDifferentiation <- 6 - dfsub2$BAIT_TextDifferentiation
+
+dfsub2$BAIT_UniqueHuman <- 6 - dfsub2$BAIT_UniqueHuman
+dfsub2$BAIT_ImpersonalAI <- 6 - dfsub2$BAIT_ImpersonalAI
+dfsub2$BAIT_EmotionalHuman <- 6 - dfsub2$BAIT_EmotionalHuman
+dfsub2$BAIT_PreferenceHuman <- 6 - dfsub2$BAIT_PreferenceHuman
+dfsub2$BAIT_TrustHuman <- 6 - dfsub2$BAIT_TrustHuman
+
+
+
+BAIT_Expectations <- select(dfsub2, c("BAIT_ImagesRealistic", "BAIT_ImagesIssues",  "BAIT_VideosIssues", "BAIT_TextIssues", "BAIT_VideosRealistic", "BAIT_TextRealistic", "BAIT_EnvironmentReal", "BAIT_ImitatingReality"))
+
+BAIT_Attitudes <- select(df2, c("BAIT_Worry", "BAIT_Exciting", "BAIT_Dangerous", "BAIT_Benefit"))
+
+BAIT_Expertise <- select(df2, c("BAIT_UserAI", "BAIT_UnderstandingAI", "BAIT_ExpertAI"))
+
+BAIT_Discrimination <- select(df2,c("BAIT_ImageDistinctionEasy", "BAIT_ImageDistinctionBad", "BAIT_TextDifferentiation", "BAIT_ContentDetection"))
+
+BAIT_Bias <- select(df2,c("BAIT_InnovativeAI", "BAIT_UniqueHuman", "BAIT_EmotionalHuman", "BAIT_InterestingAI", "BAIT_TrustHuman", "BAIT_ImpersonalAI", "BAIT_PreferenceHuman"))
+
+BAIT_Expectations_o <- psych::omega(BAIT_Expectations, nfactors = 1)
+BAIT_Attitudes_o <-psych::omega(BAIT_Attitudes, nfactors = 1)
+BAIT_Expertise_o <- psych::omega(BAIT_Expertise, nfactors = 1)
+BAIT_Discrimination_o <- psych::omega(BAIT_Discrimination, nfactors = 1)
+BAIT_Bias_o <- psych::omega(BAIT_Bias, nfactors = 1)
+```
+
+McDonald's Omega (⍵) total was acceptable for all the BAIT dimensions (Expectations about AI ⍵ = `r round(BAIT_Expectations_o$omega.tot,2)`, Attitudes towards AI ⍵ = `r round(BAIT_Attitudes_o$omega.tot, 2)`, Expertise about AI ⍵ = `r round(BAIT_Expertise_o$omega.tot, 2)`, Bias against AI ⍵ = `r round( BAIT_Bias_o$omega.tot, 2)`), except the Discrimination ability of AI output which showed good internal consistency (⍵ =`r round( BAIT_Discrimination_o$omega.tot, 2)`).
+
+## COPS
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+dfsub2 <- dfsub2 |>
+  mutate(COPS_Frequency = case_when(
+    COPS_Frequency == "0. I haven't viewed pornography in the past 30 days" ~ 0,
+    COPS_Frequency =="1. I viewed pornography once in the past 30 days" ~ 1,
+    COPS_Frequency == "2. I viewed pornography twice in the past 30 days" ~2,
+    COPS_Frequency =="3. I viewed pornography weekly" ~3,
+    COPS_Frequency == "4. I viewed pornography multiple times a week " ~ 4,
+    COPS_Frequency == " 5. I viewed pornography daily" ~5,
+    COPS_Frequency == "6. I viewed pornography multiple times a day" ~ 6),
+    SexualActivity = case_when(
+      SexualActivity == "1. Less than 24h ago" ~ 1 ,
+      SexualActivity == "2. Within the last 3 days" ~ 2,
+      SexualActivity == "3. Within the last week" ~ 3,
+      SexualActivity == "4. Within the last month" ~ 4,
+      SexualActivity == "5. Within the last year" ~ 5,
+      SexualActivity == "6. More than a year ago" ~ 5)
+    ) |>
+  datawizard::rescale(select= c("COPS_Frequency"), range=c(0,6), to=c(0,1)) |>
+  datawizard::rescale(select= c("SexualActivity"), range=c(1,6), to=c(0,1)) 
+
+
+
+COPS <- select(dfsub1, starts_with("COPS_Frequency"), starts_with("COPS_Duration"), "SexualActivity")
+
+Cops_o <- psych::omega(COPS, nfactors = 1)
+```
+
+McDonald's Omega (⍵) total was also poor for the COPS (⍵ =`r round(Cops_o$omega.tot,2)`) in study 2.
+:::
+
+## Manipulation Checks
+
+```{r ratebelief 2}
+
+rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
+```
+
+In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%.
+
+
+```{r}
+df2_log <- df2 |>
+  mutate(ConditionBelief = case_when(
+               Condition == "Photograph" & Realness > 0.5 ~ 0, 
+               Condition == "AIGenerated" & Realness < 0.5 ~ 0, 
+               .default = 1))
+               
+               
+m_log <- glmmTMB::glmmTMB(ConditionBelief ~ Gender * Type + (1 | Participant), data = df2_log, family = binomial)
+
+results_table(m_log)
+```
+
+There is no clear evidence that Gender, Type, or their interaction predicts ConditionBelief.
+
+::: panel-tabset
+
+### Arousal
+
+```{r dist arousal 2}
+#| fig-width: 12
+arousal_dist2 <- df2 |>
+  ggplot(aes(x=Arousal, fill = Condition)) +
+  geom_bar(position = "identity", alpha = 0.5, colour = "black") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Arousal Study 2", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+arousal_dist2
+```
+
+
+```{r arousal 2 t_test}
+#| message: false
+
+dfsub2_arousal <- dfsub2 |>
+  right_join(
+    df2|>
+      group_by(Participant, Condition)|>
+      summarise(mean_arousal = mean(Arousal, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(names_from = Condition, 
+                  names_prefix = "mean_Arousal_", 
+                  values_from = mean_arousal) |>
+      mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)) |>
+   mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+    as.data.frame()
+
+ttest2 <- BayesFactor::ttestBF(dfsub2_arousal$diff_arousal, dfsub2_arousal$Feedback_AILessArousing)
+model_parameters(ttest2)
+
+```
+
+```{r arousal 2 diff plot}
+diff_plot2 <- dfsub2_arousal |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_arousal, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4, alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 2",
+    x = "Participant said AI is less arousing",
+    y = "Arousal Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot2
+```
+
+### Enticement
+
+```{r dist enticement 2}
+#| fig-width: 12
+enticement_dist2 <- df2 |>
+  ggplot(aes(x=Enticement, fill = Condition)) +
+  geom_bar(position = "identity", alpha = 0.5, colour = "black") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Enticement Study 2", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("Photograph"="#F44336", "AIGenerated"="#2196F3")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+enticement_dist2
+```
+
+```{r enticement 2 t_test}
+#| message: false
+
+dfsub2_enticement <- dfsub2 |>
+  right_join(
+    df2|>
+      group_by(Participant, Condition)|>
+      summarise(mean_Enticement = mean(Enticement, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(names_from = Condition, 
+                  names_prefix = "mean_Enticement_", 
+                  values_from = mean_Enticement) |>
+      mutate(diff_enticement = `mean_Enticement_AIGenerated` - mean_Enticement_Photograph)) |>
+   mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+    as.data.frame()
+
+
+ttest2 <- BayesFactor::ttestBF(dfsub2_enticement$diff_enticement, dfsub2_enticement$Feedback_AILessArousing)
+model_parameters(ttest2)
+```
+
+```{r enticement 2 diff plot}
+diff_plot2 <- dfsub2_enticement |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_enticement, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4, alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 2",
+    x = "Participant said AI is less arousing",
+    y = "Enticement Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot2
+```
+
+### Valence
+
+```{r dist valence 2}
+#| fig-width: 12
+valence_dist2 <- df2 |>
+  ggplot(aes(x=Valence, fill = Condition)) +
+  geom_bar(position = "identity", alpha = 0.5, colour = "black") +
+  scale_y_sqrt(expand = c(0, 0)) +
+  scale_x_continuous(breaks = c(0, 1)) +
+  labs(title = "Valence Study 2", ) +
+  facet_wrap(~Gender) +
+  scale_fill_manual(values=c("Photograph"="#F44336", "AIGenerated"="#2196F3")) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+
+valence_dist2
+```
+
+```{r valence 2 t_test}
+#| message: false
+
+dfsub2_valence <- dfsub2 |>
+  right_join(
+    df2|>
+      group_by(Participant, Condition)|>
+      summarise(mean_Valence = mean(Valence, na.rm = TRUE), .groups = "drop") |>
+      pivot_wider(names_from = Condition, 
+                  names_prefix = "mean_Valence_", 
+                  values_from = mean_Valence) |>
+      mutate(diff_valence = `mean_Valence_AIGenerated` - mean_Valence_Photograph))  |>
+   mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
+    as.data.frame()
+
+ttest2 <- BayesFactor::ttestBF(dfsub2_valence$diff_valence, dfsub2_valence$Feedback_AILessArousing)
+model_parameters(ttest2)
+```
+
+```{r valence 2 diff plot}
+diff_plot2 <- dfsub2_valence |> 
+  ggplot(aes(x = Feedback_AILessArousing, y = diff_valence, fill = Feedback_AILessArousing)) +
+  geom_boxplot(width = 0.4, alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.1, size = 1) +
+  stat_summary(fun = mean, geom = "point", shape = 23, size = 2, fill = "black") +
+  labs(
+    title = "Study 2",
+    x = "Participant said AI is less arousing",
+    y = "Valence Difference (AI - Photo)"
+  ) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    legend.position = "none"
+  )
+
+diff_plot2
+```
+
+
+:::
+
+# Models 
+::: panel-tabset
+
+## Arousal 
+
+```{r arousal 2 by condition belief plot }
+df2 |> 
+  ggplot(aes(x = Gender, y = Arousal, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
+  stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
+  facet_grid( ~ Condition) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Arousal by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
+
+```
+
+```{r arousal 2 model load}
+#| cache: false
+ 
+m <- readRDS("models/ZOIB/ModelArousal_2_ZOIB.rds")
+```
+
+```{r arousal 2 model analysis}
+params_table(m)
+summary(m, robust = TRUE)
+```
+
+### Marginal contrasts
+::: panel-tabset
+
+#### Effect of Relevance
+
+```{r arousal 1 est cont relevance}
+#| message: false
+#| warning: false
+
+estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
+```
+
+#### Effect of Condition 
+
+```{r arousal 1 est cont condition }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m, contrast = "Condition", by="Gender", backend = "emmeans") 
+```
+
+#### Effect of Condition depending on congruency
+
+```{r arousal 2 est cont}
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
+```
+
+```{r arousal 2 model plot}
+#| message: false
+#| warning: false
+
+pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+
+pd <- data.frame(label=c("pd = 100%", "pd = 99.71%"),
+                 Gender = c("Male", "Male"),
+                 ConditionBelief = c("Congruent", "Incongruent"),
+                 y =c(0.60, 0.55))
+
+
+pred_a2 |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female"),
+         ConditionBelief = fct_recode(ConditionBelief, "Congruent" = "True", "Incongruent" = "False"),
+         ConditionBelief = fct_relevel(ConditionBelief, "Congruent", "Incongruent")) |> 
+  ggplot(aes(x=ConditionBelief, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.6)+
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
+            aes(xmin = 0.8, xmax = 1.2,ymin=0.35, ymax=0.55), color="#8BC34A", alpha=0, linewidth = 1.2) +
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
+            aes(xmin = 1.8, xmax = 2.2,ymin=0.32, ymax=0.52), color="#8BC34A", alpha=0, linewidth = 1.2) +
+   geom_text(data=pd, aes(label = label, y=y), hjust=0.5, size = 3.5) +
+  
+  facet_grid(~Gender, switch = "y") +
+  scale_y_continuous(limits=c(0, 1)) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 10, face = "bold"),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 12, face = "bold"),
+        strip.text.y = element_text(size = 10, face = "bold"),
+        axis.text.x = element_text(hjust=1,face = "bold", vjust=1.1, size=10, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:")
+
+
+```
+:::
+
+### Inter-individual Variability
+
+::: panel-tabset
+#### Random effects
+
+```{r arousal 2 d_vour}
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
+```
+
+#### Participant effects
+
+```{r arousal 2 ppt effects}
+colors2 <- c("Intercept" = "#9C27B0", "AI-Generated" = "#FF9800")
+
+
+## plot for participant effects
+p_dvour <- function(m, colors){
+  m |>
+    mutate(
+      Group = fct_relevel(Group, "Participant", "Item"),
+      Parameter = fct_relevel(Parameter, "Intercept", "ConditionAIGenerated"),
+    Parameter = fct_recode(
+      Parameter,
+      `AI-Generated` = "ConditionAIGenerated"))|>
+    ggplot(aes(x = Median , y = Level)) +
+    geom_pointrange(
+      aes(xmin = CI_low, xmax = CI_high, color = Parameter),
+      linewidth = 0.3, size = 0.05
+    ) +
+    facet_grid(Group ~ Parameter, scales = "free", switch = "both") +
+    ggside::ggside(scales = "free") +
+    ggside::geom_xsidedensity(aes(fill = Parameter), color = NA) +
+    # scale_x_continuous(limits = c(-2,2), breaks = seq(-2, 2, 1)) +
+    scale_color_manual(values = colors) +
+    scale_fill_manual(values = colors) +
+    theme_minimal() +
+    theme(
+      axis.text.y = element_blank(),
+      axis.ticks.y = element_blank(),
+      strip.placement.x = "outside",
+      strip.background = element_rect(fill = NA, color = NA),
+      axis.title = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.grid.major.y = element_blank(),
+      axis.text.x = element_text(hjust = 1, size =12 ),
+      legend.position = "none")
+}
+```
+
+```{r}
+p_dvour(m, colors2)
+```
+
+#### Sample analysis
+
+```{r arousal 2 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r arousal 2 sample analysis}
+
+results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
+```
+
+```{r arousal 2 country analysis}
+results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
+```
+:::
+
+### Correlations (moderators)
+
+```{r df 2 corr}
+correlations2 <- df2 |>
+  select(Participant, "BAIT_Attitudes", "BAIT_Expectations", "BAIT_Expertise", "BAIT_Discrimination", "BAIT_Bias", "BAIT_Total", "PornFrequency", "SexualActivity_num", "COPS_Frequency", "AllRealConfidence", "AllFakeConfidence", "Enjoyment", -"Bait_Duration") |>
+  rename(SexualActivity = SexualActivity_num,
+         SexualActivity_num)
+
+corr_mod <- function(m, correlations){
+  features1 <- reshape_grouplevel(m, indices = "Median", group = "Participant") |> 
+  full_join(correlations, by = "Participant")  |>
+  rename(`AI-Generated` = ConditionAIGenerated)
+  
+
+  cordata <- correlation::correlation(select(features1, -Participant), p_adjust = "none", redundant = TRUE) |> 
+    correlation::cor_sort() |>
+    correlation::cor_lower() |>
+    as.data.frame() |>
+      mutate(Parameter2 = fct_rev(Parameter2),
+         Parameter1 = fct_relabel(Parameter1, \(x) gsub("_Intercept", "", x)),
+         Parameter2 = fct_relabel(Parameter2, \(x) gsub("_Intercept", "", x)),
+         Parameter1 = fct_relabel(Parameter1, \(x) gsub("_", " - ", x)),
+         Parameter2 = fct_relabel(Parameter2, \(x) gsub("_", " - ", x)))
+  
+  p2_cor <- cordata |> 
+    ggplot(aes(x=Parameter2, y = Parameter1)) +
+    geom_tile(aes(fill = r)) +
+    geom_text(aes(label = insight::format_value(r, 2, zap_small = TRUE, lead_zero = FALSE)), color = ifelse(cordata$p < 0.01, "black", "grey")) +
+    scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      legend.position = "none"
+    )
+  p2_cor
+  
+}
+
+```
+
+```{r arousal 2 corr}
+
+corr_mod(m, correlations2)
+```
+
+### Marginal contrasts with Type
+
+```{r arousal 2 model type load}
+#| cache: false
+ 
+m_type <- readRDS("models/ZOIB/ModelArousal_2_ZOIB_type.rds")
+
+```
+
+```{r arousal 2 type model analysis}
+params_table(m_type)
+summary(m_type, robust = TRUE)
+# performance::performance(m)
+```
+
+::: panel-tabset
+#### Effect of Relevance 
+
+```{r arousal 1 est cont relevance with type }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
+```
+
+#### Effect of Condition 
+
+```{r arousal 1 est cont condition with Type }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
+```
+
+#### Effect of Condition depending on congruency
+
+```{r arousal 2 type est cont}
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
+```
+
+:::
+
+## Enticement
+
+```{r enticement 2 by condition belief plot }
+df2 |> 
+  ggplot(aes(x = Gender, y = Enticement, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
+  stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
+  facet_grid( ~ Condition) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Enticement by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
+
+```
+
+### Marginal Contrasts 
+::: panel-tabset
+
+```{r enticement 2 model load}
+#| cache: false
+ 
+m <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB.rds")
+```
+
+```{r enticement 2 model analysis}
+params_table(m)
+summary(m, robust = TRUE)
+# performance::performance(m)
+```
+
+#### Effect of Relevance
+
+```{r enticement 1 est cont relevance}
+#| message: false
+#| warning: false
+
+estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
+```
+
+#### Effect of Condition 
+
+```{r enticement 1 est cont condition }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m, contrast = "Condition", by="Gender", backend = "emmeans") 
+```
+
+
+#### Effect of Condition Depending on congruency 
+
+```{r enticement 2 est cont}
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
+```
+
+```{r enticement 2 model plot}
+#| message: false
+#| warning: false
+
+pred_e2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+pd <- data.frame(label=c("pd = 100%", "pd = 99.2%", "pd = 99.8%"),
+                 Gender = c("Male", "Female", "Male"),
+                 ConditionBelief = c("Congruent", "Congruent", "Incongruent"),
+                 y =c(0.65, 0.65, 0.6))
+
+
+pred_e2 |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female"),
+         ConditionBelief = fct_recode(ConditionBelief, "Congruent" = "True", "Incongruent" = "False"),
+         ConditionBelief = fct_relevel(ConditionBelief, "Congruent", "Incongruent")) |> 
+  ggplot(aes(x=ConditionBelief, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2)+
+  geom_text(data=pd, aes(y=y, label = label), hjust=0.5, size = 3.5) +
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
+            aes(xmin = 0.8, xmax = 1.2,ymin=0.4, ymax=0.6), color="#8BC34A", alpha=0, linewidth = 1.2) +
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Congruent"),
+            aes(xmin = 0.8, xmax = 1.2,ymin=0.4, ymax=0.6), color="#8BC34A", alpha=0, linewidth = 1.2) +
+  facet_grid(~Gender, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10, face= "bold"),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(hjust=1, vjust=1.1, size=9, color="black", face = "bold"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:")
+```
+
+:::
+
+### Inter-individual Variability
+
+::: panel-tabset
+#### Random effects
+
+```{r enticement 2  d_vour}
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
+```
+
+#### Participant effects
+
+```{r enticement 2 ppt effects}
+p_dvour(m, colors2)
+```
+
+#### Sample analysis
+
+```{r enticement 2 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r enticement 2  sample analysis}
+
+results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
+```
+
+```{r enticement 2 country analysis}
+results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
+```
+:::
+
+### Correlations (moderators)
+
+<!-- -   enticement lower nait toal correlations from 0.25 to .14 same with expertise -->
+
+```{r enticement 2 corr}
+corr_mod(m, correlations2)
+```
+
+### Marginal contrasts with Type
+```{r enticement 2 model type load}
+#| cache: false
+ 
+m_type <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB_type.rds")
+```
+
+```{r enticement 2 type model analysis}
+params_table(m_type)
+summary(m_type, robust = TRUE)
+# performance::performance(m)
+``` 
+
+::: panel-tabset
+#### Effect of Relevance 
+
+```{r enticement 1 est cont relevance with type }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
+```
+
+#### Effect of Condition 
+
+```{r enticement 1 est cont condition with Type }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
+```
+
+#### Effect of Condition depending on congruency
+
+```{r enticement  2 type est cont}
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
+```
+
+:::
+
+## Valence
+
+```{r valence 2 by condition belief plot }
+df2 |> 
+  ggplot(aes(x = Gender, y = Valence, fill = ConditionBelief)) +
+  geom_violin(position = position_dodge(width = 1), alpha = 0.7, trim = FALSE) +
+  stat_pointinterval(position = position_dodge(width = 1),point_size = 1.5) +
+  facet_grid( ~ Condition) +
+  scale_fill_manual(values = c("True" = "#E66100", "False" = "#5D3A9B")) +
+  theme_minimal(base_size = 14) +
+  labs(title = "Valence by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
+```
+
+### Marginal Contrasts 
+::: panel-tabset
+
+```{r valence 2 model load}
+#| cache: false
+ 
+m <- readRDS("models/ZOIB/ModelValence_2_ZOIB.rds")
+```
+
+```{r valence 2 model analysis}
+params_table(m)
+summary(m, robust = TRUE)
+# performance::performance(m)
+```
+
+#### Effect of Relevance
+
+```{r valence 1 est cont relevance}
+#| message: false
+#| warning: false
+
+estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
+```
+
+#### Effect of Condition 
+
+```{r valence 1 est cont condition }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m, contrast = "Condition", by="Gender", backend = "emmeans") 
+```
+
+#### Effect of Condition Depending on congruency 
+
+```{r valence 2 est cont}
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
+```
+
+```{r valence 2 model plot}
+#| message: false
+#| warning: false
+
+pred_v2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionBelief"), backend = "emmeans") |>
+  as.data.frame()
+
+pd <- data.frame(label=c("pd = 100%", "pd = 100%", "pd = 99.96%"),
+                 Gender = c("Male", "Female", "Male"),
+                 ConditionBelief = c("Congruent", "Congruent", "Incongruent"),
+                 y =c(0.65, 0.65, 0.62))
+
+
+pred_v2 |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female"),
+         ConditionBelief = fct_recode(ConditionBelief, "Congruent" = "True", "Incongruent" = "False"),
+         ConditionBelief = fct_relevel(ConditionBelief, "Congruent", "Incongruent")) |> 
+  ggplot(aes(x=ConditionBelief, y=Probability)) +
+    geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Condition, color=Condition), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2) +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Condition), position = position_dodge(width=0.2), size=0.2)+
+  geom_text(data=pd, aes(y=y, label = label), hjust=0.5, size = 3.5) +
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
+            aes(xmin = 0.8, xmax = 1.2,ymin=0.43, ymax=0.62), color="#8BC34A", alpha=0, linewidth = 1.2) +
+  geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Female"), ConditionBelief="Congruent"),
+            aes(xmin = 0.8, xmax = 1.2,ymin=0.43, ymax=0.62), color="#8BC34A", alpha=0, linewidth = 1.2) +
+  facet_grid(~Gender, switch = "y") +
+  scale_y_continuous(limits=c(0, 1), labels=scales::percent) +
+  scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10, face= "bold"),
+        strip.text.y = element_text(size = 10),
+        axis.text.x = element_text(hjust=1, vjust=1.1, size=9, color="black", face = "bold"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Images presented as:")
+```
+:::
+
+### Inter-individual Variability
+
+::: panel-tabset
+#### Random effects
+
+```{r valence 2 d_vour}
+m <- modelbased::estimate_grouplevel(m)
+table_dvour(m)
+```
+
+#### Participant effects
+
+```{r valence 2 ppt effects}
+p_dvour(m, colors2)
+```
+
+#### Sample analysis
+
+```{r valence 2 sample df}
+
+m_sample <- m |>
+  select(Group, Level, Parameter, Median) |>
+  filter(Group == "Participant" & Parameter %in% c("Intercept","ConditionAIGenerated")) |>
+  pivot_wider(names_from = "Parameter", values_from = "Median") |>
+  select(!Group) |>
+  rename("Participant" = "Level") 
+  
+
+df <- dfsub1 |>
+  left_join(m_sample, by = "Participant") |>
+  rename("Gender" = "Sex")
+```
+
+```{r valence 2 sample analysis}
+
+results_table(lm(ConditionAIGenerated ~ Intercept + Sample, data = df))
+```
+
+```{r valence 2 country analysis}
+results_table(lm(ConditionAIGenerated ~ Intercept + Country, data = df))
+```
+:::
+
+### Correlations (moderators)
+
+```{r valence 2 corr}
+corr_mod(m, correlations2)
+```
+
+### Marginal contrasts with Type
+```{r valence  2 model type load}
+#| cache: false
+ 
+m_type <- readRDS("models/ZOIB/ModelValence_2_ZOIB_type.rds")
+```
+
+```{r valence 2 type model analysis}
+params_table(m_type)
+summary(m_type, robust = TRUE)
+# performance::performance(m)
+```
+
+::: panel-tabset
+#### Effect of Relevance 
+
+```{r enticement 1 est cont relevance with type }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
+```
+
+#### Effect of Condition 
+
+```{r enticement 1 est cont condition with Type }
+#| message: false
+#| warning: false
+
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
+```
+
+#### Effect of Condition depending on congruency
+
+```{r enticement  2 type est cont}
+estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
+```
+
+:::
