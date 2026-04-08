@@ -1,7 +1,16 @@
 ---
 title: "FictionEro- Study 2"
-format: html
-editor: visual
+editor: source
+editor_options: 
+  chunk_output_type: console
+format:
+  html:
+    toc: true
+    code-fold: true
+    self-contained: false
+execute: 
+  cache: false
+  cache-lazy: false
 ---
 
 # Data Preparation
@@ -65,7 +74,6 @@ table_dvour <- function(g) {
 }
 
 ```
-
 
 ```{r data study2}
 #| message: false
@@ -223,7 +231,7 @@ Cops_o <- psych::omega(COPS, nfactors = 1)
 McDonald's Omega (⍵) total was also poor for the COPS (⍵ =`r round(Cops_o$omega.tot,2)`) in study 2.
 :::
 
-## Manipulation Checks
+# Manipulation Checks
 
 ```{r ratebelief 2}
 
@@ -231,7 +239,6 @@ rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
 ```
 
 In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%.
-
 
 ```{r}
 df2_log <- df2 |>
@@ -249,8 +256,7 @@ results_table(m_log)
 There is no clear evidence that Gender, Type, or their interaction predicts ConditionBelief.
 
 ::: panel-tabset
-
-### Arousal
+## Arousal
 
 ```{r dist arousal 2}
 #| fig-width: 12
@@ -268,7 +274,6 @@ arousal_dist2 <- df2 |>
 arousal_dist2
 ```
 
-
 ```{r arousal 2 t_test}
 #| message: false
 
@@ -283,6 +288,14 @@ dfsub2_arousal <- dfsub2 |>
       mutate(diff_arousal = `mean_Arousal_AIGenerated` - mean_Arousal_Photograph)) |>
    mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
     as.data.frame()
+
+df2 |>
+  group_by(Feedback_AILessArousing, Condition ) |>
+  summarise(mean_Arousal = mean(Arousal, na.rm = TRUE), 
+            sd_Arousal = sd(Arousal, na.rm = TRUE),.groups = "drop") |>
+  gt() |>
+  fmt_number(decimals = 3, use_seps = FALSE)
+
 
 ttest2 <- BayesFactor::ttestBF(dfsub2_arousal$diff_arousal, dfsub2_arousal$Feedback_AILessArousing)
 model_parameters(ttest2)
@@ -310,7 +323,7 @@ diff_plot2 <- dfsub2_arousal |>
 diff_plot2
 ```
 
-### Enticement
+## Enticement
 
 ```{r dist enticement 2}
 #| fig-width: 12
@@ -343,6 +356,14 @@ dfsub2_enticement <- dfsub2 |>
    mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
     as.data.frame()
 
+df2 |>
+  group_by(Feedback_AILessArousing, Condition ) |>
+  summarise(mean_Enticement = mean(Enticement, na.rm = TRUE), 
+            sd_Enticement = sd(Enticement, na.rm = TRUE),.groups = "drop") |>
+  gt() |>
+  fmt_number(decimals = 3,
+    use_seps = FALSE)
+
 
 ttest2 <- BayesFactor::ttestBF(dfsub2_enticement$diff_enticement, dfsub2_enticement$Feedback_AILessArousing)
 model_parameters(ttest2)
@@ -369,7 +390,7 @@ diff_plot2 <- dfsub2_enticement |>
 diff_plot2
 ```
 
-### Valence
+## Valence
 
 ```{r dist valence 2}
 #| fig-width: 12
@@ -402,6 +423,13 @@ dfsub2_valence <- dfsub2 |>
    mutate(Feedback_AILessArousing = as.factor(Feedback_AILessArousing)) |>
     as.data.frame()
 
+df2 |>
+  group_by(Feedback_AILessArousing, Condition ) |>
+  summarise(mean_Valence = mean(Valence, na.rm = TRUE), 
+            sd_valence = sd(Valence, na.rm = TRUE),.groups = "drop") |>
+  gt() |>
+  fmt_number(decimals = 3, use_seps = FALSE)
+
 ttest2 <- BayesFactor::ttestBF(dfsub2_valence$diff_valence, dfsub2_valence$Feedback_AILessArousing)
 model_parameters(ttest2)
 ```
@@ -426,14 +454,11 @@ diff_plot2 <- dfsub2_valence |>
 
 diff_plot2
 ```
-
-
 :::
 
-# Models 
+# Models
 ::: panel-tabset
-
-## Arousal 
+## Arousal
 
 ```{r arousal 2 by condition belief plot }
 df2 |> 
@@ -459,8 +484,8 @@ summary(m, robust = TRUE)
 ```
 
 ### Marginal contrasts
-::: panel-tabset
 
+::: panel-tabset
 #### Effect of Relevance
 
 ```{r arousal 1 est cont relevance}
@@ -470,7 +495,7 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
 ```
 
-#### Effect of Condition 
+#### Effect of Condition
 
 ```{r arousal 1 est cont condition }
 #| message: false
@@ -677,7 +702,7 @@ summary(m_type, robust = TRUE)
 ```
 
 ::: panel-tabset
-#### Effect of Relevance 
+#### Effect of Relevance
 
 ```{r arousal 1 est cont relevance with type }
 #| message: false
@@ -686,7 +711,7 @@ summary(m_type, robust = TRUE)
 estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
 ```
 
-#### Effect of Condition 
+#### Effect of Condition
 
 ```{r arousal 1 est cont condition with Type }
 #| message: false
@@ -700,7 +725,6 @@ estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backe
 ```{r arousal 2 type est cont}
 estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
-
 :::
 
 ## Enticement
@@ -717,8 +741,6 @@ df2 |>
 
 ```
 
-### Marginal Contrasts 
-::: panel-tabset
 
 ```{r enticement 2 model load}
 #| cache: false
@@ -732,6 +754,9 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+### Marginal Contrasts
+::: panel-tabset
+
 #### Effect of Relevance
 
 ```{r enticement 1 est cont relevance}
@@ -741,7 +766,7 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
 ```
 
-#### Effect of Condition 
+#### Effect of Condition
 
 ```{r enticement 1 est cont condition }
 #| message: false
@@ -750,8 +775,7 @@ estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans")
 estimate_contrasts(m, contrast = "Condition", by="Gender", backend = "emmeans") 
 ```
 
-
-#### Effect of Condition Depending on congruency 
+#### Effect of Condition Depending on congruency
 
 ```{r enticement 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
@@ -799,7 +823,6 @@ pred_e2 |>
         legend.position = "bottom") +
   labs(color="Images presented as:")
 ```
-
 :::
 
 ### Inter-individual Variability
@@ -854,6 +877,7 @@ corr_mod(m, correlations2)
 ```
 
 ### Marginal contrasts with Type
+
 ```{r enticement 2 model type load}
 #| cache: false
  
@@ -864,10 +888,10 @@ m_type <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB_type.rds")
 params_table(m_type)
 summary(m_type, robust = TRUE)
 # performance::performance(m)
-``` 
+```
 
 ::: panel-tabset
-#### Effect of Relevance 
+#### Effect of Relevance
 
 ```{r enticement 1 est cont relevance with type }
 #| message: false
@@ -876,7 +900,7 @@ summary(m_type, robust = TRUE)
 estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
 ```
 
-#### Effect of Condition 
+#### Effect of Condition
 
 ```{r enticement 1 est cont condition with Type }
 #| message: false
@@ -890,7 +914,6 @@ estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backe
 ```{r enticement  2 type est cont}
 estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
-
 :::
 
 ## Valence
@@ -906,9 +929,6 @@ df2 |>
   labs(title = "Valence by Gender × Belief × Condition", subtitle ="Study 2", x = "Gender", y = "Arousal",fill = "Condition Belief")
 ```
 
-### Marginal Contrasts 
-::: panel-tabset
-
 ```{r valence 2 model load}
 #| cache: false
  
@@ -921,6 +941,9 @@ summary(m, robust = TRUE)
 # performance::performance(m)
 ```
 
+### Marginal Contrasts
+
+::: panel-tabset
 #### Effect of Relevance
 
 ```{r valence 1 est cont relevance}
@@ -930,7 +953,7 @@ summary(m, robust = TRUE)
 estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
 ```
 
-#### Effect of Condition 
+#### Effect of Condition
 
 ```{r valence 1 est cont condition }
 #| message: false
@@ -939,7 +962,7 @@ estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans")
 estimate_contrasts(m, contrast = "Condition", by="Gender", backend = "emmeans") 
 ```
 
-#### Effect of Condition Depending on congruency 
+#### Effect of Condition Depending on congruency
 
 ```{r valence 2 est cont}
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "ConditionBelief"), backend = "emmeans")
@@ -1039,6 +1062,7 @@ corr_mod(m, correlations2)
 ```
 
 ### Marginal contrasts with Type
+
 ```{r valence  2 model type load}
 #| cache: false
  
@@ -1052,7 +1076,7 @@ summary(m_type, robust = TRUE)
 ```
 
 ::: panel-tabset
-#### Effect of Relevance 
+#### Effect of Relevance
 
 ```{r enticement 1 est cont relevance with type }
 #| message: false
@@ -1061,7 +1085,7 @@ summary(m_type, robust = TRUE)
 estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
 ```
 
-#### Effect of Condition 
+#### Effect of Condition
 
 ```{r enticement 1 est cont condition with Type }
 #| message: false
@@ -1075,5 +1099,5 @@ estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backe
 ```{r enticement  2 type est cont}
 estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
-
 :::
+::::::::::::
