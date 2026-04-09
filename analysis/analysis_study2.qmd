@@ -82,7 +82,7 @@ table_dvour <- function(g) {
 dfsub2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data_participants.csv")
 df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/study2/data/data.csv") |> 
   right_join(
-    select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text),
+    select(dfsub2, Participant, Mobile, starts_with(c("Feedback_","BAIT")), COPS_Frequency, SexualActivity,- Feedback_Text, SexualActivity),
     by = "Participant") |> 
   datawizard::rescale(select= c("Arousal", "Enticing", "Valence"), range=c(0, 6), to=c(0,1)) |>
   datawizard::rescale(select= c("Realness"), range=c(-3,3), to=c(0,1)) |>
@@ -210,13 +210,12 @@ dfsub2 <- dfsub2 |>
     COPS_Frequency == " 5. I viewed pornography daily" ~5,
     COPS_Frequency == "6. I viewed pornography multiple times a day" ~ 6),
     SexualActivity = case_when(
-      SexualActivity == "1. Less than 24h ago" ~ 1 ,
-      SexualActivity == "2. Within the last 3 days" ~ 2,
-      SexualActivity == "3. Within the last week" ~ 3,
-      SexualActivity == "4. Within the last month" ~ 4,
-      SexualActivity == "5. Within the last year" ~ 5,
-      SexualActivity == "6. More than a year ago" ~ 5,
-      .default = NA)
+      SexualActivity == "less than 24h ago" ~ 1 ,
+      SexualActivity == "within the last 3 days" ~ 2,
+      SexualActivity == "within the last week" ~ 3,
+      SexualActivity == "within the last month" ~ 4,
+      SexualActivity == "within the last year" ~ 5,
+      SexualActivity == "more than a year ago" ~ 5)
     )
 
 
