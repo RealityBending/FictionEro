@@ -100,6 +100,7 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
            Category %in% c("Female", "Male") ~ "Single",
            .default = "Couple"),
          Type = as.factor(Type),
+        ConditionBelief = as.factor(ConditionBelief),
         Type = fct_relevel(Type, "Single", "Couple"),
          PornFrequency = as.numeric(as.factor(COPS_Frequency)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
@@ -482,14 +483,6 @@ summary(m, robust = TRUE)
 ### Marginal contrasts
 
 ::: panel-tabset
-#### Effect of Relevance
-
-```{r arousal 1 est cont relevance}
-#| message: false
-#| warning: false
-
-estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
-```
 
 #### Effect of Condition
 
@@ -514,10 +507,10 @@ pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionB
   as.data.frame()
 
 
-pd <- data.frame(label=c("pd = 100%", "pd = 99.71%"),
-                 Gender = c("Male", "Male"),
-                 ConditionBelief = c("Congruent", "Incongruent"),
-                 y =c(0.60, 0.55))
+# pd <- data.frame(label=c("pd = 100%", "pd = 99.71%"),
+#                  Gender = c("Male", "Male"),
+#                  ConditionBelief = c("Congruent", "Incongruent"),
+#                  y =c(0.60, 0.55))
 
 
 pred_a2 |>
@@ -531,11 +524,11 @@ pred_a2 |>
   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
             aes(xmin = 0.8, xmax = 1.2,ymin=0.35, ymax=0.55), color="#8BC34A", alpha=0, linewidth = 1.2) +
   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
-            aes(xmin = 1.8, xmax = 2.2,ymin=0.32, ymax=0.52), color="#8BC34A", alpha=0, linewidth = 1.2) +
-   geom_text(data=pd, aes(label = label, y=y), hjust=0.5, size = 3.5) +
+            aes(xmin = 1.8, xmax = 2.2,ymin=0.35, ymax=0.55), color="#8BC34A", alpha=0, linewidth = 1.2) +
+   # geom_text(data=pd, aes(label = label, y=y), hjust=0.5, size = 3.5) +
   
   facet_grid(~Gender, switch = "y") +
-  scale_y_continuous(limits=c(0, 1)) +
+  scale_y_continuous(limits=c(0, 0.7)) +
   scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
   theme_minimal() +
     theme(axis.title.y = element_blank(),
@@ -673,13 +666,13 @@ summary(m_type, robust = TRUE)
 ```
 
 ::: panel-tabset
-#### Effect of Relevance
+#### Effect of Type
 
-```{r arousal 1 est cont relevance with type }
+```{r arousal 1 est of type }
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
+estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans") 
 ```
 
 #### Effect of Condition
@@ -690,6 +683,7 @@ estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backe
 
 estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
 ```
+
 
 #### Effect of Condition depending on congruency
 
@@ -728,14 +722,6 @@ summary(m, robust = TRUE)
 ### Marginal Contrasts
 ::: panel-tabset
 
-#### Effect of Relevance
-
-```{r enticement 1 est cont relevance}
-#| message: false
-#| warning: false
-
-estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
-```
 
 #### Effect of Condition
 
@@ -837,13 +823,13 @@ summary(m_type, robust = TRUE)
 ```
 
 ::: panel-tabset
-#### Effect of Relevance
+#### Effect of Type
 
-```{r enticement 1 est cont Releance with type }
+```{r arousal 1 est of type }
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender","Type"), backend = "emmeans") 
+estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans") 
 ```
 
 #### Effect of Condition
@@ -890,14 +876,6 @@ summary(m, robust = TRUE)
 ### Marginal Contrasts
 
 ::: panel-tabset
-#### Effect of Relevance
-
-```{r valence 1 est cont relevance}
-#| message: false
-#| warning: false
-
-estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans") 
-```
 
 #### Effect of Condition
 
@@ -997,13 +975,13 @@ summary(m_type, robust = TRUE)
 ```
 
 ::: panel-tabset
-#### Effect of Relevance
+#### Effect of Type
 
-```{r valence 1 est cont relevance with type }
+```{r arousal 1 est of type }
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Relevance", by=c("Gender", "Type"), backend = "emmeans") 
+estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans") 
 ```
 
 #### Effect of Condition
