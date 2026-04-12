@@ -842,7 +842,7 @@ estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans")
 #| message: false
 #| warning: false
 
-estimate_contrasts(m, contrast = "Condition", by=by=c("Gender", "Relevance"), backend = "emmeans") 
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance"), backend = "emmeans") 
 ```
 
 
@@ -1037,7 +1037,7 @@ estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans")
 #| message: false
 #| warning: false
 
-estimate_contrasts(m, contrast = "Condition", by=by=c("Gender", "Relevance"), backend = "emmeans") 
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance"), backend = "emmeans") 
 ```
 
 #### Effect of Condition depending on congruency
