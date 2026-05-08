@@ -1,0 +1,24 @@
+// ARTEMIS
+
+1. VPN -> password plus OTP code (phone app) 
+	
+2. OOD -> files - home directory - paste directory links into change directory
+
+/mnt/lustre/users/psych/asf25/fictionero
+/mnt/lustre/scratch/psych/asf25/fictionero
+
+3. Add slurm and make.models into the lustre folder (or wherever the directory is in on the scripts)
+	1. output - scratch
+	2. scripts - lustre
+
+
+4. Job composer
+	- new jobs - specified path (just with the scripts)
+	- script name (make.slurm.. combine.slurm etc)
+	- submit
+
+5. Go to scratch directory and look at output (primarly the error files)
+	- errors - package not found - clusters - interactive shell 
+	- password - load r - R - install.packages
+
+6. Combine.slurm - should preduce all combined models on lustre models folder 

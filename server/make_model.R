@@ -1,0 +1,195 @@
+# Fit models
+
+library(brms)
+# library(glmmTMB)
+library(cmdstanr)
+library(tidyverse)
+
+task_id <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID", unset = "1"))
+chains_per_task <- as.numeric(Sys.getenv("SLURM_CPUS_PER_TASK", unset = "2"))
+start_chain <- (task_id - 1) * chains_per_task + 1
+iter <- 2000
+warmup <- iter / 2
+seed = 1234 + start_chain
+
+
+path <- "/mnt/lustre/users/psych/asf25/fictionero/"
+models_dir <- file.path(path, "models")
+dir.create(models_dir, recursive = TRUE, showWarnings = FALSE)
+
+# ----------------------------
+# Study 1
+# ----------------------------
+
+# df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df1.csv") |>
+#   mutate(Condition = fct_recode(Condition, "Photograph" = "Photograph", "AIGenerated" = "AI-Generated"),
+#          Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+#          Relevance = fct_recode(Relevance,  "Relevant" = "Relevant",  "Irrelevant"= "Irrelevant", "NonErotic" = "Non-erotic"),
+#          Relevance =  fct_relevel(Relevance, "Relevant", "Irrelevant", "NonErotic"),
+#          Gender =  fct_relevel(Gender, "Male", "Female"),
+#          ConditionBelief = case_when(
+#            Condition == "Photograph" & Realness > 0.5 ~ "True",
+#            Condition == "AIGenerated" & Realness < 0.5 ~ "True",
+#            .default = "False"
+#          ),
+#          ConditionBelief = as.(ConditionBelief)
+#          # ConditionBelief = fct_relevel(ConditionBelief, "True", "False")
+#          )
+# 
+priors <- set_prior("normal(0, 0.5)", class = "b")
+
+# ----------------------------
+# MODELS - Study 1
+# ----------------------------
+
+# Arousal
+# f_a1 <- brms::brmsformula(Arousal ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
+# 
+# brms::get_prior(f_a1, data=df1)
+# 
+# validate_prior(priors, f_a1, data = df1)
+# 
+# m_a1 <-  brms::brm(
+#   formula = f_a1,
+#   data = df1,
+#   family = zero_one_inflated_beta(),
+#   prior = priors,
+#   chains = chains_per_task,
+#   cores = chains_per_task,
+#   iter = iter,
+#   warmup = warmup,
+#   seed = 1234 + start_chain,
+#   backend = "cmdstanr",
+#   file = file.path(models_dir, paste0("ModelArousal_1_task_", task_id))
+# )
+
+# Enticement 
+# f_e1 <- brms::brmsformula(Enticement ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
+
+# brms::get_prior(f_e1, data=df1)
+
+# validate_prior(priors, f_e1, data = df1)
+
+# m_e1 <-  brms::brm(
+#   formula = f_e1,
+#   data = df1,
+#   family = zero_one_inflated_beta(),
+#   prior = priors,
+#   chains = chains_per_task,
+#   cores = chains_per_task,
+#   iter = iter,
+#   warmup = warmup,
+#   seed = 1234 + start_chain,
+#   backend = "cmdstanr",
+#   file = file.path(models_dir, paste0("ModelEnticement_1_task_", task_id))
+# )
+
+# Valence
+# f_v1 <- brms::brmsformula(Valence ~ Gender / Relevance / Condition * ConditionBelief + (Relevance/Condition  | Participant) + (1|Item))
+
+# brms::get_prior(f_v1, data=df1)
+
+# validate_prior(priors, f_v1, data = df1)
+
+# m_v1 <-  brms::brm(
+#   formula = f_v1,
+#   data = df1,
+#   family = zero_one_inflated_beta(),
+#   prior = priors,
+#   chains = chains_per_task,
+#   cores = chains_per_task,
+#   iter = iter,
+#   warmup = warmup,
+#   seed = 1234 + start_chain,
+#   backend = "cmdstanr",
+#   file = file.path(models_dir, paste0("ModelValence_1_task_", task_id))
+# )
+
+
+# Study 2 ----------------------------------------------------------------------
+
+df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/refs/heads/main/analysis/data/df2.csv") |>
+  filter(SexualOrientation == "Heterosexual") |>
+  mutate(Condition = fct_relevel(Condition, "Photograph", "AIGenerated"),
+         Gender =  fct_relevel(Gender, "Male", "Female"),
+         ConditionBelief = case_when(
+           Condition == "Photograph" & Realness > 0.5 ~ 0,
+           Condition == "AIGenerated" & Realness < 0.5 ~ 0 ,
+           .default = 1),
+         Type = case_when(
+           Category %in% c("Female", "Male") ~ "Single",
+           .default = "Couple"
+         ),
+         ConditionBelief = as.numeric(ConditionBelief),
+         Type = as.factor(Type)) |>
+  rename(Item = Stimulus,
+         Enticement = Enticing) 
+         # ConditionBelief = fct_relevel(ConditionBelief, "True", "False") 
+ 
+# ----------------------------
+# MODELS - Study 2
+# ----------------------------
+
+ 
+# Arousal
+f_a2 <- brms::brmsformula(Arousal ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
+
+brms::get_prior(f_a2, data=df2)
+
+validate_prior(priors, f_a2, data = df2)
+
+m_a2 <-  brms::brm(
+  formula = f_a2,
+  data = df2,
+  family = zero_one_inflated_beta(),
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
+  prior = priors,
+  warmup = warmup,
+  seed = 1234 + start_chain,
+  backend = "cmdstanr",
+  file = file.path(models_dir, paste0("ModelArousal_2_task_", task_id))
+)
+
+# Enticement
+f_e2 <- brms::brmsformula(Enticement ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
+
+brms::get_prior(f_e2, data=df2)
+
+validate_prior(priors, f_e2, data = df2)
+
+m_e2 <-  brms::brm(
+  formula = f_e2,
+  data = df2,
+  family = zero_one_inflated_beta(),
+  prior = priors,
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
+  warmup = warmup,
+  seed = 1234 + start_chain,
+  backend = "cmdstanr",
+  file = file.path(models_dir, paste0("ModelEnticement_2_task_", task_id))
+)
+
+# Valence
+f_v2 <- brms::brmsformula(Valence ~ Gender / Type / Condition * ConditionBelief + (Condition|Participant) + (1|Item))
+
+brms::get_prior(f_v2, data=df2)
+
+validate_prior(priors, f_v2, data = df2)
+
+m_v2 <-  brms::brm(
+  formula = f_v2,
+  data = df2,
+  family = zero_one_inflated_beta(),
+  prior = priors,
+  chains = chains_per_task,
+  cores = chains_per_task,
+  iter = iter,
+  warmup = warmup,
+  seed = 1234 + start_chain,
+  backend = "cmdstanr",
+  file = file.path(models_dir, paste0("ModelValence_2_task_", task_id))
+)

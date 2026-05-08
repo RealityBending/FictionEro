@@ -238,6 +238,13 @@ rate2 <- table(df2$Feedback_AllReal)["True"] / sum(table(df2$Feedback_AllReal))
 In study 2 (i.e., gave feedback that all images were real images) was `r round(mean(rate2) * 100, 1)`%.
 
 ```{r}
+inc <- table(df2$ConditionBelief)["True"] /sum(table(df2$ConditionBelief))
+```
+
+The number of incongruent trials (i.e., pictures presented as photos/AI-generated in task 1 but believed to be to the other category during phase 2) was `r round(mean(inc) * 100, 1)`%.
+
+
+```{r}
 df2_log <- df2 |>
   mutate(ConditionBelief = case_when(
                Condition == "Photograph" & Realness > 0.5 ~ 0, 
@@ -543,7 +550,6 @@ pred_a2 |>
         legend.position = "bottom") +
   labs(color="Images presented as:")
 
-
 ```
 :::
 
@@ -655,13 +661,13 @@ corr_mod(m, correlations2)
 ```{r arousal 2 model type load}
 #| cache: false
  
-m_type <- readRDS("models/ZOIB/ModelArousal_2_ZOIB_type.rds")
+m_type_a <- readRDS("models/ZOIB/ModelArousal_2_ZOIB_type.rds")
 
 ```
 
 ```{r arousal 2 type model analysis}
-params_table(m_type)
-summary(m_type, robust = TRUE)
+params_table(m_type_a)
+summary(m_type_a, robust = TRUE)
 # performance::performance(m)
 ```
 
@@ -672,7 +678,10 @@ summary(m_type, robust = TRUE)
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans") 
+estimate_contrasts(m_type_a, contrast = "Gender", by=c("Type"), backend = "emmeans") 
+
+estimate_contrasts(m_type_a, contrast = "Type", by="Gender", backend = "emmeans")
+
 ```
 
 #### Effect of Condition
@@ -681,14 +690,14 @@ estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
+estimate_contrasts(m_type_a, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
 ```
 
 
 #### Effect of Condition depending on congruency
 
 ```{r arousal 2 type est cont}
-estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
+estimate_contrasts(m_type_a, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
 :::
 
@@ -813,23 +822,23 @@ corr_mod(m, correlations2)
 ```{r enticement 2 model type load}
 #| cache: false
  
-m_type <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB_type.rds")
+m_type_e <- readRDS("models/ZOIB/ModelEnticement_2_ZOIB_type.rds")
 ```
 
 ```{r enticement 2 type model analysis}
-params_table(m_type)
-summary(m_type, robust = TRUE)
+params_table(m_type_e)
+summary(m_type_e, robust = TRUE)
 # performance::performance(m)
 ```
 
 ::: panel-tabset
 #### Effect of Type
 
-```{r arousal 1 est of type }
+```{r enticement 1 est of type }
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans") 
+estimate_contrasts(m_type_e, contrast = "Gender", by=c("Type"), backend = "emmeans") 
 ```
 
 #### Effect of Condition
@@ -838,13 +847,14 @@ estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
+estimate_contrasts(m_type_e, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
+
 ```
 
 #### Effect of Condition depending on congruency
 
 ```{r enticement  2 type est cont}
-estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
+estimate_contrasts(m_type_e, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
 :::
 
@@ -965,23 +975,24 @@ corr_mod(m, correlations2)
 ```{r valence  2 model type load}
 #| cache: false
  
-m_type <- readRDS("models/ZOIB/ModelValence_2_ZOIB_type.rds")
+m_type_v <- readRDS("models/ZOIB/ModelValence_2_ZOIB_type.rds")
 ```
 
 ```{r valence 2 type model analysis}
-params_table(m_type)
-summary(m_type, robust = TRUE)
+params_table(m_type_v)
+summary(m_type_v, robust = TRUE)
 # performance::performance(m)
 ```
 
 ::: panel-tabset
 #### Effect of Type
 
-```{r arousal 1 est of type }
+```{r valence 1 est of type }
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans") 
+estimate_contrasts(m_type_v, contrast = "Gender", by=c("Type"), backend = "emmeans") 
+
 ```
 
 #### Effect of Condition
@@ -990,13 +1001,111 @@ estimate_contrasts(m_type, contrast = "Gender", by=c("Type"), backend = "emmeans
 #| message: false
 #| warning: false
 
-estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
+estimate_contrasts(m_type_v, contrast = "Condition", by=c("Gender", "Type"), backend = "emmeans") 
 ```
 
 #### Effect of Condition depending on congruency
 
 ```{r valence  2 type est cont}
-estimate_contrasts(m_type, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
+estimate_contrasts(m_type_v, contrast = "Condition", by=c("Gender", "Type", "ConditionBelief"), backend = "emmeans")
 ```
 :::
+
+# Figures
+
+```{r}
+
+pred <- rbind(
+  modelbased::estimate_means(m_type_a, by=c("Gender", "Type"), backend = "emmeans") |>
+  as.data.frame() |> 
+  mutate(Outcome="Arousal"),
+  modelbased::estimate_means(m_type_e, by=c("Gender", "Type"), backend = "emmeans") |>
+  as.data.frame() |> 
+  mutate(Outcome="Enticement"),
+  modelbased::estimate_means(m_type_v, by=c("Gender","Type"), backend = "emmeans") |>
+  as.data.frame() |> 
+  mutate(Outcome="Valence")
+)
+
+
+pred |>
+  mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
+  ggplot(aes(x=Outcome, y=Probability)) +
+  geom_hline(yintercept=0, color="darkgrey") +
+  geom_line(aes(group=Gender, color=Gender), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.4, key_glyph = "path") +
+  geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Gender), position = position_dodge(width=0.2), size=0.6) +
+  # geom_text(data=stars1a, aes(y=y, label=label), hjust=0.5, color="#424242", size=6) +
+  geom_rect(data=data.frame(Outcome = "Arousal", Probability=0.1, Type=as.factor("Single")),
+            aes(xmin=0.8, xmax=1.2, ymin=0.27, ymax=0.65), color="#8BC34A", alpha=0, linewidth = 1.5) +
+  geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")),
+            aes(xmin=1.8, xmax=2.2, ymin=0.3, ymax=0.68), color="#8BC34A", alpha=0, linewidth = 1.5) +
+  geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")),
+            aes(xmin=2.8, xmax=3.2, ymin=0.33, ymax=0.71), color="#8BC34A", alpha=0, linewidth = 1.5) +
+  facet_grid(~Type, switch="y", scales ="free") +
+  scale_y_continuous(limits=c(0, 1)) +
+  scale_color_manual(values=c("Male"="#147AFF", "Female"="#FF9914")) +
+  theme_minimal() +
+    theme(axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 8, face = "bold"),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 10, face = "bold"),
+        strip.text.y = element_text(size = 10, face = "bold"),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom") +
+  labs(color="Gender:")
+
+
+```
+
+
+<!-- ```{r} -->
+
+<!-- pred_t <- rbind( -->
+<!--   modelbased::estimate_means(m_type_a, by=c("Gender", "ConditionBelief", "Type"), backend = "emmeans") |> -->
+<!--   as.data.frame() |>  -->
+<!--   mutate(Outcome="Arousal"), -->
+<!--   modelbased::estimate_means(m_type_e, by=c("Gender","ConditionBelief", "Type"), backend = "emmeans") |> -->
+<!--   as.data.frame() |>  -->
+<!--   mutate(Outcome="Enticement"), -->
+<!--   modelbased::estimate_means(m_type_v, by=c("Gender","ConditionBelief", "Type"), backend = "emmeans") |> -->
+<!--   as.data.frame() |>  -->
+<!--   mutate(Outcome="Valence") -->
+<!-- ) -->
+
+
+<!-- pred_t |> -->
+<!--   mutate(Gender = fct_relevel(Gender, "Male", "Female"), -->
+<!--          ConditionBelief = fct_recode(ConditionBelief, "Congruent" = "True", "Incongruent" = "False")) |> -->
+<!--   ggplot(aes(x=Outcome, y=Probability)) + -->
+<!--   geom_hline(yintercept=0, color="darkgrey") + -->
+<!--   geom_line(aes(group=Gender, color=Gender), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.4, key_glyph = "path") + -->
+<!--   geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Gender), position = position_dodge(width=0.2), size=0.6) + -->
+<!--   # geom_text(data=stars1a, aes(y=y, label=label), hjust=0.5, color="#424242", size=6) + -->
+<!--   geom_rect(data=data.frame(Outcome = "Arousal", Probability=0.1, Type=as.factor("Single")), -->
+<!--             aes(xmin=0.8, xmax=1.2, ymin=0.27, ymax=0.65), color="#8BC34A", alpha=0, linewidth = 0.5) + -->
+<!--   geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")), -->
+<!--             aes(xmin=1.8, xmax=2.2, ymin=0.3, ymax=0.68), color="#8BC34A", alpha=0, linewidth = 0.5) + -->
+<!--   geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")), -->
+<!--             aes(xmin=2.8, xmax=3.2, ymin=0.33, ymax=0.71), color="#8BC34A", alpha=0, linewidth = 0.5) + -->
+<!--   facet_grid(Congruence~Type, switch="y", scales ="free") + -->
+<!--   scale_y_continuous(limits=c(0, 1)) + -->
+<!--   scale_color_manual(values=c("Male"="#147AFF", "Female"="#FF9914")) + -->
+<!--   theme_minimal() + -->
+<!--     theme(axis.title.y = element_blank(), -->
+<!--         axis.title.x = element_blank(), -->
+<!--         axis.text.y = element_text(size = 8, face = "bold"), -->
+<!--         strip.placement = "outside", -->
+<!--         strip.background.x = element_rect(fill=c("lightgrey"), color=NA), -->
+<!--         strip.text.x = element_text(size = 10, face = "bold"), -->
+<!--         strip.text.y = element_text(size = 10, face = "bold"), -->
+<!--         axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"), -->
+<!--         legend.text = element_text(size = 10), -->
+<!--         legend.position = "bottom") + -->
+<!--   labs(color="Gender:") -->
+
+
+<!-- ``` -->
 

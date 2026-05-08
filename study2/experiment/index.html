@@ -103,6 +103,9 @@
         participant_ID = jsPsych.randomization.randomID(10)
 
         // Demographics ===========================================================
+        timeline.push(experiment_feedback)
+
+
         timeline.push(demographics_browser_info)
         timeline.push(demographics_consent)
         timeline.push(demographics_questions)
@@ -121,6 +124,7 @@
         })
 
         // Eye-tracking ==============================================================
+
         timeline.push(eyetracking_consent)
         timeline.push(eyetracking_calibration) // include full-screen
 
