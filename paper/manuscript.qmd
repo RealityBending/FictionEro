@@ -297,8 +297,7 @@ These statements assessed whether they found the experiment fun or boring; wheth
 #| label: "fig-paradigm1"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
 #| out-width: "100%"
-#| fig-cap: "Paradigm 2"
-#| fig-subcap: "Overview of the experimental procedure for Study 1. A) Phase 1: Participants viewed a randomized sequence of erotic and non-erotic images. After each image, they provided ratings on three dimensions: sexual arousal, enticement, and affective valence. B) Phase 2: The same set of images was presented again in a new random order. This time, participants rated each image based on its perceived realism (i.e., how photographic or lifelike it appeared)."
+#| fig-cap: "Overview of the experimental procedure for Study 1. A) Phase 1: Participants viewed a randomized sequence of erotic and non-erotic images. After each image, they provided ratings on three dimensions: sexual arousal, enticement, and affective valence. B) Phase 2: The same set of images was presented again in a new random order. This time, participants rated each image based on its perceived realism (i.e., how photographic or lifelike it appeared)."
 
 
 knitr::include_graphics("images/Paradigm1.png")
@@ -310,7 +309,7 @@ Raw data were automatically stored in a private Open Science Framework (OSF) rep
 
 Participants first provided informed consent before completing a short demographic questionnaire covering gender, age, ethnicity, country of residence, education, and English proficiency.
 Optional questions on birth control use were also included.
-They then proceeded to the experimental tasks.
+They then proceeded to the experimental tasks (see @fig-paradigm1).
 
 In the first phase, participants were given the following instructions:
 
@@ -335,10 +334,13 @@ Additionally, the labels “AI-generated” or “Photograph” were presented t
 Following each image, participants rated their emotional response using three continuous sliders assessing sexual arousal, enticement, and valence. This phase was self-paced, with responses required before continuing.
 After completing the image-rating phase, participants filled out the BAIT scale, followed by the COPS questionnaire.
 
-> In the final phase, participants were presented with the following instructions: >In the next phase, we would like to see if you found our image generation algorithm convincing and error-free. We will briefly present you all the images one last time (the AI-generated ones, as well as the photos), and you will have to rate them on how real (how realistic, photography-like) the image is.
+In the final phase, participants were presented with the following instructions: 
 
-Participants then viewed the same 60 images in a newly randomised order. Each trial began with a 500 ms fixation cross, followed by the image presented for 1,000 ms. 
-As in the previous task, participants provided their ratings of Realism after viewing each image, and these ratings were self-paced.
+> In the next phase, we would like to see if you found our image generation algorithm convincing and error-free. We will briefly present you all the images one last time (the AI-generated ones, as well as the photos), and you will have to rate them on how real (how realistic, photography-like) the image is.
+
+Participants then viewed the same 60 images in a newly randomised order. 
+Each trial began with a 500 ms fixation cross, followed by the image presented for 1,000 ms. 
+As in the previous task, participants provided their ratings of Realism, using a continuous scale anchored at AI-generated (0) and Photograph (1), after viewing each image, and these ratings were self-paced.
 At the end of the experiment, participants completed a feedback form. 
 Finally, participants were debriefed on the true purpose of the study: to examine how image labels (AI-generated vs. real photograph) influence emotional responses. 
 Importantly, they were informed that all images were real photographs, and that the “AI-generated” label was used solely to test the effect of belief on affective reactions. 
@@ -379,6 +381,22 @@ All analyses were conducted in R (version 4.5.2).
 Anonymized data, together with all preprocessing and analysis scripts, will be openly released on [GitHub](https://github.com/RealityBending/FictionEro) to facilitate complete reproducibility.
 
 ## Results
+
+### Distributions
+
+As shown in @fig-arousaldist, the distributions of arousal and enticement ratings are heavily skewed toward the lower end of the scale, with a high frequency of scores at 0 and only a slight increase in counts toward  mid-range of the scale (~0.50 - 0.75). In contrast, valence ratings exhibit a broader distribution, with frequent scores at both extremes as well as in the mid-range of the scale. 
+
+```{r}
+#| warning: false
+#| label: "fig-arousaldist"
+#| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
+#| out-width: "100%"
+#| fig-cap: "Arousal"
+#| fig-subcap: "Overview of the experimental procedure for Study 1. A) Phase 1: Participants viewed a randomized sequence of erotic and non-erotic images. After each image, they provided ratings on three dimensions: sexual arousal, enticement, and affective valence. B) Phase 2: The same set of images was presented again in a new random order. This time, participants rated each image based on its perceived realism (i.e., how photographic or lifelike it appeared)."
+
+
+knitr::include_graphics("images/Paradigm1.png")
+```
 
 # Study 2
 
