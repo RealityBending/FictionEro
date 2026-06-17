@@ -526,25 +526,6 @@ In the BAIT, two items, assessing beliefs that AI might take control of people a
 Additionally, the wording was streamlined by replacing “Artificial Intelligence” with “AI” throughout the scale.
 In the COPS, the item assessing the typical duration of pornography viewing sessions was omitted, retaining only items measuring frequency of pornography viewing and recency of sexual activity.
 
-#### Affective Measures
-
-#### Arousal
-
-Subjective sexual arousal was assessed following each image with the question, “How much did you feel sexually aroused?”
-Responses were recorded on 6-point Likert scale from Not at all (0) to Very much (6).
-
-#### Enticement
-
-Perceived enticement was measured after each image using the question, “How enticing would you rate this image to be?”
-with the same scale ranging from 6-point Likert scale from Not at all (0) to Very much (6).
-
-#### Valence
-
-Emotional valence was evaluated by asking, “The feeling evoked by the image was...” rated on a scale from Unpleasant (0) to Pleasant (6).
-
-#### Reality
-
-In a final stage of the experiment, each image was shown again, and participants rated on the images authenticity with the question, “I think this face is...Indicate your confidence that the image is fake or real” using a continuous scale anchored at AI-generated (-3) and Photograph (3).
 
 #### Feedback
 
