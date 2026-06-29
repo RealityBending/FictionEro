@@ -9,7 +9,7 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
-
+\usepackage{setspace}
 
 
 \usepackage[bidi=default]{babel}
@@ -22,6 +22,9 @@
 
 \RequirePackage{longtable}
 \RequirePackage{threeparttablex}
+
+\usepackage{framed}
+
 
 \makeatletter
 \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
@@ -39,6 +42,10 @@
 
 
 \usepackage{longtable, booktabs, multirow, multicol, colortbl, hhline, caption, array, float, xpatch}
+\usepackage{subcaption}
+
+
+\renewcommand\thesubfigure{\Alph{subfigure}}
 \setcounter{topnumber}{2}
 \setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{4}
@@ -69,7 +76,7 @@
 
 
 \usepackage{hyperref}
-
+\usepackage[protrusion=true]{microtype}
 
 
 
@@ -139,6 +146,9 @@
 
 
 \usepackage[nolongtablepatch]{lineno}
+\setlength\linenumbersep{5pt}
+\setlength\columnsep{25pt}
+
 \linenumbers
 
 
@@ -169,7 +179,7 @@ Images}
 
 
 
-\authorsnames[{2,1},{2}]{Dominique Makowski,Ana Neves}
+\authorsnames[{1},{1,2}]{Ana Neves,Dominique Makowski}
 
 
 
@@ -178,56 +188,50 @@ Images}
 
 
 \authorsaffiliations{
-{Sussex Centre for Consciousness Science, University of Sussex},{School
-of Psychology, University of Sussex}}
+{School of Psychology, University of Sussex},{Sussex Centre for
+Consciousness Science, University of Sussex}}
 
 
 
 
-\leftheader{Makowski and Neves}
+\leftheader{Neves and Makowski}
 
 
 
-\abstract{Blabla the abstract blabla.}
+\abstract{Blabla the abstract blabla. }
 
 \keywords{keyword1, keyword2, keyword3}
 
-\authornote{\par{\addORCIDlink{Dominique
-Makowski}{0000-0001-5375-9967}}\par{\addORCIDlink{Ana
-Neves}{0009-0006-0020-7599}} 
+\authornote{\par{\addORCIDlink{Ana
+Neves}{0009-0006-0020-7599}}\par{\addORCIDlink{Dominique
+Makowski}{0000-0001-5375-9967}} 
 
-\par{     \begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, colframe=quarto-callout-note-color-frame, left=2mm, breakable, colback=white, opacityback=0, rightrule=.15mm, toprule=.15mm, leftrule=.75mm, arc=.35mm]
-
-\end{tcolorbox}
-
-This preprint is a non-peer-reviewed work from the
-\href{https://realitybending.github.io/}{\textbf{Reality Bending Lab}}.
-\begin{center}
-\includegraphics[width=0.2\linewidth,height=\textheight,keepaspectratio]{manuscript_files/mediabag/ReBeL_LogoOnly_hu114.png}
-\end{center}  Author roles were classified using the Contributor Role Taxonomy (CRediT; https://credit.niso.org/) as follows: Dominique
-Makowski:   Project administration, Data curation, Formal
+\par{       Author roles were classified using the Contributor Role
+Taxonomy (CRediT; https://credit.niso.org/) as follows:  Ana
+Neves:   Data curation, Formal
 Analysis, Investigation, Visualization, Writing -- original
-draft, Writing -- review \& editing; Ana Neves:   Data curation, Formal
+draft, Writing -- review \& editing; Dominique Makowski:   Project
+administration, Data curation, Formal
 Analysis, Investigation, Visualization, Writing -- original
 draft, Writing -- review \& editing}
-\par{Correspondence concerning this article should be addressed
-to Dominique Makowski, Email: D.Makowski@sussex.ac.uk}
+\par{Correspondence concerning this article should be addressed to Ana
+Neves, Email: \href{mailto:A.Neves@sussex.ac.uk}{A.Neves@sussex.ac.uk}}
 }
 
-\usepackage{pbalance} 
-\usepackage{float}
+\usepackage{pbalance}
+% \usepackage{float}
 \makeatletter
 \let\oldtpt\ThreePartTable
 \let\endoldtpt\endThreePartTable
 \def\ThreePartTable{\@ifnextchar[\ThreePartTable@i \ThreePartTable@ii}
 \def\ThreePartTable@i[#1]{\begin{figure}[!htbp]
 \onecolumn
-\begin{minipage}{0.5\textwidth}
+\begin{minipage}{0.485\textwidth}
 \oldtpt[#1]
 }
 \def\ThreePartTable@ii{\begin{figure}[!htbp]
 \onecolumn
-\begin{minipage}{0.5\textwidth}
+\begin{minipage}{0.48\textwidth}
 \oldtpt
 }
 \def\endThreePartTable{
@@ -260,22 +264,6 @@ to Dominique Makowski, Email: D.Makowski@sussex.ac.uk}
 
 
 \usepackage{lscape}
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
-\definecolor{quarto-callout-color}{HTML}{909090}
-\definecolor{quarto-callout-note-color}{HTML}{0758E5}
-\definecolor{quarto-callout-important-color}{HTML}{CC1914}
-\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
-\definecolor{quarto-callout-tip-color}{HTML}{00A047}
-\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
-\definecolor{quarto-callout-color-frame}{HTML}{acacac}
-\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
-\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
-\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
-\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
-\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
-\makeatother
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -353,153 +341,435 @@ to Dominique Makowski, Email: D.Makowski@sussex.ac.uk}
 \maketitle
 
 
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
 
 \setlength\LTleft{0pt}
 
 \resetlinenumber[1]
 
-Recent advances in artificial intelligence (AI) have introduced new
-challenges for human cognition, particularly regarding the ability to
-distinguish between authentic and fabricated experiences
-(\citeproc{ref-miller2023ai}{Miller et al., 2023}). The stakes of such
-perceptual uncertainty are considerable, with misinformation
-representing one of the most pressing societal consequences
-(\citeproc{ref-kreps2022all}{Kreps et al., 2022}). For instance,
-deepfakes (face-swapping technologies that enable the creation of
-realistic fake images and videos) have already been employed to
-fabricate convincing political speeches that appear genuine
-(\citeproc{ref-meskys2020regulating}{Meskys et al., 2020}). When
-deployed in electoral contexts, such content has the potential to
-distort public opinion and undermine democratic processes by rendering
-the truth unclear (\citeproc{ref-graber2021artificial}{Graber-Mitchell,
-2021}). Yet political disinformation is only one domain in which
-synthetic media exerts influence. The increased accessibility of
-generative technologies means that manipulated or entirely artificial
-content now permeates social media, entertainment, immersive
-environments, and interpersonal communication
-(\citeproc{ref-nightingale2022ai}{Nightingale \& Farid, 2022}).\\
-In these settings, the boundaries between the ``real'' and the
-``artificial'' are becoming progressively less discernible, raising
-fundamental questions about how individuals perceive and evaluate
-reality.
 
-A key challenge lies in the prevalence of ambiguous stimuli, that is
-images, texts, videos, or environments whose authenticity cannot be
-easily established. While artificial stimuli once carried perceptual
-markers that betrayed their inauthenticity, such as distortions in early
-computer-generated imagery (\citeproc{ref-corvi2023detection}{Corvi et
-al., 2023}; \citeproc{ref-mcdonnell2010face}{McDonnell \& Breidt,
-2010}), these limitations are rapidly disappearing. In the domain of
-face generation especially, current algorithms now produce synthetic
-images that are virtually indistinguishable from genuine photographs
-(\citeproc{ref-nightingale2022ai}{Nightingale \& Farid, 2022};
-\citeproc{ref-moshel2022you}{\textbf{moshel2022you?}}). As these
-technologies approach perfect realism, the study of reality perception
-becomes not only a theoretical concern but also a practical imperative,
-with direct implications for information security, social trust, and the
-ethical deployment of AI.
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{snugshade}\begin{singlespace}}{\end{singlespace}\end{snugshade}}\fi
+
+
+Generative artificial intelligence {[}genAI; Fisher
+(\citeproc{ref-fisher2025something}{2025}){]} poses profound challenges
+for human cognition by enabling the creation of media content (e.g.,
+images, audios, and videos) that are increasingly indistinguishable from
+authentic ones (\citeproc{ref-miller2023ai}{Miller et al., 2023};
+\citeproc{ref-velasquez2025interpretation}{Velásquez-Salamanca et al.,
+2025}). The increasing accessibility of such contents, often called
+deepfakes, to permeate social networks, entertainment, immersive
+environments, and everyday communication
+(\citeproc{ref-fisher2024moderating}{Fisher et al., 2024}). Whereas
+deepfakes once contained clear perceptual markers of inauthenticity,
+such as distortions characteristic of early computer-generated contents
+(\citeproc{ref-de2021distinct}{De Ruiter, 2021}); McDonnell and Breidt
+(\citeproc{ref-mcdonnell2010face}{2010}){]}, these cues are rapidly
+diminishing.
+
+As deepfakes reach perceptual parity with their authentic counterparts,
+understanding how individuals evaluate and emotionally respond to such
+ambiguity becomes both a theoretical and practical imperative, with
+implications for information integrity, social trust, and the ethical
+deployment of AI systems.
+
+\textbf{1.1 The prejudice against (putative) AI-generated}
+
+Researchers have investigated the impact of authorship (human vs AI) on
+perceivers' appraisal across several domains such as artwork (e.g.,
+visual, poetry, music) and biological salient stimuli (e.g., faces,
+people). These studies typically manipulate either the \emph{actual}
+origin of the stimulus (authentic vs AI-generated) or the participant's
+\emph{belief} about its origin, and in some cases both. Evidence has
+accumulated showing that participants often fail to tell apart
+AI-generated from human-made content at above-chance levels both in
+artworks (\citeproc{ref-cenerini2025artistic}{Cenerini et al., 2025};
+\citeproc{ref-gangadharbatla2022role}{Gangadharbatla, 2022};
+\citeproc{ref-grassini2024understanding}{Grassini \& Koivisto, 2024};
+\citeproc{ref-kobis2021artificial}{Köbis \& Mossink, 2021}) and
+biological stimuli (\citeproc{ref-kramer2025ai}{Kramer et al., 2025};
+\citeproc{ref-nightingale2022ai}{Nightingale \& Farid, 2022}).
+
+Interestingly, when authorship is not disclose, AI-generated content is
+sometimes evaluated more positively. For instance, AI-generated poetry
+has been shown to receive higher appreciation ratings (e.g., beauty,
+lyrically, rhythm) than human-made poetry
+(\citeproc{ref-porter2024ai}{Porter \& Machery, 2024}). Similarly, faces
+that are actually generated by AI are judged as more trustworthy than
+the real ones (\citeproc{ref-nightingale2022ai}{Nightingale \& Farid,
+2022}; \citeproc{ref-tucciarelli2022realness}{Tucciarelli et al., 2022},
+study 1), possibly because generative algorithms are biases toward
+average, and familiar-looking faces, and familiarity breads
+trustworthiness (\citeproc{ref-miller2023ai}{Miller et al., 2023}; but
+see \citeproc{ref-dunn2026too}{Dunn et al., 2026}).
+
+In contrast, when some stimuli are presented as AI-generated, they are
+consistently evaluated more negatively than when they are presented as
+authentic. Indeed, various studies document a negative bias across
+several culturally salient domains such as visual arts
+(\citeproc{ref-bellaiche2023humans}{Bellaiche et al., 2023};
+\citeproc{ref-chiarella2022investigating}{Chiarella et al., 2022};
+\citeproc{ref-di2023art}{Di Dio et al., 2023};
+\citeproc{ref-ragot2020ai}{Ragot et al., 2020}), music
+(\citeproc{ref-ansani2025ai}{Ansani et al., 2025};
+\citeproc{ref-shank2023ai}{Shank et al., 2023}) and poetry
+(\citeproc{ref-porter2024ai}{Porter \& Machery, 2024}). More broadly,
+the influence of contextual information on the evaluation of cultural
+products is well established and extends beyond biases specific to AI.
+For example, research in neuroasthetics shows that presenting an artwork
+as an original rather than a (human-made) copy can alter both its
+perceived worth (\citeproc{ref-newman2012art}{Newman \& Bloom, 2012})
+and associated neural responses (\citeproc{ref-huang2011human}{Huang et
+al., 2011}). These findings suggest that evaluative processes are highly
+malleable to contextual cues and beliefs about the origin of the
+stimuli. And ``anti-AI bias'' makes no exception, inasmuch it seems
+driven primarily by cognitive evaluations tied to beliefs about
+authorship, as shown by the appreciation of ``blinded origin'' AI-made
+stimuli.
+
+Interestingly, despite being strongly constrained by evolutionary
+pressures, more biological salient stimuli such as the perceived appear
+of food (\citeproc{ref-califano2024assessing}{Califano \& Spence, 2024})
+or human faces (\citeproc{ref-liefooghe2023natural}{Liefooghe et al.,
+2023}), are also affected by the anti-AI bias. Califano and Spence
+(\citeproc{ref-califano2024assessing}{2024}) report that, despite
+preferring AI-generated food when unlabeled (especially ultra processed
+food), as soon as labels are introduced, participants tend to prefer
+authentic food pictures. Liefooghe et al.
+(\citeproc{ref-liefooghe2023natural}{2023}) report that faces were
+consistently rated as less trustworthy when presented as AI-generated as
+opposed to real. Eiserbeck et al.
+(\citeproc{ref-eiserbeck2023deepfake}{2023}) reports that smiling faces
+labelled as AI-generated were judged less positively, processed more
+slowly, and elicited reduced early emotional EEG responses. On the
+contrary, subjective and EEG responses for angry faces were not
+modulated by the label, probably reflecting the robustness of
+phylogenetically rooted threat stimuli. Similarly, Döring and Mohseni
+(\citeproc{ref-doring2025anti}{2025}) found that romantic images of
+heterosexual couples hanging out were rated more ``aesthetic'',
+``erotic'', ``expressive'', and ``vivid'' when presented as photographs
+that as deepfakes. Taken together, these results suggest that beliefs
+about authenticity selectively dampen positive affective responses when
+dealing with biological salient stimuli.
+
+However, this conclusion should be interpreted with caution. In the
+studies discussed above, the positive stimuli could not have been
+compared to the negative ones in terms of arousal, making it difficult
+to determine whether the observed effect truly reflects a selective
+dampening of positive affective responses. One class of evolutionary
+salient positive stimuli that may offer a more appropriate comparison is
+erotic images, which are known to elicit strong motivational and
+attentional responses. Indeed, erotic images have been shown to capture
+attention as much as, or even more than, fear- and disgusted-related
+stimuli (\citeproc{ref-ciesielski2010emotion}{Ciesielski et al., 2010}).
+This makes them a particularly relevant test case for examining whether
+contextual information, such as an AI label, can modulate responses even
+to highly salient positive stimuli.
+
+\textbf{1.2 AI and erotic stimuli}
+
+Among many other fields, AI is exerting its disruptive potential over
+human sexuality in several forms. For instance, LLMs provide sexual
+counselling, and dedicated sexual chatbots afford spicy conversations.
+However, the most widespread use of AI in sexuality is arguably
+generating expplicit visual contents
+(\citeproc{ref-doring2024impact}{Döring et al., 2024};
+\citeproc{ref-lapointe2025present}{Lapointe et al., 2025}). In several
+cases, these contents are sexually explicit deepfakes
+(\citeproc{ref-Security2023Hero}{{``2023 STATE OF DEEPFAKES,''} n.d.};
+\citeproc{ref-ajder2019state}{Ajder et al., 2019}).
+
+Given the relevance of thse controversial applications of AI, the
+following questions must be posed: does the anti=AI bias generalises to
+sexual contents? Easterbrook-Smith
+(\citeproc{ref-easterbrook2025pornographic}{2025}) speculate that
+AI-generated pornography might be valued less inasmuch it lacks the
+``aura of authenticity'' surrounding human-made porn. Similarily, Viola
+and Voto (\citeproc{ref-viola2023designed}{2023}) propose that, by
+casting doubts about the authenticity of all mdeia, as the possibiliuty
+that they may be fake may undercut their allure. Indeed, Tucciarelli et
+al. (\citeproc{ref-tucciarelli2022realness}{2022}) shows how simply
+suspecting that some faces within a set \emph{could} be AI-Generated
+lowered trustworhtiness score of the whole set.
+
+Beyond the interest specific to the field of sexuality \emph{per se},
+empirically investigating whether sexual stimuli are also affected by
+the anti-AI bias could bear more general theoretical relevance. Recall
+that sexual stimuli represent a paradigmatic category of positively
+valenced and highly arousing stimuli in many popular databases of
+stimuli for psychological research on emotion, be them visual
+(\citeproc{ref-kurdi2017introducing}{Kurdi et al., 2017};
+\citeproc{ref-lang1997international}{Lang et al., 1997};
+\citeproc{ref-wierzba2015erotic}{Wierzba et al., 2015}) or audio
+(\citeproc{ref-holz2022variably}{Holz et al., 2022};
+\citeproc{ref-yang2018affective}{Yang et al., 2018}).
+
+Yet, to the best of our knowledge, the only empirical findings about
+sexually explicit images have been collected by Marini et al.
+(\citeproc{ref-marini2024real}{2024}). They performed an online
+experiment presenting subjects with soft erotic images (male and female
+models in underwear), finding that the same images were rated higher in
+terms of sexual arousal when judged more likely to be (in Study 1), or
+presented as (in Study 2) real photos--as opposed to AI-generated
+images.
+
+However, Marini et al. (\citeproc{ref-marini2024real}{2024}) studies are
+based on a sample from a single nation (Italy) and provide scant
+socio-demographic information. They only investigate a single dependent
+variable, namely self-reported sexual arousal. However, self-reported
+first-person, `affective' feelings (``does this arouses me?'') and
+third-person, `semantic' judgments (``is that supposed to be
+arousing?'') have been shown to dissociate in some cases
+(\citeproc{ref-itkes2019affective}{Itkes \& Kron, 2019}). More
+relevantly, they used only mildly sexually arousing stimuli (people in
+underwear) not taken from a validated dataset. Lastly, in their direct
+manipulation of the `authentic/AI-generated' labeling (Study 2) they did
+not provide any explicit manipulation check.
+
+\textbf{1.3 The present studies}
+
+To fill our knowledge gap about the existence and the exact workings of
+a putative anti-AI bias about sexual content, we gathered an
+international team with the aim of a more exhaustive investigation.
+
+In order to control over image properties and enable comparisons with
+normative data, we employed stimuli from a validated database, the
+Nencki Affective Picture System
+(\citeproc{ref-marchewka2014nencki}{Marchewka et al., 2014}), which
+includes several explicitly sexual pictures
+(\citeproc{ref-wierzba2015erotic}{Wierzba et al., 2015}), and selected
+the stimuli via a data-driven, easily reproducible procedures. Moreover,
+we asked subjects to provide different ratings of first-person
+`affective' subjective sexual arousal and valence, and a third-person
+`semantic' judgment on how enticing they found the image to be.
+
+Sociodemographic characteristics, in particular gender, were assessed as
+a modulator of responses to stimuli, given robust evidence that sexual
+patterns differ systematically between men and women. For instance,
+research on arousal indicates that heterosexual men tend to exhibit
+greater category-specificity in their responses, such that arousal is
+more strongly aligned with their sexual orientation (i.e., heightened
+responses to female stimuli). In contrast, heterosexual women's
+responses are less category-specific and more variable across stimulus
+types (\citeproc{ref-chivers2004sex}{Chivers et al., 2004};
+\citeproc{ref-chivers2017specificity}{Chivers, 2017};
+\citeproc{ref-huberman2015gender}{Huberman et al., 2015};
+\citeproc{ref-safron2020neural}{Safron et al., 2020}).
+
+Furthermore, the present studies assess whether individual differences
+in attitudes towards AI influence responses to the stimuli. Beliefs
+about the origin of a stimulus can bias evaluations, yet it remains
+unclear whether this effect depends on individuals' pre-existing
+attitudes towards AI. Previous findings suggest that such moderation is
+inconsistent and may be domain-specific. In domains where creativity and
+authenticity are salient (e.g., art and music), stronger anti-AI biases
+are often observed (e.g., \citeproc{ref-ansani2025ai}{Ansani et al.,
+2025}), whereas informational contexts (e.g., news) sometimes show a
+pro-AI bias, with machine-generated content perceived as less biased
+(e.g., \citeproc{ref-cloudy2022ai}{Cloudy et al., 2022}). In contrast,
+research using human faces and bodies consistently finds no reliable
+moderating role of AI attitudes on evaluative or affective responses
+(e.g., \citeproc{ref-liefooghe2023natural}{Liefooghe et al., 2023};
+\citeproc{ref-marini2024real}{Marini et al., 2024}). Some evidence,
+however, suggests that broader constructs such as AI readiness may
+attenuate anti-AI bias (i.e., composite of positive AI attitudes and
+higher AI literacy; Döring and Mohseni
+(\citeproc{ref-doring2025anti}{2025})). Overall, the influence of AI
+attitudes on evaluations appears variable and context-dependent, with
+particularly limited effects observed in the domain of human appearance.
+Accordingly, the present study includes attitudes towards AI as a
+potential moderating variable to test whether individual differences in
+these attitudes shape responses to the stimuli.
+
+Finally, the present study also considers participant's sexual
+behaviours as moderators of responses to sexual stimuli. For example,
+research indicates that frequency of pornographic consumption can
+influence attentional and evaluative processing of sexual content.
+Repeated exposure to pornographic material has been associated with
+attenuated allocation of automatic attentional resources to sexual
+stimuli, suggesting a degree of habituation
+(\citeproc{ref-carvalho2018gender}{Carvalho et al., 2018}). Furthermore,
+evidence suggests that individuals with lower pornographic use rate
+erotic stimuli as less pleasant compared to those with moderate or high
+levels of consumption, indicating that prior exposure shapes subjective
+appraisal of sexual content
+(\citeproc{ref-kunaharan2017conscious}{Kunaharan et al., 2017}).
+Similarly, although less frequently examined, frequency of sexual
+activity may serve as an index of experiential familiarity with sexual
+stimuli and thus moderate responses. Greater sexual experience has been
+linked to differences in neural sensitivity to explicit content
+(\citeproc{ref-prause2015modulation}{Prause et al., 2015}), and
+heightened self-reported sexual excitation
+(\citeproc{ref-walton2018hypersexuality}{Walton \& Bhullar, 2018}),
+although state subjective arousal ratings do not consistently vary
+(\citeproc{ref-youn2006subjective}{Youn, 2006}). Together, these
+findings suggest that both attentional engagement and explicit
+evaluations of sexual stimuli are contingent on individuals' prior
+experiential exposure, whether through pornography consumption or sexual
+activity.
+
+Since the proliferation of generative AI has likely put several subjects
+on their toes when it comes to telling apart authentic and synthetic
+perceptually indistinguishable media, we devised post-hoc controls of
+the effect of belief manipulation. Moreover, given that not only the
+feeling of reality could alter the affective reaction, but the effect in
+the other direction is also possible--namely, that the affective
+reaction impact on how real something is perceived
+(\citeproc{ref-makowski2019phenomenal}{Makowski, Sperduti, et al.,
+2019}; \citeproc{ref-makowski2025too}{Makowski, Te, et al., 2025};
+\citeproc{ref-sperduti2017distinctive}{Sperduti et al., 2017}), we
+explicitly measured whether some of the above-mentioned affective
+variables (arousal, enticement, valence) predicted the `feeling of
+reality' of the images.
 
 \section{Study 1}\label{study-1}
+
+In our first study, we aimed at gauging whether the prejudice against
+AI-generated erotic stimuli shows up in a wide and heterogeneous sample,
+and whether it is moderated by demographic factors, by sexual activity
+or pornography consumption habits, or by attitudes toward IA. Following
+Marini et al. (\citeproc{ref-marini2024real}{2024}), we hypothesise that
+images presented as AI-generated will elicit lower ratings than those
+presented as photographs. Additionally, in line with the literature on
+explicit stimuli Huberman et al.
+(\citeproc{ref-huberman2015gender}{2015}), we hypothesise erotic images
+relevant to participants' sexual orientation would result in higher
+ratings than erotic but irrelevant images and non-erotic images, and
+that these differences would be less pronounced for women. Research on
+general attitudes towards AI and its moderating role on ratings is
+mixed, with some studies finding a moderating effect
+(\citeproc{ref-doring2025anti}{Döring \& Mohseni, 2025}) and others not
+(\citeproc{ref-liefooghe2023natural}{Liefooghe et al., 2023};
+\citeproc{ref-marini2024real}{Marini et al., 2024}). As such, we explore
+whether attitudes towards AI moderate responses to the stimuli, without
+making a strong directional prediction. Lastly, we hypothesise that
+higher frequency of pornographic consumption will be associated with
+higher evaluative ratings of sexual stimuli, consistent with prior
+findings (e.g., \citeproc{ref-kunaharan2017conscious}{Kunaharan et al.,
+2017}). No directional hypothesis is proposed for frequency of sexual
+activity due to mixed evidence regarding its influence on subjective
+responses.
+
+While prior studies have examined the effect of AI labels on affective
+ratings, relatively little attention has been paid to whether
+participants actually believe those labels, and whether belief itself
+modulate the observed effects. If participants second-guess the
+authenticity claims (e.g., suspecting that ``AI-generated'' images are
+in fact photographs, or vice versa), label-based effects would be
+attenuated or reversed regardless of the manipulation's objective
+content. This concern is not without empirical basis: Tucciarelli et al.
+(\citeproc{ref-tucciarelli2022realness}{2022}) showed that when
+participants were informed that some faces in a set might be
+AI-generated, their responses were driven not by the objective category
+of each face, but by their own judgment of whether that specific face
+was real --- suggesting that individual beliefs about stimulus
+authenticity, rather than assigned labels, shape evaluative and social
+responses. Accordingly, we assess the role of individual belief in the
+label as an additional predictor of affective ratings, without a
+directional hypothesis, given that disbelief in a label can shift
+ratings in either direction depending on what the participant believes
+the image actually is.
 
 \subsection{Methods}\label{methods}
 
 \textbf{Participants}
 
 The initial sample comprised 1,067 participants recruited via multiple
-channels, including Prolific\textcopyright, Sona (ref), social media
-platforms, university classrooms, and snowball sampling. This strategy
-yielded a heterogeneous pool of both incentivised and non-incentivised
-individuals, including students and members of the general population
-from England, France, Italy, Colombia, and Spain.
-
-To ensure data quality, several exclusion criteria were applied.
-Participants were removed if they (a) showed no variation in arousal
-ratings across trials (N = 8), (b) displayed a negative correlation
-between arousal and enticement alongside lower arousal ratings for
-erotic compared to neutral stimuli, suggesting a possible
-misunderstanding of scale direction (N = 4), or (c) self-identified with
-a gender or sexual orientation incompatible with the aims of the
-analysis (N = 350). For the latter, only self-reported heterosexual
-individuals were retained.
-
-The final sample consisted of 705 participants (Mean age = 30.2 years
-\(\pm\) 11.8; 35.7\% female). Participants were primarily from the
-United Kingdom (28.23\%), Italy (18.72\%), the United States (14.33\%),
-and Colombia (11.06\%), with the remaining 27.66\% distributed across
-other countries. Ethical approval for this study was obtained from the
-School of Psychology Ethics Committee at the University of Sussex
+channels, including Sona Systems, social media platforms, university
+classrooms, and snowball sampling. This strategy yielded a heterogeneous
+pool of both incentivised and non-incentivised individuals, including
+students and members of the general population from England, France,
+Italy, Colombia, and Spain. Data collection occurred from the 19th of
+January to 1st of June 2024 (during this time the best image generator
+was OpenAI's DALL·E 3). To ensure data quality, several exclusion
+criteria were applied. Participants were removed if they (a) showed no
+variation in arousal ratings across trials (N = 8), (b) displayed a
+negative correlation between arousal and enticement alongside lower
+arousal ratings for erotic compared to neutral stimuli, suggesting a
+possible misunderstanding of scale direction (N = 4). Due to small
+subgroup sample sizes, participants identifying with a gender other than
+Female or Male (N = 15), or a sexual orientation other than Heterosexual
+(N = 315), were excluded from further analysis. The final sample
+consisted of 705 participants (Mean age = 30.2 years \(\pm\) 11.8;
+35.7\% female). Participants were primarily from the United Kingdom
+(28.23\%), Italy (18.72\%), the United States (14.33\%), and Colombia
+(11.06\%), with the remaining 27.66\% distributed across other
+countries. Ethical approval for this study was obtained from the School
+of Psychology Ethics Committee at the University of Sussex
 (ER/MHHE20/1).
 
 \subsubsection{Materials}\label{materials}
 
 All written materials in this study were translated into the
-participants' native languages: English, Italian, French, and Spanish.
+participants' native languages: English, French, Italian and Spanish.
 
 \paragraph{Questionnaires.}\label{questionnaires}
 
-The Beliefs about Artificial Image Technology (BAIT) scale assesses
-general attitudes toward artificial intelligence (AI) and beliefs about
-AI-generated media. It includes six items adapted from the General
-Attitudes towards Artificial Intelligence Scale (GAAIS,
-\citeproc{ref-schepman2020initial}{Schepman \& Rodway, 2020},
-\citeproc{ref-schepman2023general}{2023}), comprising three positively
-valenced (e.g., ``Artificial Intelligence is exciting'') and three
-negatively valenced items (e.g., ``Artificial Intelligence might take
-control of people''). In addition, several items were developed to
-evaluate beliefs about computer-generated imagery, such as ``Current
-Artificial Intelligence algorithms can generate very realistic images''
-and ``Images of faces or people generated by Artificial Intelligence
-always contain errors and artifacts.'' All items were rated on a
-continuous scale from strongly disagree (0) to strongly agree (1). One
-item was included to assess self-reported AI knowledge, with anchors
-ranging from Not at all (0) to Expert (6).
+The \emph{Beliefs about Artificial Image Technology} (BAIT) was
+developed to evaluate beliefs about computer-generated imagery, such as
+``Current Artificial Intelligence algorithms can generate very realistic
+images'' and ``Images of faces or people generated by Artificial
+Intelligence always contain errors and artifacts.'' The BAIT includes 4
+dimensions with 2 items each: Text (\(\alpha\) = .63) , Videos
+(\(\alpha\) = .56 ), Images (\(\alpha\) = .38), Environment (\(\alpha\)
+= .58 ). Items were rated on a continuous scale from strongly disagree
+(0) to strongly agree (1). One item was included to assess self-reported
+AI knowledge, with anchors ranging from Not at all (0) to Expert (6). A
+modified version of the General Attitudes towards Artificial
+Intelligence Scale (GAAIS; Schepman \& Rodway, 2020, 2023) was used,
+containing 3 items assessing positive (e.g., ``Artificial Intelligence
+is exciting'') and 3 items assessing negative attitudes (e.g.,
+``Artificial Intelligence might take control of people'') towards AI.
+The resulting GAAIS subscales showed acceptable reliability: Positive
+(\(\omega\) = .72), Negative (\(\omega\) = .73). All items were rated on
+a continuous scale from strongly disagree (0) to strongly agree (1).
 
-The Consumption of Pornography Scale -- General (COPS,
-\citeproc{ref-hatch2023consumption}{Hatch et al., 2023}) is a
-34-itemmeasure assessing pornography use across multiple dimensions,
-including frequency, duration and recency of sexual activity.
-Participants reported how often they had viewed pornography in the past
-30 days (e.g., not at all, once or twice, weekly, daily, multiple times
-per day) and the typical duration of viewing sessions (less than 5
-minutes to 46+ minutes). An additional item assessed the recency of any
-sexual activity, with response options ranging from within the past 24
-hours to more than a year ago.
+A modified version of the \emph{General Attitudes towards Artificial
+Intelligence Scale} (GAAIS, \citeproc{ref-schepman2020initial}{Schepman
+\& Rodway, 2020}, \citeproc{ref-schepman2023general}{2023}) was used,
+containing 3 items assessing positive (e.g., ``Artificial Intelligence
+is exciting'') and 3 items assessing negative attitudes (e.g.,
+``Artificial Intelligence might take control of people'') towards AI.
+The resulting GAAIS subscales showed acceptable reliability: Positive
+(\(\omega\) = .72), Negative (\(\omega\) = .73). All items were rated on
+a continuous scale from strongly disagree (0) to strongly agree (1).
 
-\paragraph{Affective Measures.}\label{affective-measures}
-
-\paragraph{Arousal.}\label{arousal}
-
-Subjective sexual arousal was assessed following each image with the
-question, ``How much did you feel sexually aroused?'' Responses were
-recorded on a continuous scale from Not at all (0) to Very much (1).
-
-\paragraph{Enticement.}\label{enticement}
-
-Perceived enticement was measured after each image using the question,
-``How enticing would you rate this image to be?'' with the same scale
-ranging from Not at all (0) to Very much (1).
-
-\paragraph{Valence.}\label{valence}
-
-Emotional valence was evaluated by asking, ``The feeling evoked by the
-image was\ldots{}'' rated on a scale from Unpleasant (-1) to Pleasant
-(1).
-
-\paragraph{Realism.}\label{realism}
-
-In a final stage of the experiment, each image was shown again, and
-participants rated its perceived realism with the question, ``How
-realistic was this image?'' using a continuous scale anchored at
-AI-generated (0) and Photograph (1).
+The \emph{Consumption of Pornography Scale -- General} (COPS,
+\citeproc{ref-hatch2023consumption}{Hatch et al., 2023}) is a 34-item
+measure assessing pornography use across multiple dimensions, including
+frequency, duration and recency of sexual activity. Participants
+reported how often they had viewed pornography in the past 30 days
+(e.g., not at all, once or twice, weekly, daily, multiple times per day)
+and the typical duration of viewing sessions (less than 5 minutes to 46+
+minutes). An additional item assessed the recency of any sexual activity
+(intercourse or masturbation), with response options ranging from within
+the past 24 hours to more than a year ago. Internal consistency for the
+COPS was acceptable (\(\omega\) = .66).
 
 \paragraph{Feedback.}\label{feedback}
+
+Feedback was collected at the end of the experiment. Participants were
+able to provide open-ended comments and to select one, multiple, or no
+options, from several predefined statements (10 in total). These
+statements assessed whether they found the experiment fun or boring;
+whether they could distinguish which images were AI-generated or
+perceived no difference between photographs and AI-generated images;
+whether they felt the AI-generated images were more or less arousing;
+whether they believed the labels were inaccurate or reversed; and, more
+generally, whether some images were particularly arousing or elicited no
+emotional response.
 
 \textbf{Procedure}
 
 \begin{figure*}[!htbp]
 
-{\caption{{Paradigm 2}{\label{fig-paradigm1}}}}
+{\caption{{Overview of the experimental procedure for Study 1. A) Phase
+1: Participants viewed a randomized sequence of erotic and non-erotic
+images. After each image, they provided ratings on three dimensions:
+sexual arousal, enticement, and affective valence. B) Phase 2: The same
+set of images was presented again in a new random order. This time,
+participants rated each image based on its perceived realism (i.e., how
+photographic or lifelike it appeared).}{\label{fig-paradigm1}}}}
 
 \includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Paradigm1.png}
 
@@ -511,57 +781,510 @@ reproducibility at every stage. The experiment was implemented entirely
 in jsPsych (\citeproc{ref-de2015jspsych}{De Leeuw, 2015}), with the full
 code hosted publicly on GitHub, which also served as the platform for
 running the online study. Raw data were automatically stored in a
-private Open Science Framework (OSF) repository. Anonymized data,
-together with all preprocessing and analysis scripts, will be openly
-released on GitHub to facilitate complete reproducibility. Participants
-first provided informed consent before completing a short demographic
-questionnaire covering gender, age, ethnicity, country of residence,
-education, and English proficiency. Optional questions on birth control
-use were also included. They then proceeded to the experimental tasks.
+private Open Science Framework (OSF) repository.
 
-In the first phase, participants were told that the study aimed to
-validate a new image-generation algorithm. They were informed that they
-would see images allegedly produced by this algorithm intermixed with
-real photographs, each preceded by a cue indicating whether the upcoming
-image was of an ``AI-generated'' or ``Photograph'' origin. Their task
-was to rate each image on arousal, enticement, and valence. Each
-participant viewed 60 images in total: 40 erotic images (20 male and 20
-female) from the Erotic subset of the Nencki Affective Picture System
-(NAPS ERO, \citeproc{ref-wierzba2015erotic}{Wierzba et al., 2015}), and
-20 additional images (10 neutral, 10 positively arousing) from the
-original NAPS database (\citeproc{ref-marchewka2014nencki}{Marchewka et
-al., 2014}). Each trial followed a fixed timing sequence: a fixation
-cross (750 ms), a color-coded textual cue (1,250 ms), another fixation
-cross (500 ms), then the image (2,500 ms). Cues were presented in red,
-green, or blue, with colors randomly assigned across participants.
+Participants first provided informed consent before completing a short
+demographic questionnaire covering gender, age, ethnicity, country of
+residence, education, and English proficiency. Optional questions on
+birth control use were also included. They then proceeded to the
+experimental tasks (see Figure~\ref{fig-paradigm1}).
+
+In the first phase, participants were given the following instructions:
+
+\begin{quote}
+In this study, we aim at validating our new image-generation algorithm
+(based on a new form of Generative Adversarial Network -- GAN --
+technology) trained to produce high-quality erotic (but also non-erotic)
+content.
+
+In the following task, you will be presented with erotic and non-erotic
+images generated by our algorithm (preceded by the word `AI-Generated')
+intermixed with real photos (preceded by the word `Photo') taken from
+public picture databases.
+\end{quote}
+
+Participants were informed that their task was to rate each image on
+three dimensions: arousal and enticement, each on a continuous scale
+from Not at all (0) to Very much (1), and valence, on a continuous scale
+from Unpleasant (-1) to Pleasant (1). Definitions for each affective
+rating were also provided:
+
+\begin{quote}
+\emph{Arousing}: How much do you find the image sexually arousing? This
+question is about your own personal reaction felt in your body when
+seeing the image.
+
+\emph{Enticing}: How enticing and sexually appealing would you rate this
+image to be. Think of how much, in general, people similar to you in
+terms of gender and sexual orientation would like it.
+
+\emph{Valence}: Did the image evoke a positive and pleasant (not
+necessarily sexual) feeling in you, or could it be better characterised
+as negative and unpleasant? Think of how much you did enjoy (or not)
+looking at the images.
+\end{quote}
+
+Each participant viewed 60 images in total: 40 erotic images (20 male
+and 20 female) from the Erotic subset of the Nencki Affective Picture
+System (NAPS ERO, \citeproc{ref-wierzba2015erotic}{Wierzba et al.,
+2015}), and 20 non-erotic images (10 neutral, 10 positively arousing)
+from the original NAPS database
+(\citeproc{ref-marchewka2014nencki}{Marchewka et al., 2014}). The final
+stimuli were selected by sampling, within each category (male, female,
+faces, and people), the height highest, and two lowest, arousal erotic
+images based on gender-specific ratings for men and women, with no
+overlap between sets. Non-erotic images were selected by computing
+average arousal across men and women, with 10 low-arousal images, and
+10-high arousal images (restricted by positive valence stimuli). Each
+trial followed a fixed timing sequence: a fixation cross (750 ms), a
+color-coded textual label (1,250 ms), another fixation cross (500 ms),
+then the image (2,500 ms). Labels were presented in red, green, or blue,
+with colours randomly assigned. Additionally, the labels
+``AI-generated'' or ``Photograph'' were presented to indicate the
+authenticity of the images, and were randomly assigned.
 
 Following each image, participants rated their emotional response using
 three continuous sliders assessing sexual arousal, enticement, and
 valence. This phase was self-paced, with responses required before
 continuing. After completing the image-rating phase, participants filled
-out two self-report questionnaires: first the BAIT scale, followed by
-the COPS questionnaire.
+out the BAIT scale, followed by the COPS questionnaire.
 
-In the final phase, participants viewed the same 60 images, presented in
-a new randomized order. Each was preceded by a 500 ms fixation cross and
-displayed for 1,000 ms. This time, participants rated each image on
-perceived realism---how photographic or lifelike it appeared.
+In the final phase, participants were presented with the following
+instructions:
 
-At the end of the experiment, participants completed a feedback form.
-They were asked whether they could distinguish AI-generated from real
-images, whether AI images appeared more or less arousing, whether cue
-labels seemed accurate or reversed, and whether specific images stood
-out as particularly arousing or unarousing. Finally, participants were
-debriefed on the true purpose of the study: to examine how image labels
-(AI-generated vs.~real photograph) influence emotional responses.
-Importantly, they were informed that all images were real photographs,
-and that the ``AI-generated'' label was used solely to test the effect
-of belief on affective reactions. A shareable link to the experiment was
-also provided.
+\begin{quote}
+In the next phase, we would like to see if you found our image
+generation algorithm convincing and error-free. We will briefly present
+you all the images one last time (the AI-generated ones, as well as the
+photos), and you will have to rate them on how real (how realistic,
+photography-like) the image is.
+\end{quote}
+
+Participants then viewed the same 60 images in a newly randomised order.
+Each trial began with a 500 ms fixation cross, followed by the image
+presented for 1,000 ms. As in the previous task, participants provided
+their ratings of Realism, using a continuous scale anchored at
+AI-generated (0) and Photograph (1), after viewing each image, and these
+ratings were self-paced. At the end of the experiment, participants
+completed a feedback form. Finally, participants were debriefed on the
+true purpose of the study: to examine how image labels (AI-generated
+vs.~real photograph) influence emotional responses. Importantly, they
+were informed that all images were real photographs, and that the
+``AI-generated'' label was used solely to test the effect of belief on
+affective reactions. A shareable link to the experiment was also
+provided.
 
 \textbf{Data Analysis}
 
+Bayesian Linear Mixed Models were fitted separately for Arousal,
+Valence, and Enticement as dependent variables. Each outcome was
+predicted from Gender (Female vs.~Male), Condition (AI-Generated
+vs.~Photograph), Relevance (Relevant, Irrelevant, Non-Erotic), and
+Congruence (True vs.~False). Relevance was computed post hoc based on
+participants' self-reported gender and sexual orientation. For example,
+images of male-presenting stimuli were coded as ``Relevant'' for
+homosexual but not for heterosexual men.\\
+Congruence was also computed post hoc based on whether the chosen label
+in phase 2 was congruent with the one presented for that image in phase
+1.
+
+The full formula for the models are as a follow: Outcome
+\textasciitilde{} Gender / Relevance / Condition * Congruence + (1 +
+Relevance / Condition ∣ Participant) + (1 \textbar{} Item). The
+zero--one inflated beta (ZOIB) family
+(\citeproc{ref-heiss2021guide}{Heiss, 2021};
+\citeproc{ref-vuorre2019analyze}{Vuorre, 2019}) was used to account for
+the distribution of the dependent variable, which showed excess
+responses at the boundary values (0 and 1) and weakly informative normal
+(0, 0.5) priors were placed on all fixed effects. Each model was
+estimated using 2,000 iterations per chain with 50\% warmup -
+distributed across 96 chains (total post-warmup draws was 96000).\\
+Given the computational complexity of Bayesian mixed-effects models, all
+models were estimated on the University of Sussex High Performance
+Computing Cluster (HPC). The models were run using the brms package
+(\citeproc{ref-burkner2017brms}{Bürkner, 2017}) and analysed using the
+easystats collection of packages
+(\citeproc{ref-ludecke2021performance}{Lüdecke et al., 2021},
+\citeproc{ref-ludecke2022easystats}{2022};
+\citeproc{ref-makowski2019bayestestr}{Makowski, Ben-Shachar, et al.,
+2019}, \citeproc{ref-makowski2025modelbased}{2025}).
+
+Firstly, to assess whether erotic images elicited higher ratings for men
+and women, marginal contrasts will be computed from these models, with
+contrasts defined over Relevance and estimated with levels of Gender.
+Secondly, to assess the effect of condition, marginal contrasts will be
+defined over Condition and estimated within levels of Gender and
+Relevance. Finally, the effect of Congruency between phases will be
+assessed using marginal contrasts defined over Condition and estimated
+within levels of Gender, Relevance, and Congruency. Effects will be
+considered credible when the median estimate and its associated 95\%
+credible interval (\emph{CrI}) do not include zero, and when the
+probability of direction (\emph{pd}) exceeds 97\%, indicating a
+consistent effect direction
+(\citeproc{ref-makowski2019bayestestr}{Makowski, Ben-Shachar, et al.,
+2019}). Marginal contrasts were computed using the modelbased package
+(\citeproc{ref-makowski2025modelbased}{Makowski, Ben-Shachar, et al.,
+2025}). The Results section will focus on arousal ratings whilst
+reporting major differences with Enticement and Valence.
+
+To evaluate the reliability of individual-level parameters (i.e., random
+intercepts and random slopes for each participant and each item), the
+Variance-over-Uncertainty Ratio index (D-vour,
+\citeproc{ref-ludecke2021performance}{Lüdecke et al., 2021}) will be
+computed. This index estimates the reliability of group-level variance
+by quantifying the normalised ratio of observed between-group
+variability to the uncertainty associated with the corresponding
+random-effect estimates. Values of D-vour greater than 0.666 indicate
+moderately reliable random-effect estimates, corresponding to a 2:1
+ratio of between-group variance to estimation uncertainty. In this
+context, reliability refers to cases in which variability between groups
+(e.g., participants) exceeds the uncertainty in the estimates,
+suggesting that the parameter can meaningfully capture inter-individual
+differences.
+
+Lastly, a correlation matrix will be computed between the models'
+individual-level estimates and potential moderators: beliefs, attitudes
+towards and knowledge of AI, porn frequency and recency of sexual
+activity. Correlations, computed with the correlations package
+(\citeproc{ref-correlationPackage}{Makowski et al., 2022}) will be used
+to explore whether reliable variation in the random effects can be
+explained by theoretically relevant individual differences. Pearson's r
+and its associated 95\% confidence interval (\emph{CI}) will be reported
+and interpreted according to Pearson's criteria (ref). All analyses were
+conducted in R (version 4.5.2). Anonymized data, together with all
+preprocessing and analysis scripts, will be openly released on
+\href{https://github.com/RealityBending/FictionEro}{GitHub} to
+facilitate complete reproducibility.
+
+\subsection{Results}\label{results}
+
+\subsubsection{Distributions}\label{distributions}
+
+As shown in Figure~\ref{fig-dist}, the distributions of arousal and
+enticement ratings are heavily skewed toward the lower end of the scale,
+with a high frequency of scores at 0 and only a slight increase in
+counts toward mid-range of the scale (\textasciitilde0.50 - 0.75). In
+contrast, valence ratings exhibit a broader distribution, with frequent
+scores at both extremes as well as in the mid-range of the scale.
+
+\begin{figure*}[!htbp]
+
+{\caption{{Distributions of Arousal, Enticement and Valence ratings
+(i.e., rated on an analog scale from 0 to 1) for males and females
+across conditions. Distributions include a higher count of extreme
+answers (0 and 1s) justifying the use of a ZOIB
+model.}{\label{fig-dist}}}}
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Figure1.png}
+
+\end{figure*}
+
+\subsubsection{Manipulation Checks}\label{manipulation-checks}
+
+An initial manipulation check was conducted to assess participants'
+belief in the instructional cues. Based on participants' feedback after
+the initial rating phase, 41.7\% of participants reported that they did
+not believe the labels, indicating that a large proportion of
+participants perceived the image classifications as incorrect. However,
+52.3\% of images were rated as being more realistic in phase 2.
+
+To examine whether disbelief in the instructions was associated with
+differential responses to images labelled AI-generated versus
+photograph, Bayesian independent-samples t-test were conducted for each
+outcome variable. These tests compared the difference scores between
+AI-generated and photographic images as a function of whether
+participants reported that AI images were less arousing.
+
+For arousal, participants who reported that AI images were less arousing
+showed a larger difference between AI-generated and photographic images
+(M\textsubscript{difference} = −0.02) than participants who did not
+report this belief (M\textsubscript{difference} = −0.002). The t-test
+indicated extreme evidence for a difference between groups
+(BF\textsubscript{10} = 2.17 × 10\textsuperscript{604}). The estimated
+standardised effect size was large (median \(\delta\) = −1.11, 95\%
+\emph{CrI} {[}−1.13, −1.08{]}, \emph{pd} = 100\%).\\
+A similar pattern was observed for enticement and valence (for full
+results see analysis folder on the github link above).
+
+\subsubsection{Marginal Contrasts}\label{marginal-contrasts}
+
+\paragraph{Effect of Relevance.}\label{effect-of-relevance}
+
+To evaluate whether the different stimuli (erotic relevant, erotic
+irrelevant, and non-erotic) elicit dissimilar responses, marginal
+contrasts from the mixed models were examined, focusing on the effect of
+relevance. These contrasts assessed differences in arousal ratings
+across stimulus types separately for males and females.
+
+For males, relevant erotic images were rated as more arousing than both
+irrelevant (\(\Delta\) = 0.43, 95\% \emph{CrI} {[}0.39, 0.46{]},
+\emph{pd} = 100\%) and non-erotic images (\(\Delta\) = 0.44, 95\%
+\emph{CrI} {[}0.40, 0.47{]}, \emph{pd} = 100\%). For females, relevant
+erotic images were rated as more arousing than non-erotic images
+(\(\Delta\) = 0.20, 95\% \emph{CrI} {[}0.17, 0.24{]}, \emph{pd} =
+100\%), but not credibly more than irrelevant erotic images (\(\Delta\)
+= 0.04, 95\% \emph{CrI} {[}0.00, 0.08{]}, \emph{pd} = 96.36\%). Similar
+patterns were found for enticement and valence; although for females
+non-erotic images were rated more valent than relevant erotic images.
+
+\paragraph{Effect of Condition.}\label{effect-of-condition}
+
+Estimated marginal contrasts assessed the effect of condition
+(photographic vs.~AI-generated) across gender and relevance. For males,
+relevant erotic images presented as photographs were rated as slightly
+more arousing than those presented as AI-generated, although the effect
+was small (\(\Delta\) = 0.02, 95\% \emph{CrI} {[}0.00, 0.03{]},
+\emph{pd} = 99.6\%). In contrast, females showed the opposite pattern,
+with AI-generated images rated marginally higher than photographic
+images (\(\Delta\) = −0.02, 95\% \emph{CrI} {[}−0.03, 0.00{]}, \emph{pd}
+= 98.3\%). No other contrasts provided credible evidence for differences
+(all \emph{pd} \textless{} 88.2\%). Similar results were seen for
+enticement and valence ratings for males, but no credible differences
+between images labelled as photographs or AI-generated for females.
+
+\paragraph{Effect of Condition Depending on
+Congruence.}\label{effect-of-condition-depending-on-congruence}
+
+Estimated marginal contrasts examined the effect of condition as a
+function of gender, relevance, and congruence. Under congruent trials,
+photographic images were rated as more arousing than AI-generated images
+for relevant stimuli in both males and females. This effect was slightly
+larger for males (\(\Delta\) = 0.08, 95\% \emph{CrI} {[}0.06, 0.10{]},
+\emph{pd} = 100\%) than for females (\(\Delta\) = 0.06, 95\% \emph{CrI}
+{[}0.04, 0.08{]}, \emph{pd} = 100\%).
+
+Under incongruent trials, this pattern reversed for relevant stimuli:
+AI-generated images were rated as more arousing than photographic
+images. This reversal was more pronounced in females (\(\Delta\) =
+−0.09, 95\% \emph{CrI} {[}−0.12, −0.07{]}, \emph{pd} = 100\%) than in
+males (\(\Delta\) = −0.05, 95\% \emph{CrI} {[}−0.07, −0.03{]}, \emph{pd}
+= 100\%). Similar crossover patterns were observed for enticement and
+valence ratings of erotic, relevant images.
+
+For irrelevant and non-erotic stimuli, differences between photographic
+and AI-generated images were generally small and uncertain, with several
+credible intervals including zero. Under congruent trials, males rated
+AI-generated non-erotic images as slightly less arousing than those
+labelled as photographs (\(\Delta\) = 0.02, 95\% \emph{CrI} {[}0.01,
+0.04{]}, \emph{pd} = 99.66\%), and a comparable effect was observed in
+females for erotic but irrelevant images (\(\Delta\) = 0.02, 95\%
+\emph{CrI} {[}0.01, 0.04{]}, \emph{pd} = 100\%). Under incongruent
+trials, this pattern reversed; however, credible differences in arousal
+ratings of irrelevant stimuli were observed only in females, with
+AI-generated labels associated with higher arousal (\(\Delta\) = −0.03,
+95\% \emph{CrI} {[}−0.05, −0.01{]}, \emph{pd} = 99.69\%). For enticement
+ratings the same reversal pattern was found, with credible differences
+for all with the exception of males ratings of non-erotic images. On the
+other hand, all differences were credible for valence ratings for both
+genders and the same crossover effect was found.
+
+\begin{figure*}[!htbp]
+
+{\caption{{Estimated means for the effect of Condition depending on
+Congruency. Green rectangles represent differences in means where the pd
+\textgreater{} 97.5\%, indicating a consistent effect direction
+(Makowski et al., 2019). A crossover effect can be seen where the
+difference between arousal ratings between images labelled as
+AI-generated and those labelled as photographs, is reversed for
+incongruent trials.}{\label{fig-estimated\_means\_arousal}}}}
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Figure2.png}
+
+\end{figure*}
+
+\paragraph{Individual-level
+parameters.}\label{individual-level-parameters}
+
+For arousal, the model reliable variability was observed for both
+item-level (D-vour = 0.917) and participant-level parameters (D-vour =
+0.901). For irrelevant images, participant-level random slopes showed
+moderate reliability (D-vour = 0.704). In contrast, poor reliability was
+observed for participant-level effects associated with non-erotic images
+(D-vour = 0.628). Additionally, very low reliability was found for
+participant-level interactions with the AI-generated condition across
+all relevance parameters (relevant: D-vour = 0.135; irrelevant: D-vour =
+0.016; non-erotic: D-vour = 0.008), indicating minimal reliable
+inter-individual variability in responses to the labelling manipulation.
+
+Similar patterns were observed for enticement and valence, with reliable
+variability in both item- and participant-level intercepts and poor
+reliability for participant-level interactions with the AI-generated
+condition. The key difference was the presence of reliable
+participant-level variability for both irrelevant and non-erotic images.
+Specifically, for enticement, reliable effects were observed for
+irrelevant (D-vour = 0.838) and non-erotic images (D-vour = 0.835), and
+for valence, reliable effects were observed for irrelevant (D-vour =
+0.845) and non-erotic images (D-vour = 0.835).
+
+\paragraph{Correlation with
+moderators.}\label{correlation-with-moderators}
+
+The participant-specific intercepts (reflecting individual differences
+in baseline arousal in the reference condition) showed weak correlations
+with recency of sexual activity (\(r\) = − .05, 95\% \emph{CI} =
+{[}-.06, -.04{]}) and weak correlations with frequency of pornographic
+consumption in the previous 30 days (\(r\) = .09, 95\% \emph{CI} =
+{[}.08, .10{]}). Similarly, beliefs and attitudes towards AI showed only
+weak associations with the intercept, including positive (\(r\) = .12,
+95\% \emph{CI} = {[}.11, .13{]}) and negative attitudes (\(r\) = .05,
+95\% \emph{CI} = {[}.04, .06{]}). Correlations with self-reported
+knowledge about AI (r= .02, 95\% \emph{CI} ={[}.01, .03{]}), and beliefs
+about AI's visual (\(r\) =. 04, 95\% \emph{CI} = {[}.03, .06{]}) and
+textual abilities (\(r\) = .06, 95\% \emph{CI} = {[}.05, .07{]}) were
+similarly weak. The relevance and AI-generated parameters also showed
+low correlations with the examined moderators: recency of sexual
+activity (\(r\) = −.02, 95\% \emph{CI} = {[}-.03, -.01{]}), frequency of
+pornographic consumption in the previous 30 days (\(r\) = −.03, 05\%
+\emph{CI} {[}-.04, -.02{]}), positive attitudes towards AI (\(r\) = .07,
+95\% \emph{CI} {[}.07, .08{]}), negative attitudes towards AI (\(r\) =
+.03, 95\% \emph{CI} = {[}.02, .04{]}), knowledge about AI (\(r\) = .04,
+95\% \emph{CI} = {[}.03, .05{]}), belief on AI's visual (\(r\) = -.03,
+95\% \emph{CI} {[}-.04, -.02{]}) and textual abilities (\(r\) = .03,
+95\% \emph{CI} {[}.02, .04{]}). Taken together, these findings indicate
+that variability in the intercept and relevance-related parameters was
+not meaningfully associated with participants' sexual behaviour or their
+beliefs and attitudes towards AI (see Figure~\ref{fig-corr}). For
+enticement and valence the same pattern of behaviour was found (full
+analysis available on the link provided above).
+
+\begin{figure*}[!htbp]
+
+{\caption{{Top: Participant- and item-level estimates for the Arousal
+model parameters, under the distribution of their point-estimates.
+Reliable effects are characterised by a higher between-group variability
+(the dispersion of the distribution of point-estimates) relative to
+their within-group variability (the average uncertainty of individual
+estimates, reflected by the error bars). For example, the Intercept
+shows good reliability here, whereas the participant-level interactions
+with the AI-Generated label condition show low reliability. Bottom:
+Correlation matrix between participant-level estimates from the Arousal
+model and individual-difference measures. The model parameters show low
+to non-existent correlations with all individual characteristics,
+indicating that sensitivity to the label is not associated with the
+individual characteristics measured here.}{\label{fig-corr}}}}
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Figure3.png}
+
+\end{figure*}
+
+\subsection{Discussion}\label{discussion}
+
+In our first study, we presented subjects (heterosexual males and
+females) with several images from the NAPS database, including
+non-erotic images and both irrelevant (same gender) and relevant (other
+gender) erotic images. To manipulate subjects' belief about the
+authenticity of the stimuli, each image was cued with a colored label
+presenting it as either ``photograph'' or ``AI-generated''. After
+collecting subjective ratings of arousal, enticement and valence for
+each image, we performed a manipulation check to assess the efficacy of
+our experimental manipulation by asking them to rate how realistic they
+deemed the image.
+
+Marginal contrasts indicated that males, but not females, rated relevant
+erotic images as more arousing than irrelevant erotic images.
+Additionally, across both genders, non-erotic images were rated as less
+arousing than relevant erotic images.\\
+These findings support our hypothesis and are consistent with prior
+literature demonstrating stronger category-specificity in men's
+subjective responses to explicit stimuli {[}Chivers et al.
+(\citeproc{ref-chivers2004sex}{2004}); Chivers
+(\citeproc{ref-chivers2017specificity}{2017}); Huberman et al.
+(\citeproc{ref-huberman2015gender}{2015}); \textbf{Murnen and Stockton
+1997}{]}.\\
+One possible explanation for this pattern is the nature of the stimuli
+used. Prior work suggests that women's sexual responses are more
+sensitive to contextual and relational features, such as narrative,
+emotional connection, and cues of intimacy
+(\citeproc{ref-lan}{\textbf{lan?}}) {[}\textbf{Laan et al., 1994; Rupp
+\& Wallen, 2007; Rupp \& Wallen 2009}{]}. The stimuli in the present
+study did not include depictions of couples, as given the limitations of
+genAI at the time, convincing participants genAI could produce such
+images was thought to not be feasible. This absence of relational
+context may have reduced the likelihood of observing differential
+responses among female participants.
+
+In partial alignment with our hypothesis and previous work done by
+Marini et al. (\citeproc{ref-marini2024real}{2024}), images labelled
+AI-generated were rated lower than images labelled as photographs,
+however this was only found for males. Females on the other hand, rated
+erotic relevant images labelled as AI-generated higher in arousal.
+Notably, for both genders this difference in ratings was minimal. To
+further examine the role of stimulus evaluation, we included congruency
+between the label presented in Phase 1 and participant's realism ratings
+in Phase 2 as a predictor. A crossover interaction emerged: when
+participants' Phase 2 ratings were incongruent with the initial label,
+AI-labelled erotic images were rated as more arousing; conversely, when
+ratings were congruent, images labelled as photographs were rated as
+more arousing across both genders.
+
+We also examined whether variability in responses could be explained by
+individual differences in participants' attitudes towards AI and their
+sexual behaviours. To do so, we first assessed the extent to which
+responses to the AI label varied meaningfully between participants. The
+analysis indicated that between-participant variability in sensitivity
+to the AI label was minimal, suggesting that participants did not differ
+reliably in how the label influenced their responses. Consequently, it
+was not possible to draw meaningful conclusions about whether individual
+differences predicted sensitivity to the AI manipulation. One possible
+explanation for this lack of variability is that the label manipulation
+was not sufficiently strong or salient to elicit differentiated
+responses across individuals. As a result, any potential influence of
+individual differences may not have been adequately captured in the
+present design.
+
 \section{Study 2}\label{study-2}
+
+The rapid development adoption of genAI
+(\citeproc{ref-bright2025generative}{\textbf{bright2025generative?}};
+\citeproc{ref-stephenson2026student}{\textbf{stephenson2026student?}};
+\citeproc{ref-bick2026mind}{\textbf{bick2026mind?}}) following the
+conceptualisation of study 1 motivated a second study, designed to
+address several limitations of the first.
+
+First, at the time of Study 1, limitations in genAI realism prevented
+convincing depictions of couples, so the role of relational context
+could not be tested directly. Recent advances now allow for the
+generation of realistic couple stimuli depicting sexual activity without
+salient artefacts (e.g., anatomical inconsistencies such as extra
+fingers), making this test possible. Given that women's arousal tends to
+be more sensitive to intimacy, narrative, and the presence of an
+interacting partner than men's
+(\citeproc{ref-laan1994women}{\textbf{laan1994women?}};
+\citeproc{ref-rupp2007sex}{\textbf{rupp2007sex?}};
+\citeproc{ref-rupp2009sex}{\textbf{rupp2009sex?}}), we included
+couple-based stimuli in Study 2 to assess whether the absence of
+relational context contributed to the lower arousal ratings observed
+among female participants in Study 1.
+
+Second, in Study 1, marginal contrasts indicated credible differences in
+ratings between images labelled as AI-generated and those labelled as
+photographs only for relevant erotic stimuli, in both genders. Study 2
+therefore focused exclusively on erotic images relevant to participants'
+gender and sexual orientation.
+
+Third, Study 1 demonstrated that the effect of AI labelling was small
+and showed minimal variability across participants, limiting our ability
+to examine individual differences. One possible explanation is that the
+label manipulation lacked ecological validity. To strengthen its
+effectiveness, Study 2 used a more elaborate cover story and a more
+explicit control task: rather than simply judging whether images looked
+realistic, participants were asked to commit to a judgment of whether
+each image was an actual photograph or AI-generated.
+
+Finally, to reduce unexplained variability in responses and increase
+statistical sensitivity, Study 2 employed a more homogeneous sample of
+English-speaking, incentivised participants.
+
+Based on these aims, we tested the following hypotheses. As in Study 1,
+we hypothesised that images labelled as AI-generated would be rated
+lower in arousal than those labelled as photographs (H1). Given the
+crossover effect observed in Study 1, we hypothesised that this pattern
+would reverse under incongruent trials, such that AI-labelled images
+would be rated higher than photograph-labelled images when participants'
+realism judgments conflicted with the initial label (H2). Finally, we
+hypothesised that the inclusion of couple-based stimuli would narrow the
+gender gap in arousal observed in Study 1, by selectively increasing
+female arousal ratings (H3).
 
 \subsection{Methods}\label{methods-1}
 
@@ -570,17 +1293,23 @@ also provided.
 The initial sample comprised 279 participants recruited via
 Prolific\textcopyright. Inclusion criteria required participants to be
 native English speakers or residents of countries with high levels of
-English proficiency. Participant exclusions were applied as follows:
-five participants were removed for showing no variability in arousal
-ratings (i.e., they did not move the response scales). An additional
-five participants were excluded for completing the study on a mobile
-device. One participant was excluded due to displaying negative
-correlations between arousal and both enticement and valence.
+English proficiency. Data collection occurred from 27/01/2025 to
+31/07/2025 (best image generator at this time was Midjourney v6).
+Participant exclusions were applied as follows: five participants were
+removed for showing no variability in arousal ratings (i.e., they did
+not move the response scales). An additional five participants were
+excluded for completing the study on a mobile device. We removed these
+participants because the change in the presentation of our scales from
+likert to analog meaning participants completing the experiment on a
+phone would not be able to provide nuanced responses due to the smaller
+size of the screen. One participant was excluded due to displaying
+negative correlations between arousal and both enticement and valence.
 Furthermore, five participants who self-identified as neither female nor
 male, and two participants who reported a sexual orientation other than
 heterosexual, homosexual, or bisexual, were excluded from further
-analyses. Finally, one participant was removed because the stimuli
-presented were not relevant to their gender and sexual orientation.
+analyses due to lack of sufficient group sizes. Finally, one participant
+was removed because the stimuli presented were not relevant to their
+gender and sexual orientation.
 
 The final sample consisted of 261 participants (Mean = 37.4 \(\pm\)
 12.7, 48.7\% Female). 56.32\% of participants were from the United
@@ -597,42 +1326,49 @@ Psychology Ethics Committee at the University of Sussex (ER/EB672/2).
 The questionnaires used in Study 2 were largely the same as those in
 Study 1, with minor modifications. In the BAIT, two items, assessing
 beliefs that AI might take control of people and interest in using AI
-systems in daily life, were removed. Additionally, the wording was
-streamlined by replacing ``Artificial Intelligence'' with ``AI''
-throughout the scale. In the COPS, the item assessing the typical
-duration of pornography viewing sessions was omitted, retaining only
-items measuring frequency of pornography viewing and recency of sexual
-activity.
+systems in daily life, were removed. Three items assessing AI expertise
+were added (e.g., ``I consider myself an expert in AI technology), as
+well as four items assessing one's ability to discriminate between AI
+and real stimuli (e.g., ``I can easily distinguish between real and
+AI-generated images''). Lastly, 7 items assessing AI-bias were further
+included (e.g., ``Human creators bring a unique perspective that AI
+cannot replicate''). Items from the GAAIS used in study 1 were
+incorporated into this version of the BAIT resulting in 5 dimensions:
+Expectations (\(\omega\) = .76), Attitudes (\(\omega\) = .78), Expertise
+(\(\omega\) = .77), Discrimination (\(\omega\) = .80) and Bias
+(\(\omega\) = .77).\\
+Items were rated in a 7 Likert scale from 0 (Disagree) to 6 (Agree).
+Additionally, the wording was streamlined by replacing ``Artificial
+Intelligence'' with ``AI'' throughout the scale.
 
-\paragraph{Affective Measures.}\label{affective-measures-1}
+In the COPS, the item assessing the typical duration of pornography
+viewing sessions was omitted, retaining only items measuring frequency
+of pornography viewing and recency of sexual activity (\(\omega\) =
+.19).
 
-\paragraph{Arousal.}\label{arousal-1}
+\paragraph{Measures.}\label{measures}
 
-Subjective sexual arousal was assessed following each image with the
-question, ``How much did you feel sexually aroused?'' Responses were
-recorded on 6-point Likert scale from Not at all (0) to Very much (6).
-
-\paragraph{Enticement.}\label{enticement-1}
-
-Perceived enticement was measured after each image using the question,
-``How enticing would you rate this image to be?'' with the same scale
-ranging from 6-point Likert scale from Not at all (0) to Very much (6).
-
-\paragraph{Valence.}\label{valence-1}
-
-Emotional valence was evaluated by asking, ``The feeling evoked by the
-image was\ldots{}'' rated on a scale from Unpleasant (0) to Pleasant
-(6).
-
-\paragraph{Reality.}\label{reality}
-
-In a final stage of the experiment, each image was shown again, and
-participants rated on the images authenticity with the question, ``I
-think this face is\ldots Indicate your confidence that the image is fake
-or real'' using a continuous scale anchored at AI-generated (-3) and
-Photograph (3).
+The measures were largely the same as in Study 1 with the only
+difference being the wording of the reality measure to ``I think this
+face is\ldots Indicate your confidence that the image is fake or real''.
+Arousal, Enticement, Valence were rated on a 7-point Likert scale from
+Not at all (0) to Very much (6). The reality measure was rated on a
+continuous scale from AI-Generated (-3) to Photograph (3).
 
 \paragraph{Feedback.}\label{feedback-1}
+
+A survey was provided as a free choice with non-mutually exclusive
+options. The survey asked participants to indicate whether they found
+certain images particularly arousing, and whether AI-generated images
+were more or less arousing than the photographs. Participants were also
+asked about their perceptions of the AI-generation algorithm, including
+whether differences between AI-generated and real images were obvious or
+subtle, whether they perceived any inconsistencies or reversals in the
+labeling (``Photograph'' vs.~``AI-Generated''), and whether they
+believed all images were either photos or AI-generated. If participants
+indicated that they believed all images were either real or
+AI-generated, they were further asked to rate their confidence in this
+judgment on a scale from ``Not at all'' to ``Completely certain.''
 
 \subsubsection{Procedure}\label{procedure}
 
@@ -646,7 +1382,7 @@ Photograph (3).
 
 Consistent with Study 1, Study 2 was conducted in jsPsych following
 born-open principles (\citeproc{ref-de2015jspsych}{De Leeuw, 2015};
-\citeproc{ref-de2024datapipe}{Leeuw, 2024}).Participants first provided
+\citeproc{ref-de2024datapipe}{Leeuw, 2024}). Participants first provided
 informed consent, being informed that they could withdraw at any time;
 however, once the experiment was completed, withdrawal was not possible
 because the data were anonymized prior to storage. They then completed
@@ -655,74 +1391,642 @@ items regarding birth control use.
 
 In the first phase, participants were informed that the researchers were
 collaborating with a young AI start-up based in Brighton, intended to
-enhance the believability of the study. Participants were told that they
-would view images generated by this algorithm intermixed with ``real''
-photographs, each preceded by a label indicating whether the image was
-AI-generated or a photograph. They were asked to rate each image on
-sexual arousal, enticement, and valence. A total of 50 images were
-presented, drawn from two categories of the NAPS-ERO database (25 images
-of couples and 25 images of individuals).
+enhance the believability of the study. The following instructions were
+given:
 
-Images were assigned to be relevant to participants' self-reported
-gender and sexual orientation; for example, male participants
-identifying as homosexual viewed male individuals and male couples. Each
-trial followed a fixed timing sequence: a fixation cross (500 ms), a
-color-coded textual cue displayed for 1,000 ms, a second fixation cross
-(500 ms), and then the image presented for 2,000 ms. Cue colors were the
-same as in Study 1 and were randomly assigned across trials.
-Participants identifying as other in gender or bisexual/other in sexual
-orientation were asked which type of images they preferred, with options
-including ``Women (and heterosexual couples),'' ``Men (and heterosexual
-couples),'' ``Only women (and lesbian couples),'' and ``Only men (and
-gay couples).''
+\begin{quote}
+This study stems out of an exciting new partnership between researchers
+from the University of Sussex and a young AI startup based in Brighton,
+UK, that specializes in making AI technology more ethical. Our goal is
+to better understand how various people react to different images. For
+this, we will be using a new image generation algorithm (based on a
+modified Generative Adversarial Network) trained on a carefully refined
+material to produce realistic high-quality erotic images. This allows us
+to manipulate the generation parameters and understand how they impact
+perception. The illustration below demonstrates how a GAN algorithm
+generates face images. Our updated version extends this approach to
+full-body images, including multiple people interacting. This
+enhancement was achieved by improving the logic of the embedded space
+obtained from the training data.
+\end{quote}
+
+Participants were told the following:
+
+\begin{quote}
+In the next part, you will be presented with images generated by our
+algorithm (preceded by the word `AI-generated'), intermixed with real
+photos (preceded by the word `Photograph') taken from public picture
+databases, adjusted to be of similar dimension and aspect as the
+artificially generated images.
+\end{quote}
+
+They were asked to rate each image on sexual arousal, enticement, and
+valence. Each measure was defined as per Study 1 (see below). A total of
+50 images were presented, drawn from two categories of the NAPS-ERO
+database (25 images of couples and 25 images of individuals). The
+stimuli were selected from erotic categories based on sexual
+orientation, specifically arousal ratings. For heterosexual males and
+females, the 25 highest-arousal images were selected within each
+relevant category (female/male and oppsoitive-sex couples). Parallel
+sets were constructed for homosexual males and females using the
+corresponding same-sex categorisations. Images were assigned to be
+relevant to participants' self-reported gender and sexual orientation;
+for example, male participants identifying as homosexual viewed male
+individuals and male couples. Each trial followed a fixed timing
+sequence: a fixation cross (500 ms), a color-coded textual cue displayed
+for 1,000 ms, a second fixation cross (500 ms), and then the image
+presented for 2,000 ms. Cue colors were the same as in Study 1 and were
+randomly assigned across trials. Participants identifying as other in
+gender or bisexual/other in sexual orientation were asked which type of
+images they preferred, with options including ``Women (and heterosexual
+couples),'' ``Men (and heterosexual couples),'' ``Only women (and
+lesbian couples),'' and ``Only men (and gay couples).''
 
 Midway through the 50 images, participants were provided with a break
-and instructed to continue when ready. At this point, they completed a
-brief feedback survey assessing their subjective impressions of the
-images and AI-generation labels. This survey asked whether certain
-images were particularly arousing, whether AI-generated images were more
-or less arousing than the photographs, and participants' perceptions of
-the AI-generation algorithm. Specifically, they indicated whether
-differences between AI-generated and real images were obvious or subtle,
-whether they perceived inconsistencies or reversals in labeling
-(``Photograph'' vs.~``AI-Generated''), and whether they believed all
-images were either photos or AI-generated. If participants indicated
-that all images were real or AI-generated, they rated their confidence
-on a scale from ``Not at all'' to ``Completely certain.'' This feedback
-captured participants' explicit beliefs and subjective reactions
-regarding both the content and labeling of the images.Following the
-first phase, participants completed the BAIT and COPS questionnaires.
+and instructed to continue when ready. Following the completion of all
+images, they completed a brief feedback survey assessing their
+subjective impressions of the images and AI-generation labels. This
+survey asked whether certain images were particularly arousing, whether
+AI-generated images were more or less arousing than the photographs, and
+participants' perceptions of the AI-generation algorithm. Specifically,
+they indicated whether differences between AI-generated and real images
+were obvious or subtle, whether they perceived inconsistencies or
+reversals in labeling (``Photograph'' vs.~``AI-Generated''), and whether
+they believed all images were either photos or AI-generated. If
+participants indicated that all images were real or AI-generated, they
+rated their confidence on a scale from ``Not at all'' to ``Completely
+certain.'' This feedback captured participants' explicit beliefs and
+subjective reactions regarding both the content and labeling of the
+images. Following the first phase, participants completed the BAIT and
+COPS questionnaires.
 
 In the second phase, participants were informed that some images had
 been intentionally mislabeled and were asked to judge whether each image
 was AI-generated or a real photograph, expressing their confidence at
-the extremes of the scale. The timing procedure in this phase was
-identical to Study 1. After each image, participants provided general
-feedback regarding their experience and any additional comments.
+the extremes of the scale. They were given the following instructions:
+
+\begin{quote}
+{[}\ldots{]} there is something important we need to tell you\ldots{} In
+the previous phase, some images were intentionally mislabelled (we told
+you it was a photograph when it was actually AI-generated and vice
+versa). In this phase, we want you to tell us for each image what you
+think is the true category! We will briefly present all the images once
+more, and your task is to tell us if you think the image is AI-generated
+or a photograph. Indicate your degree of confidence and certainty by
+selecting larger numbers.
+\end{quote}
+
+The timing procedure in this phase was identical to Study 1 (ee
+Figure~\ref{fig-paradigm2}). After each image, participants provided
+general feedback regarding their experience and any additional comments.
 Finally, participants were presented with a debrief page informing them
-that all images were, in fact, real photographs (see
-Figure~\ref{fig-paradigm2}).
+that all images were, in fact, real photographs.
 
 \subsubsection{Data Analysis}\label{data-analysis}
+
+As in with study 1, Bayesian linear mixed models will be fitted for the
+three outcome variables, each predicted from Gender, Condition and
+Condition Belief: Outcome \textasciitilde{} Gender / Condition *
+Congruence + (Condition \textbar{} Participant) + (1 \textbar{} Item).
+For ease of comparison with study 1 results, all outcome variables will
+be bounded between 0 to 1, and the ZOIB family will be fitted. Weakly
+informative priors will again be placed on fixed effects, and each model
+will be estimated with 2000 iterations across 96 chains resulting in
+96000 post-warm up draws and run on the HPC.
+
+Marginal contrasts will be computed to compare marginal means with
+condition (i.e., AI-Generated and Photograph) as the predicted
+contrasts, estimated with levels of Gender, and levels of Gender
+depending on Congruency. The same analysis as study 1 individual-level
+parameters and correlations with moderators will be conducted, using the
+same packages. To further assess the effect of the type of image (e.g.,
+couple vs individuals) the same analysis was conducted adding Type as
+predictor.
+
+Consistent with Study 1, the Results section will focus primarily on
+arousal, with results for enticement and valence reported elsewhere. All
+analyses were conducted in R (version 4.5.2;
+https://github.com/RealityBending/FictionEro containins all materials,
+data and analysis scripts for study 2).
+
+\subsection{Results}\label{results-1}
+
+\subsubsection{Distributions}\label{distributions-1}
+
+As shown in Figure~\ref{fig-dist2}, arousal ratings exhibit different
+distributional patterns for males and females. Male participants show a
+broader distribution of arousal scores, with relatively higher
+frequencies at both the lower end of the scale and across the mid-range
+(\textasciitilde{} 0.50--0.70). In contrast, female participants'
+arousal ratings are more heavily concentrated at the lower end of the
+scale, with frequencies decreasing as arousal values increase. A similar
+pattern is observed for enticement and valence. For males, higher
+frequencies are evident in the mid-range of the scale, whereas for
+females, responses tend to cluster at the lower end of the scale with an
+additional concentration in the mid-range.
+
+\begin{figure*}[!htbp]
+
+{\caption{{Distributions of Arousal, Enticement and Valence ratings for
+males and females across conditions. Scores were bounded from 0 to
+1.}{\label{fig-dist2}}}}
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Figure4.png}
+
+\end{figure*}
+
+\subsubsection{Manipulation checks}\label{manipulation-checks-1}
+
+In Study 2, 32\% of participants reported believing that all images were
+real based on their feedback after Phase 1, indicating that a third of
+participants did not believe in the manipulation. However, in Phase 2,
+48.2\% of images were classified as photographs.
+
+To assess whether image ratings differed between stimuli labelled as
+AI-generated versus photographs as a function of whether the
+instructional labels were believed, Bayesian independent-samples t-tests
+were conducted for arousal, enticement, and valence. The t-test
+comparing arousal difference scores between participants who did not
+believe the labels (M\textsubscript{difference} = −0.009) and those who
+did (M\textsubscript{difference} = −0.03) found extreme evidence in
+favour of a difference between the means (BF\textsubscript{10} = 3.4 ×
+10\textsuperscript{203}). This estimated effect size was large (median
+\(\delta\) = −1.10, 95\% \emph{CrI} {[}−1.14, −1.06{]}, \emph{pd} =
+100\%). A similar pattern was observed for enticement and valence.
+
+\subsubsection{Marginal contrasts}\label{marginal-contrasts-1}
+
+\paragraph{Effect of Type.}\label{effect-of-type}
+
+The addition of image type (e.g., images of couples vs images of
+individuals) showed a credible difference between ratings of individual
+images between males and females with the former rating images higher in
+arousal (\(\Delta\) = .17, 95\% \emph{CrI} {[}.11, .22{]}, pd = 100\%).
+No credible differences between ratings of couple images was found
+between males and females (\(\Delta\) = 0.009, 95\% \emph{CrI} {[}-.02,
+.04{]}, pd = 69.92\%). Same patterns were found for enticement and
+valence (see (\citeproc{ref-fig}{\textbf{fig?}})=type).
+
+\begin{figure*}[!htbp]
+
+{\caption{{Estimated means for Arousal, Enticement and Valence for
+images of individuals and couples, for both genders. Green rectangles
+represent differences in means where the pd \textgreater{} 97.5\%,
+indicating a consistent effect direction (Makowski et al.,
+2019).}{\label{fig-type}}}}
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Figure5.png}
+
+\end{figure*}
+
+Additionally, credible differences were found for females and males
+ratings between image types. Couple images were rated higher in arousal
+compared to images of individuals for females (\(\Delta\) = .08, 95\%
+\emph{CrI} {[}.03, .12{]}, \emph{pd} = 99.98\%), whilst males rated
+couple images lower (\(\Delta\) = -.08, 95\% \emph{CrI} {[}-.12, .04{]},
+\emph{pd} = 99.99\%). Enticement and valence ratings were credibly
+different (pd \textgreater{} 99.99\%) for both females and males, with
+males ratings for couple images being rated lower than images with
+individuals, whereas the pattern was reversed for females.
+
+\paragraph{Effect of Condition (with and without
+Type).}\label{effect-of-condition-with-and-without-type}
+
+Estimated marginal contrasts assessing the effect of condition across
+gender showed that the difference was only credible for Males
+(\(\Delta\) = .06, 95\% \emph{CrI} {[}.04, .07{]}, \emph{pd} = 100\%)
+but not for females (\(\Delta\) = .01, 95\% \emph{CrI} {[}.00, .02{]},
+\emph{pd} = 93.57\%). The same pattern was found for enticement. For
+valence ratings, both genders rated images labelled as photograph higher
+than those labelled AI-generated (pd \textgreater{} 98.8\%).
+
+The effect of condition across gender for the type of images showed only
+males credibly differed in arousal ratings of images of couples labelled
+photograph vs those labelled AI-generated (\(\Delta\) = .02, 95\%
+\emph{CrI} {[}.00, .04{]}, \emph{pd} = 99.23\%), and ratings of
+individuals (\(\Delta\) = .02, 95\% \emph{CrI} {[}.00, .03{]}, \emph{pd}
+= 98.77\%). No credible differences were found for females (pd
+\textless{} 88.2\%). Enticement ratings followed the same pattern, while
+for valence ratings the only credible difference was found for females
+ratings of couple images, with those images labelled photograph being
+rated higher than those labelled Ai-generated (\(\Delta\) = .02, 95\%
+\emph{CrI} {[}.01, .04{]}, \emph{pd} = 99.52\%).
+
+\paragraph{Effect of Condition Depending on Congruence (with and without
+Type).}\label{effect-of-condition-depending-on-congruence-with-and-without-type.}
+
+Estimated marginal contrasts examined differences in arousal ratings
+between photographic and AI-generated images as a function of gender and
+congruence. Under congruent trials, photographic images were rated as
+more arousing for both genders, with a stronger effect for males
+(\(\Delta\) = .06, 95\% \emph{CrI} {[}.04, .07{]}, pd = 100\%) than
+females (\(\Delta\) = .02, 95\% \emph{CrI} {[}.00, .04{]}, \emph{pd} =
+97.18\%). Under incongruent trials, the direction of the effect reversed
+for males (\(\Delta\) = −.02, 95\% \emph{CrI} {[}−.04, −.01{]},
+\emph{pd} = 99.71\%), whereas the effect for females was negligible
+(\(\Delta\) ≈ 0, 95\% \emph{CrI} {[}−.02, .02{]}, \emph{pd} = 57\%).
+
+Incorporating image type into the models provided limited additional
+evidence for differences overall, although some credible effects emerged
+for males. Specifically, under incongruent trials, males showed higher
+arousal ratings for photograph- relative to AI-labelled images for both
+couples (\(\Delta\) = .06, 95\% \emph{CrI} {[}.03, .08{]}, \emph{pd} =
+100\%) and individuals (\(\Delta\) = .06, 95\% \emph{CrI} {[}.04,
+.08{]}, \emph{pd} = 100\%). Under congruent trials, a credible
+difference for males was observed only for individual images (\(\Delta\)
+= −.03, 95\% \emph{CrI} {[}−.05, −.01{]}, \emph{pd} = 99.41\%). In
+contrast, female participants showed no credible differences across
+trial types or image categories, with estimates centred near zero and
+credibility intervals spanning zero.
+
+Enticement and valence ratings followed a broadly similar pattern to
+arousal, with higher ratings for photographic images under congruent
+trials and weaker, less consistent reversals under incongruent trials. A
+notable exception was observed for female participants, who showed
+credible differences under congruent trials, with photograph-labelled
+images rated higher for both enticement and valence (pd \textgreater{}
+99.2\%).
+
+When image type was included in the models, credible differences in
+enticement ratings were largely restricted to males: under congruent
+trials, males showed higher ratings for photograph-labelled images for
+both couples and individual stimuli (pd = 100\%), whereas under
+incongruent trials, this effect remained only for individual images (pd
+\textgreater{} 99\%). For valence ratings, most contrasts became
+credible following the inclusion of image type (pd \textgreater{} 98\%),
+maintaining the same reversal pattern under incongruent trials. The
+primary exception was for female ratings of couple images under
+incongruent trials, where evidence remained inconclusive (pd \textless{}
+59.5\%).
+
+\begin{figure*}[!htbp]
+
+{\caption{{Estimated arousal means for the effect of Condition depending
+on Congruency. Green rectangles represent differences in means where the
+pd \textgreater{} 97.5\%, indicating a consistent effect direction
+(Makowski et al., 2019).}{\label{fig-arousal\_means}}}}
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Figure6.png}
+
+\end{figure*}
+
+\paragraph{Individual-level
+parameters.}\label{individual-level-parameters-1}
+
+For arousal, reliable variability was observed for both item-level
+(D-vour = 0.949) and participant-level parameters (D-vour = 0.914). In
+contrast, very low reliability was found for participant-level
+interactions with the AI-generated condition (D-vour = 0.072),
+indicating minimal reliable inter-individual variability in responses to
+the belief manipulation, consistent with Study 1.
+
+A similar pattern was observed for enticement and valence, with the key
+difference that, for valence ratings, the participant-level interaction
+with the AI-generated condition showed slightly higher reliability
+(D-vour = 0.203), although reliability is still low.
+
+\paragraph{Correlation with
+moderators.}\label{correlation-with-moderators-1}
+
+For the intercept of the arousal model, correlations with beliefs and
+attitudes towards AI were overall weak (\(r\) = .25, 95\% \emph{CI}
+{[}.23, .26{]}). More specifically, the intercept showed weak positive
+associations with general expectations about AI (\(r\) =.16, 95\%
+\emph{CI} {[}.14, .17{]}), general attitudes towards AI (\(r\) =.14,
+95\% \emph{CI} {[}.12, .16{]}), self-reported expertise about AI (\(r\)
+=.25, 95\% \emph{CI} {[}.24, .27{]}), and bias against AI content (\(r\)
+=.15, 95\% \emph{CI} {[}.13, .17{]}). The correlation with
+discrimination ability between AI- and human-generated content was
+negligible (\(r\) =−.01, 95\% \emph{CI} {[}−.03, .01{]}). Additionally,
+weak positive correlations were observed with recency of sexual activity
+(\(r\) =.04, 95\% \emph{CI} {[}.02, .06{]}) and frequency of
+pornographic consumption in the previous 30 days (\(r\) =.11, 95\%
+\emph{CI} {[}.09, .13{]}).
+
+The AI-generated parameter also showed weak positive correlations with
+total beliefs and attitudes towards AI (\(r\) =.23, 95\% \emph{CI}
+{[}.22, .25{]}), general expectations about AI (\(r\) =.10, 95\%
+\emph{CI} {[}.08, .12{]}), general attitudes towards AI (\(r\) =.16,
+95\% \emph{CI} {[}.15, .18{]}), self-reported expertise about AI (\(r\)
+=.25, 95\% \emph{CI} {[}.23, .27{]}), and bias against AI content (\(r\)
+=.14, 95\% \emph{CI} {[}.13, .16{]}). Correlations with discrimination
+ability between AI- and human-generated content were again negligible
+(\(r\) =−.02, 95\% \emph{CI} {[}−.03, .00{]}). Finally, weak
+associations were observed with recency of sexual activity (\(r\) =.04,
+95\% \emph{CI} {[}.02, .05{]}) and frequency of pornographic consumption
+in the previous 30 days (\(r\) =.10, 95\% \emph{CI} {[}.08, .12{]}).
+
+For the enticement and valence models, the pattern of results was
+broadly similar (see https://github.com/RealityBending/FictionEro).
+Taken together, and consistent with Study 1, these findings suggest that
+variability in the arousal, enticement, and valence parameters was not
+meaningfully associated with beliefs and attitudes towards AI or with
+sexual behaviour.
+
+\begin{figure*}[!htbp]
+
+{\caption{{Top: Forest plots of participant- and item-level
+random-effect estimates (points = posterior means, lines = 95\% credible
+intervals) for the Intercept (left) and the AI-Generated slope (right),
+with density curves showing the distribution of point-estimates across
+participants/items. Reliable effects are those where between-group
+variability (spread of the point-estimate distribution) is large
+relative to within-group variability (the average width of the
+individual credible intervals). By this standard, the Intercept shows
+good reliability --- the spread of estimates clearly exceeds individual
+measurement error --- while the AI-Generated effect shows poor
+reliability: individual differences in sensitivity to the label are
+small relative to the uncertainty in each participant's estimate.
+Bottom: Correlations between participant-level model estimates
+(Intercept, AI-Generated slope) and individual-difference measures,
+self-reported sexual activity, and pornography use frequency.
+Correlations are uniformly weak (\textbar r\textbar{} ≤ .11), suggesting
+that participants' baseline arousal ratings and their sensitivity to the
+AI-Generated label are largely independent of the dispositional and
+behavioral measures assessed here.}{\label{fig-corr2}}}}
+
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{images/Figure6.png}
+
+\end{figure*}
+
+\subsection{Discussion}\label{discussion-1}
+
+In study 2, participants viewed erotic images depicting both couples and
+individuals matched to their sexual orientation. As in Study 1, images
+were labelled as either photographs or AI-generated. The strengthening
+of the manipulation in this study appeared to modestly improve its
+effectiveness: 32\% of participants reported believing that all images
+were real, compared to a higher proportion in Study 1 (42\%), suggesting
+increased credibility of the manipulation, though still limited.
+
+Overall, the pattern of findings partially replicated those observed in
+Study 1. Under congruent trials, images labelled as photographs were
+rated as more arousing, enticing, and positively valenced compared to
+those labelled as AI-generated. Under incongruent trials, this pattern
+reversed, consistent with the crossover effect observed previously.
+However, these effects were again primarily driven by male participants.
+For females, effects were weaker and less consistent: while some
+credible differences emerged under congruent trials for enticement and
+valence ratings, there was little evidence of a reversal under
+incongruent trials. Thus, while the predicted crossover interactions
+were observed, support was stronger and more consistent for males, only
+partially replicating Study 1.
+
+A key aim of Study 2 was to examine whether the inclusion of relational
+context (i.e., via couple-based stimuli) would narrow the gender gap in
+arousal observed in Study 1. The findings support this prediction.
+Specifically, males and females did not differ credibly in their ratings
+of couple images, whereas males continued to rate individual images as
+more arousing than females. This suggests that the absence of relational
+context in Study 1 may have contributed to the lower arousal ratings
+observed among female participants. By incorporating more contextually
+rich stimuli, Study 2 provides evidence that female responses to sexual
+stimuli are indeed more sensitive to relational cues, consistent with
+prior researc {[}e.g.,
+(\citeproc{ref-laan1994women}{\textbf{laan1994women?}}); rupp2009sex;
+(\citeproc{ref-rupp2007sex}{\textbf{rupp2007sex?}}){]}.
+
+Despite efforts to strengthen the manipulation, the overall effect of AI
+labelling remained small and showed minimal reliable variability across
+participants, replicating the pattern observed in Study 1. Consequently,
+as in Study 1, it was not possible to draw strong conclusions regarding
+individual differences as moderators of the labelling effect.
+Nevertheless, correlational analyses provided limited but additional
+insight: weak associations were found between arousal responses (both
+baseline and AI-related parameters) and self-reported beliefs,
+attitudes, and AI expertise, though these effects were small and
+insufficient to explain meaningful variability in responses.
+
+Taken together, Study 2 extends the findings of Study 1 in two important
+ways. First, it demonstrates that the inclusion of relational context
+narrows the gender gap in arousal to erotic stimuli, supporting the
+interpretation that female sexual responding is more context-dependent.
+Second, it shows that strengthening the realism manipulation does not
+substantially increase its impact or reveal meaningful individual
+differences, reinforcing the conclusion that belief about stimulus
+origin exerts only a modest influence on affective responses.
+
+\section{General Discussion}\label{general-discussion}
+
+The present paper investigated the existence and mechanism of an anti-AI
+bias in response to erotic stimuli across two studies, with a particular
+focus on the role of gender and belief-related processes. Across both
+studies, participants evaluated erotic (Study 1 and Study 2) and
+non-erotic (Study 1) images that were labelled as either AI-generated or
+photographs. Overall, the findings provide converging evidence for three
+main conclusions: (1) gender differences in response to erotic content
+are robust and context-dependent, (2) the effect of AI labelling on
+responses is small and primarily observed in males, and (3)
+belief-related processes (i.e., congruency between initial labels and
+subsequent realism/reality judgements) play a central role in shaping
+affective responses.
+
+First, the results replicate and extend prior literature on gender
+differences in response to erotic stimuli. In Study 1, males showed
+clear category-specificity, rating sexually relevant images as more
+arousing than irrelevant ones, whereas females did not show a credible
+difference between these categories. Study 2, which presented only
+relevant stimuli, instead examined whether the gender gap in arousal
+observed in Study 1 was contingent on the nature of the stimuli. When
+relational context was introduced through couple-based images, this gap
+narrowed substantially: males and females did not differ in their
+ratings of couple images, while a gap persisted for images depicting
+individuals. Notably, Study 2 also showed that females rated images of
+couples higher than images of individuals. This finding supports the
+interpretation that female sexual responses are more sensitive to
+contextual and relational cues, and suggests that the absence of such
+features in Study 1 likely amplified the apparent gender gap in arousal.
+
+Second, evidence for an anti-AI bias was partial and asymmetrical. In
+line with previous findings Marini et al.
+(\citeproc{ref-marini2024real}{2024}), images labelled as AI-generated
+were generally rated as less arousing than those labelled as
+photographs. However, this effect was small in magnitude and primarily
+driven by male participants across both studies, with little to no
+consistent evidence for such a bias in females. In Study 1, females
+rated relevant erotic images higher in arousal (but not valence or
+enticement) when they were presented as AI-generated; however, this was
+not found in Study 2. In both studies, males consistently rated images
+presented as photographs higher.
+
+Third, and most importantly, the present findings highlight the central
+role of belief-related processes in shaping affective responses. In both
+studies, a substantial proportion of participants expressed doubts about
+the veracity of the labels after Phase 1, based on their feedback on
+whether they thought labels were incorrect (Study 1) or that all images
+were real (Study 2). We further evaluated these belief-related effects
+on ratings by operationalising a congruency variable, which revealed a
+crossover interaction with condition. When participants' realism
+judgments were congruent with the initial label, images labelled as
+photographs were rated higher than those labelled as AI-generated. In
+contrast, when judgments were incongruent, this pattern reversed, with
+AI-labelled images receiving higher ratings. This effect suggests that
+participants' affective responses are closely tied to whether they were
+second-guessing the authenticity of the images.
+
+These crossover effects can be interpreted in at least two ways. First,
+participants may form rapid, largely implicit evaluations of stimulus
+authenticity upon initial exposure, which subsequently shape their
+arousal responses. Under this account, when an image labelled as
+AI-generated is nonetheless perceived as photograph-like, it may be
+experienced as more realistic and therefore more arousing, with this
+evaluation later reflected in Phase 2 realism ratings. In this sense,
+arousal ratings would be guided by participants' initial impressions of
+authenticity, even if these impressions are not explicitly remembered or
+consciously endorsed. An alternative interpretation is that the
+direction of influence is reversed: rather than authenticity judgments
+driving arousal, some images may simply elicit stronger or weaker
+affective responses independent of their assigned label, and
+participants may retrospectively align their realism judgments with
+these affective reactions, such that less arousing images are more
+likely to be classified as AI-generated, and more arousing images as
+photographs. In this case, perceived authenticity would be inferred from
+the emotional response to the stimulus, rather than determining it.
+Together, these interpretations suggest that arousal and perceived
+authenticity may be reciprocally related, with the observed congruency
+effects reflecting either the influence of initial authenticity
+impressions on affective response, or post hoc alignment of realism
+judgments with experienced arousal.
+
+\textbf{Limitations} \ldots.
+
+\textbf{Future directions} \ldots.
 
 \section{References}\label{references}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\bibitem[\citeproctext]{ref-corvi2023detection}
-Corvi, R., Cozzolino, D., Zingarini, G., Poggi, G., Nagano, K., \&
-Verdoliva, L. (2023). On the detection of synthetic images generated by
-diffusion models. \emph{ICASSP 2023-2023 IEEE International Conference
-on Acoustics, Speech and Signal Processing (ICASSP)}, 1--5.
+\bibitem[\citeproctext]{ref-Security2023Hero}
+2023 STATE OF DEEPFAKES: Realities, threats, and impact. (n.d.). In
+\emph{Security Hero}.
+\url{https://www.securityhero.io/state-of-deepfakes/}
+
+\bibitem[\citeproctext]{ref-ajder2019state}
+Ajder, H., Patrini, G., Cavalli, F., \& Cullen, L. (2019). The state of
+deepfakes: Landscape, threats, and impact. \emph{Amsterdam: Deeptrace},
+\emph{27}.
+
+\bibitem[\citeproctext]{ref-ansani2025ai}
+Ansani, A., Koehler, F., Giombini, L., Hämäläinen, M., Meng, C., Marini,
+M., \& Saarikallio, S. (2025). AI performer bias: Listeners like music
+less when they think it was performed by an AI. \emph{Empirical Studies
+of the Arts}, \emph{43}(2), 1137--1161.
+
+\bibitem[\citeproctext]{ref-bellaiche2023humans}
+Bellaiche, L., Shahi, R., Turpin, M. H., Ragnhildstveit, A., Sprockett,
+S., Barr, N., Christensen, A., \& Seli, P. (2023). Humans versus AI:
+Whether and why we prefer human-created compared to AI-created artwork.
+\emph{Cognitive Research: Principles and Implications}, \emph{8}(1), 42.
+
+\bibitem[\citeproctext]{ref-burkner2017brms}
+Bürkner, P.-C. (2017). Brms: An r package for bayesian multilevel models
+using stan. \emph{Journal of Statistical Software}, \emph{80}, 1--28.
+
+\bibitem[\citeproctext]{ref-califano2024assessing}
+Califano, G., \& Spence, C. (2024). Assessing the visual appeal of
+real/AI-generated food images. \emph{Food Quality and Preference},
+\emph{116}, 105149.
+
+\bibitem[\citeproctext]{ref-carvalho2018gender}
+Carvalho, J., Czop, O., Rocha, M., Nobre, P., \& Soares, S. (2018).
+Gender differences in the automatic attention to romantic vs sexually
+explicit stimuli. \emph{The Journal of Sexual Medicine}, \emph{15}(8),
+1083--1092.
+
+\bibitem[\citeproctext]{ref-cenerini2025artistic}
+Cenerini, C., Keller, F., Pennazza, G., Santonico, M., \& Vollero, L.
+(2025). Artistic turing test: The challenge of differentiating human and
+AI-generated art. \emph{Computers in Human Behavior: Artificial Humans},
+100209.
+
+\bibitem[\citeproctext]{ref-chiarella2022investigating}
+Chiarella, S. G., Torromino, G., Gagliardi, D. M., Rossi, D., Babiloni,
+F., \& Cartocci, G. (2022). Investigating the negative bias towards
+artificial intelligence: Effects of prior assignment of AI-authorship on
+the aesthetic appreciation of abstract paintings. \emph{Computers in
+Human Behavior}, \emph{137}, 107406.
+
+\bibitem[\citeproctext]{ref-chivers2017specificity}
+Chivers, M. L. (2017). The specificity of women's sexual response and
+its relationship with sexual orientations: A review and ten hypotheses.
+\emph{Archives of Sexual Behavior}, \emph{46}(5), 1161--1179.
+
+\bibitem[\citeproctext]{ref-chivers2004sex}
+Chivers, M. L., Rieger, G., Latty, E., \& Bailey, J. M. (2004). A sex
+difference in the specificity of sexual arousal. \emph{Psychological
+Science}, \emph{15}(11), 736--744.
+
+\bibitem[\citeproctext]{ref-ciesielski2010emotion}
+Ciesielski, B. G., Armstrong, T., Zald, D. H., \& Olatunji, B. O.
+(2010). Emotion modulation of visual attention: Categorical and temporal
+characteristics. \emph{PLoS One}, \emph{5}(11), e13860.
+
+\bibitem[\citeproctext]{ref-cloudy2022ai}
+Cloudy, J., Banks, J., \& Bowman, N. D. (2022). Ai journalists and
+reduction of perceived hostile media bias: Replication and extension
+considering news organization cues. \emph{Technology, Mind, and
+Behavior}, \emph{3}(3), 364.
 
 \bibitem[\citeproctext]{ref-de2015jspsych}
 De Leeuw, J. R. (2015). jsPsych: A JavaScript library for creating
 behavioral experiments in a web browser. \emph{Behavior Research
 Methods}, \emph{47}(1), 1--12.
 
-\bibitem[\citeproctext]{ref-graber2021artificial}
-Graber-Mitchell, N. (2021). \emph{Artificial illusions: Deepfakes as
-speech}.
+\bibitem[\citeproctext]{ref-de2021distinct}
+De Ruiter, A. (2021). The distinct wrong of deepfakes. \emph{Philosophy
+\& Technology}, \emph{34}(4), 1311--1332.
+
+\bibitem[\citeproctext]{ref-di2023art}
+Di Dio, C., Ardizzi, M., Schieppati, S. V., Massaro, D., Gilli, G.,
+Gallese, V., \& Marchetti, A. (2023). Art made by artificial
+intelligence: The effect of authorship on aesthetic judgments.
+\emph{Psychology of Aesthetics, Creativity, and the Arts}.
+
+\bibitem[\citeproctext]{ref-doring2024impact}
+Döring, N., Le, T. D., Vowels, L. M., Vowels, M. J., \& Marcantonio, T.
+L. (2024). The impact of artificial intelligence on human sexuality: A
+five-year literature review 2020--2024. \emph{Current Sexual Health
+Reports}, \emph{17}(1), 4.
+
+\bibitem[\citeproctext]{ref-doring2025anti}
+Döring, N., \& Mohseni, M. R. (2025). Anti-AI bias toward couple images
+and couple counseling: Findings from two experiments. \emph{Archives of
+Sexual Behavior}, 1--14.
+
+\bibitem[\citeproctext]{ref-dunn2026too}
+Dunn, J. D., White, D., Sutherland, C. A., Miller, E. J., Steward, B.
+A., \& Dawel, A. (2026). Too good to be true: Synthetic AI faces are
+more average than real faces and super-recognizers know it.
+\emph{British Journal of Psychology}.
+
+\bibitem[\citeproctext]{ref-easterbrook2025pornographic}
+Easterbrook-Smith, G. (2025). Pornographic aura, AI and the value of
+authenticity. \emph{Porn Studies}, 1--13.
+
+\bibitem[\citeproctext]{ref-eiserbeck2023deepfake}
+Eiserbeck, A., Maier, M., Baum, J., \& Abdel Rahman, R. (2023). Deepfake
+smiles matter less---the psychological and neural impact of presumed
+AI-generated faces. \emph{Scientific Reports}, \emph{13}(1), 16111.
+
+\bibitem[\citeproctext]{ref-fisher2025something}
+Fisher, S. A. (2025). Something AI should tell you--the case for
+labelling synthetic content. \emph{Journal of Applied Philosophy},
+\emph{42}(1), 272--286.
+
+\bibitem[\citeproctext]{ref-fisher2024moderating}
+Fisher, S. A., Howard, J. W., \& Kira, B. (2024). Moderating synthetic
+content: The challenge of generative AI. \emph{Philosophy \&
+Technology}, \emph{37}(4), 133.
+
+\bibitem[\citeproctext]{ref-gangadharbatla2022role}
+Gangadharbatla, H. (2022). The role of AI attribution knowledge in the
+evaluation of artwork. \emph{Empirical Studies of the Arts},
+\emph{40}(2), 125--142.
+
+\bibitem[\citeproctext]{ref-grassini2024understanding}
+Grassini, S., \& Koivisto, M. (2024). Understanding how personality
+traits, experiences, and attitudes shape negative bias toward
+AI-generated artworks. \emph{Scientific Reports}, \emph{14}(1), 4113.
 
 \bibitem[\citeproctext]{ref-hatch2023consumption}
 Hatch, S. G., Esplin, C. R., Hatch, H. D., Halstead, A., Olsen, J., \&
@@ -730,14 +2034,119 @@ Braithwaite, S. R. (2023). The consumption of pornography scale--general
 (COPS--g). \emph{Sexual and Relationship Therapy}, \emph{38}(2),
 194--218.
 
-\bibitem[\citeproctext]{ref-kreps2022all}
-Kreps, S., McCain, R. M., \& Brundage, M. (2022). All the news that's
-fit to fabricate: AI-generated text as a tool of media misinformation.
-\emph{Journal of Experimental Political Science}, \emph{9}(1), 104--117.
+\bibitem[\citeproctext]{ref-heiss2021guide}
+Heiss, A. (2021). A guide to modeling proportions with bayesian beta and
+zero-inflated beta regression models. \emph{Political Science. See
+Https://Www. Andrewheiss.
+Com/Blog/2021/11/08/Beta-Regression-Guide/(accessed 8 February 2024)}.
+
+\bibitem[\citeproctext]{ref-holz2022variably}
+Holz, N., Larrouy-Maestri, P., \& Poeppel, D. (2022). The variably
+intense vocalizations of affect and emotion (VIVAE) corpus prompts new
+perspective on nonspeech perception. \emph{Emotion}, \emph{22}(1), 213.
+
+\bibitem[\citeproctext]{ref-huang2011human}
+Huang, M., Bridge, H., Kemp, M. J., \& Parker, A. J. (2011). Human
+cortical activity evoked by the assignment of authenticity when viewing
+works of art. \emph{Frontiers in Human Neuroscience}, \emph{5}, 134.
+
+\bibitem[\citeproctext]{ref-huberman2015gender}
+Huberman, J. S., Maracle, A. C., \& Chivers, M. L. (2015).
+Gender-specificity of women's and men's self-reported attention to
+sexual stimuli. \emph{The Journal of Sex Research}, \emph{52}(9),
+983--995.
+
+\bibitem[\citeproctext]{ref-itkes2019affective}
+Itkes, O., \& Kron, A. (2019). Affective and semantic representations of
+valence: A conceptual framework. \emph{Emotion Review}, \emph{11}(4),
+283--293.
+
+\bibitem[\citeproctext]{ref-kobis2021artificial}
+Köbis, N., \& Mossink, L. D. (2021). Artificial intelligence versus maya
+angelou: Experimental evidence that people cannot differentiate
+AI-generated from human-written poetry. \emph{Computers in Human
+Behavior}, \emph{114}, 106553.
+
+\bibitem[\citeproctext]{ref-kramer2025ai}
+Kramer, R. S., Jones, A. L., Fitousi, D., \& Tree, J. J. (2025).
+AI-generated images of familiar faces are indistinguishable from real
+photographs. \emph{Cognitive Research: Principles and Implications},
+\emph{10}(1), 70.
+
+\bibitem[\citeproctext]{ref-kunaharan2017conscious}
+Kunaharan, S., Halpin, S., Sitharthan, T., Bosshard, S., \& Walla, P.
+(2017). Conscious and non-conscious measures of emotion: Do they vary
+with frequency of pornography use? \emph{Applied Sciences}, \emph{7}(5),
+493.
+
+\bibitem[\citeproctext]{ref-kurdi2017introducing}
+Kurdi, B., Lozano, S., \& Banaji, M. R. (2017). Introducing the open
+affective standardized image set (OASIS). \emph{Behavior Research
+Methods}, \emph{49}(2), 457--470.
+
+\bibitem[\citeproctext]{ref-lang1997international}
+Lang, P. J., Bradley, M. M., Cuthbert, B. N., et al. (1997).
+International affective picture system (IAPS): Technical manual and
+affective ratings. \emph{NIMH Center for the Study of Emotion and
+Attention}, \emph{1}(39-58), 3.
+
+\bibitem[\citeproctext]{ref-lapointe2025present}
+Lapointe, V. A., Dubé, S., Rukhlyadyev, S., Kessai, T., \& Lafortune, D.
+(2025). The present and future of adult entertainment: A content
+analysis of AI-generated pornography websites. \emph{Archives of Sexual
+Behavior}, 1--19.
 
 \bibitem[\citeproctext]{ref-de2024datapipe}
 Leeuw, J. R. de. (2024). DataPipe: Born-open data collection for online
 experiments. \emph{Behavior Research Methods}, \emph{56}(3), 2499--2506.
+
+\bibitem[\citeproctext]{ref-liefooghe2023natural}
+Liefooghe, B., Oliveira, M., Leisten, L. M., Hoogers, E., Aarts, H., \&
+Hortensius, R. (2023). Are natural faces merely labelled as artificial
+trusted less? \emph{Collabra: Psychology}, \emph{9}(1), 73066.
+
+\bibitem[\citeproctext]{ref-ludecke2021performance}
+Lüdecke, D., Ben-Shachar, M. S., Patil, I., Waggoner, P., \& Makowski,
+D. (2021). Performance: An r package for assessment, comparison and
+testing of statistical models. \emph{Journal of Open Source Software},
+\emph{6}(60).
+
+\bibitem[\citeproctext]{ref-ludecke2022easystats}
+Lüdecke, D., Makowski, D., Ben-Shachar, M. S., Patil, I., Wiernik, B.
+M., Bacher, E., \& Thériault, R. (2022). Easystats: Framework for easy
+statistical modeling, visualization, and reporting. \emph{CRAN:
+Contributed Packages}.
+
+\bibitem[\citeproctext]{ref-makowski2019bayestestr}
+Makowski, D., Ben-Shachar, M. S., \& Lüdecke, D. (2019). bayestestR:
+Describing effects and their uncertainty, existence and significance
+within the bayesian framework. \emph{Journal of Open Source Software},
+\emph{4}(40), 1541.
+
+\bibitem[\citeproctext]{ref-makowski2025modelbased}
+Makowski, D., Ben-Shachar, M. S., Wiernik, B. M., Patil, I., Thériault,
+R., \& Lüdecke, D. (2025). Modelbased: An r package to make the most out
+of your statistical models through marginal means, marginal effects, and
+model predictions. \emph{Journal of Open Source Software},
+\emph{10}(109), 7969.
+
+\bibitem[\citeproctext]{ref-makowski2019phenomenal}
+Makowski, D., Sperduti, M., Pelletier, J., Blonde, P., La Corte, V.,
+Arcangeli, M., Zalla, T., Lemaire, S., Dokic, J., Nicolas, S., et al.
+(2019). Phenomenal, bodily and brain correlates of fictional reappraisal
+as an implicit emotion regulation strategy. \emph{Cognitive, Affective,
+\& Behavioral Neuroscience}, \emph{19}(4), 877--897.
+
+\bibitem[\citeproctext]{ref-makowski2025too}
+Makowski, D., Te, A. S., Neves, A., Kirk, S., Liang, N. Z., Mavros, P.,
+\& Chen, S. A. (2025). Too beautiful to be fake: Attractive faces are
+less likely to be judged as artificially generated. \emph{Acta
+Psychologica}, \emph{252}, 104670.
+
+\bibitem[\citeproctext]{ref-correlationPackage}
+Makowski, D., Wiernik, B. M., Patil, I., Lüdecke, D., \& Ben-Shachar, M.
+S. (2022). \emph{{correlation}: Methods for correlation analysis}.
+\url{https://CRAN.R-project.org/package=correlation}
 
 \bibitem[\citeproctext]{ref-marchewka2014nencki}
 Marchewka, A., Żurawski, Ł., Jednoróg, K., \& Grabowska, A. (2014). The
@@ -745,15 +2154,16 @@ nencki affective picture system (NAPS): Introduction to a novel,
 standardized, wide-range, high-quality, realistic picture database.
 \emph{Behavior Research Methods}, \emph{46}(2), 596--610.
 
+\bibitem[\citeproctext]{ref-marini2024real}
+Marini, M., Ansani, A., Demichelis, A., Mancini, G., Paglieri, F., \&
+Viola, M. (2024). Real is the new sexy: The influence of perceived
+realness on self-reported arousal to sexual visual stimuli.
+\emph{Cognition and Emotion}, \emph{38}(3), 348--360.
+
 \bibitem[\citeproctext]{ref-mcdonnell2010face}
 McDonnell, R., \& Breidt, M. (2010). Face reality: Investigating the
 uncanny valley for virtual faces. In \emph{ACM SIGGRAPH ASIA 2010
 sketches} (pp. 1--2).
-
-\bibitem[\citeproctext]{ref-meskys2020regulating}
-Meskys, E., Kalpokiene, J., Jurcys, P., \& Liaudanskas, A. (2020).
-Regulating deep fakes: Legal and ethical considerations. \emph{Journal
-of Intellectual Property Law \& Practice}, \emph{15}(1), 24--31.
 
 \bibitem[\citeproctext]{ref-miller2023ai}
 Miller, E. J., Steward, B. A., Witkower, Z., Sutherland, C. A.,
@@ -761,11 +2171,39 @@ Krumhuber, E. G., \& Dawel, A. (2023). AI hyperrealism: Why AI faces are
 perceived as more real than human ones. \emph{Psychological Science},
 \emph{34}(12), 1390--1403.
 
+\bibitem[\citeproctext]{ref-newman2012art}
+Newman, G. E., \& Bloom, P. (2012). Art and authenticity: The importance
+of originals in judgments of value. \emph{Journal of Experimental
+Psychology: General}, \emph{141}(3), 558.
+
 \bibitem[\citeproctext]{ref-nightingale2022ai}
 Nightingale, S. J., \& Farid, H. (2022). AI-synthesized faces are
 indistinguishable from real faces and more trustworthy.
 \emph{Proceedings of the National Academy of Sciences}, \emph{119}(8),
 e2120481119.
+
+\bibitem[\citeproctext]{ref-porter2024ai}
+Porter, B., \& Machery, E. (2024). AI-generated poetry is
+indistinguishable from human-written poetry and is rated more favorably.
+\emph{Scientific Reports}, \emph{14}(1), 26133.
+
+\bibitem[\citeproctext]{ref-prause2015modulation}
+Prause, N., Steele, V. R., Staley, C., Sabatinelli, D., \& Hajcak, G.
+(2015). Modulation of late positive potentials by sexual images in
+problem users and controls inconsistent with {``porn addiction.''}
+\emph{Biological Psychology}, \emph{109}, 192--199.
+
+\bibitem[\citeproctext]{ref-ragot2020ai}
+Ragot, M., Martin, N., \& Cojean, S. (2020). Ai-generated vs. Human
+artworks. A perception bias towards artificial intelligence?
+\emph{Extended Abstracts of the 2020 CHI Conference on Human Factors in
+Computing Systems}, 1--10.
+
+\bibitem[\citeproctext]{ref-safron2020neural}
+Safron, A., Sylva, D., Klimaj, V., Rosenthal, A., \& Bailey, J. M.
+(2020). Neural responses to sexual stimuli in heterosexual and
+homosexual men and women: Men's responses are more specific.
+\emph{Archives of Sexual Behavior}, \emph{49}(2), 433--445.
 
 \bibitem[\citeproctext]{ref-schepman2020initial}
 Schepman, A., \& Rodway, P. (2020). Initial validation of the general
@@ -779,11 +2217,61 @@ associations with personality, corporate distrust, and general trust.
 \emph{International Journal of Human--Computer Interaction},
 \emph{39}(13), 2724--2741.
 
+\bibitem[\citeproctext]{ref-shank2023ai}
+Shank, D. B., Stefanik, C., Stuhlsatz, C., Kacirek, K., \& Belfi, A. M.
+(2023). AI composer bias: Listeners like music less when they think it
+was composed by an AI. \emph{Journal of Experimental Psychology:
+Applied}, \emph{29}(3), 676.
+
+\bibitem[\citeproctext]{ref-sperduti2017distinctive}
+Sperduti, M., Makowski, D., Arcangeli, M., Wantzen, P., Zalla, T.,
+Lemaire, S., Dokic, J., Pelletier, J., \& Piolino, P. (2017). The
+distinctive role of executive functions in implicit emotion regulation.
+\emph{Acta Psychologica}, \emph{173}, 13--20.
+
+\bibitem[\citeproctext]{ref-tucciarelli2022realness}
+Tucciarelli, R., Vehar, N., Chandaria, S., \& Tsakiris, M. (2022). On
+the realness of people who do not exist: The social processing of
+artificial faces. \emph{Iscience}, \emph{25}(12).
+
+\bibitem[\citeproctext]{ref-velasquez2025interpretation}
+Velásquez-Salamanca, D., Martı́n-Pascual, M. Á., \& Andreu-Sánchez, C.
+(2025). Interpretation of AI-generated vs. Human-made images.
+\emph{Journal of Imaging}, \emph{11}(7), 227.
+
+\bibitem[\citeproctext]{ref-viola2023designed}
+Viola, M., \& Voto, C. (2023). Designed to abuse? Deepfakes and the
+non-consensual diffusion of intimate images. \emph{Synthese},
+\emph{201}(1), 30.
+
+\bibitem[\citeproctext]{ref-vuorre2019analyze}
+Vuorre, M. (2019). How to analyze visual analog (slider) scale data.
+\emph{Https://Vuorre.
+Com/Posts/Analyze-Analog-Scale-Ratings-with-Zero-One-Inflated-Beta-Models/}.
+
+\bibitem[\citeproctext]{ref-walton2018hypersexuality}
+Walton, M. T., \& Bhullar, N. (2018). Hypersexuality, higher rates of
+intercourse, masturbation, sexual fantasy, and early sexual interest
+relate to higher sexual excitation/arousal. \emph{Archives of Sexual
+Behavior}, \emph{47}(8), 2177--2183.
+
 \bibitem[\citeproctext]{ref-wierzba2015erotic}
 Wierzba, M., Riegel, M., Pucz, A., Leśniewska, Z., Dragan, W. Ł., Gola,
 M., Jednoróg, K., \& Marchewka, A. (2015). Erotic subset for the nencki
 affective picture system (NAPS ERO): Cross-sexual comparison study.
 \emph{Frontiers in Psychology}, \emph{6}, 1336.
+
+\bibitem[\citeproctext]{ref-yang2018affective}
+Yang, W., Makita, K., Nakao, T., Kanayama, N., Machizawa, M. G.,
+Sasaoka, T., Sugata, A., Kobayashi, R., Hiramoto, R., Yamawaki, S., et
+al. (2018). Affective auditory stimulus database: An expanded version of
+the international affective digitized sounds (IADS-e). \emph{Behavior
+Research Methods}, \emph{50}(4), 1415--1429.
+
+\bibitem[\citeproctext]{ref-youn2006subjective}
+Youn, G. (2006). Subjective sexual arousal in response to erotica:
+Effects of gender, guided fantasy, erotic stimulus, and duration of
+exposure. \emph{Archives of Sexual Behavior}, \emph{35}(1), 87--97.
 
 \end{CSLReferences}
 

@@ -273,7 +273,7 @@ Together, these findings suggest that both attentional engagement and explicit e
 <!-- Since the proliferation of generative AI has likely put several subjects on their toes when it comes to telling apart authentic and synthetic perceptually indistinguishable media, we devised post-hoc controls of the effect of belief manipulation. -->
 <!-- Moreover, given that not only the feeling of reality could alter the affective reaction, but the effect in the other direction is also possible–namely, that the affective reaction impact on how real something is perceived [@sperduti2017distinctive; @makowski2019phenomenal; @makowski2025too], we explicitly measured whether some of the above-mentioned affective variables (arousal, enticement, valence) predicted the 'feeling of reality' of the images. -->
 
-# Study 1
+## Study 1
 
 In our first study, we aimed at gauging whether the prejudice against AI-generated erotic stimuli shows up in a wide and heterogeneous sample, and whether it is modulated by demographic factors, by sexual activity or pornography consumption habits, or by attitudes toward IA.
 Following @marini2024real, we hypothesise that images presented as AI-generated will elicit lower ratings than those presented as photographs (H1).
@@ -293,7 +293,7 @@ Accordingly, we assess the role of individual belief in the label as an addition
 
 The initial sample comprised 1,067 participants recruited via multiple channels, including Sona Systems, social media platforms, university classrooms, and snowball sampling.
 This strategy yielded a heterogeneous pool of both incentivised and non-incentivised individuals, including students and members of the general population from England, France, Italy, Colombia, and Spain.
-Data collection occurred from the 19th of January to 1st of June 2024 [during this time the best image generator was OpenAI’s DALL·E 3; @towardsaiAIPoweredImage].
+Data collection occurred from the 19th of January to 1st of June 2024 [during this time the best image generator was OpenAI’s [DALL·E 3; @towardsaiAIPoweredImage].
 **To ensure data quality, several exclusion criteria were applied.
 Participants were removed if they showed no variation in arousal ratings across trials (N = 8), displayed a negative correlation between arousal and enticement alongside lower arousal ratings for erotic compared to neutral stimuli, suggesting a possible misunderstanding of scale direction (N = 4).
 Due to small subgroup sample sizes, participants identifying with a gender other than Female or Male (N = 15), or a sexual orientation other than Heterosexual (N = 335), were excluded from further analysis.** 
@@ -346,7 +346,6 @@ Raw data were automatically stored in a private Open Science Framework (OSF) rep
 Participants first provided informed consent before completing a short demographic questionnaire covering gender, age, ethnicity, country of residence, education, and English proficiency.
 Optional questions on birth control use were also included.
 They then proceeded to the experimental tasks (see @fig-paradigm1).
-
 In the first phase, participants were given the following instructions:
 
 > *In this study, we aim at validating our new image-generation algorithm (based on a new form of Generative Adversarial Network – GAN – technology) trained to produce high-quality erotic (but also non-erotic) content.*
@@ -426,7 +425,7 @@ As shown in @fig-dist, the distributions of arousal and enticement ratings are h
 #| warning: false
 #| label: "fig-dist"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
-#| out-width: "100%"
+#| out-width: "50%"
 #| fig-cap: "Distributions of Arousal, Enticement and Valence ratings (i.e., rated on an analog scale from 0 to 1) for males and females across conditions. Distributions include a higher count of extreme answers (0 and 1s) justifying the use of a ZOIB model."
 
 knitr::include_graphics("images/Figure1.png")
@@ -568,7 +567,7 @@ Based on these aims, we tested the following hypotheses. As in Study 1, we hypot
 
 The initial sample comprised 279 participants recruited via Prolific\textcopyright.
 Inclusion criteria required participants to be native English speakers or residents of countries with high levels of English proficiency. 
-Data collection occurred from 27 of January 2025 to 31 of July 2025 [best image generator at this time was Midjourney v6; @curiousrefugeBestImage]. 
+Data collection occurred from 27 of January 2025 to 31 of July 2025 [best image generator at this time was Midjourney v6, @curiousrefugeBestImage]. 
 Participant exclusions were applied as follows: five participants were removed for showing no variability in arousal ratings (i.e., they did not move the response scales). 
 An additional five participants were excluded for completing the study on a mobile device. We removed these participants because the change in the presentation of our scales from Likert to analog meaning participants completing the experiment on a phone would not be able to provide nuanced responses due to the smaller size of the screen.
 One participant was excluded due to displaying negative correlations between arousal and both enticement and valence. 
@@ -624,11 +623,11 @@ They then completed the same demographic questions as in Study 1, with the excep
 
 In the first phase, participants were informed that the researchers were collaborating with a young AI start-up based in Brighton, intended to enhance the believability of the study. The following instructions were given: 
 
->This study stems out of an exciting new partnership between researchers from the University of Sussex and a young AI startup based in Brighton, UK, that specializes in making AI technology more ethical. Our goal is to better understand how various people react to different images. For this, we will be using a new image generation algorithm (based on a modified Generative Adversarial Network) trained on a carefully refined material to produce realistic high-quality erotic images. This allows us to manipulate the generation parameters and understand how they impact perception. The illustration below demonstrates how a GAN algorithm generates face images. Our updated version extends this approach to full-body images, including multiple people interacting. This enhancement was achieved by improving the logic of the embedded space obtained from the training data.
+>*This study stems out of an exciting new partnership between researchers from the University of Sussex and a young AI startup based in Brighton, UK, that specializes in making AI technology more ethical. Our goal is to better understand how various people react to different images. For this, we will be using a new image generation algorithm (based on a modified Generative Adversarial Network) trained on a carefully refined material to produce realistic high-quality erotic images. This allows us to manipulate the generation parameters and understand how they impact perception. The illustration below demonstrates how a GAN algorithm generates face images. Our updated version extends this approach to full-body images, including multiple people interacting. This enhancement was achieved by improving the logic of the embedded space obtained from the training data.*
 
-Participants were told the following: 
+Participants were told that they would be presented with AI-generated images intermixed with real photographs both preceded by their respective labels.
 
->In the next part, you will be presented with images generated by our algorithm (preceded by the word 'AI-generated'), intermixed with real photos (preceded by the word 'Photograph') taken from public picture databases, adjusted to be of similar dimension and aspect as the artificially generated images.
+<!-- >*In the next part, you will be presented with images generated by our algorithm (preceded by the word 'AI-generated'), intermixed with real photos (preceded by the word 'Photograph') taken from public picture databases, adjusted to be of similar dimension and aspect as the artificially generated images.* -->
 
 They were asked to rate each image on sexual arousal, enticement, and valence. Each measure was defined as per Study 1 (see below).
 A total of 50 images were presented, drawn from two categories of the NAPS-ERO database (25 images of couples and 25 images of individuals). 
@@ -650,7 +649,7 @@ This feedback captured participants’ explicit beliefs and subjective reactions
 In the second phase, participants were informed that some images had been intentionally mislabeled and were asked to judge whether each image was AI-generated or a real photograph, expressing their confidence at the extremes of the scale. 
 They were given the following instructions:
 
->[...] there is something important we need to tell you... In the previous phase, some images were intentionally mislabelled (we told you it was a photograph when it was actually AI-generated and vice versa). In this phase, we want you to tell us for each image what you think is the true category! We will briefly present all the images once more, and your task is to tell us if you think the image is AI-generated or a photograph. Indicate your degree of confidence and certainty by selecting larger numbers.
+>*[...] there is something important we need to tell you... In the previous phase, some images were intentionally mislabelled (we told you it was a photograph when it was actually AI-generated and vice versa). In this phase, we want you to tell us for each image what you think is the true category! We will briefly present all the images once more, and your task is to tell us if you think the image is AI-generated or a photograph. Indicate your degree of confidence and certainty by selecting larger numbers.*
 
 The timing procedure in this phase was identical to Study 1 (ee @fig-paradigm2). 
 After each image, participants provided general feedback regarding their experience and any additional comments. 
@@ -750,7 +749,7 @@ The primary exception was for female ratings of couple images under incongruent 
 #| warning: false
 #| label: "fig-arousal_means"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
-#| out-width: "100%"
+#| out-width: "50%"
 #| fig-cap: "Estimated arousal means for the effect of Condition depending on Congruency. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019)."
 
 knitr::include_graphics("images/Figure6.png")
@@ -791,7 +790,6 @@ In study 2, participants viewed erotic images depicting both couples and individ
 As in Study 1, images were labelled as either photographs or AI-generated. 
 The strengthening of the manipulation in this study appeared to modestly improve its effectiveness: 32% of participants reported believing that all images were real, compared to a higher proportion in Study 1 (42%), suggesting increased credibility of the manipulation, though still limited. 
 
-
 Overall, the pattern of findings partially replicated those observed in Study 1. 
 Considered independently of congruence, the AI-labelling effect on arousal was credible for males but not for females, providing support for H1 in males only. 
 Under congruent trials, images labelled as photographs were rated as more arousing, enticing, and positively valenced compared to those labelled as AI-generated. 
@@ -815,23 +813,65 @@ Second, it shows that strengthening the realism manipulation does not substantia
 
 # General Discussion
 
-The present paper investigated the existence and mechanism of an anti-AI bias in response to erotic stimuli across two studies, with a particular focus on the role of gender and belief-related processes. Across both studies, participants evaluated erotic (Study 1 and Study 2) and non-erotic (Study 1) images that were labelled as either AI-generated or photographs. Overall, the findings provide converging evidence for three main conclusions: (1) gender differences in response to erotic content are robust and context-dependent, (2) the effect of AI labelling on responses is small and primarily observed in males, and (3) belief-related processes (i.e., congruency between initial labels and subsequent realism/reality judgements) play a central role in shaping affective responses.
+The present paper investigated the existence and mechanism of an anti-AI bias in response to erotic stimuli across two studies, with a particular focus on the role of gender and belief-related processes. 
+Across both studies, participants evaluated erotic (Study 1 and Study 2) and non-erotic (Study 1) images that were labelled as either AI-generated or photographs. 
+Overall, the findings provide converging evidence for three main conclusions: (1) gender differences in response to erotic content are robust and context-dependent, (2) the effect of AI labelling on responses is small and primarily observed in males, and (3) belief-related processes (i.e., congruency between initial labels and subsequent realism/reality judgements) play a central role in shaping affective responses.
 
-First, the results replicate and extend prior literature on gender differences in response to erotic stimuli. In Study 1, males showed clear category-specificity, rating sexually relevant images as more arousing than irrelevant ones, whereas females did not show a credible difference between these categories. Study 2, which presented only relevant stimuli, instead examined whether the gender gap in arousal observed in Study 1 was contingent on the nature of the stimuli. When relational context was introduced through couple-based images, this gap narrowed substantially: males and females did not differ in their ratings of couple images, while a gap persisted for images depicting individuals. Notably, Study 2 also showed that females rated images of couples higher than images of individuals. This finding supports the interpretation that female sexual responses are more sensitive to contextual and relational cues, and suggests that the absence of such features in Study 1 likely amplified the apparent gender gap in arousal. 
+First, the results replicate and extend prior literature on gender differences in response to erotic stimuli. 
+In Study 1, males showed clear category-specificity, rating sexually relevant images as more arousing than irrelevant ones, whereas females did not, therefore aligning with previous research [e.g., @chivers2017specificity; @chivers2004sex; @huberman2015gender; @safron2020neural].
+Study 2, which presented only relevant stimuli, instead examined whether the gender gap in arousal observed in Study 1 was contingent on the nature of the stimuli. 
+When relational context was introduced through couple-based images, this gap narrowed substantially: males and females did not differ in their ratings of couple images, while a gap persisted for images depicting individuals. 
+Notably, Study 2 also showed that females rated images of couples higher than images of individuals, while males did the opposite. 
+This finding supports the interpretation that female sexual responses are more sensitive to contextual and relational cues [e.g., @laan1994women; @rupp2009sex; @rupp2007sex] and suggests that the absence of such features in Study 1 likely amplified the apparent gender gap in arousal.
 
-Second, evidence for an anti-AI bias was partial and asymmetrical. In line with previous findings [e.g., @marini2024real], images labelled as AI-generated were generally rated as less arousing than those labelled as photographs. However, this effect was small in magnitude and primarily driven by male participants across both studies, with little to no consistent evidence for such a bias in females. In Study 1, females rated relevant erotic images higher in arousal (but not valence or enticement) when they were presented as AI-generated; however, this was not found in Study 2. In both studies, males consistently rated images presented as photographs higher.
+Second, evidence for an anti-AI bias was partial and asymmetrical. 
+In line with previous findings [e.g., @marini2024real], images labelled as AI-generated were generally rated as less arousing than those labelled as photographs. 
+However, this effect was small in magnitude and primarily driven by male participants across both studies, with little to no consistent evidence for such a bias in females. 
+In Study 1, females rated relevant erotic images higher in arousal (but not valence or enticement) when they were presented as AI-generated; however, this was not found in Study 2. 
+In both studies, males consistently rated images presented as photographs higher. 
+We had additionally hypothesised that individual differences in AI attitudes and beliefs, pornography consumption frequency and recency of sexual activity might be associated with the strength of this labelling effect. 
+However, as detailed below, individual-level estimates of sensitivity to the AI-generated label showed minimal reliable variability between participants, meaning these hypotheses could not be meaningfully tested in the present data; weak correlations with these variables should accordingly not be read as evidence against an association, but as uninformative given the lack of reliable variance to explain.
 
-Third, and most importantly, the present findings highlight the central role of belief-related processes in shaping affective responses. In both studies, a substantial proportion of participants expressed doubts about the veracity of the labels after Phase 1, based on their feedback on whether they thought labels were incorrect (Study 1) or that all images were real (Study 2). We further evaluated these belief-related effects on ratings by operationalising a congruency variable, which revealed a crossover interaction with condition. When participants' realism judgments were congruent with the initial label, images labelled as photographs were rated higher than those labelled as AI-generated. In contrast, when judgments were incongruent, this pattern reversed, with AI-labelled images receiving higher ratings. This effect suggests that participants' affective responses are closely tied to whether they were second-guessing the authenticity of the images.
 
-These crossover effects can be interpreted in at least two ways. First, participants may form rapid, largely implicit evaluations of stimulus authenticity upon initial exposure, which subsequently shape their arousal responses. Under this account, when an image labelled as AI-generated is nonetheless perceived as photograph-like, it may be experienced as more realistic and therefore more arousing, with this evaluation later reflected in Phase 2 realism ratings. In this sense, arousal ratings would be guided by participants' initial impressions of authenticity, even if these impressions are not explicitly remembered or consciously endorsed. An alternative interpretation is that the direction of influence is reversed: rather than authenticity judgments driving arousal, some images may simply elicit stronger or weaker affective responses independent of their assigned label, and participants may retrospectively align their realism judgments with these affective reactions,  such that less arousing images are more likely to be classified as AI-generated, and more arousing images as photographs. In this case, perceived authenticity would be inferred from the emotional response to the stimulus, rather than determining it. Together, these interpretations suggest that arousal and perceived authenticity may be reciprocally related, with the observed congruency effects reflecting either the influence of initial authenticity impressions on affective response, or post hoc alignment of realism judgments with experienced arousal.
+Third, and most importantly, the present findings highlight the central role of belief-related processes in shaping affective responses. 
+In both studies, a substantial proportion of participants expressed doubts about the veracity of the labels after Phase 1, based on their feedback on whether they thought labels were incorrect (Study 1) or that all images were real (Study 2). 
+We further evaluated these belief-related effects on ratings by operationalising a congruency variable, which revealed a crossover interaction with condition. When participants' realism judgments were congruent with the initial label, images labelled as photographs were rated higher than those labelled as AI-generated. 
+In contrast, when judgments were incongruent, this pattern reversed, with AI-labelled images receiving higher ratings, suggesting that participants' affective responses are closely tied to whether they were second-guessing the authenticity of the images.
 
+The crossover effects can be interpreted in at least two ways. 
+First, participants may form rapid, largely implicit evaluations of stimulus authenticity upon initial exposure, which subsequently shape their arousal responses. 
+Under this account, when an image labelled as AI-generated is nonetheless perceived as photograph-like, it may be experienced as more realistic and therefore more arousing, with this evaluation later reflected in Phase 2 realism ratings. 
+In this sense, arousal ratings would be guided by participants' initial impressions of authenticity, even if these impressions are not explicitly remembered or consciously endorsed. 
+An alternative interpretation is that the direction of influence is reversed: rather than authenticity judgments driving arousal, some images may simply elicit stronger or weaker affective responses independent of their assigned label, and participants may retrospectively align their realism judgments with these affective reactions, such that less arousing images are more likely to be classified as AI-generated, and more arousing images as photographs. 
+In this case, perceived authenticity would be inferred from the emotional response to the stimulus, rather than determining it. 
+Together, these interpretations suggest that arousal and perceived authenticity may be reciprocally related, with the observed congruency effects reflecting either the influence of initial authenticity impressions on affective response, or post hoc alignment of realism judgments with experienced arousal.
 
-**Limitations**
-....
+While the present data cannot adjudicate between these accounts, one factor that may help explain variability in the strength of this effect is interoceptive ability. 
+Theoretical accounts of perceptual reality monitoring propose that interoceptive precision shapes whether perceptual content is attributed to external reality, with disrupted interoception implicated in reality-monitoring failures in clinical populations [@dijkstra2024disrupted]. 
+We propose that an analogous mechanism may operate in the healthy range: participants who are more attuned to their own bodily arousal may place correspondingly more weight on that signal when judging whether an image is a genuine photograph, producing a stronger crossover effect, whereas participants with lower interoceptive accuracy may rely more heavily on contextual cues such as the assigned label. 
+This account could first be tested correlationally, by incorporating a standard measure of interoceptive accuracy (e.g., a heartbeat discrimination task) alongside the existing paradigm and examining whether interoceptive accuracy predicts the size of the congruency effect. 
+However, any such association could equally reflect a shared underlying trait, such as general emotional sensitivity, rather than a causal contribution of interoception specifically, and so would not on its own establish that interoceptive accuracy drives the effect.
 
-**Future directions**
-....
+A more direct test would be to manipulate interoceptive accuracy experimentally. 
+Transcutaneous vagus nerve stimulation (tVNS) offers one way to do this: the vagus nerve is the primary pathway conveying internal bodily signals to the brain, and tVNS has been proposed as a tool for manipulating interoceptive processing at multiple levels [@paciorek2020vagus], with one study showing that tVNS improved participants' accuracy in identifying their own heartbeats relative to sham stimulation, although it did not improve interoceptive awareness specifically [@villani2019transcutaneous]. 
+A future study could randomly assign participants to active or sham tVNS while completing the existing two-phase paradigm, and test whether active stimulation increases the size of the crossover effect relative to sham. 
+A larger crossover effect under active tVNS would support the conclusion that interoceptive accuracy contributes causally to the alignment between felt arousal and realism judgements, whereas no difference between conditions would suggest that any correlational link observed in the first step reflects some other shared factor rather than interoception itself.
 
+Notably, this study is not without limitations. 
+Firstly, as expressed above, a substantial proportion of participants did not believe the labels were accurate (42% in Study 1 and 32% in Study 2), meaning the experimental manipulation was not fully convincing for a meaningful portion of the sample. 
+Therefore, caution is required when interpreting the congruency variable effects, particularly given that the wording used to compute this variable differed between the two studies, which makes a direct comparison between them less clear.
+
+Secondly, several of the questionnaire subscales used in this study showed low reliability, most notably the BAIT Images subscale in Study 1 and the revised COPS in Study 2 following removal of an item. 
+These values fall below conventional thresholds for acceptable internal consistency, and conclusions drawn from analyses involving these specific subscales should therefore be interpreted with caution, as the items may not be capturing a coherent underlying construct.
+Thirdly, individual-level estimates of sensitivity to the AI-generated label showed minimal reliable variability between participants, meaning the planned individual-differences analyses as predictors of this sensitivity could not be meaningfully tested. 
+The weak correlations observed should not be interpreted as evidence that these factors play no role, but rather as uninformative given the absence of reliable variance for them to explain. 
+Future studies seeking to test these hypotheses would benefit from designs or manipulations that more reliably elicit individual variability in sensitivity to the AI label.
+
+Fourthly, while the present findings are consistent with a crossover effect linking arousal and perceived authenticity, the design cannot establish the direction of this relationship. 
+As discussed above, the observed congruency effects are equally consistent with authenticity impressions shaping subsequent arousal, or with arousal being retrospectively used to infer authenticity. 
+Resolving this ambiguity would require designs capable of manipulating, rather than only measuring, one of these two processes.
+
+**[IMPLICATIONS]**
 
 
 # References
