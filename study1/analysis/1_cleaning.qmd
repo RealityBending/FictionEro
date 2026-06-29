@@ -748,8 +748,6 @@ p_sex
 
 #### Sexual Profile
 
-
-
 ```{r p_demographics_sexprofile}
 #| fig-width: 14
 #| fig-height: 14
@@ -791,8 +789,13 @@ r <- correlation::correlation(
   dat) |> 
   as.matrix()  
 
-r <- parameters::factor_analysis(dat, n = 1, rotation = "oblimin", cor = r)
-df$Porn <- get_scores(r)[, 1]
+fa <- psych::fa(dat,
+                nfactors = 1,
+                rotate = "oblimin",
+                scores = "regression")
+
+df$Porn <- fa$scores[,1]
+
 ```
 
 
@@ -873,7 +876,7 @@ This section pertains to the validation of the BAIT scale measuring beliefs and 
 bait <- df |> 
   select(starts_with("BAIT_"), -BAIT_Duration) |> 
   rename_with(function(x) gsub("BAIT_\\d_", "", x)) |> 
-  filter(!is.na(TextRealistic ))
+  filter(!is.na(TextRealistic))
 
 
 cor <- correlation::correlation(bait, redundant = TRUE) |> 
