@@ -465,9 +465,8 @@ fig1 <- arousal_dist1 / enticement_dist1 / valence_dist1 +
   plot_layout(guides = "collect") &
   theme(legend.position = "bottom")  
 
-ggsave("figures/Distribution.png", fig1,  width=10, height=12, dpi=300)
+ggsave("../../paper/images/Figure1.png", fig1,  width=10, height=12, dpi=300)
 ```
-
 
 :::
 
@@ -658,7 +657,7 @@ fig2 <- pred_a3 |>
 
 fig2
 
-ggsave("figures/Arousal_means.png", fig2, width=10, height=10, dpi=300)
+ggsave("../../paper/images/Figure2.png", fig2, width=10, height=10, dpi=300)
 ```
 
 ```{r}
@@ -733,7 +732,8 @@ p_dvour <- function(m, colors){
 ```
 
 ```{r arousal ppt effect plot}
-p_dvour(m, colors)
+dvour_a <- p_dvour(m, colors)
+dvour_a
 ```
 
 #### Sample analysis
@@ -831,7 +831,8 @@ corr_mod <- function(m, correlations){
 
 ```{r arousal 1 corr}
 
-corr_mod(m, correlations)
+corr_a <- corr_mod(m, correlations)
+corr_a
 
 ```
 
@@ -1230,3 +1231,19 @@ corr_mod(m, correlations)
 
 
 # Figures
+
+```{r}
+
+p2_a <- wrap_elements(dvour_a + 
+         patchwork::plot_annotation(title = "Reliability of Participant-estimates", theme = theme(plot.title = element_text(face = "bold"))))
+
+p2_b <- wrap_elements(corr_a + 
+         patchwork::plot_annotation(title = "Correlation of Participant-Level Estimates", theme = theme(plot.title = element_text(face = "bold"))))
+
+p2 <- p2_a / p2_b + plot_layout(heights = c(1.5, 1))
+
+p2
+
+ggsave("../../paper/images/Figure3.png", p2, width = 10, height = 12, dpi = 300)
+
+```
