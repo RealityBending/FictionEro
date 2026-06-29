@@ -267,13 +267,20 @@ There is no clear evidence that Gender, Type, or their interaction predicts Cond
 arousal_dist2 <- df2 |>
   ggplot(aes(x=Arousal, fill = Condition)) +
   geom_bar(position = "identity", alpha = 0.5, colour = "black") +
-  scale_y_sqrt(expand = c(0, 0)) +
+  scale_y_sqrt(expand = c(0, 2)) +
   scale_x_continuous(breaks = c(0, 1)) +
-  labs(title = "Arousal Study 2", ) +
   facet_wrap(~Gender) +
   scale_fill_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
+  labs(x = NULL, y = "Arousal", fill="Images presented as:") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 12, face = "bold"),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 12, face = "bold"),
+        strip.text.y = element_text(size = 12, face = "bold"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom")
 
 arousal_dist2
 ```
@@ -334,13 +341,20 @@ diff_plot2
 enticement_dist2 <- df2 |>
   ggplot(aes(x=Enticement, fill = Condition)) +
   geom_bar(position = "identity", alpha = 0.5, colour = "black") +
-  scale_y_sqrt(expand = c(0, 0)) +
+  scale_y_sqrt(expand = c(0, 2)) +
   scale_x_continuous(breaks = c(0, 1)) +
-  labs(title = "Enticement Study 2", ) +
   facet_wrap(~Gender) +
   scale_fill_manual(values=c("Photograph"="#F44336", "AIGenerated"="#2196F3")) +
+  labs(x = NULL, y = "Enticement", fill="Images presented as:") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 12, face = "bold"),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 12, face = "bold"),
+        strip.text.y = element_text(size = 12, face = "bold"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom")
 
 enticement_dist2
 ```
@@ -401,13 +415,20 @@ diff_plot2
 valence_dist2 <- df2 |>
   ggplot(aes(x=Valence, fill = Condition)) +
   geom_bar(position = "identity", alpha = 0.5, colour = "black") +
-  scale_y_sqrt(expand = c(0, 0)) +
+  scale_y_sqrt(expand = c(0, 2)) +
   scale_x_continuous(breaks = c(0, 1)) +
-  labs(title = "Valence Study 2", ) +
   facet_wrap(~Gender) +
   scale_fill_manual(values=c("Photograph"="#F44336", "AIGenerated"="#2196F3")) +
+  labs(x = NULL, y = "Valence", fill="Images presented as:") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, face="bold"))
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 12, face = "bold"),
+        strip.placement = "outside",
+        strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
+        strip.text.x = element_text(size = 12, face = "bold"),
+        strip.text.y = element_text(size = 12, face = "bold"),
+        legend.text = element_text(size = 10),
+        legend.position = "bottom")
 
 valence_dist2
 ```
@@ -458,6 +479,21 @@ diff_plot2 <- dfsub2_valence |>
 
 diff_plot2
 ```
+
+## Figure 
+
+```{r}
+fig1 <- (arousal_dist2 & theme(axis.text.x = element_blank(),
+                               axis.ticks.x = element_blank())) / 
+        (enticement_dist2 & theme(axis.text.x = element_blank(),
+                                   axis.ticks.x = element_blank())) /valence_dist2 +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
+
+ggsave("../../paper/images/Figure4.png", fig1,  width=10, height=12, dpi=300)
+```
+
+
 :::
 
 # Models
@@ -520,7 +556,7 @@ pred_a2 <- modelbased::estimate_means(m, by=c("Gender", "Condition", "ConditionB
 #                  y =c(0.60, 0.55))
 
 
-pred_a2 |>
+fig6 <- pred_a2 |>
   mutate(Gender = fct_relevel(Gender, "Male", "Female"),
          ConditionBelief = fct_recode(ConditionBelief, "Congruent" = "True", "Incongruent" = "False"),
          ConditionBelief = fct_relevel(ConditionBelief, "Congruent", "Incongruent")) |> 
@@ -533,9 +569,8 @@ pred_a2 |>
   geom_rect(data=data.frame(Probability=0.1, Gender=as.factor("Male"), ConditionBelief="Congruent"),
             aes(xmin = 1.8, xmax = 2.2,ymin=0.35, ymax=0.55), color="#8BC34A", alpha=0, linewidth = 1.2) +
    # geom_text(data=pd, aes(label = label, y=y), hjust=0.5, size = 3.5) +
-  
   facet_grid(~Gender, switch = "y") +
-  scale_y_continuous(limits=c(0, 0.7)) +
+  scale_y_continuous(limits=c(0, 1)) +
   scale_color_manual(values=c("AIGenerated"="#2196F3", "Photograph"="#F44336")) +
   theme_minimal() +
     theme(axis.title.y = element_blank(),
@@ -545,10 +580,13 @@ pred_a2 |>
         strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
         strip.text.x = element_text(size = 12, face = "bold"),
         strip.text.y = element_text(size = 10, face = "bold"),
-        axis.text.x = element_text(hjust=1,face = "bold", vjust=1.1, size=10, color="black"),
+        axis.text.x = element_text(hjust=1, vjust=1.1, size=10, color="black"),
         legend.text = element_text(size = 10),
         legend.position = "bottom") +
   labs(color="Images presented as:")
+
+ggsave("../../paper/images/Figure6.png", fig6, width = 10, height = 12, dpi = 300)
+
 
 ```
 :::
@@ -604,7 +642,9 @@ p_dvour <- function(m, colors){
 ```
 
 ```{r}
-p_dvour(m, colors2)
+dvour_a <- p_dvour(m, colors2)
+
+dvour_a
 ```
 
 :::
@@ -653,7 +693,8 @@ corr_mod <- function(m, correlations){
 
 ```{r arousal 2 corr}
 
-corr_mod(m, correlations2)
+corr_a <- corr_mod(m, correlations2)
+corr_a
 ```
 
 ### Marginal contrasts with Type
@@ -683,6 +724,7 @@ estimate_contrasts(m_type_a, contrast = "Gender", by=c("Type"), backend = "emmea
 estimate_contrasts(m_type_a, contrast = "Type", by="Gender", backend = "emmeans")
 
 ```
+
 
 #### Effect of Condition
 
@@ -1028,84 +1070,56 @@ pred <- rbind(
 )
 
 
-pred |>
+type_fig <- pred |>
   mutate(Gender = fct_relevel(Gender, "Male", "Female")) |> 
   ggplot(aes(x=Outcome, y=Probability)) +
   geom_hline(yintercept=0, color="darkgrey") +
-  geom_line(aes(group=Gender, color=Gender), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.4, key_glyph = "path") +
+  geom_line(aes(group=Gender, color=Gender), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.2, key_glyph = "path") +
   geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Gender), position = position_dodge(width=0.2), size=0.6) +
   # geom_text(data=stars1a, aes(y=y, label=label), hjust=0.5, color="#424242", size=6) +
   geom_rect(data=data.frame(Outcome = "Arousal", Probability=0.1, Type=as.factor("Single")),
-            aes(xmin=0.8, xmax=1.2, ymin=0.27, ymax=0.65), color="#8BC34A", alpha=0, linewidth = 1.5) +
+            aes(xmin=0.8, xmax=1.2, ymin=0.27, ymax=0.65), color="#8BC34A", alpha=0, linewidth = 1.2) +
   geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")),
-            aes(xmin=1.8, xmax=2.2, ymin=0.3, ymax=0.68), color="#8BC34A", alpha=0, linewidth = 1.5) +
+            aes(xmin=1.8, xmax=2.2, ymin=0.3, ymax=0.68), color="#8BC34A", alpha=0, linewidth = 1.2) +
   geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")),
-            aes(xmin=2.8, xmax=3.2, ymin=0.33, ymax=0.71), color="#8BC34A", alpha=0, linewidth = 1.5) +
+            aes(xmin=2.8, xmax=3.2, ymin=0.33, ymax=0.71), color="#8BC34A", alpha=0, linewidth = 1.2) +
   facet_grid(~Type, switch="y", scales ="free") +
   scale_y_continuous(limits=c(0, 1)) +
   scale_color_manual(values=c("Male"="#147AFF", "Female"="#FF9914")) +
   theme_minimal() +
     theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.y = element_text(size = 8, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
         strip.placement = "outside",
         strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
-        strip.text.x = element_text(size = 10, face = "bold"),
+        strip.text.x = element_text(size = 12, face = "bold"),
         strip.text.y = element_text(size = 10, face = "bold"),
-        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=10, color="black"),
         legend.text = element_text(size = 10),
         legend.position = "bottom") +
   labs(color="Gender:")
+
+type_fig
+
+ggsave("../../paper/images/Figure5.png", type_fig, width = 10, height = 12, dpi = 300)
 
 
 ```
 
 
-<!-- ```{r} -->
 
-<!-- pred_t <- rbind( -->
-<!--   modelbased::estimate_means(m_type_a, by=c("Gender", "ConditionBelief", "Type"), backend = "emmeans") |> -->
-<!--   as.data.frame() |>  -->
-<!--   mutate(Outcome="Arousal"), -->
-<!--   modelbased::estimate_means(m_type_e, by=c("Gender","ConditionBelief", "Type"), backend = "emmeans") |> -->
-<!--   as.data.frame() |>  -->
-<!--   mutate(Outcome="Enticement"), -->
-<!--   modelbased::estimate_means(m_type_v, by=c("Gender","ConditionBelief", "Type"), backend = "emmeans") |> -->
-<!--   as.data.frame() |>  -->
-<!--   mutate(Outcome="Valence") -->
-<!-- ) -->
+```{r}
 
+p2_a <- wrap_elements(dvour_a + 
+         patchwork::plot_annotation(title = "Reliability of Participant-estimates", theme = theme(plot.title = element_text(face = "bold"))))
 
-<!-- pred_t |> -->
-<!--   mutate(Gender = fct_relevel(Gender, "Male", "Female"), -->
-<!--          ConditionBelief = fct_recode(ConditionBelief, "Congruent" = "True", "Incongruent" = "False")) |> -->
-<!--   ggplot(aes(x=Outcome, y=Probability)) + -->
-<!--   geom_hline(yintercept=0, color="darkgrey") + -->
-<!--   geom_line(aes(group=Gender, color=Gender), position = position_dodge(width=0.2), alpha=0.8, linewidth=0.4, key_glyph = "path") + -->
-<!--   geom_pointrange(aes(ymin = CI_low, ymax=CI_high, color=Gender), position = position_dodge(width=0.2), size=0.6) + -->
-<!--   # geom_text(data=stars1a, aes(y=y, label=label), hjust=0.5, color="#424242", size=6) + -->
-<!--   geom_rect(data=data.frame(Outcome = "Arousal", Probability=0.1, Type=as.factor("Single")), -->
-<!--             aes(xmin=0.8, xmax=1.2, ymin=0.27, ymax=0.65), color="#8BC34A", alpha=0, linewidth = 0.5) + -->
-<!--   geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")), -->
-<!--             aes(xmin=1.8, xmax=2.2, ymin=0.3, ymax=0.68), color="#8BC34A", alpha=0, linewidth = 0.5) + -->
-<!--   geom_rect(data=data.frame(Outcome = "Enticement", Probability=0.1, Type=as.factor("Single")), -->
-<!--             aes(xmin=2.8, xmax=3.2, ymin=0.33, ymax=0.71), color="#8BC34A", alpha=0, linewidth = 0.5) + -->
-<!--   facet_grid(Congruence~Type, switch="y", scales ="free") + -->
-<!--   scale_y_continuous(limits=c(0, 1)) + -->
-<!--   scale_color_manual(values=c("Male"="#147AFF", "Female"="#FF9914")) + -->
-<!--   theme_minimal() + -->
-<!--     theme(axis.title.y = element_blank(), -->
-<!--         axis.title.x = element_blank(), -->
-<!--         axis.text.y = element_text(size = 8, face = "bold"), -->
-<!--         strip.placement = "outside", -->
-<!--         strip.background.x = element_rect(fill=c("lightgrey"), color=NA), -->
-<!--         strip.text.x = element_text(size = 10, face = "bold"), -->
-<!--         strip.text.y = element_text(size = 10, face = "bold"), -->
-<!--         axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=9, color="black"), -->
-<!--         legend.text = element_text(size = 10), -->
-<!--         legend.position = "bottom") + -->
-<!--   labs(color="Gender:") -->
+p2_b <- wrap_elements(corr_a + 
+         patchwork::plot_annotation(title = "Correlation of Participant-Level Estimates", theme = theme(plot.title = element_text(face = "bold"))))
 
+p2 <- p2_a / p2_b + plot_layout(heights = c(1.5, 1))
 
-<!-- ``` -->
+p2
 
+ggsave("../../paper/images/Figure7.png", p2, width = 10, height = 12, dpi = 300)
+
+```
