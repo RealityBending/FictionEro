@@ -917,11 +917,11 @@ cor |>
 ```{r}
 #| message: false
 
-n <- parameters::n_factors(bait, package = "nFactors")
+n <- parameters::n_factors(bait)
 plot(n)
 
-efa <- parameters::factor_analysis(bait, cor=cor(bait, use="pairwise.complete.obs"), n=3, rotation = "oblimin", 
-                                   sort=TRUE, scores="tenBerge", fm="ml")
+efa <- parameters::factor_analysis(bait, n = 3, rotation = "oblimin", scores = "tenBerge", use = "pairwise", factor_method = "ml")
+
 plot(efa)
 display(efa)
 ```
