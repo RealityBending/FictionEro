@@ -356,20 +356,11 @@ Following phase 2, a manipulation check was done by offering participants the op
 Bayesian Mixed Models were fitted separately for Arousal, Valence, and Enticement as dependent variables, with Gender (Female vs. Male), Condition (AI-Generated vs. Photograph), Relevance (Relevant, Irrelevant, Non-Erotic), and Congruence (True vs. False). 
 Relevance corresponded to the sexual alignment according to the participants' gender and sexual orientation (i.e., erotic pictures involving women were categorized as relevant for heterosexual males, and irrelevant^[Note that the term "Relevant" vs. "Irrelevant" is used here in its evolutionary anchored, mating strategy-related sense.] for heterosexual females, and vice versa for pictures of men). Congruence, a proxy of condition belief, was also computed based on whether the condition matched the (dichotomized) reality rating of phase 2.
 
+As the outcome variables (measured on analog sliders) showed showed excess responses at the bounds, Zero–one inflated beta (ZOIB) models [@heiss2021guide; @vuorre2019analyze] were used. Participants and items were entered as random intercepts, with the effect of relevance and condition also modeled as variable within participants. Conservative priors ($Normal(0, 0.5)$) were placed on all fixed effects. The models were run using the brms package [@burkner2017brms] and analysed using the easystats collection of packages [@ludecke2022easystats; @ludecke2021performance; @makowski2019bayestestr].
 
+For all outcomes, we assessed the difference between the conditions (Photograph - AI-Generated) using marginal contrasts [@makowski2025modelbased], stratified by relevance, gender, and congruency.
+Coefficients are considered as significant when the 95% credible interval (*CI*) is strictly non-null. As the patterns of results for the outcomes were similar, we will focus on presenting the detailed results for Arousal as our primary outcome, and highlighting when divergent trends are present for Enticement or Valence.
 
-The full formula for the models are as a follow: Outcome ~ Gender / Relevance / Condition * Congruence + (1 + Relevance / Condition ∣ Participant) + (1 | Item). 
-The zero–one inflated beta (ZOIB) family [@heiss2021guide; @vuorre2019analyze]  was used to account for the distribution of the dependent variable, which showed excess responses at the boundary values (0 and 1) and weakly informative normal (0, 0.5) priors were placed on all fixed effects. 
-Each model was estimated using 2,000 iterations per chain with 50% warmup - distributed across 96 chains (total post-warmup draws was 96000).  
-Given the computational complexity of Bayesian mixed-effects models, all models were estimated on the University of Sussex High Performance Computing Cluster (HPC). 
-The models were run using the brms package [@burkner2017brms] and analysed using the easystats collection of packages [@ludecke2022easystats; @ludecke2021performance; @makowski2019bayestestr; @makowski2025modelbased].
-
-Firstly, to assess whether erotic images elicited higher ratings for men and women, marginal contrasts will be computed from these models, with contrasts defined over Relevance and estimated with levels of Gender. 
-Secondly, to assess the effect of condition, marginal contrasts will be defined over Condition and estimated within levels of Gender and Relevance. 
-Finally, the effect of Congruency between phases will be assessed using marginal contrasts defined over Condition and estimated within levels of Gender, Relevance, and Congruency. 
-Effects will be considered credible when the median estimate and its associated 95% credible interval (*CrI*) do not include zero, and when the probability of direction (*pd*) exceeds 97\%, indicating a consistent effect direction [@makowski2019bayestestr]. 
-Marginal contrasts were computed using the modelbased package [@makowski2025modelbased]. 
-The Results section will focus on arousal ratings whilst reporting major differences with Enticement and Valence. 
 
 To evaluate the reliability of individual-level parameters (i.e., random intercepts and random slopes for each participant and each item), the Variance-over-Uncertainty Ratio index [D-vour,@ludecke2021performance] will be computed. 
 This index estimates the reliability of group-level variance by quantifying the normalised ratio of observed between-group variability to the uncertainty associated with the corresponding random-effect estimates. 
