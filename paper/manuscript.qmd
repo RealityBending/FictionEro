@@ -273,7 +273,7 @@ Together, these findings suggest that both attentional engagement and explicit e
 
 # Study 1
 
-In our first study, we aimed at gauging whether the prejudice against AI-generated erotic stimuli shows up in a wide and heterogeneous sample, and whether it is modulated by demographic factors, by sexual activity or pornography consumption habits, or by attitudes toward IA.
+In the first study, we aimed at gauging whether the prejudice against AI-generated erotic stimuli shows up in a wide and heterogeneous sample, and whether it is modulated by demographic factors, by sexual activity or pornography consumption habits, or by attitudes toward IA.
 Following @marini2024real, we hypothesise that images presented as AI-generated will elicit lower ratings than those presented as photographs (H1).
 Additionally, in line with the literature on explicit stimuli [@chivers2004sex, @huberman2015gender; @safron2020neural], we hypothesise erotic images relevant to participants' sexual orientation would result in higher ratings than erotic but irrelevant images and non-erotic images, and that these differences would be less pronounced for women (H2).
 Research on general attitudes towards AI and its moderating role on ratings is mixed, with some studies finding a moderating effect [@doring2025anti] and others not [@liefooghe2023natural; @marini2024real].
@@ -299,17 +299,7 @@ The final sample consisted of 705 participants (Mean age = 30.2 $\pm$ 11.8 years
 Participants were primarily from the United Kingdom (28.23%), Italy (18.72%), the United States (14.33%), and Colombia (11.06%), with the remaining 27.66% distributed across other countries.
 Ethical approval for this study was obtained from the University of Sussex Ethics Committee (ER/MHHE20/1).
 
-### Materials
 
-The experiment was implemented with  *JsPsych* [@de2015jspsych] and all materials, including its code, the items, instructions and exact procedure, is available in open-access at https://github.com/RealityBending/FictionEro. Note that the experiment was translated into English, French, Italian and Spanish, that were disseminated in the relevant countries.
-
-**TODO FOR DOM AND ANA: ADD GENERAL ALPHA MEASURE FOR BAIT.**
-
-Two main dispositional characteristics were assessed.
-The *Beliefs about Artificial Image Technology* (BAIT) questionnaire [first used in @makowski2025too] was refined to include, additionally to 6 items from the GAAIS [@schepman2020initial; @schepman2023general] measuring negative and positive attitudes towards AI, 8 items specifically developed to specifically assess beliefs about computer-generated material across various types such as text, videos, images, and VR-environments
-Additionally, the first stand-alone item assesses self-reported AI knowledge on a 6-point Likert scale (Not at all - Expert).
-Items from the *Consumption of Pornography Scale* [COPS, @hatch2023consumption] were included to assess pornography use frequency and duration. An additional item assessed the recency of any sexual activity, with response options ranging from within the past 24 hours to more than a year ago.
-<!-- Internal consistency for the COPS was acceptable ($\omega$ = .66). -->
 
 
 
@@ -326,63 +316,47 @@ Items from the *Consumption of Pornography Scale* [COPS, @hatch2023consumption] 
 knitr::include_graphics("images/Paradigm1.png")
 ```
 
-The study was conducted in line with the born-open principle [@de2024datapipe], ensuring transparency and reproducibility at every stage.
-The experiment was implemented entirely in jsPsych [@de2015jspsych], with the full code hosted publicly on GitHub, which also served as the platform for running the online study.
-Raw data were automatically stored in a private Open Science Framework (OSF) repository.
+The study was conducted in line with the born-open principle [@de2024datapipe], ensuring transparency and reproducibility at every stage. The experiment was implemented with  *JsPsych* [@de2015jspsych] and all materials, including its code, the items, instructions and exact procedure, is available in open-access at https://github.com/RealityBending/FictionEro. Note that the experiment was translated into English, French, Italian and Spanish, that were disseminated in the relevant countries.
 
-Participants first provided informed consent before completing a short demographic questionnaire covering gender, age, ethnicity, country of residence, education, and English proficiency.
-Optional questions on birth control use were also included.
-They then proceeded to the experimental tasks (see @fig-paradigm1).
-In the first phase, participants were given the following instructions:
+#### Phase 1: Affective Evaluation
 
-> *In this study, we aim at validating our new image-generation algorithm (based on a new form of Generative Adversarial Network – GAN – technology) trained to produce high-quality erotic (but also non-erotic) content.*
+Participants were first presented with a cover story introducing the goal of the study as a validation of a new image-generation algorithm trained to produce high-quality erotic (and also non-erotic) content. Participants were informed that they would be shown a series of images, some of which were generated by the algorithm and others that were real photographs, and that their task was to rate each image on several affective dimensions, each preceded with a cue (the word "AI-Generated" or "Photo") presented for 1.25 s.
 
-> *In the following task, you will be presented with erotic and non-erotic images generated by our algorithm (preceded by the word 'AI-Generated') intermixed with real photos (preceded by the word 'Photo') taken from public picture databases.*
+Participants' task was to rate each image on three dimensions on analog scales: *Arousal* ("How much do you find the image sexually arousing? This question is about your own personal reaction felt in your body when seeing the image"), *Enticement* ("How enticing and sexually appealing would you rate this image to be. Think of how much, in general, people similar to you in terms of gender and sexual orientation would like it"), and *Valence* ("Did the image evoke a positive and pleasant (not necessarily sexual) feeling in you, or could it be better characterized as negative and unpleasant? Think of how much you did enjoy (or not) looking at the images").
 
-Participants were informed that their task was to rate each image on three dimensions: arousal and enticement, each on a continuous scale from Not at all (0) to Very much (1), and valence, on a continuous scale from Unpleasant (-1) to Pleasant (1). Definitions for each affective rating were also provided:
+Unbeknownst to participants, all 60 stimuli were real images (presented for 2.5 s), and the cues were randomly assigned. We selected 40 erotic images (20 male and 20 female) from the NAPS ERO [@wierzba2015erotic], and 20 non-erotic images (10 neutral, 10 positively arousing) from the original NAPS database [@marchewka2014nencki]. Erotic images were selected by sampling, within each category (male, female, faces, and people), the eight highest, and two lowest, arousal erotic images based on gender-specific ratings for men and women, with no overlap between sets. Non-erotic images were selected by computing average arousal across men and women, with 10 low-arousal images, and 10-high arousal images (restricted by positive valence stimuli). Phase 1 of the experiment was followed by two questionnaires.
 
-> *Arousing*: How much do you find the image sexually arousing? This question is about your own personal reaction felt in your body when seeing the image.
+**TODO: Stimuli selection is unclear**
 
-> *Enticing*: How enticing and sexually appealing would you rate this image to be. Think of how much, in general, people similar to you in terms of gender and sexual orientation would like it.
+#### Questionnaires
 
-> *Valence*: Did the image evoke a positive and pleasant (not necessarily sexual) feeling in you, or could it be better characterised as negative and unpleasant? Think of how much you did enjoy (or not) looking at the images.
 
-Each participant viewed 60 images in total: 40 erotic images (20 male and 20 female) from the Erotic subset of the Nencki Affective Picture System [NAPS ERO, @wierzba2015erotic], and 20 non-erotic images (10 neutral, 10 positively arousing) from the original NAPS database [@marchewka2014nencki]. 
-The final stimuli were selected by sampling, within each category (male, female, faces, and people), the eight highest, and two lowest, arousal erotic images based on gender-specific ratings for men and women, with no overlap between sets. 
-Non-erotic images were selected by computing average arousal across men and women, with 10 low-arousal images, and 10-high arousal images (restricted by positive valence stimuli). 
-Each trial followed a fixed timing sequence: a fixation cross (750 ms), a color-coded textual label (1,250 ms), another fixation cross (500 ms), then the image (2,500 ms). Labels were presented in red, green, or blue, with colours randomly assigned. 
-Additionally, the labels "AI-generated" or "Photograph" were presented to  indicate the authenticity of the images, and were randomly assigned. 
+**TODO FOR DOM AND ANA: ADD GENERAL ALPHA MEASURE FOR BAIT. + HOW MANY COPS ITEMS?**
 
-Following each image, participants rated their emotional response using three continuous sliders assessing sexual arousal, enticement, and valence. This phase was self-paced, with responses required before continuing.
-After completing the image-rating phase, participants filled out the BAIT scale, followed by the COPS questionnaire.
 
-In the final phase, participants were presented with the following instructions: 
+The *Beliefs about Artificial Image Technology* (BAIT) questionnaire [first used in @makowski2025too] was refined to include, additionally to 6 items from the GAAIS [@schepman2020initial; @schepman2023general] measuring negative and positive attitudes towards AI, 8 items specifically developed to specifically assess beliefs about computer-generated material across various types such as text, videos, images, and VR-environments
+Additionally, the first stand-alone item assesses self-reported AI knowledge on a 6-point Likert scale (Not at all - Expert).
 
-> *In the next phase, we would like to see if you found our image generation algorithm convincing and error-free. We will briefly present you all the images one last time (the AI-generated ones, as well as the photos), and you will have to rate them on how real (how realistic, photography-like) the image is.*
 
-Participants then viewed the same 60 images in a newly randomised order. 
-Each trial began with a 500 ms fixation cross, followed by the image presented for 1,000 ms. 
-As in the previous task, participants provided their ratings of Realism, using a continuous scale anchored at AI-generated (0) and Photograph (1), after viewing each image, and these ratings were self-paced.
-At the end of the experiment, participants completed a feedback form. 
-Finally, participants were debriefed on the true purpose of the study: to examine how image labels (AI-generated vs. real photograph) influence emotional responses. 
-Importantly, they were informed that all images were real photographs, and that the "AI-generated" label was used solely to test the effect of belief on affective reactions. 
-A shareable link to the experiment was also provided.
+Items from the *Consumption of Pornography Scale* [COPS, @hatch2023consumption] were included to assess pornography use frequency and duration. An additional item assessed the recency of any sexual activity, with response options ranging from within the past 24 hours to more than a year ago.
+<!-- Internal consistency for the COPS was acceptable ($\omega$ = .66). -->
 
-<!-- EYE-tracking data? -->
+#### Phase 2: Reality Beliefs
 
-#### Feedback
+Following the questionnaires, participants were presented with the instructions of phase 2, assessing the perceived realistic quality of the stimuli. The instructions were framed as follows: 
+"In the next phase, we would like to see if you found our image generation algorithm convincing and error-free. We will briefly present you all the images one last time (the AI-generated ones, as well as the photos), and you will have to rate them on how real (how realistic, photography-like) the image is". Participants then viewed the same 60 images (1 s) in a newly randomised order, and rated the stimuli on realism with an analog slider scale (AI-generated - Photograph).
 
-Feedback was collected at the end of the experiment.
-Participants were able to provide open-ended comments and to select one, multiple, or no options, from several predefined statements (10 in total).
-These statements assessed whether they found the experiment fun or boring; whether they could distinguish which images were AI-generated or perceived no difference between photographs and AI-generated images; whether they felt the AI-generated images were more or less arousing; whether they believed the labels were inaccurate or reversed; and, more generally, whether some images were particularly arousing or elicited no emotional response.
+Following phase 2, a manipulation check was done by offering participants the opportunity to tick boxes pertaining to their experience, including items prompting whether they could distinguish which images were AI-generated or perceived no difference between photographs and AI-generated images; whether they felt the AI-generated images were more or less arousing; whether they believed the labels were inaccurate or reversed; and whether they found some images arousing or none at all. Finally, participants were debriefed and were informed all the true purpose of the study, and of the fact that all images were actually genuine pictures.
+
+
+
 
 ### Data Analysis
 
-Bayesian Linear Mixed Models were fitted separately for Arousal, Valence, and Enticement as dependent variables. 
-Each outcome was predicted from Gender (Female vs. Male), Condition (AI-Generated vs. Photograph), Relevance (Relevant, Irrelevant, Non-Erotic), and Congruence (True vs. False). 
-Relevance was computed post hoc based on participants' self-reported gender and sexual orientation. 
-For example, images of male-presenting stimuli were coded as "Relevant" for homosexual but not for heterosexual men.  
-Congruence was also computed post hoc based on whether the chosen label in phase 2 was congruent with the one presented for that image in phase 1. 
+Bayesian Mixed Models were fitted separately for Arousal, Valence, and Enticement as dependent variables, with Gender (Female vs. Male), Condition (AI-Generated vs. Photograph), Relevance (Relevant, Irrelevant, Non-Erotic), and Congruence (True vs. False). 
+Relevance corresponded to the sexual alignment according to the participants' gender and sexual orientation (i.e., erotic pictures involving women were categorized as relevant for heterosexual males, and irrelevant^[Note that the term "Relevant" vs. "Irrelevant" is used here in its evolutionary anchored, mating strategy-related sense.] for heterosexual females, and vice versa for pictures of men). Congruence, a proxy of condition belief, was also computed based on whether the condition matched the (dichotomized) reality rating of phase 2.
+
+
 
 The full formula for the models are as a follow: Outcome ~ Gender / Relevance / Condition * Congruence + (1 + Relevance / Condition ∣ Participant) + (1 | Item). 
 The zero–one inflated beta (ZOIB) family [@heiss2021guide; @vuorre2019analyze]  was used to account for the distribution of the dependent variable, which showed excess responses at the boundary values (0 and 1) and weakly informative normal (0, 0.5) priors were placed on all fixed effects. 
