@@ -827,14 +827,12 @@ Resolving this ambiguity would require designs capable of manipulating, rather t
 
 <!-- Summary -->
 
-To summarise, we investigated the anti-AI bias for erotic stimuli by conceptually replicating @marini2024real study. 
-We presented participants with erotic (Study 1 and Study 2) and non-erotic images (Study 1) preceded by a randomised cue of whether the origin of that image was a Photograph or AI-generated.
-Across the two studies we saw consistent but small effects of AI labelling, observed primarily in males as well as robust gender difference in responses to erotic stimuli.
-More importantly, we observed belief-related processes that shape the direction and magnitude of affective responses to the manipulation. 
-More specifically, we saw a reversal process in which images were rated more arousing for those labelled photographs than for those labelled as AI-generated under trials in which the label was believed to be correctly assigned. 
-Under trials where the labels were not believed in, images labelled as AI-generated were rated as more arousing. 
-However, individual-level characteristics did not modulate this responses. 
-Implications .... 
+To summarise, we investigated the anti-AI bias for erotic stimuli by conceptually replicating @marini2024real. 
+Participants viewed erotic (Studies 1 and 2) and non-erotic (Study 1) images, each preceded by a randomised cue indicating that the image was either a photograph or AI-generated. 
+Across both studies, AI labelling produced consistent but small effects, driven primarily by male participants, alongside robust gender differences in responses to erotic stimuli that proved sensitive to relational context. 
+Most importantly, affective responses depended on whether participants believed the labels: when realism judgements were congruent with the assigned label, images labelled as photographs were rated as more arousing than those labelled as AI-generated, whereas this pattern reversed when the labels were disbelieved. 
+Individual differences in AI attitudes, pornography consumption, and sexual activity could not account for the labelling effect, as sensitivity to the AI label showed little reliable variability across participants. 
+Together, these findings suggest that the anti-AI bias is best understood not as a uniform response to AI labels but as a belief-sensitive authenticity effect, one with practical implications for researchers using synthetic stimuli and for policies mandating the disclosure of AI-generated content.
 
 
 # References
