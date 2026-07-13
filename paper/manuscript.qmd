@@ -244,46 +244,43 @@ Lastly, in their direct manipulation of the"authentic/AI-generated labeling (Stu
 
 ## The present studies
 
-In this exhaustive follow-up investigation, we improved our control of image properties by employing stimuli from a validated database, the Nencki Affective Picture System [@marchewka2014nencki], which includes explicitly sexual pictures [@wierzba2015erotic], and selected the stimuli via a data-driven, reproducible procedures.
-Moreover, we asked participants to make different evaluations, such as first-person subjective sexual arousal and valence, as well as a third-person (more "semantic") judgment on how enticing they found the image to be.
+The present study is a conceptual replication of @marini2024real, which we improved in several ways.
+First, we employed stimuli from a validated database, the Nencki Affective Picture System [@marchewka2014nencki],including explicit  and more sexually arousing pictures [@wierzba2015erotic], selected via data-driven, reproducible measures.
+Second, we asked participants to make different evaluations, such as first-person subjective sexual arousal and valence, as well as a third person (more “semantic”) judgment on how enticing they found the image to be.
 
-Sociodemographic characteristics, in particular gender, were assessed as a modulator of responses to stimuli, given robust evidence that sexual patterns differ systematically between men and women.
-For instance, research on arousal indicates that heterosexual men tend to exhibit greater category-specificity in their responses, such that arousal is more strongly aligned with their sexual orientation (i.e., heightened responses to female stimuli).
-In contrast, heterosexual women's responses are less category-specific and more variable across stimulus types [@chivers2004sex; @chivers2017specificity; @huberman2015gender; @safron2020neural].
+Sociodemographic characteristics were systematically considered as a modulator of responses to stimuli, given robust evidence that sexual patterns differ between men and women.
+For instance, research on arousal indicates that heterosexual men tend to exhibit greater arousal for women. 
+In contrast, heterosexual women's responses are less gender-specific [@chivers2004sex; @chivers2017specificity; @huberman2015gender; @safron2020neural].
 
 Furthermore, the present studies assess whether individual differences in attitudes towards AI influence responses to the stimuli.
 Beliefs about the origin of a stimulus can bias evaluations, yet it remains unclear whether this effect depends on individuals' pre-existing attitudes towards AI.
-Previous findings suggest that such moderation is inconsistent and may be domain-specific.
-In domains where creativity and authenticity are salient (e.g., art and music), stronger anti-AI biases are often observed [e.g., @ansani2025ai], whereas informational contexts (e.g., news) sometimes show a pro-AI bias, with machine-generated content perceived as less biased [e.g., @cloudy2022ai].
-In contrast, research using human faces and bodies consistently finds no reliable moderating role of AI attitudes on evaluative or affective responses [e.g., @liefooghe2023natural; @marini2024real].
-Some evidence, however, suggests that broader constructs such as AI readiness may attenuate anti-AI bias [i.e., composite of positive AI attitudes and higher AI literacy, @doring2025anti].
-Overall, the influence of AI attitudes on evaluations appears variable and context-dependent, with particularly limited effects observed in the domain of human appearance.
+Previous findings suggest that such moderation is inconsistent and may be domain-specific [CF. @ansani2025ai; @cloudy2022ai].
+Moreover, some evidence suggests that broader constructs such as AI readiness may attenuate anti-AI bias [i.e., composite of positive AI attitudes and higher AI literacy, @doring2025anti].
 Accordingly, the present study includes attitudes towards AI as a potential moderating variable to test whether individual differences in these attitudes shape responses to the stimuli.
 
-Finally, the present study also considers participant's sexual behaviour as moderators of responses to sexual stimuli.
+Finally, the present studies also considers participant's sexual behaviour as moderators of responses to sexual stimuli.
 For example, research indicates that frequency of pornographic consumption can influence attentional and evaluative processing of sexual content.
 Repeated exposure to pornographic material has been associated with attenuated allocation of automatic attentional resources to sexual stimuli, suggesting a degree of habituation [@carvalho2018gender].
 Furthermore, evidence suggests that individuals with lower pornographic use rate erotic stimuli as less pleasant compared to those with moderate or high levels of consumption, indicating that prior exposure shapes subjective appraisal of sexual content [@kunaharan2017conscious].
-Similarly, although less frequently examined, frequency of sexual activity may serve as an index of experiential familiarity with sexual stimuli and thus modulate responses.
-Greater sexual experience has been linked to differences in neural sensitivity to explicit content [@prause2015modulation], and heightened self-reported sexual arousal [@walton2018hypersexuality], although state subjective arousal ratings do not consistently vary [@youn2006subjective].
-Together, these findings suggest that both attentional engagement and explicit evaluations of sexual stimuli are contingent on individuals' prior experiential exposure, whether through pornography consumption or sexual activity.
+Similarly, sexual activity has been shown to modulate the response to erotic imagery [@prause2015modulation; @youn2006subjective; @walton2018hypersexuality].
+Together, these findings suggest that both pornography consumption and sexual activity modulate affective ratings of erotic content. 
 
 <!-- Since the proliferation of generative AI has likely put several subjects on their toes when it comes to telling apart authentic and synthetic perceptually indistinguishable media, we devised post-hoc controls of the effect of belief manipulation. -->
 <!-- Moreover, given that not only the feeling of reality could alter the affective reaction, but the effect in the other direction is also possible–namely, that the affective reaction impact on how real something is perceived [@sperduti2017distinctive; @makowski2019phenomenal; @makowski2025too], we explicitly measured whether some of the above-mentioned affective variables (arousal, enticement, valence) predicted the 'feeling of reality' of the images. -->
 
 # Study 1
 
-In the first study, we aimed at gauging whether the prejudice against AI-generated erotic stimuli shows up in a wide and heterogeneous sample, and whether it is modulated by demographic factors, by sexual activity or pornography consumption habits, or by attitudes toward IA.
+In the first study, we aimed at gauging whether an AI bias toward erotic stimuli shows up in a wide and heterogeneous sample, and whether it is modulated by demographic factors, by sexual activity or pornography consumption habits, and by attitudes toward IA.
 Following @marini2024real, we hypothesise that images presented as AI-generated will elicit lower ratings than those presented as photographs (H1).
-Additionally, in line with the literature on explicit stimuli [@chivers2004sex, @huberman2015gender; @safron2020neural], we hypothesise erotic images relevant to participants' sexual orientation would result in higher ratings than erotic but irrelevant images and non-erotic images, and that these differences would be less pronounced for women (H2).
-Research on general attitudes towards AI and its moderating role on ratings is mixed, with some studies finding a moderating effect [@doring2025anti] and others not [@liefooghe2023natural; @marini2024real].
-As such, we explore whether attitudes towards AI moderate responses to the stimuli, without making a strong directional prediction (H3).
-Lastly, based on previous findings [e.g., @kunaharan2017conscious], we hypothesise that pornographic consumption will modulate ratings of sexual stimuli (H4); however, no directional hypothesis is proposed for frequency of sexual activity due to mixed evidence regarding its influence on subjective responses (H5).
+Additionally, in line with the literature on explicit stimuli [@huberman2015gender], we hypothesise that erotic images relevant to participants' sexual orientation would result in higher ratings than erotic but irrelevant images and non-erotic images, and that these differences would be less pronounced for women (H2).
 
-While prior studies have examined the effect of AI labels on affective ratings, relatively little attention has been paid to whether participants actually believe those labels, and whether belief itself modulate the observed effects.
-If participants second-guess the authenticity claims (e.g., suspecting that "AI-generated" images are in fact photographs, or vice versa), label-based effects would be attenuated or reversed regardless of the manipulation's objective content.
-This methodological concern is not without empirical basis: @tucciarelli2022realness showed that when participants were informed that some faces in a set might be AI-generated, their responses were driven not by the objective category of each face, but by their own judgment of whether that specific face was real, suggesting that individual beliefs about stimulus authenticity, rather than assigned labels, shape evaluative and social responses.
-Accordingly, we assess the role of individual belief in the label as an additional predictor of affective ratings, without a directional hypothesis, given that disbelief in a label can shift ratings in either direction depending on what the participant believes the image actually is (H6).
+While prior studies have examined the effect of AI labels on affective ratings, relatively little attention has been paid to whether participants actually believe those labels, and whether belief itself modulates the observed effects. 
+If participants second-guess the authenticity claims (e.g., suspecting that “AI-generated” images are in fact photographs, or vice versa), label-based effects would be attenuated or reversed regardless of the manipulation’s objective content. 
+Indeed, @tucciarelli2022realness showed that when participants were informed that some faces in a set might be AI-generated, their responses were driven not by the objective category of each face, but by their own judgment of whether that specific face was real. Accordingly, we assess the role of individual belief in the label as an additional predictor of affective ratings (H3).
+
+Research on general attitudes towards AI and its moderating role on ratings is mixed, with some studies finding a moderating effect [@doring2025anti] and others not [@liefooghe2023natural; @marini2024real].
+As such, we exploratory test whether attitudes towards AI moderate responses to the stimuli (H4).
+Lastly, based on previous findings [e.g., @kunaharan2017conscious], we explore wether the ratings of sexual stimuliis affected ny either pornographic consumption or sexual activity (H5).
 
 ## Methods
 
