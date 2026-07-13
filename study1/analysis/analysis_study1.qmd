@@ -129,15 +129,27 @@ McDonald's Omega (⍵) total was acceptable for both dimensions of the GAAIS (Ne
 ## BAIT
 
 ```{r}
-#| message: false
-#| warning: false
-#| output: false
-
-
 
 dfsub1$BAIT_8_TextIssues <- 1- dfsub1$BAIT_8_TextIssues
 dfsub1$BAIT_2_ImagesIssues <- 1- dfsub1$BAIT_2_ImagesIssues
 dfsub1$BAIT_4_VideosIssues <- 1- dfsub1$BAIT_4_VideosIssues
+
+BAIT <- dfsub1[grepl("^BAIT_", names(dfsub1))]
+
+BAIT_a <- psych::omega(BAIT, n_factors= 1)
+
+```
+
+McDonald's Omega (⍵) total was acceptable for BAIT total (⍵ = `r round(BAIT_a$omega.tot,2)`.
+
+```{r}
+#| message: false
+#| warning: false
+#| output: false
+
+# dfsub1$BAIT_8_TextIssues <- 1- dfsub1$BAIT_8_TextIssues
+# dfsub1$BAIT_2_ImagesIssues <- 1- dfsub1$BAIT_2_ImagesIssues
+# dfsub1$BAIT_4_VideosIssues <- 1- dfsub1$BAIT_4_VideosIssues
 # dfsub1$BAIT_5_ImitatingReality <- dfsub1$BAIT_5_ImitatingReality
 
 
