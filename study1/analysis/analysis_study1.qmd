@@ -146,13 +146,13 @@ dfsub1$BAIT_8_TextIssues   <- 1 - dfsub1$BAIT_8_TextIssues
 dfsub1$BAIT_2_ImagesIssues <- 1 - dfsub1$BAIT_2_ImagesIssues
 dfsub1$BAIT_4_VideosIssues <- 1 - dfsub1$BAIT_4_VideosIssues
 
-BAIT_Text_items        <- dfsub1[, grepl("^BAIT_[78]_Text", names(dfsub1))]
-BAIT_Visual_items      <- dfsub1[, grepl("^BAIT_[1256]_", names(dfsub1))]
-BAIT_Videos_items      <- dfsub1[, grepl("^BAIT_[34]_Videos", names(dfsub1))]
+BAIT_Text_items <- dfsub1[, grepl("^BAIT_[78]_Text", names(dfsub1))]
+BAIT_Visual_items <- dfsub1[, grepl("^BAIT_[1256]_", names(dfsub1))]
+BAIT_Videos_items <- dfsub1[, grepl("^BAIT_[34]_Videos", names(dfsub1))]
 
-BAIT_Text_a        <- psych::alpha(BAIT_Text_items)
-BAIT_Visual_o      <- psych::omega(BAIT_Visual_items, nfactors = 1)
-BAIT_Videos_a      <- psych::alpha(BAIT_Videos_items)
+BAIT_Text_a <- psych::alpha(BAIT_Text_items)
+BAIT_Visual_o <- psych::omega(BAIT_Visual_items, nfactors = 1)
+BAIT_Videos_a <- psych::alpha(BAIT_Videos_items)
 
 BAIT_Expectations_items <- dfsub1[, grepl("^BAIT_[1-8]_", names(dfsub1))]
 BAIT_Expectations_o <- psych::omega(BAIT_Expectations_items, nfactors = 1)
