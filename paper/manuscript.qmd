@@ -294,7 +294,7 @@ This strategy yielded a heterogeneous pool of both incentivised and non-incentiv
 Data collection occurred from the 19th of January to 1st of June 2024 [during this time, the best image generator was OpenAI's DALL-E 3, @towardsaiAIPoweredImage].
 
 Eight participants were removed if they showed no variation in arousal ratings across trials, and four because they displayed a salient negative correlation between arousal and enticement alongside lower arousal ratings for erotic compared to neutral stimuli, suggesting a possible misunderstanding of response scales direction.
-In order to preserve homogenous and well-powered samples, participants identifying with a gender other than Female or Male (N = 15), or a sexual orientation other than Heterosexual (N = 335), were excluded from further analysis.
+In order to preserve homogenous and well-powered samples, participants identifying with a gender other than Female or Male (N = 15), or a sexual orientation other than Heterosexual (N = 335^[Out of these 335 participants: 150 were bisexual females, 72 bisexual males, 32 homosexual females, 38 homosexual males, and 23 females and 20 males self-identified as other.]), were excluded from further analysis.
 The final sample consisted of 705 participants (Mean age = 30.2 $\pm$ 11.8 years; 35.7% female).
 Participants were primarily from the United Kingdom (28.23%), Italy (18.72%), the United States (14.33%), and Colombia (11.06%), with the remaining 27.66% distributed across other countries.
 Ethical approval for this study was obtained from the University of Sussex Ethics Committee (ER/MHHE20/1).
