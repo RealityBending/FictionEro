@@ -336,12 +336,9 @@ Non-erotic images were selected by computing average arousal across men and wome
 #### Questionnaires
 
 
-**TODO FOR DOM AND ANA: ADD GENERAL ALPHA MEASURE FOR BAIT. + HOW MANY COPS ITEMS?**
-
-
-The *Beliefs about Artificial Image Technology* (BAIT) questionnaire [first used in @makowski2025too] was refined to include, additionally to 6 items from the GAAIS [@schepman2020initial; @schepman2023general] measuring negative and positive attitudes towards AI, 8 items specifically developed to specifically assess beliefs about computer-generated material across various types such as text, videos, images, and VR-environments. The internal consistency of the BAIT was good ($\omega$ = .89).
+<!-- Internal consistency for the BAIT total was 0.69 --> 
+The *Beliefs about Artificial Image Technology* (BAIT) questionnaire [first used in @makowski2025too] was refined to include, additionally to 6 items from the GAAIS [@schepman2020initial; @schepman2023general] measuring negative and positive attitudes towards AI, 8 items specifically developed to specifically assess beliefs about computer-generated material across various types such as text, videos, images, and VR-environments. Therefore the BAIT includes two dimensions: expectations ($\omega$ = .70) and attitudes ($\omega$ = .72) both with acceptable internal consistency.
 Additionally, the first stand-alone item assesses self-reported AI knowledge on a 6-point Likert scale (Not at all - Expert). 
-
 
 Two items from the *Consumption of Pornography Scale* [COPS, @hatch2023consumption] were included to assess pornography use frequency and duration. An additional item assessed the recency of any sexual activity, with response options ranging from within the past 24 hours to more than a year ago. 
 <!-- Internal consistency for the COPS was acceptable ($\omega$ = .66). -->
@@ -592,11 +589,11 @@ The questionnaires used in Study 2 were largely the same as those in Study 1, wi
 In the BAIT scale, two items, assessing beliefs that AI might take control of people and interest in using AI systems in daily life, were removed.
 Three items assessing AI expertise were added (e.g., "I consider myself an expert in AI technology"), as well as four items assessing one's ability to discriminate between AI and real stimuli (e.g., "I can easily distinguish between real and AI-generated images"). 
 Lastly, 7 items assessing AI-bias were further included (e.g., "Human creators bring a unique perspective that AI cannot replicate"). 
-Items from the GAAIS used in study 1 were incorporated into this version of the BAIT resulting in 5 dimensions: Expectations ($\omega$ = .76), Attitudes ($\omega$ = .78), Expertise ($\omega$ = .77), Discrimination ($\omega$ = .80) and Bias ($\omega$ = .77).  
+This version of the BAIT resulted in 5 dimensions: Expectations ($\omega$ = .76), Attitudes ($\omega$ = .78), Expertise ($\omega$ = .77), Discrimination ($\omega$ = .80) and Bias ($\omega$ = .77).  
 Items were rated in a 7 Likert scale from 0 (Disagree) to 6 (Agree). 
 Additionally, the wording was streamlined by replacing "Artificial Intelligence" with "AI" throughout the scale.
 
-In the COPS, the item assessing the typical duration of pornography viewing sessions was omitted, retaining only items measuring frequency of pornography viewing and recency of sexual activity ($\omega$ = .19).
+In the COPS, the item assessing the typical duration of pornography viewing sessions was omitted, retaining only items measuring frequency of pornography viewing and recency of sexual activity.
 
 #### Phase 2: Reality Beliefs
 
