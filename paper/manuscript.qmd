@@ -359,8 +359,6 @@ Bayesian Mixed Models were fitted separately for Arousal, Valence, and Enticemen
 Relevance corresponded to the sexual interest according to the participants' gender and sexual orientation (i.e., erotic pictures involving women were categorized as relevant for heterosexual males, and irrelevant for heterosexual females, and vice versa for pictures of men). 
 Congruence, a proxy of condition belief, was also computed based on whether the condition matched the (dichotomized) reality rating of phase 2.
 
-**TO DO ANA**: continue citations from here!
-
 As the outcome variables (measured on analog sliders) showed excess responses at the bounds, Zero–one inflated beta (ZOIB) models [@heiss2021guide; @vuorre2019analyze] were used. 
 Participants and items were entered as random intercepts, with the effect of relevance and condition also modeled as variable within participants.
 Conservative priors ($Normal(0, 0.5)$) were placed on all fixed effects. 
