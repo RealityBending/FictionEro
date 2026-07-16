@@ -202,7 +202,7 @@ In contrast, when  stimuli are explicitly labelled as AI-generated, they are con
 This "anti-AI bias" has been documented across several culturally salient domains such as visual arts [@chiarella2022investigating; @bellaiche2023humans; @ragot2020ai; @di2023art], music [@shank2023ai; @ansani2025ai] and poetry [@porter2024ai].
 More broadly, the influence of contextual information on the evaluation of cultural products is well established and extends beyond biases specific to AI.
 
-For example, research in neuroasthetics shows that presenting an artwork as an original rather than a (human-made) copy can alter both its perceived worth [@newman2012art] and associated neural responses [@huang2011human].
+For example, research in neuroasthetics shows that presenting an artwork as an original rather than a (human-made) copy can alter both its perceived worth [@Newman2012art], and associated neural responses [@huang2011human].
 These findings suggest that evaluative processes are highly malleable to contextual cues and beliefs about the origin of the stimuli. 
 The "anti-AI bias" makes no exception, inasmuch it seems driven primarily by cognitive evaluations tied to beliefs about authorship, as shown by the paradoxical appreciation of (unknowingly-)AI-made stimuli.
 
@@ -223,7 +223,7 @@ This makes them a particularly relevant test case for examining whether contextu
 ## AI and erotic stimuli
 
 Beyond their methodological interest as biologically salient stimuli for investigating the anti-AI bias, erotic stimuli are worth investigating also for their social relevance. 
-Indeed, genAI is often used to generate explicit visual contents [@doring2024impact; @lapointe2025present], and  most videos online are (non-consensual) sexual deepfakes [@ajder2019state; @Security2023Hero].
+Indeed, genAI is often used to generate explicit visual contents [@doring2024impact; @lapointe2025present], and  most videos online are (non-consensual) sexual deepfakes [@ajder2019state; @securityheroStateDeepfakes].
 The widespread consumption of AI-generated sexual content would suggest that the anti-AI bias might not generalize to erotic stimuli. Or does it?
 
 @easterbrook2025pornographic speculate that AI-generated pornography might be valued less inasmuch it lacks the "aura of authenticity" surrounding human-made porn.
