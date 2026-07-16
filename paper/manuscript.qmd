@@ -581,8 +581,9 @@ All stimuli were photographs from the NAPS ERO [@wierzba2015erotic]; unlike Stud
 The final set comprised 100 images, 25 per category. For the female-individual and male-individual categories, all 25 available NAPS ERO images were included. 
 For opposite-sex couples, we selected the 25 images (of 50) with the highest arousal summed across heterosexual men's and women's normative ratings; among three images tied at the selection threshold, the one with the lowest summed valence was excluded.
 
-After viewing all images, participants completed a brief free choice with non-mutually exclusive options survey. 
-The survey asked participants to indicate whether they found some or none images particularly arousing, and whether AI-generated images were more or less arousing than the photographs. Participants were also asked whether differences between AI-generated and real images were obvious or subtle, whether they perceived any inconsistencies or reversals in the labeling, and whether they believed all images were either photos or AI-generated. If participants indicated that they believed all images were either real or AI-generated, they were further asked to rate their confidence in this judgment on a scale from "Not at all" to "Completely certain". 
+After viewing all images, participants completed a brief feedback asking participants to indicate whether they found some or none images particularly arousing, and whether AI-generated images were more or less arousing than the photographs. 
+Participants were also asked whether differences between AI-generated and real images were obvious or subtle, whether they perceived any inconsistencies or reversals in the labeling, and whether they believed all images were either photos or AI-generated. 
+If participants indicated that they believed all images were either real or AI-generated, they were further asked to rate their confidence in this judgment on a scale from "Not at all" to "Completely certain". 
 
 #### Questionnaires
 
@@ -590,7 +591,7 @@ The questionnaires used in Study 2 were largely the same as those in Study 1, wi
 In the BAIT scale, two items, assessing beliefs that AI might take control of people and interest in using AI systems in daily life, were removed.
 Three items assessing AI expertise were added (e.g., "I consider myself an expert in AI technology"), as well as four items assessing one's ability to discriminate between AI and real stimuli (e.g., "I can easily distinguish between real and AI-generated images"). 
 Lastly, 7 items assessing AI-bias were further included (e.g., "Human creators bring a unique perspective that AI cannot replicate"). 
-This version of the BAIT resulted in 5 dimensions: Expectations ($\omega$ = .76), Attitudes ($\omega$ = .78), Expertise ($\omega$ = .77), Discrimination ($\omega$ = .80) and Bias ($\omega$ = .77).  
+This version of the BAIT resulted in 5 dimensions: Expectations ($\omega$ = .76), Attitudes ($\omega$ = .78), Expertise ($\omega$ = .77), Discrimination ($\omega$ = .80) and Bias ($\omega$ = .77).
 Items were rated in a 7 Likert scale from 0 (Disagree) to 6 (Agree). 
 Additionally, the wording was streamlined by replacing "Artificial Intelligence" with "AI" throughout the scale.
 
@@ -611,14 +612,14 @@ Conservative priors ($Normal(0, 0.5)$) were placed again on all fixed effects.
 
 Marginal contrasts will be computed to compare marginal means with condition (i.e., AI-Generated and Photograph) as the predicted contrasts, stratified by gender and congruency.
 The same analysis as study 1 individual-level parameters and correlations with moderators will be conducted, using the same packages. 
-To further assess the effect of the type of image (e.g., couple vs individuals) the same analysis was conducted adding Type as predictor. 
+To further assess the effect of the type of image (e.g., couple vs individuals) the same analysis was conducted adding the type of image (image of individuals vs image of couples) as predictor. 
 
 Consistent with Study 1, the Results section will focus primarily on arousal, with results for enticement and valence reported in Supplementary Materials. 
 All analyses were conducted in R (version 4.5.2; [GitHub](https://github.com/RealityBending/FictionEro/study2/analysis) contains all materials, data and analysis scripts for Study 2). 
 
-## Results
+# Results
 
-### Distributions
+## Distributions
 
 As shown in @fig-dist2, arousal ratings exhibit different distributional patterns for males and females. 
 Male participants show a broader distribution of arousal scores, with relatively higher frequencies at both the lower end of the scale and across the mid-range (~ 0.50–0.70). 
@@ -639,7 +640,7 @@ knitr::include_graphics("images/Figure4.png")
 ```
 
 
-### Manipulation checks
+## Manipulation checks
 
 In Study 2, 32\% of participants reported believing that all images were real based on their feedback after Phase 1, indicating that a third of participants did not believe in the manipulation. However, in Phase 2, 48.2\% of images were classified as photographs. 
 
@@ -649,9 +650,9 @@ This estimated effect size was large (median $\delta$ = −1.10, 95\% *CrI* [−
 A similar pattern was observed for enticement and valence. 
 
 
-### Marginal contrasts
+## Marginal contrasts
 
-#### Effect of Type
+### Effect of Type
 
 The addition of image type (e.g., images of couples vs images of individuals) showed a credible difference between ratings of individual images between males and females with the former rating images higher in arousal ($\Delta$ = .17, 95\% *CrI* [.11, .22], pd = 100\%). 
 No credible differences between ratings of couple images was found between males and females ($\Delta$ = 0.009, 95\% *CrI* [-.02, .04], pd = 69.92\%). Same patterns were found for enticement and valence (see @fig-type). 
@@ -670,7 +671,7 @@ Additionally, credible differences were found for females and males ratings betw
 Couple images were rated higher in arousal compared to images of individuals for females ($\Delta$ = .08, 95\% *CrI* [.03, .12], *pd* = 99.98\%), whilst males rated couple images lower ($\Delta$ = -.08, 95\% *CrI* [-.12, -.04], *pd* = 99.98\%). 
 Enticement and valence ratings were credibly different (pd > 99.99\%) for both females and males, with males ratings for couple images being rated lower than images with individuals, whereas the pattern was reversed for females.
 
-#### Effect of Condition (with and without Type)
+### Effect of Condition (with and without Type)
 
 Estimated marginal contrasts assessing the effect of condition across gender showed that the difference was only credible for Males ($\Delta$ = .06, 95\% *CrI* [.04, .07], *pd* = 100\%) but not for females ($\Delta$ = .01, 95\% *CrI* [.00, .02], *pd* = 93.57\%). 
 The same pattern was found for enticement. 
@@ -679,7 +680,7 @@ For valence ratings, both genders rated images labelled as photograph higher tha
 The effect of condition across gender for the type of images showed only males credibly differed in arousal ratings of images of couples labelled photograph vs those labelled AI-generated ($\Delta$ = .02, 95\% *CrI* [.00, .04], *pd* = 99.23\%), and ratings of individuals ($\Delta$ = .02, 95\% *CrI* [.00, .03], *pd* = 98.77\%). 
 No credible differences were found for females (pd < 88.2\%). Enticement ratings followed the same pattern, while for valence ratings the only credible difference was found for females ratings of couple images, with those images labelled photograph being rated higher than those labelled Ai-generated ($\Delta$ = .02, 95\% *CrI* [.01, .04], *pd* = 99.52\%). 
 
-#### Effect of Condition Depending on Congruence (with and without Type). 
+### Effect of Condition Depending on Congruence (with and without Type). 
 
 Estimated marginal contrasts examined differences in arousal ratings between images labeled as photographs or AI-generated as a function of gender and congruence. 
 Under congruent trials, images labelled as photographs were rated as more arousing for both genders, with a stronger effect for males ($\Delta$ = .06, 95\% *CrI* [.04, .07], pd = 100\%) than females ($\Delta$ = .02, 95\% *CrI* [.00, .04], *pd* = 97.18\%). 
@@ -705,13 +706,13 @@ The primary exception was for female ratings of couple images under incongruent 
 knitr::include_graphics("images/Figure6.png")
 ```
 
-#### Individual-level parameters
+### Individual-level parameters
 
 For arousal, reliable variability was observed for both item-level (D-vour = 0.949) and participant-level parameters (D-vour = 0.914). In contrast, very low reliability was found for participant-level interactions with the AI-generated condition (D-vour = 0.072), indicating minimal reliable inter-individual variability in responses to the belief manipulation, consistent with Study 1.
 
 A similar pattern was observed for enticement and valence, with the key difference that, for valence ratings, the participant-level interaction with the AI-generated condition showed slightly higher reliability (D-vour = 0.203), although reliability is still low.
 
-#### Correlation with moderators 
+### Correlation with moderators 
 
 For the intercept of the arousal model, correlations with beliefs and attitudes towards AI were overall weak ($r$ = .25, 95\% *CI* [.23, .26]). More specifically, the intercept showed weak positive associations with general expectations about AI ($r$ =.16, 95\% *CI* [.14, .17]), general attitudes towards AI ($r$ =.14, 95\% *CI* [.12, .16]), self-reported expertise about AI ($r$ =.25, 95\% *CI* [.24, .27]), and bias against AI content ($r$ =.15, 95\% *CI* [.13, .17]). 
 The correlation with discrimination ability between AI- and human-generated content was negligible ($r$ =−.01, 95\% *CI* [−.03, .01]). 
@@ -734,7 +735,7 @@ Taken together, and consistent with Study 1, these findings suggest that variabi
 knitr::include_graphics("images/Figure6.png")
 ```
 
-## Discussion 
+# Discussion 
 
 In Study 2, participants viewed erotic images depicting both couples and individuals matched to their sexual orientation.
 As in Study 1, images were labelled as either photographs or AI-generated. 
@@ -768,9 +769,9 @@ However, across both studies this effect was small in magnitude and primarily dr
 On the contrary, in Study 1, females rated relevant erotic images higher in arousal (but not valence or enticement) when they were presented as AI-generated.
 This reverse pattern was not found in Study 2. 
 
-In both studies, males consistently rated images presented as photographs higher. 
+<!-- In both studies, males consistently rated images presented as photographs higher. 
 We had additionally hypothesised that individual differences in AI attitudes and beliefs, pornography consumption frequency and recency of sexual activity might be associated with the strength of this labelling effect. 
-However, as detailed below, individual-level estimates of sensitivity to the AI-generated label showed minimal reliable variability between participants, meaning these hypotheses could not be meaningfully tested in the present data; weak correlations with these variables should accordingly not be read as evidence against an association, but as uninformative given the lack of reliable variance to explain.
+However, as detailed below, individual-level estimates of sensitivity to the AI-generated label showed minimal reliable variability between participants, meaning these hypotheses could not be meaningfully tested in the present data; weak correlations with these variables should accordingly not be read as evidence against an association, but as uninformative given the lack of reliable variance to explain. -->
 
 Our results also replicate and extend prior literature on gender differences in response to erotic stimuli [@chivers2004sex; @chivers2017specificity; @huberman2015gender; @safron2020neural].
 In Study 1, males rated sexually relevant images as more arousing than irrelevant ones, whereas females did not. 
@@ -810,18 +811,18 @@ An unexpected effect of such legislation when it comes, for instance, to adverti
 <!-- Limitations  -->
 
 Notably, this study is not without limitations. 
-Firstly, as expressed above,, it is worth recalling that a substantial proportion of participants did not believe the labels were accurate (42% in Study 1 and 32% in Study 2), meaning the experimental manipulation was not fully convincing for a meaningful portion of the sample. 
+As expressed above,, it is worth recalling that a substantial proportion of participants did not believe the labels were accurate (42% in Study 1 and 32% in Study 2), meaning the experimental manipulation was not fully convincing for a meaningful portion of the sample. 
 Therefore, caution is required when interpreting the congruency variable effects. 
 
-Secondly, several of the questionnaire subscales used in this study showed low reliability, most notably the BAIT Images subscale in Study 1 and the revised COPS in Study 2 following removal of an item. 
+<!-- Secondly, several of the questionnaire subscales used in this study showed low reliability, most notably the BAIT Images subscale in Study 1 and the revised COPS in Study 2 following removal of an item. 
 These values fall below conventional thresholds for acceptable internal consistency, and conclusions drawn from analyses involving these specific subscales should therefore be interpreted with caution, as the items may not be capturing a coherent underlying construct.
-Future studies seeking to test these hypotheses would benefit from designs or manipulations that more reliably elicit individual variability in sensitivity to the AI label.
+Future studies seeking to test these hypotheses would benefit from designs or manipulations that more reliably elicit individual variability in sensitivity to the AI label. -->
 
-Thirdly, while the present findings are consistent with a crossover effect linking arousal and perceived authenticity, the design cannot establish the direction of this relationship. 
+Additionally, while the present findings are consistent with a crossover effect linking arousal and perceived authenticity, the design cannot establish the direction of this relationship. 
 The observed congruency effects are equally consistent with authenticity impressions shaping subsequent arousal, or with arousal being retrospectively used to infer authenticity. 
 Resolving this ambiguity would require designs capable of manipulating, rather than only measuring, one of these two processes.
 
-[**VIOLA**: We suggest that the long description of your future study, which we trimmed ruthlessly in order to prevent excessive spoilers to the reader might be distilled into 1-2 allusive sentences. Sow the seeds of curiosity and keep the hype high, but do not show your cards already (especially given that this paper is already well over 10k words long!!)]
+<!-- [**VIOLA**: We suggest that the long description of your future study, which we trimmed ruthlessly in order to prevent excessive spoilers to the reader might be distilled into 1-2 allusive sentences. Sow the seeds of curiosity and keep the hype high, but do not show your cards already (especially given that this paper is already well over 10k words long!!)] -->
 
 <!-- Summary -->
 
