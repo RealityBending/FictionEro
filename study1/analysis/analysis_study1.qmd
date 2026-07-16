@@ -104,6 +104,11 @@ df1 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
          PornFrequency = as.numeric(as.factor(COPS_Frequency_2)),
          SexualActivity_num = as.numeric(as.factor(SexualActivity)),
          across(starts_with("Feedback_"), function(x) {fct_relevel(x, "False", "True")}))
+
+
+
+
+
 ```
 
 # Questionnaires
@@ -122,6 +127,7 @@ dfsub1$GAAIS_Negative_9  <- 1 - dfsub1$GAAIS_Negative_9
 dfsub1$GAAIS_Negative_10 <- 1 - dfsub1$GAAIS_Negative_10
 dfsub1$GAAIS_Negative_15 <- 1 - dfsub1$GAAIS_Negative_15
 
+
 BAIT_Attitudes_items <- dfsub1[, grepl("^GAAIS_(Positive|Negative)_[0-9]+$", names(dfsub1))]
 BAIT_Attitudes_o <- psych::omega(BAIT_Attitudes_items, nfactors = 1)
 ```
@@ -129,8 +135,10 @@ BAIT_Attitudes_o <- psych::omega(BAIT_Attitudes_items, nfactors = 1)
 McDonald's Omega (⍵) total was acceptable for the BAIT Attitudes (⍵ = `r round(BAIT_Attitudes_o$omega.tot, 2)`).
 
 ```{r}
-dfsub1$BAIT_Attitudes <- rowMeans(BAIT_Attitudes_items, na.rm = TRUE)
+GAAIS_Pos_mean <- rowMeans(dfsub1[, grepl("^GAAIS_Positive_[0-9]+$", names(dfsub1))], na.rm = TRUE)
+GAAIS_Neg_mean <- rowMeans(dfsub1[, grepl("^GAAIS_Negative_[0-9]+$", names(dfsub1))], na.rm = TRUE)
 
+dfsub1$BAIT_Attitudes <- (GAAIS_Pos_mean + GAAIS_Neg_mean) / 2
 df1 <- left_join(df1, select(dfsub1, Participant, BAIT_Attitudes), by = "Participant")
 ```
 
@@ -161,29 +169,33 @@ BAIT_Expectations_o <- psych::omega(BAIT_Expectations_items, nfactors = 1)
 McDonald's Omega (⍵) total was good for the Expectations dimension of the BAIT (⍵ = `r round(BAIT_Expectations_o$omega.tot, 2)`).
 
 ```{r}
-dfsub1$BAIT_Expectations <- rowMeans(BAIT_Expectations_items, na.rm = TRUE)
+Text_mean   <- rowMeans(BAIT_Text_items, na.rm = TRUE)
+Visual_mean <- rowMeans(BAIT_Visual_items, na.rm = TRUE)
+Videos_mean <- rowMeans(BAIT_Videos_items, na.rm = TRUE)
 
+dfsub1$BAIT_Expectations <- (Text_mean + Visual_mean + Videos_mean)
+                             
 df1 <- left_join(df1, select(dfsub1, Participant, BAIT_Expectations), by = "Participant")
 ```
 
-### BAIT Total
+<!-- ### BAIT Total -->
 
-```{r}
-#| message: false
-#| warning: false
-#| output: false
+<!-- ```{r} -->
+<!-- #| message: false -->
+<!-- #| warning: false -->
+<!-- #| output: false -->
 
-BAIT_Total_items <- dfsub1[, grepl("^BAIT_[1-8]_|^GAAIS_(Positive|Negative)_[0-9]+$", names(dfsub1))]
-BAIT_o <- psych::omega(BAIT_Total_items, nfactors = 1)
-```
+<!-- BAIT_Total_items <- dfsub1[, grepl("^BAIT_[1-8]_|^GAAIS_(Positive|Negative)_[0-9]+$", names(dfsub1))] -->
+<!-- BAIT_o <- psych::omega(BAIT_Total_items, nfactors = 1) -->
+<!-- ``` -->
 
-McDonald's Omega (⍵) total was acceptable for the BAIT total (⍵ = `r round(BAIT_o$omega.tot, 2)`).
+<!-- McDonald's Omega (⍵) total was acceptable for the BAIT total (⍵ = `r round(BAIT_o$omega.tot, 2)`). -->
 
-```{r}
-dfsub1$BAIT_Total <- rowMeans(BAIT_Total_items, na.rm = TRUE)
+<!-- ```{r} -->
+<!-- dfsub1$BAIT_Total <- rowMeans(BAIT_Total_items, na.rm = TRUE) -->
 
-df1 <- left_join(df1, select(dfsub1, Participant, BAIT_Total), by = "Participant")
-```
+<!-- df1 <- left_join(df1, select(dfsub1, Participant, BAIT_Total), by = "Participant") -->
+<!-- ``` -->
 
 
 ## COPS
@@ -271,6 +283,13 @@ arousal_dist1 <- df1 |>
 
 arousal_dist1
 
+
+
+df1 |>
+  group_by(Gender, Relevance, Condition)|>
+  summarise(n=n(),
+          mean= mean(Arousal, na.rm = TRUE),
+          sd = sd(Arousal, na.rm= TRUE))
 ```
 
 <!-- Arousal ratings for AI vs photos are similar overall, with those who said AI is less arousing showing slightly lower (more negative) differences. -->
@@ -633,6 +652,18 @@ estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance", "Condi
 pred_a3 <- modelbased::estimate_means(m, by=c("Gender", "Relevance", "Condition", "ConditionBelief"), backend = "emmeans") |>
   as.data.frame()
 
+pred_a3 <- pred_a3 |>
+  mutate(
+    ImageContent = case_when(
+      Relevance == "NonErotic" ~ "NonErotic",
+      Gender == "Male"   & Relevance == "Relevant"   ~ "Female Images",
+      Gender == "Male"   & Relevance == "Irrelevant" ~ "Male Images",
+      Gender == "Female" & Relevance == "Relevant"   ~ "Male Images",
+      Gender == "Female" & Relevance == "Irrelevant" ~ "Female Images"
+    ),
+    ImageContent = fct_relevel(ImageContent, "Female Images", "Male Images", "NonErotic")
+  )
+
 pd <- data.frame(label=c("pd = 100%", "pd = 100%", "pd = 100%", "pd = 100%"),
                  Gender = c("Male", "Female", "Male", "Female"),
                  ConditionBelief = c("Congruent", "Congruent", "Incongruent", "Incongruent"),
@@ -649,26 +680,26 @@ fig2 <- pred_a3 |>
   mutate(Gender = fct_relevel(Gender, "Male", "Female"),
          ConditionBelief = fct_recode(ConditionBelief, "Congruent" = "True", "Incongruent" = "False"),
          ConditionBelief = fct_relevel(ConditionBelief, "Congruent", "Incongruent")) |>
-  ggplot(aes(x = Relevance, y = Probability)) +
+  ggplot(aes(x = ImageContent, y = Probability)) +
   geom_hline(yintercept = 0, color = "darkgrey") +
   geom_line(aes(group = Condition, color = Condition),
             position = position_dodge(width = 0.4), alpha = 0.8, linewidth = 0.2) +
   geom_pointrange(aes(ymin = CI_low, ymax = CI_high, color = Condition),position = position_dodge(width = 0.4), size = 0.6) +
-  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Congruent", Relevance = "Relevant"),
+  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Congruent", ImageContent = "Female Images"),
             aes(xmin = 0.8, xmax = 1.2, ymin = 0.45, ymax = 0.75), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
-  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Congruent", Relevance = "Relevant"),
+  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Congruent", ImageContent = "Male Images"),
             aes(xmin = 0.8, xmax = 1.2, ymin = 0.20, ymax = 0.50), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
-  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Incongruent", Relevance = "Relevant"),
+  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Incongruent", ImageContent = "Female Images"),
             aes(xmin = 0.8, xmax = 1.2, ymin = 0.40, ymax = 0.70), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
-  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Incongruent", Relevance = "Relevant"),
+  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Incongruent", ImageContent = "Male Images"),
             aes(xmin = 0.8, xmax = 1.2, ymin = 0.20, ymax = 0.50), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
-  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Congruent", Relevance = "Irrelevant"),
+  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Congruent", ImageContent = "Female Images"),
             aes(xmin = 1.8, xmax = 2.2, ymin = 0.16, ymax = 0.46), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
-  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Incongruent", Relevance = "Irrelevant"),
+  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Incongruent", ImageContent = "Female Images"),
             aes(xmin = 1.8, xmax = 2.2, ymin = 0.16, ymax = 0.46), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
 
   facet_grid(Gender ~ ConditionBelief, switch = "y") +
-  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Congruent", Relevance = "NonErotic"),
+  geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Congruent", ImageContent = "NonErotic"),
             aes(xmin = 2.8, xmax = 3.2, ymin = 0.0, ymax = 0.3), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
 
   scale_y_continuous(limits = c(0, 1)) +
@@ -706,8 +737,9 @@ ggsave("../../paper/images/Figure2.png", fig2, width=10, height=10, dpi=300)
 
 ```{r arousal 1 d_vour}
 
-m <- modelbased::estimate_grouplevel(m)
-table_dvour(m)
+m <- modelbased::estimate_grouplevel(m)   
+
+table_dvour(m)                            
 ```
 
 #### Participant effects
@@ -722,7 +754,6 @@ colors <- c(
   "Irrelevant:AI-Generated" = "#00897B",
   "Non-Erotic:AI-Generated" = "#FF9800")
 
-## plot for participant effects
 p_dvour <- function(m, colors){
   m |>
     mutate(
@@ -760,6 +791,7 @@ p_dvour <- function(m, colors){
       legend.position = "none"
     )
 }
+
 ```
 
 ```{r arousal ppt effect plot}
