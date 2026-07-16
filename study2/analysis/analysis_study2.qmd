@@ -116,7 +116,6 @@ df2 <- read.csv("https://raw.githubusercontent.com/RealityBending/FictionEro/ref
 
 ## compute based on higher dimensions
 
- 
  df2$BAIT_VideosIssues <- 6 - df2$BAIT_VideosIssues
 df2$BAIT_TextIssues <- 6 - df2$BAIT_TextIssues
 
