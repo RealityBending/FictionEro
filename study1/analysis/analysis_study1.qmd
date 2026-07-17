@@ -688,16 +688,15 @@ fig2 <- pred_a3 |>
   geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Congruent", ImageContent = "Female Images"),
             aes(xmin = 0.8, xmax = 1.2, ymin = 0.45, ymax = 0.75), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
   geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Congruent", ImageContent = "Male Images"),
-            aes(xmin = 0.8, xmax = 1.2, ymin = 0.20, ymax = 0.50), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
+            aes(xmin = 1.8, xmax = 2.2, ymin = 0.20, ymax = 0.50), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
   geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Incongruent", ImageContent = "Female Images"),
             aes(xmin = 0.8, xmax = 1.2, ymin = 0.40, ymax = 0.70), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
   geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Incongruent", ImageContent = "Male Images"),
-            aes(xmin = 0.8, xmax = 1.2, ymin = 0.20, ymax = 0.50), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
+            aes(xmin = 1.8, xmax = 2.2, ymin = 0.20, ymax = 0.50), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
   geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Congruent", ImageContent = "Female Images"),
-            aes(xmin = 1.8, xmax = 2.2, ymin = 0.16, ymax = 0.46), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
+            aes(xmin = 0.8, xmax = 1.2, ymin = 0.16, ymax = 0.46), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
   geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Female"), ConditionBelief = "Incongruent", ImageContent = "Female Images"),
-            aes(xmin = 1.8, xmax = 2.2, ymin = 0.16, ymax = 0.46), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
-
+            aes(xmin = 0.8, xmax = 1.2, ymin = 0.16, ymax = 0.46), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
   facet_grid(Gender ~ ConditionBelief, switch = "y") +
   geom_rect(data = data.frame(Probability = 0.1, Gender = as.factor("Male"), ConditionBelief = "Congruent", ImageContent = "NonErotic"),
             aes(xmin = 2.8, xmax = 3.2, ymin = 0.0, ymax = 0.3), color = "#8BC34A", alpha = 0, linewidth = 1.2) +
@@ -850,7 +849,7 @@ results_table(lm(`RelevanceRelevant:ConditionAIGenerated` ~ Intercept + Region, 
 ```{r df 1 corr}
 
 correlations <- df1 |>
-  select(Participant, starts_with("BAIT"), starts_with("GAAIS"), starts_with("Porn"), "AI_Knowledge", "SexualActivity_num", "COPS_Frequency_2") |>
+  select(Participant, BAIT_Attitudes, BAIT_Expectations, starts_with("Porn"), "AI_Knowledge", "SexualActivity_num", "COPS_Frequency_2") |>
   rename(SexualActivity = SexualActivity_num)
 
 
