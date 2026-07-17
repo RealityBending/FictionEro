@@ -601,7 +601,7 @@ In the COPS, the item assessing the typical duration of pornography viewing sess
 #### Phase 2: Reality Beliefs
 
 Phase 2 replicates the one in Study 1, by presenting participants with all the images again (for 1s) in a randomised order and assessing the perceived realistic quality of the stimuli. 
-The instructions, however make the manipulation more overt by informing participant that some images were intentionally mislabelled and that their job was to rate each image on what they thought the true category was by indicating their degree of confidence and certainty (i.e., "I think this face is… Indicate your confidence that the image is fake or real") on a continuous scale from AI-Generated (-3) to Photograph (3). 
+The instructions, however, make the manipulation more overt by informing participant that some images were intentionally mislabelled and that their job was to rate each image on what they thought the true category was by indicating their degree of confidence and certainty (i.e., "Indicate your confidence that the image is fake or real") on a continuous scale from AI-Generated (-3) to Photograph (3). 
 
 Following completion of phase 2, participants provided general feedback regarding their experience and any additional comments. Finally, participants were presented with a debrief page informing them that all images were, in fact, real photographs.
 
