@@ -609,15 +609,15 @@ Following completion of phase 2, participants provided general feedback regardin
 
 ### Data Analysis
 
-As in Study 1, Bayesian linear mixed models will be fitted for the three outcome variables, each predicted from Gender (Female vs. Male), Condition (AI-Generated vs. Photograph), and Congruence (True vs. False).
+As in Study 1, Bayesian linear mixed models will be fitted for the three outcome variables, each predicted from Gender (Female vs. Male), Condition (AI-generated vs. Photograph), and Congruence (True vs. False).
 For ease of comparison with study 1 results, all outcome variables will be bounded between 0 to 1, and the ZOIB family will be fitted. 
 Conservative priors ($Normal(0, 0.5)$) were placed again on all fixed effects. 
 
-Marginal contrasts will be computed to compare marginal means with condition (i.e., AI-Generated and Photograph) as the predicted contrasts, stratified by gender and congruency.
+Marginal contrasts will be computed to compare marginal means with condition (i.e., AI-generated and Photograph) as the predicted contrasts, stratified by gender and congruency.
 The same analysis as study 1 individual-level parameters and correlations with moderators will be conducted, using the same packages. 
 To further assess the effect of the type of image (e.g., couple vs individuals) the same analysis was conducted adding the type of image (image of individuals vs image of couples) as predictor. 
 
-Consistent with Study 1, the Results section will focus on arousal as the primary outcome, highlighting where divergent trends emerge for enticement or valence; full results for all outcomes are available in the analysis scripts on GitHub. 
+Consistent with Study 1, the Results section will focus on Arousal as the primary outcome, highlighting where divergent trends emerge for enticement or valence; full results for all outcomes are available in the analysis scripts on GitHub. 
 All analyses were conducted in R (version 4.5.2), and all materials, data, and analysis scripts for Study 2 are available at https://github.com/RealityBending/FictionEro/tree/main/study2.
 
 # Results
@@ -743,8 +743,8 @@ knitr::include_graphics("images/Figure6.png")
 
 In Study 2, participants viewed erotic images depicting both couples and individuals matched to their sexual orientation.
 As in Study 1, images were labelled as either photographs or AI-generated.
-Following Phase 1, 32% of participants reported believing that all images were real.
-Although this figure is not directly comparable to Study 1's manipulation check (where 41.7% reported disbelieving the labels), both figures indicate that a substantial minority of participants doubted the manipulation.
+Following Phase 1, 32% of participants reported believing that all images were real. 
+Although this measure differs from Study 1's manipulation check (where 41.7% reported disbelieving the labels in any form) and the two figures are therefore not directly comparable, the pattern is at least consistent with the strengthened cover story in Study 2 having improved the manipulation's credibility.
 
 Overall, the pattern of findings partially replicated those observed in Study 1. 
 Considered independently of congruence, the AI-labelling effect on arousal was credible for males but not for females, providing support for H1 in males only. 
