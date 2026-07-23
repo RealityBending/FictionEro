@@ -318,9 +318,15 @@ df1 |>
   gt() |>
   fmt_number(decimals = 3, use_seps = FALSE)
 
-ttest_less_arousal <- BayesFactor::ttestBF(dfsub1_arousal$diff_arousal, dfsub1_arousal$Feedback_AILessArousing)
+ttest_less_arousal <- BayesFactor::ttestBF(
+  formula = diff_arousal ~ Feedback_AILessArousing,
+  data = dfsub1_arousal |> tidyr::drop_na(diff_arousal, Feedback_AILessArousing)
+  
+# ttest_less_arousal
+# ttest_less_arousal@data |> nrow()  
 
-model_parameters(ttest_less_arousal)
+post <- BayesFactor::posterior(ttest_less_arousal, iterations = 10000)
+bayestestR::describe_posterior(as.data.frame(post)$delta)
 
 ```
 
@@ -405,9 +411,15 @@ df1 |>
   fmt_number(decimals = 3,
     use_seps = FALSE)
 
-ttest1 <- BayesFactor::ttestBF(dfsub1_enticement$diff_enticement, dfsub1_enticement$Feedback_AILessArousing)
+ttest_less_enticement <- BayesFactor::ttestBF(
+  formula = diff_enticement ~ Feedback_AILessArousing,
+  data = dfsub1_enticement |> tidyr::drop_na(diff_enticement, Feedback_AILessArousing)
+)
+ttest_less_enticement
+ttest_less_enticement@data |> nrow()   
 
-model_parameters(ttest1)
+post <- BayesFactor::posterior(ttest_less_enticement, iterations = 10000)
+bayestestR::describe_posterior(as.data.frame(post)$delta)
 ```
 
 ```{r enticement 1 diff plot}
@@ -481,9 +493,15 @@ df1 |>
   gt() |>
   fmt_number(decimals = 3, use_seps = FALSE)
 
-ttest1 <- BayesFactor::ttestBF(dfsub1_valence$diff_valence, dfsub1_valence$Feedback_AILessArousing)
+ttest_less_valence <- BayesFactor::ttestBF(
+  formula = diff_valence ~ Feedback_AILessArousing,
+  data = dfsub1_valence |> tidyr::drop_na(diff_valence, Feedback_AILessArousing)
+)
+ttest_less_valence
+ttest_less_valence@data |> nrow()   
 
-model_parameters(ttest1)
+post <- BayesFactor::posterior(ttest_less_valence, iterations = 10000)
+bayestestR::describe_posterior(as.data.frame(post)$delta)
 ```
 
 ```{r valence 1 diff plot}
