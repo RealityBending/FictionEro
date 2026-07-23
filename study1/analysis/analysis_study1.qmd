@@ -178,25 +178,6 @@ dfsub1$BAIT_Expectations <- (Text_mean + Visual_mean + Videos_mean)
 df1 <- left_join(df1, select(dfsub1, Participant, BAIT_Expectations), by = "Participant")
 ```
 
-<!-- ### BAIT Total -->
-
-<!-- ```{r} -->
-<!-- #| message: false -->
-<!-- #| warning: false -->
-<!-- #| output: false -->
-
-<!-- BAIT_Total_items <- dfsub1[, grepl("^BAIT_[1-8]_|^GAAIS_(Positive|Negative)_[0-9]+$", names(dfsub1))] -->
-<!-- BAIT_o <- psych::omega(BAIT_Total_items, nfactors = 1) -->
-<!-- ``` -->
-
-<!-- McDonald's Omega (⍵) total was acceptable for the BAIT total (⍵ = `r round(BAIT_o$omega.tot, 2)`). -->
-
-<!-- ```{r} -->
-<!-- dfsub1$BAIT_Total <- rowMeans(BAIT_Total_items, na.rm = TRUE) -->
-
-<!-- df1 <- left_join(df1, select(dfsub1, Participant, BAIT_Total), by = "Participant") -->
-<!-- ``` -->
-
 
 ## COPS
 
@@ -320,7 +301,7 @@ df1 |>
 
 ttest_less_arousal <- BayesFactor::ttestBF(
   formula = diff_arousal ~ Feedback_AILessArousing,
-  data = dfsub1_arousal |> tidyr::drop_na(diff_arousal, Feedback_AILessArousing)
+  data = dfsub1_arousal |> tidyr::drop_na(diff_arousal, Feedback_AILessArousing))
   
 ttest_less_arousal
 # ttest_less_arousal@data |> nrow()  
@@ -601,7 +582,7 @@ estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans")
 #| message: false
 #| warning: false
 
-#estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance"), backend = "emmeans") 
+estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance"), backend = "emmeans")
 
 ```
 
