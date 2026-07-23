@@ -273,7 +273,10 @@ Together, these findings suggest that both pornography consumption and sexual ac
 In the first study, we aimed at gauging whether an anti-AI bias toward erotic stimuli shows up in a wide and heterogeneous sample, and whether it is modulated by demographic factors, by sexual activity or pornography consumption habits, and by attitudes toward AI.
 Following @marini2024real, we hypothesise that images presented as AI-generated will elicit lower ratings than those presented as photographs (H1).
 
-Additionally, in line with the literature on explicit stimuli [@huberman2015gender], we hypothesise that erotic images relevant to participants' sexual orientation would result in higher ratings than erotic but irrelevant images and non-erotic images, and that these differences would be less pronounced for women (H2).
+Additionally, in line with the literature on explicit stimuli [@huberman2015gender], we hypothesise that erotic images relevant to participants' sexual orientation (i.e., female images for male participants and male images for female participants) would result in higher ratings than erotic but irrelevant images and non-erotic images, and that these differences would be less pronounced for women (H2).
+
+<!-- More explicit: -->
+<!-- Additionally, in line with the literature on explicit stimuli [@huberman2015gender], we hypothesise that male participants would rate female erotic images higher than male erotic images and non-erotic images, and that female participants would rate male erotic images higher than female erotic images and non-erotic images, with these differences being less pronounced for women (H2). -->
 
 While prior studies have examined the effect of AI labels on affective ratings, relatively little attention has been paid to whether participants actually believe those labels, and whether belief itself modulates the observed effects. 
 If participants second-guess the authenticity claims (e.g., suspecting that “AI-generated” images are in fact photographs, or vice versa), label-based effects would be attenuated or reversed regardless of the manipulation’s objective content. 
@@ -293,8 +296,8 @@ Data collection occurred from the 19th of January to 1st of June 2024.
 At this time, publicly available image generators such as OpenAI's DALL-E 3 [@betker2023improving] were producing highly photorealistic outputs.
 
 Eight participants were removed if they showed no variation in arousal ratings across trials, and four because they displayed a salient negative correlation between arousal and enticement alongside lower arousal ratings for erotic compared to neutral stimuli, suggesting a possible misunderstanding of response scales direction.
-In order to preserve homogenous and well-powered samples, participants identifying with a gender other than Female or Male (N = 15), or a sexual orientation other than Heterosexual (N = 335^[Out of these 335 participants: 150 were bisexual females, 72 bisexual males, 32 homosexual females, 38 homosexual males, and 23 females and 20 males self-identified as other.]), were excluded from further analysis.
-The final sample consisted of 705 participants (Mean age = 30.2 $\pm$ 11.8 years; 35.7% female).
+In order to preserve homogeneous and well-powered samples, participants identifying with a gender other than Female or Male (N = 15) were excluded from further analysis, as were female and male participants reporting a sexual orientation other than Heterosexual (N = 335). The latter comprised 150 bisexual females, 72 bisexual males, 32 homosexual females, 38 homosexual males, and 43 participants (23 females, 20 males) who reported another orientation.
+The final sample consisted of 705 heterosexual participants (Mean age = 30.2 $\pm$ 11.8 years; 35.7% female).
 Participants were primarily from the United Kingdom (28.23%), Italy (18.72%), the United States (14.33%), and Colombia (11.06%), with the remaining 27.66% distributed across other countries.
 Ethical approval for this study was obtained from the University of Sussex Ethics Committee (ER/MHHE20/1).
 
@@ -348,7 +351,7 @@ Following the questionnaires, participants were presented with the instructions 
 The instructions were framed as follows: 
 "In the next phase, we would like to see if you found our image generation algorithm convincing and error-free. 
 We will briefly present you all the images one last time (the AI-generated ones, as well as the photos), and you will have to rate them on how real (how realistic, photography-like) the image is". 
-Participants then viewed the same 60 images (1 s) in a newly randomised order, and rated the stimuli on realism with an analog slider scale (AI-generated - Photograph).
+Participants then viewed the same 60 images (1 s) in a newly randomised order and rated the stimuli on realism with an analog slider scale (AI-generated - Photograph).
 
 Following phase 2, a manipulation check was done by offering participants the opportunity to tick boxes pertaining to their experience, including items prompting whether they could distinguish which images were AI-generated or perceived no difference between photographs and AI-generated images; whether they felt the AI-generated images were more or less arousing; whether they believed the labels were inaccurate or reversed; and whether they found some images arousing or none at all. 
 Finally, participants were debriefed and were informed of the true purpose of the study, and of the fact that all images were actually genuine pictures.
