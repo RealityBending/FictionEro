@@ -553,7 +553,7 @@ One participant was excluded due to displaying negative correlations between aro
 Furthermore, five participants  who self-identified as neither female nor male, and two participants who reported a sexual orientation other than heterosexual, homosexual, or bisexual, were excluded from further analyses due to lack of sufficient group sizes. 
 Finally, one participant was removed because the stimuli presented were not relevant to their gender and sexual orientation. 
 
-The final sample consisted of 261 participants (Mean age = 37.4 $\pm$ 12.7, 48.7\% Female).
+The final sample consisted of 261 heterosexual participants (Mean age = 37.4 $\pm$ 12.7, 48.7\% Female).
 56.32\% of participants were from the United Kingdom, 26.82\% from South Africa, 10.34\% from the United States, and the remaining 6.51\% were from other countries.
 
 Ethical approval for this study was obtained from the School of Psychology Ethics Committee at the University of Sussex (ER/EB672/2).
@@ -665,7 +665,7 @@ The same patterns were found for enticement and valence (see @fig-type).
 #| warning: false
 #| label: "fig-type"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
-#| out-width: "100%"
+#| out-width: "75%"
 #| fig-cap: "Estimated means for Arousal, Enticement and Valence for images of individuals and couples, for both genders. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019)."
 
 knitr::include_graphics("images/Figure5.png")
@@ -704,7 +704,7 @@ The primary exception was for female ratings of couple images under incongruent 
 #| warning: false
 #| label: "fig-arousal_means"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
-#| out-width: "75%"
+#| out-width: "80%"
 #| fig-cap: "Estimated arousal means for the effect of Condition depending on Congruency. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019)."
 
 knitr::include_graphics("images/Figure6.png")
