@@ -360,7 +360,7 @@ Finally, participants were debriefed and were informed of the true purpose of th
 ### Data Analysis
 
 Bayesian Mixed Models were fitted separately for Arousal, Valence, and Enticement as dependent variables, with Gender (Female vs. Male), Condition (AI-Generated vs. Photograph), Relevance (Relevant, Irrelevant, Non-Erotic), and Congruence (True vs. False). 
-Relevance corresponded to the sexual interest according to the participants' gender and sexual orientation (i.e., erotic pictures involving feamles were categorized as relevant for heterosexual males, and irrelevant for heterosexual females, and vice versa for pictures of males). 
+Relevance corresponded to the sexual interest according to the participants' gender and sexual orientation (i.e., erotic pictures involving females were categorized as relevant for heterosexual males, and irrelevant for heterosexual females, and vice versa for pictures of males). 
 Congruence, a proxy of condition belief, was also computed based on whether the condition matched the (dichotomized) reality rating of phase 2.
 
 As the outcome variables (measured on analog sliders) showed excess responses at the bounds, Zero–one inflated beta (ZOIB) models [@heiss2021guide; @vuorre2019analyze] were used. 
@@ -419,7 +419,7 @@ A similar pattern was observed for enticement and valence (for full results see 
 
 ### Effect of Relevance
 
-To evaluate whether the different stimulus types (female, male and non-erotic images) elicit dissimilar responses, marginal contrasts from the mixed models were examined, focusing on the effect of relevance.. 
+To evaluate whether the different stimulus types (female, male and non-erotic images) elicit dissimilar responses, marginal contrasts from the mixed models were examined, focusing on the effect of relevance. 
 These contrasts assessed differences in arousal ratings across stimulus types separately for males and females.
 
 For males, female erotic images were rated as more arousing than both male erotic ($\Delta$ = 0.43, 95\% *CrI* [0.39, 0.46], *pd* = 100\%) and non-erotic images ($\Delta$ = 0.44, 95\% *CrI* [0.40, 0.47], *pd* = 100\%). 
