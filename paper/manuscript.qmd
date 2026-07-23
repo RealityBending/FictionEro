@@ -412,10 +412,8 @@ An initial manipulation check was conducted to assess participants' belief in th
 To examine whether disbelief in the instructions was associated with differential responses to images labelled AI-generated versus photograph, Bayesian independent-samples t-test were conducted for each outcome variable. 
 These tests compared the difference scores between AI-generated and photographic images as a function of whether participants reported that AI images were less arousing. 
 
-For arousal, participants who reported that AI images were less arousing showed a larger difference between AI-generated and photographic images (M~difference~ = −0.02) than participants who did not report this belief (M~difference~ = −0.002). 
-The t-test indicated extreme evidence for a difference between groups (BF~10~ = 2.17 × 10^604^). 
-The estimated standardised effect size was large (median $\delta$ = −1.11, 95\% *CrI* [−1.13, −1.08], *pd* = 100\%).
-A similar pattern was observed for enticement and valence (for full results see analysis folder on the github link above). 
+For arousal, participants who reported that AI images were less arousing showed a larger difference between images labelled as AI-generated and as photographs (M~difference~ = −0.02) than participants who did not report this belief (M~difference~ = −0.002). A Bayesian independent-samples t-test indicated moderate evidence for a group difference (BF~10~ = 3.45), with a small-to-moderate standardised effect size (median $\delta$ = 0.30, 95\% *CrI* [0.07, 0.54], *pd* = 99.5\%).
+A similar pattern was observed for enticement and valence (for full results see analysis folder on the Github link above). 
 
 
 ## Marginal Contrasts
@@ -424,21 +422,21 @@ A similar pattern was observed for enticement and valence (for full results see 
 
 To evaluate whether the different stimuli (erotic relevant, erotic irrelevant, and non-erotic) elicit dissimilar responses, marginal contrasts from the mixed models were examined, focusing on the effect of relevance. These contrasts assessed differences in arousal ratings across stimulus types separately for males and females.
 
-For males, relevant erotic images were rated as more arousing than both irrelevant ($\Delta$ = 0.43, 95\% *CrI* [0.39, 0.46], *pd* = 100\%) and non-erotic images ($\Delta$ = 0.44, 95\% *CrI* [0.40, 0.47], *pd* = 100\%). 
-For females, relevant erotic images were rated as more arousing than non-erotic images ($\Delta$ = 0.20, 95\% *CrI* [0.17, 0.24], *pd* = 100\%), but not credibly more than irrelevant erotic images ($\Delta$ = 0.04, 95\% *CrI* [0.00, 0.08], *pd* = 96.36\%). 
-Similar patterns were found for enticement and valence; although for females non-erotic images were rated more positively valenced than relevant erotic images. 
+For males, female erotic images were rated as more arousing than both male erotic ($\Delta$ = 0.43, 95\% *CrI* [0.39, 0.46], *pd* = 100\%) and non-erotic images ($\Delta$ = 0.44, 95\% *CrI* [0.40, 0.47], *pd* = 100\%). 
+For females, male erotic images were rated as more arousing than non-erotic images ($\Delta$ = 0.20, 95\% *CrI* [0.17, 0.24], *pd* = 100\%), but not credibly more than female erotic images ($\Delta$ = 0.04, 95\% *CrI* [0.00, 0.08], *pd* = 96.36\%). 
+Similar patterns were found for enticement and valence; although for females non-erotic images were rated as more positively valenced than male erotic images. 
 
 ### Effect of Condition
 
 Estimated marginal contrasts assessed the effect of condition (photographic vs. AI-generated) across gender and relevance. 
-For males, relevant erotic images presented as photographs were rated as slightly more arousing than those presented as AI-generated, although the effect was small ($\Delta$ = 0.02, 95\% *CrI* [0.00, 0.03], *pd* = 99.6\%). In contrast, females showed the opposite pattern, with AI-generated images rated marginally more arousing than photographic images ($\Delta$ = −0.02, 95\% *CrI* [−0.03, 0.00], *pd* = 98.3\%). 
+For males, female erotic images presented as photographs were rated as slightly more arousing than those presented as AI-generated, although the effect was small ($\Delta$ = 0.02, 95\% *CrI* [0.00, 0.03], *pd* = 99.6\%). In contrast, females showed the opposite pattern, with AI-generated male erotic images rated marginally more arousing than photographic images ($\Delta$ = −0.02, 95\% *CrI* [−0.03, 0.00], *pd* = 98.3\%). 
 No other contrasts provided credible evidence for differences (all *pd* < 88.2\%). 
 Similar results were seen for enticement and valence ratings for males, but no credible differences between images labelled as photographs or AI-generated for females. 
 
 ### Effect of Condition Depending on Congruence
 
 Estimated marginal contrasts examined the effect of condition as a function of gender, relevance, and congruence. 
-Under congruent trials, photographic images were rated as more arousing than AI-generated images for relevant stimuli in both males and females. 
+Under congruent trials, photographic images were rated as more arousing than AI-generated images for female erotic images among male participants and for male erotic images among female participants.
 This effect was slightly larger for males ($\Delta$ = 0.08, 95\% *CrI* [0.06, 0.10], *pd* = 100\%) than for females ($\Delta$ = 0.06, 95\% *CrI* [0.04, 0.08], *pd* = 100\%).
 
 Under incongruent trials, this pattern reversed for relevant stimuli: AI-generated images were rated as more arousing than photographic images. 
@@ -446,8 +444,8 @@ This reversal was more pronounced in females ($\Delta$ = −0.09, 95\% *CrI* [�
 Similar crossover patterns were observed for enticement and valence ratings of erotic, relevant images.
 
 For irrelevant and non-erotic stimuli, differences between photographic and AI-generated images were generally small and uncertain, with several credible intervals including zero. 
-Under congruent trials, males rated AI-generated non-erotic images as slightly less arousing than those labelled as photographs ($\Delta$ = 0.02, 95\% *CrI* [0.01, 0.04], *pd* = 99.66\%), and a comparable effect was observed in females for erotic but irrelevant images ($\Delta$ = 0.02, 95\% *CrI* [0.01, 0.04], *pd* = 100\%). 
-Under incongruent trials, this pattern reversed; however, credible differences in arousal ratings of irrelevant stimuli were observed only in females, with AI-generated labels associated with higher arousal ($\Delta$ = −0.03, 95\% *CrI* [−0.05, −0.01], *pd* = 99.69\%). 
+Under congruent trials, males rated AI-generated non-erotic images as slightly less arousing than those labelled as photographs ($\Delta$ = 0.02, 95\% *CrI* [0.01, 0.04], *pd* = 99.66\%), and a comparable effect was observed in females for female erotic images ($\Delta$ = 0.02, 95\% *CrI* [0.01, 0.04], *pd* = 100\%). 
+Under incongruent trials, this pattern reversed; however, credible differences in arousal ratings of female erotic stimuli were observed only in females, with AI-generated labels associated with higher arousal ($\Delta$ = −0.03, 95\% *CrI* [−0.05, −0.01], *pd* = 99.69\%). 
 For enticement ratings the same reversal pattern was found, with credible differences for all with the exception of males ratings of non-erotic images. 
 On the other hand, all differences were credible for valence ratings for both genders and the same crossover effect was found. 
 
@@ -456,7 +454,7 @@ On the other hand, all differences were credible for valence ratings for both ge
 #| label: "fig-estimated_means_arousal"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
 #| out-width: "100%"
-#| fig-cap: "Estimated means for the effect of Condition depending on Congruency. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019). A crossover effect can be seen where the difference between arousal ratings between images labelled as AI-generated and those labelled as photographs, is reversed for incongruent trials. Of note, female images are relevant for heterosecual males while irrelevant for heterosexual women"
+#| fig-cap: "Estimated means for the effect of Condition depending on Congruency. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019). A crossover effect can be seen where the difference between arousal ratings between images labelled as AI-generated and those labelled as photographs is reversed for incongruent trials. Of note, female images are relevant for heterosecual males while irrelevant for heterosexual women"
 
 knitr::include_graphics("images/Figure2.png")
 ```
@@ -537,7 +535,7 @@ Based on these aims, we tested the following hypotheses.
 As in Study 1, we hypothesised that images labelled as AI-generated would be rated lower in arousal than those labelled as photographs (H1). 
 We also hypothesised that the inclusion of couple-based stimuli would narrow the gender gap in arousal observed in Study 1 (H2).
 Given the crossover effect observed in Study 1, we hypothesised that this pattern would be stronger for congruent trials, and reverse for incongruent ones (H3). 
-Finally, as in the previous study, we tested whether attitudes towards AI (H4) and sexual behaviour and pornographic consumption (H5) moderate responses to the stimuli. 
+Finally, as in the previous study, we tested whether attitudes towards AI (H4) and sexual activity and pornographic consumption (H5) moderate responses to the stimuli. 
 
 
 ## Materials and Methods
@@ -651,7 +649,7 @@ In Study 2, 32\% of participants reported believing that all images were real ba
 
 <!-- However, in Phase 2, 48.2\% of images were classified as photographs.  -->
 
-To assess whether image ratings differed between stimuli labelled as AI-generated versus photographs as a function of whether the instructional labels were believed, Bayesian independent-samples t-tests were conducted for arousal, enticement, and valence. 
+To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples t-tests were conducted for each outcome variable.
 The t-test comparing arousal difference scores between participants who did not believe the labels (M~difference~ = −0.009) and those who did (M~difference~ = −0.03) found extreme evidence in favour of a difference between the means  (BF~10~ = 3.4 × 10^203^). 
 This estimated effect size was large (median $\delta$ = −1.10, 95\% *CrI* [−1.14, −1.06], *pd* = 100\%). 
 A similar pattern was observed for enticement and valence. 
