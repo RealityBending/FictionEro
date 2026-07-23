@@ -297,8 +297,8 @@ At this time, publicly available image generators such as OpenAI's DALL-E 3 [@be
 
 Eight participants were removed if they showed no variation in arousal ratings across trials, and four because they displayed a salient negative correlation between arousal and enticement alongside lower arousal ratings for erotic compared to neutral stimuli, suggesting a possible misunderstanding of response scales direction.
 In order to preserve homogeneous and well-powered samples, participants identifying with a gender other than Female or Male (N = 15) were excluded from further analysis, as were female and male participants reporting a sexual orientation other than Heterosexual (N = 335). The latter comprised 150 bisexual females, 72 bisexual males, 32 homosexual females, 38 homosexual males, and 43 participants (23 females, 20 males) who reported another orientation.
-The final sample consisted of 705 heterosexual participants (Mean age = 30.2 $\pm$ 11.8 years; 35.7% female).
-Participants were primarily from the United Kingdom (28.23%), Italy (18.72%), the United States (14.33%), and Colombia (11.06%), with the remaining 27.66% distributed across other countries.
+The final sample consisted of 705 heterosexual participants (Mean age = 30.2 $\pm$ 11.8 years; 35.7\% female).
+Participants were primarily from the United Kingdom (28.23\%), Italy (18.72\%), the United States (14.33\%), and Colombia (11.06\%), with the remaining 27.66% distributed across other countries.
 Ethical approval for this study was obtained from the University of Sussex Ethics Committee (ER/MHHE20/1).
 
 
@@ -553,8 +553,8 @@ One participant was excluded due to displaying negative correlations between aro
 Furthermore, five participants  who self-identified as neither female nor male, and two participants who reported a sexual orientation other than heterosexual, homosexual, or bisexual, were excluded from further analyses due to lack of sufficient group sizes. 
 Finally, one participant was removed because the stimuli presented were not relevant to their gender and sexual orientation. 
 
-The final sample consisted of 261 participants (Mean age = 37.4 $\pm$ 12.7, 48.7% Female).
-56.32% of participants were from the United Kingdom, 26.82% from South Africa, 10.34% from the United States, and the remaining 6.51% were from other countries.
+The final sample consisted of 261 participants (Mean age = 37.4 $\pm$ 12.7, 48.7\% Female).
+56.32\% of participants were from the United Kingdom, 26.82\% from South Africa, 10.34\% from the United States, and the remaining 6.51\% were from other countries.
 
 Ethical approval for this study was obtained from the School of Psychology Ethics Committee at the University of Sussex (ER/EB672/2).
 
@@ -645,13 +645,12 @@ For males, higher frequencies are evident in the mid-range of the scale, whereas
 
 ## Manipulation checks
 
-In Study 2, 32\% of participants reported believing that all images were real based on their feedback after Phase 1, indicating that a third of participants did not believe in the manipulation. 
+In Study 2, 32\% of participants reported believing that all images were real based on their feedback after Phase 1, indicating that a third of participants did not believe in the manipulation.  
 
 <!-- However, in Phase 2, 48.2\% of images were classified as photographs.  -->
 
-To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples t-tests were conducted for each outcome variable.
-The t-test comparing arousal difference scores between participants who did not believe the labels (M~difference~ = −0.009) and those who did (M~difference~ = −0.03) found extreme evidence in favour of a difference between the means  (BF~10~ = 3.4 × 10^203^). 
-This estimated effect size was large (median $\delta$ = −1.10, 95\% *CrI* [−1.14, −1.06], *pd* = 100\%). 
+To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples t-tests compared the difference scores between images labelled as AI-generated and as photographs as a function of whether participants reported finding AI images less arousing. 
+For arousal, participants who reported finding AI images less arousing showed a numerically larger difference between images labelled as AI-generated and as photographs (M~difference~ = −0.03) than those who did not (M~difference~ = −0.009), but there was no credible evidence for a group difference (BF~10~ = 0.47; median $\delta$ = 0.26, 95\% *CrI* [−0.17, 0.69], *pd* = 88.6\%). .
 A similar pattern was observed for enticement and valence. 
 
 
@@ -705,7 +704,7 @@ The primary exception was for female ratings of couple images under incongruent 
 #| warning: false
 #| label: "fig-arousal_means"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
-#| out-width: "50%"
+#| out-width: "75%"
 #| fig-cap: "Estimated arousal means for the effect of Condition depending on Congruency. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019)."
 
 knitr::include_graphics("images/Figure6.png")
@@ -816,8 +815,9 @@ An unexpected effect of such legislation when it comes, for instance, to adverti
 
 <!-- Limitations  -->
 
-Notably, this study is not without limitations. 
-As expressed above, it is worth recalling that a substantial proportion of participants expressed doubts about the manipulation (in Study 1, 41.7% reported disbelieving the labels; in Study 2, 32% believed all images were real), meaning the experimental manipulation was not fully convincing for a meaningful portion of the sample.
+Interpreting the results of this study requires particular caution due to the nuance of its design. 
+As expressed above, it is worth recalling that a substantial proportion of participants expressed doubts about the manipulation (in Study 1, 41.7\% reported disbelieving the labels; in Study 2, 32\% believed all images were real), meaning the experimental manipulation was not fully convincing for a meaningful portion of the sample.
+We contend, however, that this limitation extends to all similar studies, stressing the relevance of including explicit attention checks before drawing any conclusion.
 
 <!-- Secondly, several of the questionnaire subscales used in this study showed low reliability, most notably the BAIT Images subscale in Study 1 and the revised COPS in Study 2 following removal of an item. 
 These values fall below conventional thresholds for acceptable internal consistency, and conclusions drawn from analyses involving these specific subscales should therefore be interpreted with caution, as the items may not be capturing a coherent underlying construct.
@@ -826,6 +826,7 @@ Future studies seeking to test these hypotheses would benefit from designs or ma
 Additionally, while the present findings are consistent with a crossover effect linking arousal and perceived authenticity, the design cannot establish the direction of this relationship. 
 The observed congruency effects are equally consistent with authenticity impressions shaping subsequent arousal, or with arousal being retrospectively used to infer authenticity. 
 Resolving this ambiguity would require designs capable of manipulating, rather than only measuring, one of these two processes.
+Moreover, future studies are in order to establish whether these effects extend to non-heterosexual samples.
 
 <!-- [**VIOLA**: We suggest that the long description of your future study, which we trimmed ruthlessly in order to prevent excessive spoilers to the reader might be distilled into 1-2 allusive sentences. Sow the seeds of curiosity and keep the hype high, but do not show your cards already (especially given that this paper is already well over 10k words long!!)] -->
 
