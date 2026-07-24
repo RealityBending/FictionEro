@@ -686,7 +686,7 @@ No credible differences were found for females (pd < 88.2\%). Enticement ratings
 
 ### Effect of Condition Depending on Congruence (with and without Type)
 
-Estimated marginal contrasts examined differences in arousal ratings between images labeled as photographs or AI-generated as a function of gender and congruence. 
+Estimated marginal contrasts examined differences in arousal ratings between images labeled as photographs or AI-generated as a function of gender and congruence (see @fig-arousal_means). 
 Under congruent trials, images labelled as photographs were rated as more arousing for both genders, with a stronger effect for males ($\Delta$ = 0.06, 95\% *CrI* [0.04, 0.08], pd = 100\%) than females ($\Delta$ = 0.02, 95\% *CrI* [0.00, 0.04], *pd* = 97.18\%). 
 Under incongruent trials, the direction of the effect reversed for males ($\Delta$ = −0.02, 95\% *CrI* [−0.04, −0.01], *pd* = 99.71\%), whereas the effect for females was negligible ($\Delta$ ≈ 0, 95\% *CrI* [−0.02, 0.02], *pd* = 57\%).
 
