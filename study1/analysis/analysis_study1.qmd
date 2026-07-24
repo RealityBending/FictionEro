@@ -583,7 +583,6 @@ estimate_contrasts(m, contrast = "Relevance", by="Gender", backend = "emmeans")
 #| warning: false
 
 estimate_contrasts(m, contrast = "Condition", by=c("Gender", "Relevance"), backend = "emmeans")
-
 ```
 
 
