@@ -411,7 +411,7 @@ An initial manipulation check was conducted to assess participants' belief in th
 
 To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples t-tests compared the difference scores between images labelled as AI-generated and as photographs as a function of whether participants reported finding AI images less arousing. 
 
-For arousal, participants who reported that AI images were less arousing showed a larger difference between images labelled as AI-generated and as photographs (M~difference~ = −0.02) than participants who did not report this belief (M~difference~ = −0.002). A Bayesian independent-samples t-test indicated moderate evidence for a group difference (BF~10~ = 3.45), with a small-to-moderate standardised effect size (median $\delta$ = 0.30, 95\% *CrI* [0.07, 0.54], *pd* = 99.5\%).
+For arousal, participants who reported that AI images were less arousing showed a larger difference between images labelled as AI-generated and as photographs (M~difference~ −0.02) than participants who did not report this belief (M~difference~ ≈ 0). A Bayesian independent-samples t-test indicated moderate evidence for a group difference (BF~10~ = 3.45), with a small-to-moderate standardised effect size (median $\delta$ = 0.30, 95\% *CrI* [0.07, 0.54], *pd* = 99.5\%).
 A similar pattern was observed for enticement and valence (for full results see the analysis folder on the GitHub link above). 
 
 
@@ -569,7 +569,7 @@ Ethical approval for this study was obtained from the School of Psychology Ethic
 knitr::include_graphics("images/Paradigm2.png")
 ```
 
-Consistent with Study 1, Study 2 was conducted in jsPsych following born-open principles [@de2024datapipe] and implemented in *JsPsych* [@de2015jspsych] and all materials, including its code, the items, instructions and exact procedure, is available in open-access at https://github.com/RealityBending/FictionEro/tree/main/study2/experiment. 
+Consistent with Study 1, Study 2 was conducted in jsPsych following born-open principles [@de2024datapipe] and implemented in *JsPsych* [@de2015jspsych] and all data, materials, including its code, the items, instructions and exact procedure, is available in open-access at https://github.com/RealityBending/FictionEro/tree/main/study2/experiment. 
 
 #### Phase 1: Affective Evaluation
 
