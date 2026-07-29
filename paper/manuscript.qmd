@@ -665,7 +665,7 @@ The same patterns were found for enticement and valence (see @fig-type).
 #| warning: false
 #| label: "fig-type"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
-#| out-width: "75%"
+#| out-width: "80%"
 #| fig-cap: "Estimated means for Arousal, Enticement and Valence for images of individuals and couples, for both genders. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019)."
 
 knitr::include_graphics("images/Figure5.png")
