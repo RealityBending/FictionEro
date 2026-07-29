@@ -600,15 +600,16 @@ fig6 <- pred_a2 |>
         axis.text.y = element_text(size = 10, face = "bold"),
         strip.placement = "outside",
         strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
-        strip.text.x = element_text(size = 12, face = "bold"),
-        strip.text.y = element_text(size = 10, face = "bold"),
-        axis.text.x = element_text(hjust=1, vjust=1.1, size=10, color="black"),
-        legend.text = element_text(size = 10),
+        strip.text.x = element_text(size = 16, face = "bold"),
+        strip.text.y = element_text(size = 16, face = "bold"),
+        axis.text.x = element_text(hjust=1, vjust=1.1, size=14, color="black"),
+        legend.text = element_text(size = 14),
         legend.position = "bottom") +
   labs(color="Images presented as:")
 
-ggsave("../../paper/images/Figure6.png", fig6, width = 10, height = 12, dpi = 300)
+fig6
 
+ggsave("../../paper/images/Figure6.png", fig6, width = 10, height = 10, dpi = 300)
 
 ```
 :::
@@ -1114,16 +1115,18 @@ type_fig <- pred |>
         axis.text.y = element_text(size = 10, face = "bold"),
         strip.placement = "outside",
         strip.background.x = element_rect(fill=c("lightgrey"), color=NA),
-        strip.text.x = element_text(size = 12, face = "bold"),
-        strip.text.y = element_text(size = 10, face = "bold"),
-        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=10, color="black"),
-        legend.text = element_text(size = 10),
+        strip.text.x = element_text(size = 16, face = "bold"),
+        strip.text.y = element_text(size = 16, face = "bold"),
+        axis.text.x = element_text(angle=25, hjust=1, vjust=1.1, size=14, color="black"),
+        legend.text = element_text(size = 14),
         legend.position = "bottom") +
   labs(color="Gender:")
 
 type_fig
 
-ggsave("../../paper/images/Figure5.png", type_fig, width = 10, height = 12, dpi = 300)
+
+
+ggsave("../../paper/images/Figure5.png", type_fig, width = 10, height = 10, dpi = 300)
 
 
 ```

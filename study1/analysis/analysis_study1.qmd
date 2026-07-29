@@ -704,13 +704,13 @@ fig2 <- pred_a3 |>
   theme_minimal() +
   theme(axis.title.y = element_blank(),
         axis.title.x = element_blank(),
-        axis.text.y = element_text(size = 8, face = "bold"),
+        axis.text.y = element_text(size = 10, face = "bold"),
         strip.placement = "outside",
         strip.background.x = element_rect(fill = c("lightgrey"), color = NA),
-        strip.text.x = element_text(size = 12, face = "bold"),
-        strip.text.y = element_text(size = 12, face = "bold"),
-        axis.text.x = element_text(angle = 25, hjust = 1, vjust = 1.1, size = 10, color = "black"),
-        legend.text = element_text(size = 10),
+        strip.text.x = element_text(size = 16, face = "bold"),
+        strip.text.y = element_text(size = 16, face = "bold"),
+        axis.text.x = element_text(angle = 25, hjust = 1, vjust = 1.1, size = 14, color = "black"),
+        legend.text = element_text(size = 14),
         legend.position = "bottom") +
   labs(color = "Images presented as:")
 
