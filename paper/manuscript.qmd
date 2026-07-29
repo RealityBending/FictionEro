@@ -5,12 +5,11 @@ author:
     
   - name: Ana Neves
     orcid: 0009-0006-0020-7599
-    email: A.Neves@sussex.ac.uk
-    corresponding: true
     roles:
       - Data curation
       - Formal Analysis
       - Investigation
+      - Methodology
       - Visualization
       - Writing – original draft
       - Writing – review & editing
@@ -20,54 +19,79 @@ author:
         department: "School of Psychology"
   - name: Marco Viola
     orcid: 0000-0001-7970-5406
-    roles: bla bla
+    email: marco.viola@uniroma3.it
+    corresponding: true 
+    roles: 
+      - Conceptualization
+      - Funding acquisition
+      - Investigation
+      - Project administration
+      - Supervision
+      - Writing – original draft
+      - Writing – review & editing
     affiliations:
       - id: "id2"
         name: "Roma Tre University"
         department: "Department of Philosophy, Communication, and Performing Arts"
   - name: Marco Sperduti
     orcid: 0000-0002-0974-8811
-    roles: bla bla
+    roles: 
+      - Supervision
+      - Writing – original draft
+      - Writing – review & editing
     affiliations:
       - id: "id3"
         name: "Tor Vergata University of Rome"
         department: 
+  - name: Guido Corradi
+    orcid: 0000-0001-9163-6829
+    roles: 
+      - Funding acquisition
+      - Investigation
+      - Writing – review & editing
+    affiliations:
+      - id: "id4"
+        name: "Universidad Nacional de Educación a Distancia"
+        department: "Department of Social Psychology and Organization"
+  - name: Antonio Olivera-La Rosa
+    orcid: 0000-0001-7637-8518
+    roles:
+      - Investigation
+      - Writing – review & editing
+    affiliations:
+      - id: "id4"
+        name: "Universidad Católica Luis Amigó"
+        department: "Department of Psychology and Social Sciences"
   - name: Alessandro Ansani
     orcid: 0000-0002-0657-5732
-    roles: bla bla
+    roles:
+      - Conceptualization
+      - Formal Analysis
     affiliations:
       - id: "id4"
         name: "University of Jyväskylä"
         department: "Department of Music, Art and Culture Studies"
   - name: Marco Marini
     orcid: 0000-0001-5466-8194
-    roles: bla bla
+    roles:
+      - Conceptualization
     affiliations:
       - id: "id4"
         name: "Institute of Cognitive Sciences and Technologies"
-  - name: Antonio Olivera-La Rosa
-    orcid: 0000-0001-7637-8518
-    roles: bla bla
-    affiliations:
-      - id: "id4"
-        name: "Universidad Católica Luis Amigó"
-        department: "Department of Psychology and Social Sciences"
-  - name: Guido Corradi
-    orcid: 0000-0001-9163-6829
-    roles: bla bla
-    affiliations:
-      - id: "id4"
-        name: "Universidad Nacional de Educación a Distancia"
-        department: "Department of Social Psychology and Organization"
   - name: Dominique Makowski
     orcid: 0000-0001-5375-9967
     email: D.Makowski@sussex.ac.uk
     url: https://realitybending.github.io/
     roles:
-      - Project administration
+      - Conceptualization
       - Data curation
       - Formal Analysis
+      - Funding acquisition
       - Investigation
+      - Methodology
+      - Project administration
+      - Supervision
+      - Validation
       - Visualization
       - Writing – original draft
       - Writing – review & editing
@@ -120,7 +144,7 @@ author-note:
       <!-- ::: -->
 abstract: |
   The proliferation of AI-generated content raises the question of whether beliefs about a stimulus's origin alter emotional responses to it. Across two studies, we conceptually replicated and extended Marini et al. (2024) by presenting heterosexual participants (Study 1: N = 705; Study 2: N = 261) with erotic (Studies 1 and 2) and non-erotic (Study 1) images from validated databases (NAPS and NAPS ERO). Unbeknownst to participants, all stimuli were real photographs, each randomly labelled as "Photograph" or "AI-generated". Participants rated sexual arousal, enticement, and valence for each image, and later judged its authenticity, allowing us to assess whether they believed the labels. Images labelled as AI-generated received lower ratings, but this effect was small and driven primarily by male participants. Gender differences were robust yet context-dependent: males responded more strongly to images of individuals, whereas females rated couple-based stimuli (Study 2) as more arousing, narrowing the gender gap found in Study 1. Critically, labelling effects depended on belief: when participants' authenticity judgements were congruent with the label, photograph-labelled images were rated higher, but this pattern reversed when the labels were disbelieved. Individual differences in AI attitudes, pornography consumption, and sexual activity showed no reliable modulation, as sensitivity to the labels varied little across participants. These findings suggest that the anti-AI bias is best understood as a belief-sensitive authenticity effect rather than a uniform response to AI labels, with implications for research using synthetic stimuli and for policies mandating disclosure of AI-generated content.
-keywords: [keyword1, keyword2, keyword3]
+keywords: [AI-generated, beliefs, gender differences, affective ratings]
 floatsintext: true
 numbered-lines: true
 bibliography: bibliography.bib
