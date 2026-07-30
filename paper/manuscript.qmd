@@ -135,15 +135,8 @@ author:
     #   - Validation
     #   - Visualization
     #   - Writing – original draft
-author-note:
-  disclosures:
-   gratitude: |
-      <!-- ::: {.callout-note icon=false appearance="simple"} -->
-      <!-- This preprint is a non-peer-reviewed work from the [**Reality Bending Lab**](https://realitybending.github.io/). -->
-      <!-- ![](https://realitybending.github.io/media/ReBeL_LogoOnly_hu11484441381606756729.png){width=20% fig-align="center"} -->
-      <!-- ::: -->
 abstract: |
-  The proliferation of AI-generated content raises the question of whether beliefs about a stimulus's origin alter emotional responses to it. Across two studies, we conceptually replicated and extended Marini et al. (2024) by presenting heterosexual participants (Study 1: N = 705; Study 2: N = 261) with erotic (Studies 1 and 2) and non-erotic (Study 1) images from validated databases (NAPS and NAPS ERO). Unbeknownst to participants, all stimuli were real photographs, each randomly labelled as "Photograph" or "AI-generated". Participants rated sexual arousal, enticement, and valence for each image, and later judged its authenticity, allowing us to assess whether they believed the labels. Images labelled as AI-generated received lower ratings, but this effect was small and driven primarily by male participants. Gender differences were robust yet context-dependent: males responded more strongly to images of individuals, whereas females rated couple-based stimuli (Study 2) as more arousing, narrowing the gender gap found in Study 1. Critically, labelling effects depended on belief: when participants' authenticity judgements were congruent with the label, photograph-labelled images were rated higher, but this pattern reversed when the labels were disbelieved. Individual differences in AI attitudes, pornography consumption, and sexual activity showed no reliable modulation, as sensitivity to the labels varied little across participants. These findings suggest that the anti-AI bias is best understood as a belief-sensitive authenticity effect rather than a uniform response to AI labels, with implications for research using synthetic stimuli and for policies mandating disclosure of AI-generated content.
+  The proliferation of AI-generated content raises the question of whether beliefs about a stimulus's origin alter emotional responses to it. Across two studies, we conceptually replicated and extended Marini et al. (2024) by presenting heterosexual participants (Study 1: N = 705; Study 2: N = 261) with erotic (Studies 1 and 2) and non-erotic (Study 1) images from validated databases (NAPS and NAPS ERO). Unbeknownst to participants, all stimuli were real photographs, each randomly labelled as "Photograph" or "AI-generated". Participants rated sexual arousal, enticement, and valence for each image, and later in asecond phase judged their agreement with the labels, allowing us to assess manipulation effects. Images labelled as AI-generated received lower ratings, but this effect was small and driven primarily by male participants. Gender differences were robust yet context-dependent: males yielded more robust differences, partially driven by a higher baseline arousal response. However, couple-based stimuli (Study 2), that females rated as more arousing, narrowed the gender gap found in Study 1. Critically, the effect of the labels interacted with participant's own beliefs: photograph-labelled images were rated more arousing than AI-labelled only when participants' subsequent belief ratings were congruent with the label, and the difference between labels reversed when opposite beliefs were later reported, suggesting a complex relationship between emotion and reality beliefs. Individual-level differences in AI attitudes, pornography consumption, and sexual activity showed no reliable modulation of the labels effect. These findings suggest that the anti-AI bias is best understood as a belief-sensitive authenticity effect rather than a uniform response to AI labels, with implications for research using synthetic stimuli and for policies mandating disclosure of AI-generated content.
 keywords: [AI-generated, beliefs, gender differences, affective ratings]
 floatsintext: true
 numbered-lines: true
@@ -460,7 +453,7 @@ Similar results were seen for enticement and valence ratings for males, but no c
 
 ### Effect of Condition Depending on Congruence
 
-Estimated marginal contrasts examined the effect of condition as a function of gender, relevance, and congruence (see @fig-estimated_means_arousal). 
+Estimated marginal contrasts examined the effect of condition as a function of gender, relevance, and congruence (see @fig-estimated-means-arousal). 
 In congruent trials, males rated female erotic images labelled as photographs as more arousing than those labelled as AI-generated ($\Delta$ = 0.08, 95\% *CrI* [0.06, 0.10], *pd* = 100\%), and females showed the same pattern for male erotic images, with a slightly smaller effect ($\Delta$ = 0.06, 95\% *CrI* [0.04, 0.08], *pd* = 100\%).
 
 In incongruent trials, this pattern reversed for the same stimulus types: images labelled as AI-generated were rated as more arousing than those labelled as photographs.
@@ -475,7 +468,7 @@ On the other hand, all differences were credible for valence ratings for both ge
 
 ```{r}
 #| warning: false
-#| label: "fig-estimated_means_arousal"
+#| label: "fig-estimated-means-arousal"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
 #| out-width: "100%"
 #| fig-cap: "Estimated means for the effect of Condition depending on Congruency. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019). A crossover effect can be seen where the difference between arousal ratings between images labelled as AI-generated and those labelled as photographs is reversed for incongruent trials. Of note, female images are relevant for heterosexual males while irrelevant for heterosexual females."
@@ -590,6 +583,7 @@ Ethical approval for this study was obtained from the School of Psychology Ethic
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
 #| out-width: "100%"
 #| fig-cap: "Overview of the experimental procedure for Study 2. A) Phase 1: Participants viewed erotic images in randomised order. Each image was preceded by a randomised label and followed by ratings of sexual arousal, enticement, and valence. B) Phase 2: The same images were presented in a new randomised order, and participants rated their confidence that each image was AI-generated or a photograph."
+
 knitr::include_graphics("images/Paradigm2.png")
 ```
 
@@ -662,7 +656,8 @@ For males, higher frequencies are evident in the mid-range of the scale, whereas
 #| label: "fig-dist2"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
 #| out-width: "100%"
-#| fig-cap: "Distributions of Arousal, Enticement and Valence ratings for males and females across conditions. Scores were bounded from 0 to 1. "
+#| fig-cap: "Distributions of Arousal, Enticement and Valence ratings for males and females across conditions. Scores were bounded from 0 to 1."
+#| eval: false
 
 # knitr::include_graphics("images/Figure4.png")
 ```
@@ -690,7 +685,7 @@ The same patterns were found for enticement and valence (see @fig-type).
 #| label: "fig-type"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
 #| out-width: "80%"
-#| fig-cap: "Estimated means for Arousal, Enticement and Valence for images of individuals and couples, for both genders. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019)."
+#| fig-cap: "Estimated means for Arousal, Enticement and Valence for images of individuals and couples, for both genders. Green rectangles represent significant differences."
 
 knitr::include_graphics("images/Figure5.png")
 ```
@@ -710,7 +705,7 @@ No credible differences were found for females (pd < 88.2\%). Enticement ratings
 
 ### Effect of Condition Depending on Congruence (with and without Type)
 
-Estimated marginal contrasts examined differences in arousal ratings between images labeled as photographs or AI-generated as a function of gender and congruence (see @fig-arousal_means). 
+Estimated marginal contrasts examined differences in arousal ratings between images labeled as photographs or AI-generated as a function of gender and congruence (see @fig-arousal-means). 
 Under congruent trials, images labelled as photographs were rated as more arousing for both genders, with a stronger effect for males ($\Delta$ = 0.06, 95\% *CrI* [0.04, 0.08], pd = 100\%) than females ($\Delta$ = 0.02, 95\% *CrI* [0.00, 0.04], *pd* = 97.18\%). 
 Under incongruent trials, the direction of the effect reversed for males ($\Delta$ = −0.02, 95\% *CrI* [−0.04, −0.01], *pd* = 99.71\%), whereas the effect for females was negligible ($\Delta$ ≈ 0, 95\% *CrI* [−0.02, 0.02], *pd* = 57\%).
 
@@ -726,10 +721,10 @@ The primary exception was for female ratings of couple images under incongruent 
 
 ```{r}
 #| warning: false
-#| label: "fig-arousal_means"
+#| label: "fig-arousal-means"
 #| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
 #| out-width: "80%"
-#| fig-cap: "Estimated arousal means for the effect of Condition depending on Congruency. Green rectangles represent differences in means where the pd > 97.5%, indicating a consistent effect direction (Makowski et al., 2019)."
+#| fig-cap: "Estimated arousal means for the effect of Condition depending on Congruency. Green rectangles represent significant differences."
 
 knitr::include_graphics("images/Figure6.png")
 ```
