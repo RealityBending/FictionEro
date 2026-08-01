@@ -409,7 +409,7 @@ These contrasts assessed differences in arousal ratings across stimulus types se
 
 For males, female erotic images were rated as more arousing than both male erotic ($\Delta$ = 0.43, 95\% *CI* [0.39, 0.46], *pd* = 100\%) and non-erotic images ($\Delta$ = 0.44, 95\% *CI* [0.40, 0.47], *pd* = 100\%). 
 For females, male erotic images were rated as more arousing than non-erotic images ($\Delta$ = 0.20, 95\% *CI* [0.17, 0.24], *pd* = 100\%), but not credibly more than female erotic images ($\Delta$ = 0.04, 95\% *CI* [0.00, 0.08], *pd* = 96.36\%). 
-Similar patterns were found for enticement and valence; although for females non-erotic images were rated as more positively valenced than male erotic images. 
+Similar patterns were found for enticement and valence; although for females non-erotic images were rated as more positively valenced than male erotic images (**TODO: add statistics of that effect**). 
 
 ## Effect of Condition
 
