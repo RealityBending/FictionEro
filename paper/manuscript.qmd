@@ -413,6 +413,13 @@ Similar patterns were found for enticement and valence; although for females non
 
 ## Effect of Condition
 
+The effect of condition only emerged for males for erotic images of females, with images labelled as photographs rated as slightly more arousing than those labelled as AI-generated ($\Delta$ = 0.02, 95\% *CI* [0.00, 0.03], *pd* = 99.6\%). 
+
+No other contrasts provided credible evidence for differences (all *pd* < 88.2\%). 
+Similar results were seen for enticement and valence ratings for males, but no credible differences between images labelled as photographs or AI-generated for females. 
+
+## Effect of Condition as a function of Beliefs
+
 Estimated marginal contrasts examined the effect of condition as a function of gender, stimuli type, and congruence (see @fig-estimated-means-arousal). 
 In congruent trials (i.e., Photograph-labelled images later rated with high realism and AI-labelled images later rated rated with low realism - congruent with an effective and beliefs-aligned manipulation), males rated erotic images of females labelled as photographs as more arousing than those labelled as AI-generated ($\Delta$ = 0.08, 95\% *CI* [0.06, 0.10], *pd* = 100\%), and females showed the same pattern for male erotic images ($\Delta$ = 0.06, 95\% *CI* [0.04, 0.08], *pd* = 100\%).
 
@@ -473,27 +480,23 @@ Taken together, these findings indicate that variability in the intercept and re
 
 # Discussion 
 
-In our first study, we presented subjects (heterosexual males and females) with several images from the NAPS database, including non-erotic images and both irrelevant (same gender) and relevant (other gender) erotic images. 
-To manipulate subjects' belief about the authenticity of the stimuli, each image was cued with a colored label presenting it as either "photograph" or "AI-generated". 
+In the first study, we presented subjects (heterosexual males and females) with images from the NAPS database, including non-erotic images and erotic images of both male and female, each presented as either "photograph" or "AI-generated". 
 After collecting subjective ratings of arousal, enticement and valence for each image, we performed a manipulation check to assess the efficacy of our experimental manipulation by asking them to rate how realistic they deemed the image.
-
-In partial alignment with our H1 and with @marini2024real, for male participants, images labelled as AI-generated were rated as slightly less arousing than those labelled as photographs. 
-For females, however, this pattern reversed. In both cases the effect size was small. 
-No credible differences between conditions emerged for irrelevant or non-erotic images, suggesting this gendered divergence was specific to sexually relevant content rather than a general labelling effect.
 
 As per H2, marginal contrasts indicated that males, but not females, rated relevant erotic images as more arousing than irrelevant erotic images. 
 This is consistent with prior literature demonstrating stronger category-specificity in men's subjective responses to explicit stimuli [@chivers2004sex; @chivers2017specificity; @huberman2015gender].
 Prior work suggests that women's sexual responses are more sensitive to contextual and relational features, such as narrative, emotional connection, and cues of intimacy [@laan1994women; @rupp2009sex; @rupp2007sex]. 
-The stimuli in the present study did not include depictions of couples, as the limitations of genAI at the time could have made them suspicious.
+The stimuli in the present study did not include depictions of couples, as the limitations of genAI technology at the time of the experiment could have made the cover story suspicious (multi-persons images were notably difficult to generate realistically at the time).
 
-Notably, the label promoted a minimal difference in ratings for both genders.
-To further examine the role of stimulus evaluation, as per H3, we included congruency between the label presented in Phase 1 and participant's realism ratings in Phase 2 as a predictor.
-A crossover interaction emerged: when participants' Phase 2 ratings were incongruent with the initial label, AI-labelled erotic images were rated as more arousing; conversely, when ratings were congruent, images labelled as photographs were rated as more arousing across both genders. 
+In alignment with our H1 and with @marini2024real, we observed an Anti-AI bias effect that only clearly emerged for males arousal ratings of erotic images of females (which was also the category yielding the highest arousal ratings). While this effect was seemingly absent for women, the pattern of results clarified once taking participants' own elaboration and beliefs into account (H3), namely the congruency between the label and participants' beliefs about the image (as indexed - somewhat imperfectly - by our realism measure in phase 2). 
 
-We also tested whether variability in responses could be explained by individual differences in participants’ attitudes towards AI (H4) and their sexual behaviour (H5). 
-To do so, we first assessed the extent to which responses to the AI label varied meaningfully between participants. 
-We did not find reliable correlations between participants’ features and the effect of how the label influenced their responses, possibly due to the fact that between-participants variability in the sensitivity to the AI label was minimal (full details are available in the analysis script on GitHub). 
-One possible explanation is that the label manipulation was not sufficiently strong or salient to elicit differentiated responses across individuals. 
+For items for which the label and the realism rating were congruent, the expected pattern emerged: images labelled as AI-generated were rated as less arousing than those labelled as photographs, for both male and female participants. But for items for which the label and the realism rating were incongruent, this pattern reversed, suggesting an effect driven more by participants' beliefs about the image than by the label itself.
+
+
+<!-- We also tested whether variability in responses could be explained by individual differences in participants’ attitudes towards AI (H4) and their sexual behaviour (H5).  -->
+<!-- To do so, we first assessed the extent to which responses to the AI label varied meaningfully between participants.  -->
+<!-- We did not find reliable correlations between participants’ features and the effect of how the label influenced their responses, possibly due to the fact that between-participants variability in the sensitivity to the AI label was minimal (full details are available in the analysis script on GitHub).  -->
+<!-- One possible explanation is that the label manipulation was not sufficiently strong or salient to elicit differentiated responses across individuals.  -->
 
 # Study 2
 
