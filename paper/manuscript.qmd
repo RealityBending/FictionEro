@@ -390,21 +390,19 @@ As shown in @fig-dist, the distributions of arousal and enticement ratings are h
 
 ## Manipulation Checks
 
-An initial manipulation check was conducted to assess participants' belief in the instructional cues. Based on participants' feedback after the final rating phase, 41.7\% of participants reported that they did not believe the labels, indicating that a large proportion of participants perceived the image classifications as incorrect. 
+An initial manipulation check was conducted to assess participants' belief in the instructional cues. Based on participants' feedback after the final rating phase, 41.7\% of participants reported that they did not believe the labels, indicating that a large proportion of participants has doubts about the labels (and justifying our inclusion of the belief factor based on the participant's responses in phase 2). 
 
 <!-- Additionally, 52.3% of images were rated as being more realistic in phase 2. -->
 
 <!-- {**VIOLA**: "were rated as being more realistic in phase 2" than what? --> 
 
-To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples t-tests compared the difference scores between images labelled as AI-generated and as photographs as a function of whether participants reported finding AI images less arousing. 
+To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples *t*-tests compared the difference scores between images labelled as AI-generated and as photographs as a function of whether participants reported finding AI images less arousing. 
 
-For arousal, participants who reported that AI images were less arousing showed a larger difference between images labelled as AI-generated and as photographs (M~difference~ −0.02) than participants who did not report this belief (M~difference~ ≈ 0). A Bayesian independent-samples t-test indicated moderate evidence for a group difference (BF~10~ = 3.45), with a small-to-moderate standardised effect size (median $\delta$ = 0.30, 95\% *CI* [0.07, 0.54], *pd* = 99.5\%).
-A similar pattern was observed for enticement and valence (for full results see the analysis folder on the GitHub link above). 
+For arousal, participants who Self-reported the impression AI images were less arousing showed a larger difference between images labelled as AI-generated and as photographs (Bayesian *t*-test: BF~10~ = 3.45, median r = 0.30, 95\% *CI* [0.07, 0.54], *pd* = 99.5\%), suggesting some degree of awareness.
+A similar pattern was observed for enticement and valence. 
 
 
-## Marginal Contrasts
-
-### Effect of Relevance
+## Effect of Relevance
 
 To evaluate whether the different stimulus types (female, male and non-erotic images) elicit dissimilar responses, marginal contrasts from the mixed models were examined, focusing on the effect of relevance. 
 These contrasts assessed differences in arousal ratings across stimulus types separately for males and females.
@@ -413,7 +411,7 @@ For males, female erotic images were rated as more arousing than both male eroti
 For females, male erotic images were rated as more arousing than non-erotic images ($\Delta$ = 0.20, 95\% *CI* [0.17, 0.24], *pd* = 100\%), but not credibly more than female erotic images ($\Delta$ = 0.04, 95\% *CI* [0.00, 0.08], *pd* = 96.36\%). 
 Similar patterns were found for enticement and valence; although for females non-erotic images were rated as more positively valenced than male erotic images. 
 
-### Effect of Condition
+## Effect of Condition
 
 Estimated marginal contrasts assessed the effect of condition (photographic vs. AI-generated) across gender and relevance. 
 For males, female erotic images labelled as photographs were rated as slightly more arousing than those labelled as AI-generated, although the effect was small ($\Delta$ = 0.02, 95\% *CI* [0.00, 0.03], *pd* = 99.6\%). 
@@ -421,7 +419,7 @@ Females showed the opposite pattern, rating male erotic images labelled as AI-ge
 No other contrasts provided credible evidence for differences (all *pd* < 88.2\%). 
 Similar results were seen for enticement and valence ratings for males, but no credible differences between images labelled as photographs or AI-generated for females. 
 
-### Effect of Condition Depending on Congruence
+## Effect of Condition Depending on Congruence
 
 Estimated marginal contrasts examined the effect of condition as a function of gender, relevance, and congruence (see @fig-estimated-means-arousal). 
 In congruent trials, males rated female erotic images labelled as photographs as more arousing than those labelled as AI-generated ($\Delta$ = 0.08, 95\% *CI* [0.06, 0.10], *pd* = 100\%), and females showed the same pattern for male erotic images, with a slightly smaller effect ($\Delta$ = 0.06, 95\% *CI* [0.04, 0.08], *pd* = 100\%).
