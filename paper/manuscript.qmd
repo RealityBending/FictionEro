@@ -360,6 +360,7 @@ For all outcomes, we assessed the difference between the conditions (Photograph 
 Coefficients are considered as significant when the 95% credible interval (*CI*) excludes zero. 
 As the patterns of results for the three outcomes were similar, we will focus on presenting the detailed results for Arousal as our primary outcome, and highlighting when divergent trends are present for Enticement or Valence.
 
+**TODO: ANA I can see that what reliability + correlations have been removed from results, if that's the case then we should remove it from here too**
 To evaluate the reliability of individual-level parameters (i.e., random intercepts and random slopes for each participant and each item), the Variance-over-Uncertainty Ratio index [*D-vour*, @ludecke2021performance] will be computed. 
 This index estimates the reliability of group-level variance by quantifying the normalised ratio of observed between-group variability to the uncertainty associated with the corresponding random-effect estimates. 
 Values of D-vour greater than 2/3 indicate moderately reliable random-effect estimates, corresponding to a 2:1 ratio of between-group variance to estimation uncertainty. 
