@@ -500,21 +500,22 @@ For items for which the label and the realism rating were congruent, the expecte
 
 # Study 2
 
-At the time of Study 1, limitations in genAI realism prevented convincing depictions of couples having sexual intercourse, so the role of relational context could not be tested directly. 
-Recent advances now make the (mis)labeling of realistic couple photographs as AI stimuli credible, making this test possible. 
-Given that (heterosexual) women's arousal tends to be more sensitive to intimacy, narrative, and the presence of an interacting partner than men's [@laan1994women; @rupp2007sex; @rupp2009sex], we included couple-based stimuli in Study 2 to assess whether the absence of relational context contributed to the lower arousal ratings observed among female participants in Study 1.
+The goal with Study 2 was to replicate the main findings with a refined paradigm addressing the limitations identified in Study 1.
 
-Second, in Study 1, marginal contrasts indicated credible differences in ratings between images labelled as AI-generated and those labelled as photographs only for relevant erotic stimuli, in both genders. 
-Study 2 therefore focused exclusively on erotic images relevant to participants' gender and sexual orientation.
+At the time of Study 2, limitations in genAI realism that prevented the inclusion of images featuring couples in Study 1 mostly faded. Given that (heterosexual) women's arousal tends to be more sensitive to intimacy, narrative, and the presence of an interacting partner than men's [@laan1994women; @rupp2007sex; @rupp2009sex], we included couple-based stimuli in Study 2 to assess whether the absence of relational context contributed to the lower arousal ratings observed among female participants in Study 1.
 
-Third, Study 1 demonstrated that the effect of AI labelling was small and showed minimal variability across participants, limiting our ability to examine individual differences. 
-Yet, given that this effect was greater when the manipulation was believed (as per our H3) to strengthen the effectiveness of the manipulation, Study 2 used a more elaborate cover story.
-Moreover, the control task was more explicit, requiring the participants to commit to a judgement of whether each image was an actual photograph or AI-generated. 
+Second, while Study 1 included neutral images to provide a baseline for arousal ratings to better appreciate the relative effect of the other types of erotic stimuli, feedback also surfaced that the inclusion of neutral images was distracting and potentially confusing, supporting their exclusion in the refined design of Study 2. 
+Similarly, the presence of erotic images depicting both males and females, guided by the desire to have the same material presented to all participants, further complexified interpretation. In particular, for male participants, erotic images of other males were rated as strongly negative, creating a type of valenced experience not typically present for female participants. To address that, Study included a mix of fixed stimuli (present for all participants - couples) and stimuli selected to align with participant's gender (females for males and vice versa). 
+
+Third, Study 1 demonstrated that the effect of AI labelling was relatively small, and feedback data cast doubt on the effectiveness of our manipulation. To address that, study 2 used a more elaborate cover story, with a more explicit framing of the task as a collaboration with a (fictional) AI startup, and the inclusion of visual details about AI generation works.
+
+Finally, and critically, the "Realism" measure of Phase 2 emerged as an imperfect proxy of participant's own beliefs, as it is arguably possible to find images highly realistic, yet believe them to be AI-generated. Thus, after carefully consideration, we implemented for Study 2 a "pseudo-reveal" paradigm, in which Phase 2's instructions were presented as a (fake) reveal of the study's paradigm and manipulation, saying that while the images were indeed real or AI-generated, the labels were presented at random. This reframing allowed for a more direct measure of beliefs (participants were tasked with identifying what they believed were AI-images vs. Photographs), without compromising the true nature of the experiment (the fact that all images are actually real).
 
 Based on these aims, we tested the following hypotheses. 
 As in Study 1, we hypothesised that images labelled as AI-generated would be rated lower in arousal than those labelled as photographs (H1). 
 We also hypothesised that the inclusion of couple-based stimuli would narrow the gender gap in arousal observed in Study 1 (H2).
-Given the crossover effect observed in Study 1, we hypothesised that this pattern would be stronger for congruent trials, and reverse for incongruent ones (H3). 
+Given the interaction effect with Realism ratings in Study 1, we hypothesised that this pattern would be even stronger, based on our improved measure of beliefs (H3).
+<!-- **TODO: Remove "as in the previous study" if we don't do that in the previous study** -->
 Finally, as in the previous study, we tested whether attitudes towards AI (H4) and sexual activity and pornographic consumption (H5) moderate responses to the stimuli. 
 
 
