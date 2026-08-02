@@ -393,9 +393,7 @@ As shown in @fig-dist, the distributions of arousal and enticement ratings are h
 
 An initial manipulation check was conducted to assess participants' belief in the instructional cues. Based on participants' feedback after the final rating phase, 41.7\% of participants reported that they did not believe the labels, indicating that a large proportion of participants has doubts about the labels (and justifying our inclusion of the belief factor based on the participant's responses in phase 2). 
 
-<!-- Additionally, 52.3% of images were rated as being more realistic in phase 2. -->
-
-<!-- {**VIOLA**: "were rated as being more realistic in phase 2" than what? --> 
+<!-- TODO: 41.7% is a lot. Arguably a reviewer might ask what happens if we exclude these participants from the analysis? -->Z
 
 To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples *t*-tests compared the difference scores between images labelled as AI-generated and as photographs as a function of whether participants reported finding AI images less arousing. 
 
@@ -541,17 +539,6 @@ Ethical approval for this study was obtained from the School of Psychology Ethic
 
 ### Procedure
 
-```{r}
-#| warning: false
-#| label: "fig-paradigm2"
-#| apa-twocolumn: true  # A Figure Spanning Two Columns When in Journal Mode
-#| out-width: "100%"
-#| fig-cap: "Overview of the experimental procedure for Study 2. A) Phase 1: Participants viewed erotic images in randomised order. Each image was preceded by a randomised label and followed by ratings of sexual arousal, enticement, and valence. B) Phase 2: The same images were presented in a new randomised order, and participants rated their confidence that each image was AI-generated or a photograph."
-
-knitr::include_graphics("images/Paradigm2.png")
-```
-
-Consistent with Study 1, Study 2 was conducted in jsPsych following born-open principles [@de2024datapipe] and implemented in *JsPsych* [@de2015jspsych] and all data, materials, including its code, the items, instructions and exact procedure, is available in open-access at https://github.com/RealityBending/FictionEro/tree/main/study2/experiment. 
 
 #### Phase 1: Affective Evaluation
 
