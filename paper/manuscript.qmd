@@ -412,10 +412,9 @@ Similar patterns were found for enticement and valence; although for females non
 ## Effect of Condition
 
 The effect of condition only emerged for males for erotic images of females, with images labelled as photographs rated as slightly more arousing than those labelled as AI-generated ($\Delta$ = 0.02, 95\% *CI* [0.00, 0.03], *pd* = 99.6\%). 
-For females, weak evidence in the opposite direction was observed for erotic images of males, which were rated slightly higher in arousal when labelled as AI-generated ($\Delta$ = −0.02, 95\% *CI* [−0.03, 0.00], *pd* = 98.3\%). No other contrasts provided credible evidence for differences (all pd ≤ 88.3%). Similar results were seen for enticement and valence ratings for males, but no credible differences emerged for females (pds ≤ 92.6%).
+For females, weak evidence in the opposite direction was observed for erotic images of males, which were rated slightly higher in arousal when labelled as AI-generated ($\Delta$ = −0.02, 95\% *CI* [−0.03, 0.00], *pd* = 98.3\%). 
 
-No other contrasts provided credible evidence for differences (all *pd* < 88.2\%). 
-Similar results were seen for enticement and valence ratings for males, but no credible differences between images labelled as photographs or AI-generated for females. 
+No other contrasts provided credible evidence for differences (all *pd* ≤ 88.3\%). Similar results were seen for enticement and valence ratings for males, but no credible differences emerged for females (*pds* ≤ 92.6\%)
 
 ## Effect of Condition as a function of Beliefs
 
