@@ -347,7 +347,7 @@ Finally, participants were debriefed and were informed of the true purpose of th
 ### Data Analysis
 
 Bayesian Mixed Models were fitted separately for Arousal, Valence, and Enticement, with Gender (Female vs. Male), Condition (AI-Generated vs. Photograph), Stimuli Type (Female vs Male vs Non-Erotic Images), and Congruence (True vs. False). 
-Relevance corresponded to the sexual interest according to the participants' gender and sexual orientation (i.e., erotic pictures involving females were categorized as relevant for heterosexual males, and irrelevant for heterosexual females, and vice versa for pictures of males). 
+<!-- Relevance corresponded to the sexual interest according to the participants' gender and sexual orientation (i.e., erotic pictures involving females were categorized as relevant for heterosexual males, and irrelevant for heterosexual females, and vice versa for pictures of males).  -->
 Congruence, used as a proxy of condition belief, was also computed based on whether the condition matched the (dichotomized) reality rating of phase 2.
 
 As the outcome variables (measured on analog sliders) showed excess responses at the bounds, Zero–one inflated beta (ZOIB) models [@heiss2021guide; @vuorre2019analyze] were used. 
@@ -412,6 +412,7 @@ Similar patterns were found for enticement and valence; although for females non
 ## Effect of Condition
 
 The effect of condition only emerged for males for erotic images of females, with images labelled as photographs rated as slightly more arousing than those labelled as AI-generated ($\Delta$ = 0.02, 95\% *CI* [0.00, 0.03], *pd* = 99.6\%). 
+For females, weak evidence in the opposite direction was observed for erotic images of males, which were rated slightly higher in arousal when labelled as AI-generated ($\Delta$ = −0.02, 95\% *CI* [−0.03, 0.00], *pd* = 98.3\%). No other contrasts provided credible evidence for differences (all pd ≤ 88.3%). Similar results were seen for enticement and valence ratings for males, but no credible differences emerged for females (pds ≤ 92.6%).
 
 No other contrasts provided credible evidence for differences (all *pd* < 88.2\%). 
 Similar results were seen for enticement and valence ratings for males, but no credible differences between images labelled as photographs or AI-generated for females. 
@@ -591,13 +592,14 @@ In the COPS, the item assessing the typical duration of pornography viewing sess
 
 Phase 2 replicated that of Study 1, presenting participants with all images again (for 1 s) in a randomised order and assessing the perceived authenticity of the stimuli. 
 The instructions, however, made the manipulation more overt by explicitly disclosing the mislabeling: "But there is something important we need to tell you... In the previous phase, some images were intentionally mislabeled (we told you it was a photograph when it was actually AI-generated, and vice versa)." 
-Participants were then asked to judge the true category of each image by indicating their confidence (i.e., "Indicate your confidence that the image is fake or real") on a continuous scale from AI-Generated (−3) to Photograph (3).
+Participants were then asked to judge the true category of each image by indicating their confidence (i.e., "Indicate your confidence that the image is fake or real") on a continuous scale from AI-Generated (−3) to Photograph (3). 
 
 Following completion of phase 2, participants provided general feedback regarding their experience and any additional comments. Finally, participants were presented with a debrief page informing them that all images were, in fact, real photographs.
 
 ### Data Analysis
 
 As in Study 1, Bayesian linear mixed models will be fitted for the three outcome variables, each predicted from Gender (Female vs. Male), Condition (AI-generated vs. Photograph), and Congruence (True vs. False).
+Congruence, again used as a proxy of condition belief, was computed based on whether the condition matched the (dichotomized at the midpoint) reality judgement of Phase 2.
 For ease of comparison with study 1 results, all outcome variables will be bounded between 0 to 1, and the ZOIB family will be fitted. 
 Conservative priors ($Normal(0, 0.5)$) will be placed again on all fixed effects. 
 
@@ -638,15 +640,15 @@ In Study 2, 32\% of participants reported believing that all images were real ba
 <!-- However, in Phase 2, 48.2\% of images were classified as photographs.  -->
 
 To examine whether participants' explicit beliefs about AI-generated content corresponded to their affective responses, Bayesian independent-samples t-tests compared the difference scores between images labelled as AI-generated and as photographs as a function of whether participants reported finding AI images less arousing. 
-For arousal, participants who reported finding AI images less arousing showed a numerically larger difference between images labelled as AI-generated and as photographs (M~difference~ = −0.03) than those who did not (M~difference~ = −0.009), but there was no credible evidence for a group difference (BF~10~ = 0.47; median $\delta$ = 0.26, 95\% *CrI* [−0.17, 0.69], *pd* = 88.6\%).
+For arousal, participants who reported finding AI images less arousing showed a numerically larger difference between images labelled as AI-generated and as photographs (M~difference~ = −0.03) than those who did not (M~difference~ = −0.009), but there was no credible evidence for a group difference (BF~10~ = 0.47; median $\delta$ = 0.26, 95\% *CI* [−0.17, 0.69], *pd* = 88.6\%).
 Similarly, no credible group differences emerged for enticement or valence.
 
 ## Marginal contrasts
 
 ### Effect of Stimuli Type
 
-The addition of image type (i.e., images of couples vs. images of individuals) revealed a credible gender difference in ratings of individual images, with males rating them higher in arousal than females ($\Delta$ = 0.17, 95\% *CrI* [0.11, 0.22], pd = 100\%).
-No credible differences between males and females were found for ratings of couple images ($\Delta$ = 0.009, 95\% *CrI* [-0.02, 0.04], pd = 69.92\%).
+The addition of image type (i.e., images of couples vs. images of individuals) revealed a credible gender difference in ratings of individual images, with males rating them higher in arousal than females ($\Delta$ = 0.17, 95\% *CI* [0.11, 0.22], pd = 100\%).
+No credible differences between males and females were found for ratings of couple images ($\Delta$ = 0.009, 95\% *CI* [-0.02, 0.04], pd = 69.92\%).
 The same patterns were found for enticement and valence (see @fig-type).
 
 ```{r}
@@ -660,27 +662,27 @@ knitr::include_graphics("images/Figure5.png")
 ```
 
 Additionally, credible differences between image types were found within each gender. 
-Females rated couple images higher in arousal than images of individuals ($\Delta$ = 0.08, 95\% *CrI* [0.03, 0.12], *pd* = 99.98\%), whereas males rated couple images lower ($\Delta$ = -0.08, 95\% *CrI* [-0.12, -0.04], *pd* = 99.98\%). 
+Females rated couple images higher in arousal than images of individuals ($\Delta$ = 0.08, 95\% *CI* [0.03, 0.12], *pd* = 99.98\%), whereas males rated couple images lower ($\Delta$ = -0.08, 95\% *CI* [-0.12, -0.04], *pd* = 99.98\%). 
 Enticement and valence ratings were also credibly different for both genders (pd > 99.99\%), with males rating couple images lower than images of individuals, and females showing the reversed pattern.
 
 ### Effect of Condition (with and without Type)
 
-Estimated marginal contrasts assessing the effect of condition across gender showed that the difference was only credible for Males ($\Delta$ = 0.06, 95\% *CrI* [0.04, 0.07], *pd* = 100\%) but not for females ($\Delta$ = 0.01, 95\% *CrI* [0.00, 0.02], *pd* = 93.57\%). 
+Estimated marginal contrasts assessing the effect of condition across gender showed that the difference was only credible for Males ($\Delta$ = 0.06, 95\% *CI* [0.04, 0.07], *pd* = 100\%) but not for females ($\Delta$ = 0.01, 95\% *CI* [0.00, 0.02], *pd* = 93.57\%). 
 The same pattern was found for enticement. 
 For valence ratings, both genders rated images labelled as photograph higher than those labelled AI-generated (pd > 98.8\%). 
 
-The effect of condition across gender for the type of images showed only males credibly differed in arousal ratings of images of couples labelled photograph vs those labelled AI-generated ($\Delta$ = 0.02, 95\% *CrI* [0.00, 0.04], *pd* = 99.23\%), and ratings of individuals ($\Delta$ = 0.02, 95\% *CrI* [0.00, 0.03], *pd* = 98.77\%). 
-No credible differences were found for females (pd < 88.2\%). Enticement ratings followed the same pattern, while for valence ratings the only credible difference was found for females ratings of couple images, with those images labelled photograph being rated higher than those labelled AI-generated ($\Delta$ = 0.02, 95\% *CrI* [0.01, 0.04], *pd* = 99.52\%). 
+The effect of condition across gender for the type of images showed only males credibly differed in arousal ratings of images of couples labelled photograph vs those labelled AI-generated ($\Delta$ = 0.02, 95\% *CI* [0.00, 0.04], *pd* = 99.23\%), and ratings of individuals ($\Delta$ = 0.02, 95\% *CI* [0.00, 0.03], *pd* = 98.77\%). 
+No credible differences were found for females (pd < 88.2\%). Enticement ratings followed the same pattern, while for valence ratings the only credible difference was found for females ratings of couple images, with those images labelled photograph being rated higher than those labelled AI-generated ($\Delta$ = 0.02, 95\% *CI* [0.01, 0.04], *pd* = 99.52\%). 
 
 ### Effect of Condition Depending on Congruence (with and without Type)
 
 Estimated marginal contrasts examined differences in arousal ratings between images labeled as photographs or AI-generated as a function of gender and congruence (see @fig-arousal-means). 
-Under congruent trials, images labelled as photographs were rated as more arousing for both genders, with a stronger effect for males ($\Delta$ = 0.06, 95\% *CrI* [0.04, 0.08], pd = 100\%) than females ($\Delta$ = 0.02, 95\% *CrI* [0.00, 0.04], *pd* = 97.18\%). 
-Under incongruent trials, the direction of the effect reversed for males ($\Delta$ = −0.02, 95\% *CrI* [−0.04, −0.01], *pd* = 99.71\%), whereas the effect for females was negligible ($\Delta$ ≈ 0, 95\% *CrI* [−0.02, 0.02], *pd* = 57\%).
+Under congruent trials (i.e., where Phase 2 reality judgements matched the label, suggesting the labels were believed), images labelled as photographs were rated as more arousing for both genders, with a stronger effect for males ($\Delta$ = 0.06, 95\% *CI* [0.04, 0.08], pd = 100\%) than females ($\Delta$ = 0.02, 95\% *CI* [0.00, 0.04], *pd* = 97.18\%). 
+Under incongruent trials (i.e., where judgements opposed the label, suggesting disbelief), the direction of the effect reversed for males ($\Delta$ = −0.02, 95\% *CI* [−0.04, −0.01], *pd* = 99.71\%), whereas the effect for females was negligible ($\Delta$ ≈ 0, 95\% *CI* [−0.02, 0.02], *pd* = 57\%).
 
 Incorporating image type into the models provided limited additional evidence for differences overall, although some credible effects emerged for males. 
-Specifically, under congruent trials, males showed higher arousal ratings for photograph- relative to AI-labelled images for both couples ($\Delta$ = 0.06, 95\% *CrI* [0.03, 0.08], *pd* = 100\%) and individuals ($\Delta$ = 0.06, 95\% *CrI* [0.04, 0.08], *pd* = 100\%). 
-Under incongruent trials, a credible difference for males was observed only for individual images ($\Delta$ = −0.03, 95\% *CrI* [−0.05, −0.01], *pd* = 99.41\%). In contrast, female participants showed no credible differences across trial types or image categories, with estimates centred near zero and credibility intervals spanning zero.
+Specifically, under congruent trials, males showed higher arousal ratings for photograph- relative to AI-labelled images for both couples ($\Delta$ = 0.06, 95\% *CI* [0.03, 0.08], *pd* = 100\%) and individuals ($\Delta$ = 0.06, 95\% *CI* [0.04, 0.08], *pd* = 100\%). 
+Under incongruent trials, a credible difference for males was observed only for individual images ($\Delta$ = −0.03, 95\% *CI* [−0.05, −0.01], *pd* = 99.41\%). In contrast, female participants showed no credible differences across trial types or image categories, with estimates centred near zero and credibility intervals spanning zero.
 
 Enticement and valence ratings followed a broadly similar pattern to arousal, with higher ratings for photographic images under congruent trials and weaker, less consistent reversals under incongruent trials. A notable exception was observed for female participants, who showed credible differences under congruent trials, with photograph-labelled images rated higher for both enticement and valence (pd > 99.2\%).
 
@@ -770,9 +772,10 @@ However, across both studies this effect was small in magnitude and primarily dr
 On the contrary, in Study 1, females rated relevant erotic images higher in arousal (but not valence or enticement) when they were presented as AI-generated.
 This reverse pattern was not found in Study 2. 
 
-<!-- In both studies, males consistently rated images presented as photographs higher. 
-We had additionally hypothesised that individual differences in AI attitudes and beliefs, pornography consumption frequency and recency of sexual activity might be associated with the strength of this labelling effect. 
-However, as detailed below, individual-level estimates of sensitivity to the AI-generated label showed minimal reliable variability between participants, meaning these hypotheses could not be meaningfully tested in the present data; weak correlations with these variables should accordingly not be read as evidence against an association, but as uninformative given the lack of reliable variance to explain. -->
+<!-- In both studies, males consistently rated images presented as photographs higher. -->
+
+We had additionally hypothesised that individual differences in AI attitudes and beliefs, pornography consumption frequency and recency of sexual activity might be associated with the strength of this labelling effect.
+However, as detailed below, individual-level estimates of sensitivity to the AI-generated label showed minimal reliable variability between participants, meaning these hypotheses could not be meaningfully tested in the present data; weak correlations with these variables should accordingly not be read as evidence against an association, but as uninformative given the lack of reliable variance to explain.
 
 Our results also replicate and extend prior literature on gender differences in response to erotic stimuli [@chivers2004sex; @chivers2017specificity; @huberman2015gender; @safron2020neural].
 In Study 1, males rated sexually relevant images as more arousing than irrelevant ones, whereas females did not. 
