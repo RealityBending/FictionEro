@@ -350,13 +350,11 @@ outliers$IrrStimuli <- unique(filter(femalehetero_malecouple)$Participant)
 
 ```
 
-We removed `r sum(df$Participant=="S030")` from the rest of the analysis considering their stimuli choice was not relevant to their sexual orientation - i.e., self-assigned as Heterosexual and choosing male-couples as stimuli.
+We removed `r sum(df$Participant %in% outliers$IrrStimuli)` from the rest of the analysis considering their stimuli choice was not relevant to their sexual orientation - i.e., self-assigned as Heterosexual and choosing male-couples as stimuli.
 
 ```{r}
-df <- filter(df, !Participant == "S030")
 df <- filter(df, !Participant %in% outliers$IrrStimuli)
 dftask <- filter(dftask, !Participant %in% outliers$IrrStimuli)
-
 ```
 
 ## Final Sample 
